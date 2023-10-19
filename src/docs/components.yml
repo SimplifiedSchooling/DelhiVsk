@@ -18,6 +18,59 @@ components:
         email: fake@example.com
         name: fake name
         role: user
+        
+    School:
+      type: object
+      properties:
+        Schoolid:
+          type: integer
+          format: int32
+          description: The unique ID of the school
+        School_Name:
+          type: string
+          description: The name of the school
+        medium:
+          type: string
+          description: The medium of instruction
+        Latitude:
+          type: string
+          description: The latitude of the school's location
+        Longitude:
+          type: string
+          description: The longitude of the school's location
+        shift:
+          type: string
+          description: The school's shift (if applicable)
+        low_class:
+          type: string
+          description: The lowest class offered by the school
+        High_class:
+          type: string
+          description: The highest class offered by the school
+        Z_ID:
+          type: integer
+          format: int32
+          description: The zone ID of the school
+        Zone_Name:
+          type: string
+          description: The name of the school's zone
+        D_ID:
+          type: integer
+          format: int32
+          description: The district ID of the school
+        District_name:
+          type: string
+          description: The name of the district where the school is located
+        SchManagement:
+          type: string
+          description: The school's management type
+        SchCategory:
+          type: string
+          description: The school's category
+      required:
+        - Schoolid
+        - School_Name
+        - medium
 
     Token:
       type: object
