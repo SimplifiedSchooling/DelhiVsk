@@ -5,16 +5,15 @@ const { School, Student, Teacher } = require('../models');
  * @returns {Promise<Object>} School statistics
  */
 async function getSchoolStats() {
-  const totalSchools = await School.countDocuments();
-  const totalStudents = await Student.countDocuments();
-  const totalTeachers = await Teacher.countDocuments();
+    const [totalSchools, totalStudents, totalTeachers, totalGirls, totalBoys] = await Promise.all([
+    School.countDocuments(),
+    Student.countDocuments(),
+    Teacher.countDocuments(),
+    Student.countDocuments({ Gender: 'F' }),
+    Student.countDocuments({ Gender: 'M' }),
+  ]);
 
-  const totalGirls = await Student.countDocuments({ Gender: 'F' });
-  const totalBoys = await Student.countDocuments({ Gender: 'M' });
-
-  console.log(totalGirls, totalBoys);
   const teacherStudentRatio = totalStudents / totalTeachers;
-
   return {
     totalSchools,
     totalStudents,
