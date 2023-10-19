@@ -7,25 +7,25 @@ router.route('/').get(schoolController.storeSchoolDataInMongoDB);
 
 module.exports = router;
 
-/**
- * @swagger
- * tags:
- *   name: School
- *   description: School management
- */
+// /**
+//  * @swagger
+//  * tags:
+//  *   name: School
+//  *   description: School management
+//  */
 
-/**
- * @swagger
- * /school:
- *   get:
- *     summary: Get all schools
- *     description: Get a list of all schools.
- *     tags: [School]
- *     responses:
- *       "200":
- *         description: OK
- *       "401":
- *         description: Unauthorized
- *       "403":
- *         description: Forbidden
- */
+// /**
+//  * @swagger
+//  * /school:
+//  *   get:
+//  *     summary: Get all schools
+//  *     description: Get a list of all schools.
+//  *     tags: [School]
+//  *     responses:
+//  *       "200":
+//  *         description: OK
+//  *       "401":
+//  *         description: Unauthorized
+//  *       "403":
+//  *         description: Forbidden
+//  */
