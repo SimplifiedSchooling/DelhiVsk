@@ -32,12 +32,22 @@ const paginate = (schema) => {
       sort = 'createdAt';
     }
 
-    const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
+    // Check if the limit is provided and greater than 0, otherwise set it to 0 to retrieve all data
+    const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 0;
     const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
-    const skip = (page - 1) * limit;
+
+    // Calculate the number of documents to skip based on the page and limit
+    const skip = limit > 0 ? (page - 1) * limit : 0;
 
     const countPromise = this.countDocuments(filter).exec();
-    let docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit);
+    let docsPromise;
+
+    // Only apply limit if it's greater than 0
+    if (limit > 0) {
+      docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit);
+    } else {
+      docsPromise = this.find(filter).sort(sort);
+    }
 
     if (options.populate) {
       options.populate.split(',').forEach((populateOption) => {
@@ -54,11 +64,11 @@ const paginate = (schema) => {
 
     return Promise.all([countPromise, docsPromise]).then((values) => {
       const [totalResults, results] = values;
-      const totalPages = Math.ceil(totalResults / limit);
+      const totalPages = limit > 0 ? Math.ceil(totalResults / limit) : 1;
       const result = {
         results,
         page,
-        limit,
+        limit: limit > 0 ? limit : totalResults, // Set limit to totalResults if it's 0
         totalPages,
         totalResults,
       };
@@ -66,5 +76,4 @@ const paginate = (schema) => {
     });
   };
 };
-
 module.exports = paginate;

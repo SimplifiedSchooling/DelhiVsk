@@ -9,6 +9,13 @@ const getStudentData = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const studentData = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['board']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const result = await studentService.studentData(filter, options);
+  res.send(result);
+});
 module.exports = {
   getStudentData,
+  studentData,
 };
