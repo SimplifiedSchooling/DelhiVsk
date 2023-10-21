@@ -10,7 +10,7 @@ const getStudentData = catchAsync(async (req, res) => {
 });
 
 const studentData = catchAsync(async (req, res) => {
-  const result = await studentService.studentData(filter, options);
+  const result = await studentService.studentData();
   res.send(result);
 });
 module.exports = {
