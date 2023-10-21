@@ -58,6 +58,12 @@ async function processStudentData(studentData, dups, records) {
   }
 }
 
+const getTeacher = async () => {
+  const data = await Teacher.find().limit(10000);
+  // const book = await Student.paginate(filter, options);
+  return data;
+};
 module.exports = {
   storeTeacherDataInMongoDB,
+  getTeacher,
 };

@@ -7,6 +7,11 @@ const getTeacherData = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getTeacher = catchAsync(async (req, res) => {
+  const result = await teacherService.getTeacher();
+  res.send(result);
+});
 module.exports = {
   getTeacherData,
+  getTeacher,
 };
