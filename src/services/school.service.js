@@ -28,6 +28,14 @@ async function processStudentData(studentData) {
   }
 }
 
+
+const schoolData = async () => {
+  const data = await School.find();
+  // const book = await Student.paginate(filter, options);
+  return data;
+};
+
 module.exports = {
   storeSchoolDataInMongoDB,
+  schoolData,
 };

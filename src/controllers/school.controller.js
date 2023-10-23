@@ -7,6 +7,11 @@ const storeSchoolDataInMongoDB = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const schoolData = catchAsync(async (req, res) => {
+  const result = await schoolService.schoolData();
+  res.status(httpStatus.CREATED).send(result);
+});
 module.exports = {
   storeSchoolDataInMongoDB,
+  schoolData,
 };
