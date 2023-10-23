@@ -3,7 +3,7 @@ const { teacherController } = require('../../controllers');
 
 const router = express.Router();
 
-// router.route('/webApi').get(studentController.getStudentData);
+router.route('/webApi').get(teacherController.getTeacherData);
 
 router.route('/').get(teacherController.getTeacher);
 
