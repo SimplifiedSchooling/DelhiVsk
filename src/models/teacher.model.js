@@ -18,6 +18,9 @@ const staffSchema = mongoose.Schema(
     gender: {
       type: String,
     },
+    JoiningDate: {
+      type: String,
+    },
     schoolid: {
       type: String,
     },
@@ -40,7 +43,7 @@ const staffSchema = mongoose.Schema(
 staffSchema.plugin(toJSON);
 staffSchema.plugin(paginate);
 
-// studentSchema.index({ S_ID: 1 }, { unique: true });
+staffSchema.index({ empid: 1 }, { unique: true });
 /**
  * Check if email is taken
  * @param {string} email - The user's email
