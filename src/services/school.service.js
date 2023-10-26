@@ -35,7 +35,61 @@ const schoolData = async () => {
   return data;
 };
 
+
+const bulkUpload = async (schoolArray, csvFilePath = null) => {
+  let modifiedSchoolArray = schoolArray;
+  console.log(modifiedSchoolArray)
+  if (csvFilePath) {
+    modifiedSchoolArray = csvFilePath;
+  }
+
+  if (!modifiedSchoolArray || !modifiedSchoolArray.length) {
+    return { error: true, message: 'Missing array' };
+  }
+
+  const records = await Promise.all(
+    modifiedSchoolArray.map(async (school) => {
+      let record = new School(school);
+      return await record.save();
+    })
+  );
+
+  return  records;
+};
+
+// // Define your API endpoints and routes here
+// const attendanceData = () =>  {
+//   const currentDate = new Date();
+//   // Fetch data from the student attendance API using Axios
+//   axios
+//     .get(`https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/Student_Attendence_School?password=VSK@9180&School_ID=1001216&Date=20/10/2023`, {
+//       // Add any query parameters or headers if needed
+//     })
+//     .then((response) => {
+//       // Process the data from the student attendance API
+//       const studentData = response.data;
+
+//       // Get the date of the day
+  
+
+//       // Create your API response
+//       const apiResponse = {
+//         studentData,
+//         currentDate,
+//       };
+
+//       // Send the response
+//       res.json(apiResponse);
+//     })
+//     .catch((error) => {
+//       // Handle errors
+//       console.error('Error fetching student data:', error);
+//       res.status(500).json({ error: 'Failed to fetch student data' });
+//     });
+// };
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
+  bulkUpload,
 };

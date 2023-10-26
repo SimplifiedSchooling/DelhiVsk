@@ -48,6 +48,18 @@ const schoolSchema = mongoose.Schema(
     SchCategory: {
       type: String,
     },
+    typeOfSchool: {
+      type: String,
+    },
+    stream: {
+      type: String,
+    },
+    minority: {
+      type: String,
+    },
+    affiliation: {
+      type: String,
+    },
   },
   {
     timestamps: true,
