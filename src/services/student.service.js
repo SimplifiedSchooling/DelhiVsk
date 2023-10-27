@@ -58,12 +58,18 @@ async function processStudentData(studentData, dups, records) {
   }
 }
 
-
-const studentData = async (filter, options) => {
-  const data = await Student.find().limit(10000);
-  // const book = await Student.paginate(filter, options);
-  return data;
-};
+const studentData = async() => {
+  const students = async (limit) => {
+    const data = await Student.aggregate([
+      { $sample: { size: limit } }
+    ]);
+    return data;
+  };
+  
+  // Usage
+  const randomStudents = await students(10000);
+  return randomStudents;
+}
 
 
 module.exports = {
