@@ -21,7 +21,8 @@ const getAggregatedSchoolDataByDistrictNameController = async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 };
 const getAllSchoolStudentTeacherDataByDistrictName = async (req, res) => {
-  const result = await graphsService.getAllSchoolStudentTeacherDataByDistrictName(req);
+  const { DistrictName } = req.body;
+  const result = await graphsService.getAllSchoolStudentTeacherDataByDistrictName(DistrictName);
   res.status(httpStatus.CREATED).send(result);
 };
 const getSchoolStudentCountByDistrictsController = async (req, res) => {
