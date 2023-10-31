@@ -15,6 +15,22 @@ async function fetchStudentDataForSchool(schoolId, password) {
   }
 }
 
+async function processStudentData(studentData, dups, records) {
+  for (const student of studentData) {
+    // const existingStudent = await Student.findOne({ S_ID: student.S_ID });
+
+    // if (existingStudent) {
+    //     dups.push(student);
+    // } else {
+    let record = new Student(student);
+    record = await record.save();
+    //     if (record) {
+    //         records.push(student);
+    //     }
+    // }
+  }
+}
+
 async function storeStudentDataInMongoDB() {
   const schools = await School.find().exec();
   const password = 'VSK@9180'; // Replace with your password
@@ -40,22 +56,6 @@ async function storeStudentDataInMongoDB() {
   // };
 
   // return { nonduplicates, duplicates };
-}
-
-async function processStudentData(studentData, dups, records) {
-  for (const student of studentData) {
-    // const existingStudent = await Student.findOne({ S_ID: student.S_ID });
-
-    // if (existingStudent) {
-    //     dups.push(student);
-    // } else {
-    let record = new Student(student);
-    record = await record.save();
-    //     if (record) {
-    //         records.push(student);
-    //     }
-    // }
-  }
 }
 
 const studentData = async () => {
