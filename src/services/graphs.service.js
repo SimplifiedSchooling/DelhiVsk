@@ -122,7 +122,67 @@ const getAggregatedSchoolData = async () => {
 //   return data.reduce((sum, item) => sum + (parseInt(item[attribute]) || 0), 0);
 // };
 
+const getAggregatedSchoolDataByDistrictName = async (districtName) => {
+  const schoolData = await School.find({ District_name: districtName });
+
+  if (!schoolData || schoolData.length === 0) {
+    // Handle case when no schools found for the given districtName
+    return {
+      totalSchools: 0,
+      schoolManagementWise: {},
+      zoneWiseCount: {},
+      mediumWiseCount: {},
+      lowClassCount: 0,
+      highClassCount: 0,
+      shiftWiseCount: { Morning: 0, Afternoon: 0, Evening: 0 },
+    };
+  }
+
+  const schoolManagementWise = {};
+  const zoneWiseCount = {};
+  const mediumWiseCount = {};
+  let lowClassCount = 0;
+  let highClassCount = 0;
+  const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
+
+  schoolData.forEach((school) => {
+    // School Management Wise
+    const schManagement = school.SchManagement || 'Unknown';
+    schoolManagementWise[schManagement] = (schoolManagementWise[schManagement] || 0) + 1;
+
+    // Zone Wise School Count
+    const zone = school.Zone_Name || 'Unknown';
+    zoneWiseCount[zone] = (zoneWiseCount[zone] || 0) + 1;
+
+    // Medium Wise School Count
+    const medium = school.medium || 'Unknown';
+    mediumWiseCount[medium] = (mediumWiseCount[medium] || 0) + 1;
+
+    // Low and High Class Count
+    lowClassCount += parseInt(school.low_class) || 0;
+    highClassCount += parseInt(school.High_class) || 0;
+
+    // Shift Wise School Count
+    const shift = school.shift || 'Unknown';
+    shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
+  });
+
+  const totalSchools = schoolData.length;
+
+  return {
+    districtName,
+    totalSchools,
+    schoolManagementWise,
+    zoneWiseCount,
+    mediumWiseCount,
+    lowClassCount,
+    highClassCount,
+    shiftWiseCount,
+  };
+};
+
 module.exports = {
   getSchoolStats,
   getAggregatedSchoolData,
+  getAggregatedSchoolDataByDistrictName,
 };
