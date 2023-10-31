@@ -5,7 +5,7 @@ const { School, Student, Teacher } = require('../models');
  * @returns {Promise<Object>} School statistics
  */
 async function getSchoolStats() {
-  const [totalSchools, totalStudents, totalTeachers, totalGirls, totalBoys] = await Promise.all([
+
   const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers,  totalGirls, totalBoys] = await Promise.all([
     School.countDocuments(),
     Student.countDocuments(),
