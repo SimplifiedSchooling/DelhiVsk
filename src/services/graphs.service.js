@@ -96,7 +96,7 @@ const getAggregatedSchoolData = async () => {
   });
 
   const totalSchools = schoolData.length;
-  const result = {
+  const result = [
     totalSchools,
     schoolManagementWise,
     zoneWiseCount,
@@ -105,7 +105,7 @@ const getAggregatedSchoolData = async () => {
     lowClassCount,
     highClassCount,
     shiftWiseCount,
-  };
+  ];
 
   // Cache the result in Redis for future use
   await redis.set('getAggregatedSchoolData', JSON.stringify(result), 'EX', 24 * 60 * 60);
