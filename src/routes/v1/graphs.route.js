@@ -5,8 +5,6 @@ const router = express.Router();
 
 router.route('/').get(graphsController.getSchoolStats);
 
-router.route('/school').post(graphsController.getSchoolStatistics);
-
 router.route('/school-graph').get(graphsController.getAggregatedSchoolDataController);
 
 router.route('/school-graph-district').post(graphsController.getAggregatedSchoolDataByDistrictNameController);

@@ -7,25 +7,18 @@ const getSchoolStats = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
-const getSchoolStatistics = catchAsync(async (req, res) => {
-  const { SchCategory, shift, School_Name } = req.body;
-  const result = await graphsService.getSchoolStatistics(SchCategory, shift, School_Name);
-  res.status(httpStatus.CREATED).send(result);
-});
-
 const getAggregatedSchoolDataController = async (req, res) => {
-  const result = await graphsService.getAggregatedSchoolData();
+  const result = await graphsService.getAggregataddedSchoolData();
   res.status(httpStatus.CREATED).send(result);
 };
 const getAggregatedSchoolDataByDistrictNameController = async (req, res) => {
-  const { District_name } = req.body;
-  const result = await graphsService.getAggregatedSchoolDataByDistrictName(District_name);
+  const { DistrictName } = req.body;
+  const result = await graphsService.getAggregatedSchoolDataByDistrictName(DistrictName);
   res.status(httpStatus.CREATED).send(result);
 };
 
 module.exports = {
   getSchoolStats,
-  getSchoolStatistics,
   getAggregatedSchoolDataController,
   getAggregatedSchoolDataByDistrictNameController,
 };
