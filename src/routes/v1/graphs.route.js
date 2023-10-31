@@ -9,6 +9,7 @@ router.route('/school').post(graphsController.getSchoolStatistics);
 
 router.route('/school-graph').get(graphsController.getAggregatedSchoolDataController);
 
+router.route('/school-graph-district').post(graphsController.getAggregatedSchoolDataByDistrictNameController);
 module.exports = router;
 
 /**
@@ -49,6 +50,32 @@ module.exports = router;
  *         description: Forbidden
  */
 
+/**
+ * @swagger
+ * /graphs/school-graph-district:
+ *   post:
+ *     summary: Get all schools graph data by district name.
+ *     description: Get school graph data by district name.
+ *     tags: [Graphs]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               District_name:
+ *                 type: string
+ *             required:
+ *               - District_name
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
 /**
  * @swagger
  * /graphs/school:
