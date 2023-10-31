@@ -28,17 +28,15 @@ async function processStudentData(studentData) {
   }
 }
 
-
 const schoolData = async () => {
   const data = await School.find();
   // const book = await Student.paginate(filter, options);
   return data;
 };
 
-
 const bulkUpload = async (schoolArray, csvFilePath = null) => {
   let modifiedSchoolArray = schoolArray;
-  console.log(modifiedSchoolArray)
+  console.log(modifiedSchoolArray);
   if (csvFilePath) {
     modifiedSchoolArray = csvFilePath;
   }
@@ -49,12 +47,12 @@ const bulkUpload = async (schoolArray, csvFilePath = null) => {
 
   const records = await Promise.all(
     modifiedSchoolArray.map(async (school) => {
-      let record = new School(school);
+      const record = new School(school);
       return await record.save();
     })
   );
 
-  return  records;
+  return records;
 };
 
 // // Define your API endpoints and routes here
@@ -70,7 +68,6 @@ const bulkUpload = async (schoolArray, csvFilePath = null) => {
 //       const studentData = response.data;
 
 //       // Get the date of the day
-  
 
 //       // Create your API response
 //       const apiResponse = {

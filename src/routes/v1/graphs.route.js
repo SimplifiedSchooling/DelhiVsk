@@ -32,8 +32,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
-
 /**
  * @swagger
  * /graphs/school:
@@ -68,4 +66,3 @@ module.exports = router;
  *        500:
  *          description: Internal server error
  */
-

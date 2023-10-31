@@ -5,26 +5,32 @@ const { School, Student, Teacher } = require('../models');
  * @returns {Promise<Object>} School statistics
  */
 async function getSchoolStats() {
-    const [totalSchools, totalStudents, totalTeachers, totalGirls, totalBoys] = await Promise.all([
+  const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers,  totalGirls, totalBoys] = await Promise.all([
     School.countDocuments(),
     Student.countDocuments(),
     Teacher.countDocuments(),
+    Teacher.countDocuments({ gender: 'Female' }),
+    Teacher.countDocuments({ gender: 'Male' }),
     Student.countDocuments({ Gender: 'F' }),
     Student.countDocuments({ Gender: 'M' }),
   ]);
 
   const teacherStudentRatio = totalStudents / totalTeachers;
+  const avrageTeacherOfSchool = totalTeachers / totalSchools;
+  const averageStudentOfSchool = totalStudents / totalSchools
   return {
     totalSchools,
     totalStudents,
     totalTeachers,
+    totalFemaleTeachers,
+    totalMaleTeachers,
     totalGirls,
     totalBoys,
     teacherStudentRatio,
+    avrageTeacherOfSchool,
+    averageStudentOfSchool,
   };
 }
-
-
 
 // async function getSchoolStatistics(SchCategory, shift, School_Name ) {
 //   try {
@@ -104,7 +110,6 @@ async function getSchoolStats() {
 //   console.log("School Statistics:", stats);
 // });
 
-
 // /**
 //  * Get school statistics
 //  * @param {Object} query - Query parameters
@@ -120,7 +125,7 @@ async function getSchoolStats() {
 //         ],
 //       },
 //     };
-  
+
 //     const groupStage = {
 //       $group: {
 //         _id: null,
@@ -150,27 +155,27 @@ async function getSchoolStats() {
 //         enrollmentBySchCategory: { $avg: '$totalStudents' },
 //       },
 //     };
-  
+
 //     const projectStage = {
 //       $project: {
 //         _id: 0,
 //       },
 //     };
-  
+
 //     const aggregationPipeline = [matchStage, groupStage, projectStage];
-  
+
 //     const result = await School.aggregate(aggregationPipeline);
-  
+
 //     return result[0] || {};
 //   }
-  
+
 //   // Example usage:
 //   const query = {
 //     SchCategory: 'YourCategory',
 //     shift: 'YourShift',
 //     School_Name: 'YourSchoolName',
 //   };
-  
+
 //   getSchoolStatistics(query)
 //     .then((stats) => {
 //       console.log('School Statistics:', stats);
@@ -178,7 +183,6 @@ async function getSchoolStats() {
 //     .catch((error) => {
 //       console.error('Error:', error);
 //     });
-  
 
 // async function getSchoolStatistics(SchCategory, shift, School_Name ) {
 //   // Set up the base aggregation pipeline
@@ -275,27 +279,27 @@ const getSchoolStatistics = async () => {
       const pipeline = [
         {
           $lookup: {
-            from: "teachers", // Name of the Teacher collection
-            localField: "School_Name", // Field from the School collection
-            foreignField: "schname", // Field from the Teacher collection
-            as: "teachers", // Alias for the joined data
+            from: 'teachers', // Name of the Teacher collection
+            localField: 'School_Name', // Field from the School collection
+            foreignField: 'schname', // Field from the Teacher collection
+            as: 'teachers', // Alias for the joined data
           },
         },
         {
-          $unwind: "$teachers", // Unwind the teachers array created by $lookup
+          $unwind: '$teachers', // Unwind the teachers array created by $lookup
         },
         {
           $group: {
-            _id: "$SchCategory", // Group by SchCategory
-            School_Name: { $first: "$School_Name" }, // Get the School_Name
+            _id: '$SchCategory', // Group by SchCategory
+            // School_Name: { $first: '$School_Name' }, // Get the School_Name
             Teacher_Count: { $sum: 1 }, // Count teachers
           },
         },
         {
           $project: {
             _id: 0,
-            SchCategory: "$_id",
-            School_Name: 1,
+            SchCategory: '$_id',
+        //    School_Name: 1,
             Teacher_Count: 1,
           },
         },
@@ -306,7 +310,7 @@ const getSchoolStatistics = async () => {
       if (result.length > 0) {
         resolve(result);
       } else {
-        reject("No data found.");
+        reject('No data found.');
       }
     } catch (error) {
       reject(error);
@@ -314,55 +318,53 @@ const getSchoolStatistics = async () => {
   });
 };
 
-
-
 const countOfHeadGender = async () => {
-    // const pipeline = [
-    //     {
-    //       $match: {
-    //         postdesc: { $in: ["PRINCIPAL", "VICE PRINCIPAL"] }
-    //       }
-    //     },
-    //     {
-    //       $group: {
-    //         _id: "$gender",
-    //         count: { $sum: 1 }
-    //       }
-    //     }
-    //   ];
-  
-    const schoolPipeline = [
-        {
-          $match: $SchCategory ,
-        },
-        {
-          $project: {
-            _id: 0,
-            School_Name: 1, // Get the School_Name field
-          },
-        },
-      ];
-  
-      const schools = await School.aggregate(schoolPipeline);
-  
-    //  const result = await Teacher.aggregate(pipeline);
-      return schools;
-}
+  // const pipeline = [
+  //     {
+  //       $match: {
+  //         postdesc: { $in: ["PRINCIPAL", "VICE PRINCIPAL"] }
+  //       }
+  //     },
+  //     {
+  //       $group: {
+  //         _id: "$gender",
+  //         count: { $sum: 1 }
+  //       }
+  //     }
+  //   ];
+
+  const schoolPipeline = [
+    {
+      $match: $SchCategory,
+    },
+    {
+      $project: {
+        _id: 0,
+        School_Name: 1, // Get the School_Name field
+      },
+    },
+  ];
+
+  const schools = await School.aggregate(schoolPipeline);
+
+  //  const result = await Teacher.aggregate(pipeline);
+  return schools;
+};
 
 // async function getSchoolStatistics() {
 //     const schoolData = await getSchoolStats()
 //    const headOfSchGenderRatio = await countOfHeadGender()
 //  const techersRatioBySchool = schoolData.totalTeachers / schoolData.totalSchools
-//  const avgEnrolmentOfStudentPerSchool = schoolData.totalStudents / schoolData.totalSchools 
-//  return { 
+//  const avgEnrolmentOfStudentPerSchool = schoolData.totalStudents / schoolData.totalSchools
+//  return {
 //     schoolData,
 //     techersRatioBySchool,
 //     avgEnrolmentOfStudentPerSchool,
 //     headOfSchGenderRatio,
 //  }
 // }
-  
+
 module.exports = {
   getSchoolStats,
-  getSchoolStatistics
+  getSchoolStatistics,
 };
