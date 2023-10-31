@@ -58,19 +58,16 @@ async function processStudentData(studentData, dups, records) {
   }
 }
 
-const studentData = async() => {
+const studentData = async () => {
   const students = async (limit) => {
-    const data = await Student.aggregate([
-      { $sample: { size: limit } }
-    ]);
+    const data = await Student.aggregate([{ $sample: { size: limit } }]);
     return data;
   };
-  
+
   // Usage
   const randomStudents = await students(10000);
   return randomStudents;
-}
-
+};
 
 module.exports = {
   storeStudentDataInMongoDB,
