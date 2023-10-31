@@ -5,6 +5,32 @@ const redis = require('../utils/redis');
  * Get school statistics
  * @returns {Promise<Object>} School statistics
  */
+
+const getEnrollmentStats = async () => {
+  // Aggregate the data by School_Category and Gender
+  const enrollmentStats = await Student.aggregate([
+    {
+      $group: {
+        _id: {
+          School_Category: '$School_Category',
+          Gender: '$Gender',
+        },
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        School_Category: '$_id.School_Category',
+        Gender: '$_id.Gender',
+        Count: '$count',
+      },
+    },
+  ]);
+
+  return enrollmentStats;
+};
+
 const getSchoolStats = async () => {
   // Check if the data is already cached in Redis
   const cachedData = await redis.get('schoolStats');
@@ -28,7 +54,7 @@ const getSchoolStats = async () => {
   const teacherStudentRatio = totalStudents.value / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = totalStudents.value / totalSchools.value;
-
+  const enrollmentBySchoolCatogory = await getEnrollmentStats();
   const schoolStats = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudents.value,
@@ -40,6 +66,7 @@ const getSchoolStats = async () => {
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
+    enrollmentBySchoolCatogory,
   };
 
   // Cache the result in Redis for future use
@@ -53,12 +80,12 @@ const getSchoolStats = async () => {
  * @returns {Promise<Object>} School graph data
  */
 const getAggregatedSchoolData = async () => {
-  // Check if the data is already cached in Redis
-  const cachedData = await redis.get('getAggregatedSchoolData');
+  // // Check if the data is already cached in Redis
+  // const cachedData = await redis.get('getAggregatedSchoolData');
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
   const schoolData = await School.find();
 
   const schoolManagementWise = {};
@@ -95,10 +122,18 @@ const getAggregatedSchoolData = async () => {
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
   });
   const totalSchools = schoolData.length;
+  const zoneWiseCounts = [];
+
+  Object.keys(zoneWiseCount).forEach(zone => {
+    zoneWiseCounts.push({
+      zone, 
+      count: zoneWiseCount[zone]
+    });
+  });
   const result = {
     totalSchools,
     schoolManagementWise,
-    zoneWiseCount,
+    zoneWiseCounts,
     districtWiseCount,
     mediumWiseCount,
     lowClassCount,
@@ -106,7 +141,7 @@ const getAggregatedSchoolData = async () => {
     shiftWiseCount,
   };
   // Cache the result in Redis for future use
-  await redis.set('getAggregatedSchoolData', JSON.stringify(result), 'EX', 24 * 60 * 60);
+  // await redis.set('getAggregatedSchoolData', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
