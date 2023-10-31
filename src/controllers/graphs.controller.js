@@ -8,7 +8,7 @@ const getSchoolStats = catchAsync(async (req, res) => {
 });
 
 const getAggregatedSchoolDataController = async (req, res) => {
-  const result = await graphsService.getAggregataddedSchoolData();
+  const result = await graphsService.getAggregatedSchoolData();
   res.status(httpStatus.CREATED).send(result);
 };
 const getAggregatedSchoolDataByDistrictNameController = async (req, res) => {
