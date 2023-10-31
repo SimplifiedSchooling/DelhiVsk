@@ -109,11 +109,18 @@ const getAggregatedSchoolData = async () => {
   await redis.set('getAggregatedSchoolData', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
+
 /**
  * Get all school, student, teacher graph data
  * @returns {Promise<Object>} School, teacher, student graph data
  */
 const getAllSchoolStudentTeacherData = async () => {
+    // Check if the data is already cached in Redis
+    const cachedData = await redis.get('getAllSchoolStudentTeacherData');
+
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
   const schoolData = await School.find();
 
   const schoolManagementWise = {};
@@ -165,7 +172,7 @@ const getAllSchoolStudentTeacherData = async () => {
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = totalStudents.value / totalSchools.value;
 
-  return {
+  const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudents.value,
     totalTeachers: totalTeachers.value,
@@ -184,6 +191,10 @@ const getAllSchoolStudentTeacherData = async () => {
     highClassCount,
     shiftWiseCount,
   };
+
+ // Cache the result in Redis for future use
+ await redis.set('getAllSchoolStudentTeacherData', JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
 };
 /**
  * Get all school, student, teacher graph data by districtName
@@ -330,6 +341,12 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
 };
 
 const getSchoolStudentCountByDistricts = async () => {
+    // Check if the data is already cached in Redis
+    const cachedData = await redis.get('getSchoolStudentCountByDistricts');
+
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
   const districts = await School.distinct('District_name');
   const counts = await Promise.all(
     districts.map(async (districtName) => {
@@ -343,7 +360,7 @@ const getSchoolStudentCountByDistricts = async () => {
       };
     })
   );
-
+  await redis.set('getSchoolStudentCountByDistricts', JSON.stringify(counts), 'EX', 24 * 60 * 60);
   return counts;
 };
 module.exports = {
