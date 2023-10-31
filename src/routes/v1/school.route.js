@@ -1,11 +1,12 @@
 const express = require('express');
 const multer = require('multer');
 const { schoolController } = require('../../controllers');
-const router = express.Router();
- const path = require('path');
 
- // Construct the absolute path to the 'uploads' directory
- const uploadDir = path.join(__dirname, '../../uploads');
+const router = express.Router();
+const path = require('path');
+
+// Construct the absolute path to the 'uploads' directory
+const uploadDir = path.join(__dirname, '../../uploads');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -20,12 +21,10 @@ const uploads = multer({ storage });
 
 router.route('/bulkupload').post(uploads.single('file'), schoolController.bulkUploadFile);
 
-  
 router.route('/webApi').get(schoolController.storeSchoolDataInMongoDB);
 
 router.route('/').get(schoolController.schoolData);
 module.exports = router;
-
 
 /**
  * @swagger

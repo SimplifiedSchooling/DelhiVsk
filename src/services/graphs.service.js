@@ -5,7 +5,7 @@ const { School, Student, Teacher } = require('../models');
  * @returns {Promise<Object>} School statistics
  */
 async function getSchoolStats() {
-    const [totalSchools, totalStudents, totalTeachers, totalGirls, totalBoys] = await Promise.all([
+  const [totalSchools, totalStudents, totalTeachers, totalGirls, totalBoys] = await Promise.all([
     School.countDocuments(),
     Student.countDocuments(),
     Teacher.countDocuments(),
@@ -23,8 +23,6 @@ async function getSchoolStats() {
     teacherStudentRatio,
   };
 }
-
-
 
 // async function getSchoolStatistics(SchCategory, shift, School_Name ) {
 //   try {
@@ -104,7 +102,6 @@ async function getSchoolStats() {
 //   console.log("School Statistics:", stats);
 // });
 
-
 // /**
 //  * Get school statistics
 //  * @param {Object} query - Query parameters
@@ -120,7 +117,7 @@ async function getSchoolStats() {
 //         ],
 //       },
 //     };
-  
+
 //     const groupStage = {
 //       $group: {
 //         _id: null,
@@ -150,27 +147,27 @@ async function getSchoolStats() {
 //         enrollmentBySchCategory: { $avg: '$totalStudents' },
 //       },
 //     };
-  
+
 //     const projectStage = {
 //       $project: {
 //         _id: 0,
 //       },
 //     };
-  
+
 //     const aggregationPipeline = [matchStage, groupStage, projectStage];
-  
+
 //     const result = await School.aggregate(aggregationPipeline);
-  
+
 //     return result[0] || {};
 //   }
-  
+
 //   // Example usage:
 //   const query = {
 //     SchCategory: 'YourCategory',
 //     shift: 'YourShift',
 //     School_Name: 'YourSchoolName',
 //   };
-  
+
 //   getSchoolStatistics(query)
 //     .then((stats) => {
 //       console.log('School Statistics:', stats);
@@ -178,7 +175,6 @@ async function getSchoolStats() {
 //     .catch((error) => {
 //       console.error('Error:', error);
 //     });
-  
 
 // async function getSchoolStatistics(SchCategory, shift, School_Name ) {
 //   // Set up the base aggregation pipeline
@@ -275,26 +271,26 @@ const getSchoolStatistics = async () => {
       const pipeline = [
         {
           $lookup: {
-            from: "teachers", // Name of the Teacher collection
-            localField: "School_Name", // Field from the School collection
-            foreignField: "schname", // Field from the Teacher collection
-            as: "teachers", // Alias for the joined data
+            from: 'teachers', // Name of the Teacher collection
+            localField: 'School_Name', // Field from the School collection
+            foreignField: 'schname', // Field from the Teacher collection
+            as: 'teachers', // Alias for the joined data
           },
         },
         {
-          $unwind: "$teachers", // Unwind the teachers array created by $lookup
+          $unwind: '$teachers', // Unwind the teachers array created by $lookup
         },
         {
           $group: {
-            _id: "$SchCategory", // Group by SchCategory
-            School_Name: { $first: "$School_Name" }, // Get the School_Name
+            _id: '$SchCategory', // Group by SchCategory
+            School_Name: { $first: '$School_Name' }, // Get the School_Name
             Teacher_Count: { $sum: 1 }, // Count teachers
           },
         },
         {
           $project: {
             _id: 0,
-            SchCategory: "$_id",
+            SchCategory: '$_id',
             School_Name: 1,
             Teacher_Count: 1,
           },
@@ -306,7 +302,7 @@ const getSchoolStatistics = async () => {
       if (result.length > 0) {
         resolve(result);
       } else {
-        reject("No data found.");
+        reject('No data found.');
       }
     } catch (error) {
       reject(error);
@@ -314,55 +310,142 @@ const getSchoolStatistics = async () => {
   });
 };
 
-
-
 const countOfHeadGender = async () => {
-    // const pipeline = [
-    //     {
-    //       $match: {
-    //         postdesc: { $in: ["PRINCIPAL", "VICE PRINCIPAL"] }
-    //       }
-    //     },
-    //     {
-    //       $group: {
-    //         _id: "$gender",
-    //         count: { $sum: 1 }
-    //       }
-    //     }
-    //   ];
-  
-    const schoolPipeline = [
-        {
-          $match: $SchCategory ,
-        },
-        {
-          $project: {
-            _id: 0,
-            School_Name: 1, // Get the School_Name field
-          },
-        },
-      ];
-  
-      const schools = await School.aggregate(schoolPipeline);
-  
-    //  const result = await Teacher.aggregate(pipeline);
-      return schools;
-}
+  // const pipeline = [
+  //     {
+  //       $match: {
+  //         postdesc: { $in: ["PRINCIPAL", "VICE PRINCIPAL"] }
+  //       }
+  //     },
+  //     {
+  //       $group: {
+  //         _id: "$gender",
+  //         count: { $sum: 1 }
+  //       }
+  //     }
+  //   ];
+
+  const schoolPipeline = [
+    {
+      $match: $SchCategory,
+    },
+    {
+      $project: {
+        _id: 0,
+        School_Name: 1, // Get the School_Name field
+      },
+    },
+  ];
+
+  const schools = await School.aggregate(schoolPipeline);
+
+  //  const result = await Teacher.aggregate(pipeline);
+  return schools;
+};
 
 // async function getSchoolStatistics() {
 //     const schoolData = await getSchoolStats()
 //    const headOfSchGenderRatio = await countOfHeadGender()
 //  const techersRatioBySchool = schoolData.totalTeachers / schoolData.totalSchools
-//  const avgEnrolmentOfStudentPerSchool = schoolData.totalStudents / schoolData.totalSchools 
-//  return { 
+//  const avgEnrolmentOfStudentPerSchool = schoolData.totalStudents / schoolData.totalSchools
+//  return {
 //     schoolData,
 //     techersRatioBySchool,
 //     avgEnrolmentOfStudentPerSchool,
 //     headOfSchGenderRatio,
 //  }
 // }
-  
+
+/**
+ * Get school graph data
+ * @returns {Promise<Object>} School graph data
+ */
+const getAggregatedSchoolData = async () => {
+  const schoolData = await School.find();
+
+  const schoolManagementWise = {};
+  const zoneWiseCount = {};
+  const districtWiseCount = {};
+  const mediumWiseCount = {};
+  let lowClassCount = 0;
+  let highClassCount = 0;
+  const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
+
+  schoolData.forEach((school) => {
+    // School Management Wise
+    const schManagement = school.SchManagement || 'Unknown';
+    schoolManagementWise[schManagement] = (schoolManagementWise[schManagement] || 0) + 1;
+
+    // Zone Wise School Count
+    const zone = school.Zone_Name || 'Unknown';
+    zoneWiseCount[zone] = (zoneWiseCount[zone] || 0) + 1;
+
+    // District Wise School Count
+    const district = school.District_name || 'Unknown';
+    districtWiseCount[district] = (districtWiseCount[district] || 0) + 1;
+
+    // Medium Wise School Count
+    const medium = school.medium || 'Unknown';
+    mediumWiseCount[medium] = (mediumWiseCount[medium] || 0) + 1;
+
+    // Low and High Class Count
+    lowClassCount += parseInt(school.low_class) || 0;
+    highClassCount += parseInt(school.High_class) || 0;
+
+    // Shift Wise School Count
+    const shift = school.shift || 'Unknown';
+    shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
+  });
+
+  const totalSchools = schoolData.length;
+
+  return {
+    totalSchools,
+    schoolManagementWise,
+    zoneWiseCount,
+    districtWiseCount,
+    mediumWiseCount,
+    lowClassCount,
+    highClassCount,
+    shiftWiseCount,
+  };
+};
+
+// const getAggregatedSchoolData = async () => {
+//   const schoolData = await School.find();
+
+//   const schoolManagementWise = countByAttribute(schoolData, 'SchManagement', 'Unknown');
+//   const zoneWiseCount = countByAttribute(schoolData, 'Zone_Name', 'Unknown');
+//   const districtWiseCount = countByAttribute(schoolData, 'District_name', 'Unknown');
+//   const lowClassCount = sumAttribute(schoolData, 'low_class');
+//   const highClassCount = sumAttribute(schoolData, 'High_class');
+//   const shiftWiseCount = countByAttribute(schoolData, 'shift', 'Unknown');
+
+//   return {
+//     schoolManagementWise,
+//     zoneWiseCount,
+//     districtWiseCount,
+//     lowClassCount,
+//     highClassCount,
+//     shiftWiseCount,
+//   };
+// };
+
+// const countByAttribute = (data, attribute, defaultValue) => {
+//   const countMap = {};
+//   data.forEach((item) => {
+//     const value = item[attribute] || defaultValue;
+//     countMap[value] = (countMap[value] || 0) + 1;
+//   });
+//   return countMap;
+// };
+
+// const sumAttribute = (data, attribute) => {
+//   return data.reduce((sum, item) => sum + (parseInt(item[attribute]) || 0), 0);
+// };
+
 module.exports = {
   getSchoolStats,
-  getSchoolStatistics
+  getSchoolStatistics,
+  getAggregatedSchoolData,
 };
