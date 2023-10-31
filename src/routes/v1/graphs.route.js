@@ -93,40 +93,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-/**
- * @swagger
- * /graphs/school:
- *   post:
- *      summary: Get School Statistics
- *      description: Retrieve statistics for schools based on query parameters.
- *      tags: [Graphs]
- *      parameters:
- *        - in: body
- *          name: requestBody
- *          description: Request body with query parameters.
- *          required: true
- *          schema:
- *            type: object
- *            properties:
- *              SchCategory:
- *                type: string
- *                description: School Category
- *              shift:
- *                type: string
- *                description: School Shift
- *              School_Name:
- *                type: string
- *                description: School Name
- *      responses:
- *        200:
- *          description: Successful response
- *          schema:
- *            type: object
- *        400:
- *          description: Bad request
- *        500:
- *          description: Internal server error
- */
 
 /**
  * @swagger
