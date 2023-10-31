@@ -1,9 +1,9 @@
 const express = require('express');
 const multer = require('multer');
+const path = require('path');
 const { schoolController } = require('../../controllers');
 
 const router = express.Router();
-const path = require('path');
 
 // Construct the absolute path to the 'uploads' directory
 const uploadDir = path.join(__dirname, '../../uploads');
