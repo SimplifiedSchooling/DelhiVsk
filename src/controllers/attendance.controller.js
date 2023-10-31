@@ -8,5 +8,5 @@ const getAttedanceData = catchAsync(async (req, res) => {
 });
 
 module.exports = {
-getAttedanceData,
+  getAttedanceData,
 };

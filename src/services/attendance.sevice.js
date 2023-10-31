@@ -37,7 +37,7 @@ async function storeAttendanceDataInMongoDB() {
 async function processStudentData(studentData) {
   try {
     for (const student of studentData) {
-      let record = new Attendance(student);
+      const record = new Attendance(student);
       await record.save();
     }
   } catch (error) {

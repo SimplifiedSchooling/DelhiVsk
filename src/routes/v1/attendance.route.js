@@ -3,7 +3,6 @@ const { attendanceController } = require('../../controllers');
 
 const router = express.Router();
 
-
 router.route('/').get(attendanceController.getAttedanceData);
 
 module.exports = router;
@@ -30,4 +29,3 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
