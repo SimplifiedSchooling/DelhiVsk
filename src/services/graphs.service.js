@@ -1,10 +1,19 @@
 const { School, Student, Teacher } = require('../models');
+const redis = require('../utils/redis');
 
 /**
  * Get school statistics
  * @returns {Promise<Object>} School statistics
  */
-async function getSchoolStats() {
+const getSchoolStats = async () => {
+  // Check if the data is already cached in Redis
+  const cachedData = await redis.get('schoolStats');
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+  // If data is not cached, fetch it from the database
   const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalGirls, totalBoys] =
     await Promise.allSettled([
       School.countDocuments().exec(),
@@ -20,7 +29,7 @@ async function getSchoolStats() {
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = totalStudents.value / totalSchools.value;
 
-  return {
+  const schoolStats = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudents.value,
     totalTeachers: totalTeachers.value,
@@ -32,13 +41,24 @@ async function getSchoolStats() {
     averageTeacherOfSchool,
     averageStudentOfSchool,
   };
-}
+
+  // Cache the result in Redis for future use
+  await redis.set('schoolStats', JSON.stringify(schoolStats), 'EX', 24 * 60 * 60);
+
+  return schoolStats;
+};
 
 /**
  * Get school graph data
  * @returns {Promise<Object>} School graph data
  */
 const getAggregatedSchoolData = async () => {
+  // Check if the data is already cached in Redis
+  const cachedData = await redis.get('getAggregatedSchoolData');
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
   const schoolData = await School.find();
 
   const schoolManagementWise = {};
@@ -76,8 +96,7 @@ const getAggregatedSchoolData = async () => {
   });
 
   const totalSchools = schoolData.length;
-
-  return {
+  const result = {
     totalSchools,
     schoolManagementWise,
     zoneWiseCount,
@@ -87,6 +106,10 @@ const getAggregatedSchoolData = async () => {
     highClassCount,
     shiftWiseCount,
   };
+
+  // Cache the result in Redis for future use
+  await redis.set('getAggregatedSchoolData', JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
 };
 
 // const getAggregatedSchoolData = async () => {
@@ -123,6 +146,12 @@ const getAggregatedSchoolData = async () => {
 // };
 
 const getAggregatedSchoolDataByDistrictName = async (districtName) => {
+  // Check if the data is already cached in Redis
+  const cachedData = await redis.get('getAggregatedSchoolDataByDistrictName');
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
   const schoolData = await School.find({ District_name: districtName });
 
   if (!schoolData || schoolData.length === 0) {
@@ -168,8 +197,7 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
   });
 
   const totalSchools = schoolData.length;
-
-  return {
+  const result = {
     districtName,
     totalSchools,
     schoolManagementWise,
@@ -179,6 +207,7 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
     highClassCount,
     shiftWiseCount,
   };
+  await redis.set('getAggregatedSchoolDataByDistrictName', JSON.stringify(result), 'EX', 24 * 60 * 60);
 };
 
 module.exports = {
