@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.route('/').get(graphsController.getSchoolStats);
 
-
 router.route('/school-graph').get(graphsController.getAggregatedSchoolDataController);
 
 module.exports = router;

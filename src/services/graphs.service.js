@@ -5,28 +5,21 @@ const { School, Student, Teacher } = require('../models');
  * @returns {Promise<Object>} School statistics
  */
 async function getSchoolStats() {
-  const [
-    totalSchools,
-    totalStudents,
-    totalTeachers,
-    totalFemaleTeachers,
-    totalMaleTeachers,
-    totalGirls,
-    totalBoys,
-  ] = await Promise.allSettled([
-    School.countDocuments().exec(),
-    Student.countDocuments().exec(),
-    Teacher.countDocuments().exec(),
-    Teacher.countDocuments({ gender: 'Female' }).exec(),
-    Teacher.countDocuments({ gender: 'Male' }).exec(),
-    Student.countDocuments({ Gender: 'F' }).exec(),
-    Student.countDocuments({ Gender: 'M' }).exec(),
-  ]);
+  const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalGirls, totalBoys] =
+    await Promise.allSettled([
+      School.countDocuments().exec(),
+      Student.countDocuments().exec(),
+      Teacher.countDocuments().exec(),
+      Teacher.countDocuments({ gender: 'Female' }).exec(),
+      Teacher.countDocuments({ gender: 'Male' }).exec(),
+      Student.countDocuments({ Gender: 'F' }).exec(),
+      Student.countDocuments({ Gender: 'M' }).exec(),
+    ]);
 
   const teacherStudentRatio = totalStudents.value / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = totalStudents.value / totalSchools.value;
-  
+
   return {
     totalSchools: totalSchools.value,
     totalStudents: totalStudents.value,
@@ -40,7 +33,6 @@ async function getSchoolStats() {
     averageStudentOfSchool,
   };
 }
-
 
 /**
  * Get school graph data
