@@ -96,15 +96,16 @@ const getAggregatedSchoolData = async () => {
   });
 
   const totalSchools = schoolData.length;
-  const result = [
-    totalSchools,
-    schoolManagementWise,
-    zoneWiseCount,
-    districtWiseCount,
-    mediumWiseCount,
-    lowClassCount,
-    highClassCount,
-    shiftWiseCount,
+  const result = [ {
+   totalSchools,
+  },
+    {schoolManagementWise},
+    {zoneWiseCount},
+    {districtWiseCount},
+    {mediumWiseCount},
+    {lowClassCount,
+    highClassCount},
+    {shiftWiseCount},
   ];
 
   // Cache the result in Redis for future use
