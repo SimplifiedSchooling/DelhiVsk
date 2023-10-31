@@ -96,55 +96,20 @@ const getAggregatedSchoolData = async () => {
   });
 
   const totalSchools = schoolData.length;
-  const result = [ {
+  const result =  {
    totalSchools,
-  },
-    {schoolManagementWise},
-    {zoneWiseCount},
-    {districtWiseCount},
-    {mediumWiseCount},
-    {lowClassCount,
-    highClassCount},
-    {shiftWiseCount},
-  ];
-
+    schoolManagementWise,
+    zoneWiseCount,
+    districtWiseCount,
+    mediumWiseCount,
+    lowClassCount,
+    highClassCount,
+    shiftWiseCount,
+  }
   // Cache the result in Redis for future use
   // await redis.set('getAggregatedSchoolData', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
-
-// const getAggregatedSchoolData = async () => {
-//   const schoolData = await School.find();
-
-//   const schoolManagementWise = countByAttribute(schoolData, 'SchManagement', 'Unknown');
-//   const zoneWiseCount = countByAttribute(schoolData, 'Zone_Name', 'Unknown');
-//   const districtWiseCount = countByAttribute(schoolData, 'District_name', 'Unknown');
-//   const lowClassCount = sumAttribute(schoolData, 'low_class');
-//   const highClassCount = sumAttribute(schoolData, 'High_class');
-//   const shiftWiseCount = countByAttribute(schoolData, 'shift', 'Unknown');
-
-//   return {
-//     schoolManagementWise,
-//     zoneWiseCount,
-//     districtWiseCount,
-//     lowClassCount,
-//     highClassCount,
-//     shiftWiseCount,
-//   };
-// };
-
-// const countByAttribute = (data, attribute, defaultValue) => {
-//   const countMap = {};
-//   data.forEach((item) => {
-//     const value = item[attribute] || defaultValue;
-//     countMap[value] = (countMap[value] || 0) + 1;
-//   });
-//   return countMap;
-// };
-
-// const sumAttribute = (data, attribute) => {
-//   return data.reduce((sum, item) => sum + (parseInt(item[attribute]) || 0), 0);
-// };
 
 const getAggregatedSchoolDataByDistrictName = async (districtName) => {
   // // Check if the data is already cached in Redis
