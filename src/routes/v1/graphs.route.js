@@ -48,6 +48,7 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
+
 /**
  * @swagger
  * /graphs/school:

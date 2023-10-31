@@ -6,21 +6,30 @@ const { School, Student, Teacher } = require('../models');
  */
 async function getSchoolStats() {
   const [totalSchools, totalStudents, totalTeachers, totalGirls, totalBoys] = await Promise.all([
+  const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers,  totalGirls, totalBoys] = await Promise.all([
     School.countDocuments(),
     Student.countDocuments(),
     Teacher.countDocuments(),
+    Teacher.countDocuments({ gender: 'Female' }),
+    Teacher.countDocuments({ gender: 'Male' }),
     Student.countDocuments({ Gender: 'F' }),
     Student.countDocuments({ Gender: 'M' }),
   ]);
 
   const teacherStudentRatio = totalStudents / totalTeachers;
+  const avrageTeacherOfSchool = totalTeachers / totalSchools;
+  const averageStudentOfSchool = totalStudents / totalSchools
   return {
     totalSchools,
     totalStudents,
     totalTeachers,
+    totalFemaleTeachers,
+    totalMaleTeachers,
     totalGirls,
     totalBoys,
     teacherStudentRatio,
+    avrageTeacherOfSchool,
+    averageStudentOfSchool,
   };
 }
 
@@ -284,6 +293,7 @@ const getSchoolStatistics = async () => {
           $group: {
             _id: '$SchCategory', // Group by SchCategory
             School_Name: { $first: '$School_Name' }, // Get the School_Name
+            // School_Name: { $first: '$School_Name' }, // Get the School_Name
             Teacher_Count: { $sum: 1 }, // Count teachers
           },
         },
@@ -292,6 +302,7 @@ const getSchoolStatistics = async () => {
             _id: 0,
             SchCategory: '$_id',
             School_Name: 1,
+        //    School_Name: 1,
             Teacher_Count: 1,
           },
         },
