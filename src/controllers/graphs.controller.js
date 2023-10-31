@@ -13,7 +13,13 @@ const getSchoolStatistics = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getAggregatedSchoolDataController = async (req, res) => {
+  const result = await graphsService.getAggregatedSchoolData();
+  res.status(httpStatus.CREATED).send(result);
+};
+
 module.exports = {
   getSchoolStats,
   getSchoolStatistics,
+  getAggregatedSchoolDataController,
 };
