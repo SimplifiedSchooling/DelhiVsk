@@ -62,10 +62,10 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               District_name:
+ *               DistrictName:
  *                 type: string
  *             required:
- *               - District_name
+ *               - DistrictName
  *     responses:
  *       "200":
  *         description: OK
