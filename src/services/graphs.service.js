@@ -5,6 +5,7 @@ const { School, Student, Teacher } = require('../models');
  * @returns {Promise<Object>} School statistics
  */
 async function getSchoolStats() {
+  const [totalSchools, totalStudents, totalTeachers, totalGirls, totalBoys] = await Promise.all([
   const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers,  totalGirls, totalBoys] = await Promise.all([
     School.countDocuments(),
     Student.countDocuments(),
@@ -291,6 +292,7 @@ const getSchoolStatistics = async () => {
         {
           $group: {
             _id: '$SchCategory', // Group by SchCategory
+            School_Name: { $first: '$School_Name' }, // Get the School_Name
             // School_Name: { $first: '$School_Name' }, // Get the School_Name
             Teacher_Count: { $sum: 1 }, // Count teachers
           },
@@ -299,6 +301,7 @@ const getSchoolStatistics = async () => {
           $project: {
             _id: 0,
             SchCategory: '$_id',
+            School_Name: 1,
         //    School_Name: 1,
             Teacher_Count: 1,
           },
@@ -364,7 +367,96 @@ const countOfHeadGender = async () => {
 //  }
 // }
 
+/**
+ * Get school graph data
+ * @returns {Promise<Object>} School graph data
+ */
+const getAggregatedSchoolData = async () => {
+  const schoolData = await School.find();
+
+  const schoolManagementWise = {};
+  const zoneWiseCount = {};
+  const districtWiseCount = {};
+  const mediumWiseCount = {};
+  let lowClassCount = 0;
+  let highClassCount = 0;
+  const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
+
+  schoolData.forEach((school) => {
+    // School Management Wise
+    const schManagement = school.SchManagement || 'Unknown';
+    schoolManagementWise[schManagement] = (schoolManagementWise[schManagement] || 0) + 1;
+
+    // Zone Wise School Count
+    const zone = school.Zone_Name || 'Unknown';
+    zoneWiseCount[zone] = (zoneWiseCount[zone] || 0) + 1;
+
+    // District Wise School Count
+    const district = school.District_name || 'Unknown';
+    districtWiseCount[district] = (districtWiseCount[district] || 0) + 1;
+
+    // Medium Wise School Count
+    const medium = school.medium || 'Unknown';
+    mediumWiseCount[medium] = (mediumWiseCount[medium] || 0) + 1;
+
+    // Low and High Class Count
+    lowClassCount += parseInt(school.low_class) || 0;
+    highClassCount += parseInt(school.High_class) || 0;
+
+    // Shift Wise School Count
+    const shift = school.shift || 'Unknown';
+    shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
+  });
+
+  const totalSchools = schoolData.length;
+
+  return {
+    totalSchools,
+    schoolManagementWise,
+    zoneWiseCount,
+    districtWiseCount,
+    mediumWiseCount,
+    lowClassCount,
+    highClassCount,
+    shiftWiseCount,
+  };
+};
+
+// const getAggregatedSchoolData = async () => {
+//   const schoolData = await School.find();
+
+//   const schoolManagementWise = countByAttribute(schoolData, 'SchManagement', 'Unknown');
+//   const zoneWiseCount = countByAttribute(schoolData, 'Zone_Name', 'Unknown');
+//   const districtWiseCount = countByAttribute(schoolData, 'District_name', 'Unknown');
+//   const lowClassCount = sumAttribute(schoolData, 'low_class');
+//   const highClassCount = sumAttribute(schoolData, 'High_class');
+//   const shiftWiseCount = countByAttribute(schoolData, 'shift', 'Unknown');
+
+//   return {
+//     schoolManagementWise,
+//     zoneWiseCount,
+//     districtWiseCount,
+//     lowClassCount,
+//     highClassCount,
+//     shiftWiseCount,
+//   };
+// };
+
+// const countByAttribute = (data, attribute, defaultValue) => {
+//   const countMap = {};
+//   data.forEach((item) => {
+//     const value = item[attribute] || defaultValue;
+//     countMap[value] = (countMap[value] || 0) + 1;
+//   });
+//   return countMap;
+// };
+
+// const sumAttribute = (data, attribute) => {
+//   return data.reduce((sum, item) => sum + (parseInt(item[attribute]) || 0), 0);
+// };
+
 module.exports = {
   getSchoolStats,
   getSchoolStatistics,
+  getAggregatedSchoolData,
 };

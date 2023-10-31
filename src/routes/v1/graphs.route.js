@@ -7,6 +7,8 @@ router.route('/').get(graphsController.getSchoolStats);
 
 router.route('/school').post(graphsController.getSchoolStatistics);
 
+router.route('/school-graph').get(graphsController.getAggregatedSchoolDataController);
+
 module.exports = router;
 
 /**
@@ -22,6 +24,21 @@ module.exports = router;
  *   get:
  *     summary: Get all schools overview
  *     description: Get a school data.
+ *     tags: [Graphs]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+/**
+ * @swagger
+ * /graphs/school-graph:
+ *   get:
+ *     summary: Get all schools graph data
+ *     description: Get school graph data.
  *     tags: [Graphs]
  *     responses:
  *       "200":
