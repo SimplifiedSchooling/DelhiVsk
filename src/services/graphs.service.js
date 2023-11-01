@@ -1,6 +1,8 @@
 const { School, Student, Teacher } = require('../models');
 const redis = require('../utils/redis');
 
+
+
 const getStudentCountBySchCategoryByGenders = async () => {
   const pipeline = [
     {
@@ -83,7 +85,10 @@ const getStudentsEnrollmentGraph = async () => {
   await redis.set('getStudentsEnrollmentGraph', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
-
+/**
+ * Get school statistics
+ * @returns {Promise<Object>} School statistics
+ */
 const getSchoolStats = async () => {
   // Check if the data is already cached in Redis
   const cachedData = await redis.get('schoolStats');
@@ -201,7 +206,6 @@ const getAggregatedSchoolData = async () => {
  * Get all school, student, teacher graph data
  * @returns {Promise<Object>} School, teacher, student graph data
  */
-
 const getAllSchoolStudentTeacherData = async () => {
   // Check if the data is already cached in Redis
   const cachedData = await redis.get('getAllSchoolStudentTeacherData');
@@ -280,46 +284,184 @@ const getAllSchoolStudentTeacherData = async () => {
     shiftWiseCount,
   };
 
-  // Cache the result in Redis for future use
-  await redis.set('getAllSchoolStudentTeacherData', JSON.stringify(result), 'EX', 24 * 60 * 60);
+ // Cache the result in Redis for future use
+ await redis.set('getAllSchoolStudentTeacherData', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
-// const getAggregatedSchoolData = async () => {
-//   const schoolData = await School.find();
 
-//   const schoolManagementWise = countByAttribute(schoolData, 'SchManagement', 'Unknown');
-//   const zoneWiseCount = countByAttribute(schoolData, 'Zone_Name', 'Unknown');
-//   const districtWiseCount = countByAttribute(schoolData, 'District_name', 'Unknown');
-//   const lowClassCount = sumAttribute(schoolData, 'low_class');
-//   const highClassCount = sumAttribute(schoolData, 'High_class');
-//   const shiftWiseCount = countByAttribute(schoolData, 'shift', 'Unknown');
+/**
+ * Get all school, student, teacher graph data by districtName
+ * @param {string} districtName - The district name to filter the counts
+ * @returns {Promise<Object>} School, teacher, student graph data
+ */
+const getAllSchoolStudentTeacherDataByDistrictName = async (districtName) => {
+  const cacheKey = `districtData:${districtName}`;
+  const cachedData = await redis.get(cacheKey);
 
-//   return {
-//     schoolManagementWise,
-//     zoneWiseCount,
-//     districtWiseCount,
-//     lowClassCount,
-//     highClassCount,
-//     shiftWiseCount,
-//   };
-// };
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+  const [schoolData, teacherData, studentData] = await Promise.all([
+    School.find({ District_name: districtName }),
+    Teacher.find({ districtname: districtName }),
+    Student.find({ District: districtName }),
+  ]);
 
-// const countByAttribute = (data, attribute, defaultValue) => {
-//   const countMap = {};
-//   data.forEach((item) => {
-//     const value = item[attribute] || defaultValue;
-//     countMap[value] = (countMap[value] || 0) + 1;
-//   });
-//   return countMap;
-// };
+  const countByField = (data, field) => {
+    const countMap = {};
+    data.forEach((item) => {
+      const value = item[field] || 'Unknown';
+      countMap[value] = (countMap[value] || 0) + 1;
+    });
+    return countMap;
+  };
 
-// const sumAttribute = (data, attribute) => {
-//   return data.reduce((sum, item) => sum + (parseInt(item[attribute]) || 0), 0);
-// };
+  const schoolManagementWise = countByField(schoolData, 'SchManagement');
+  const zoneWiseCount = countByField(schoolData, 'Zone_Name');
+  const mediumWiseCount = countByField(schoolData, 'medium');
+
+  const districtWiseCount = countByField(schoolData, 'District_name');
+
+  let lowClassCount = 0;
+  let highClassCount = 0;
+  const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
+
+  schoolData.forEach((school) => {
+    lowClassCount += parseInt(school.low_class, 10) || 0;
+    highClassCount += parseInt(school.High_class, 10) || 0;
+    const shift = school.shift || 'Unknown';
+    shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
+  });
+
+  const getGenderCounts = (data, gender) => data.filter((item) => item.gender === gender).length;
+  const getGenderCountsStudents = (data, Gender) => data.filter((item) => item.Gender === Gender).length;
+  const totalSchools = schoolData.length;
+  const totalStudents = studentData.length;
+  const totalTeachers = teacherData.length;
+  const totalFemaleTeachers = getGenderCounts(teacherData, 'Female');
+  const totalMaleTeachers = getGenderCounts(teacherData, 'Male');
+  const totalGirls = getGenderCountsStudents(studentData, 'F');
+  const totalBoys = getGenderCountsStudents(studentData, 'M');
+
+  const teacherStudentRatio = totalStudents / totalTeachers;
+  const averageTeacherOfSchool = totalTeachers / totalSchools;
+  const averageStudentOfSchool = totalStudents / totalSchools;
+
+  const result = {
+    districtName,
+    totalSchools,
+    totalStudents,
+    totalTeachers,
+    totalFemaleTeachers,
+    totalMaleTeachers,
+    totalGirls,
+    totalBoys,
+    teacherStudentRatio,
+    averageTeacherOfSchool,
+    averageStudentOfSchool,
+    schoolManagementWise,
+    zoneWiseCount,
+    districtWiseCount,
+    mediumWiseCount,
+    lowClassCount,
+    highClassCount,
+    shiftWiseCount,
+  };
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
+};
+
+/**
+ * Get all school, student, teacher graph data by zoneName
+ * @param {string} zoneName - The zoneName name to filter the counts
+ * @returns {Promise<Object>} School, teacher, student graph data
+ */
+const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
+  const cacheKey = `zoneName:${zoneName}`;
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+  const [schoolData, teacherData, studentData] = await Promise.all([
+    School.find({ Zone_Name: zoneName }),
+    Teacher.find({ zonename: zoneName }),
+    Student.find({ z_name: zoneName }),
+  ]);
+
+  const countByField = (data, field) => {
+    const countMap = {};
+    data.forEach((item) => {
+      const value = item[field] || 'Unknown';
+      countMap[value] = (countMap[value] || 0) + 1;
+    });
+    return countMap;
+  };
+
+  const schoolManagementWise = countByField(schoolData, 'SchManagement');
+  const zoneWiseCount = countByField(schoolData, 'Zone_Name');
+  const mediumWiseCount = countByField(schoolData, 'medium');
+
+  const districtWiseCount = countByField(schoolData, 'District_name');
+
+  let lowClassCount = 0;
+  let highClassCount = 0;
+  const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
+
+  schoolData.forEach((school) => {
+    lowClassCount += parseInt(school.low_class, 10) || 0;
+    highClassCount += parseInt(school.High_class, 10) || 0;
+    const shift = school.shift || 'Unknown';
+    shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
+  });
+
+  const getGenderCounts = (data, gender) => data.filter((item) => item.gender === gender).length;
+  const getGenderCountsStudents = (data, Gender) => data.filter((item) => item.Gender === Gender).length;
+  const totalSchools = schoolData.length;
+  const totalStudents = studentData.length;
+  const totalTeachers = teacherData.length;
+  const totalFemaleTeachers = getGenderCounts(teacherData, 'Female');
+  const totalMaleTeachers = getGenderCounts(teacherData, 'Male');
+  const totalGirls = getGenderCountsStudents(studentData, 'F');
+  const totalBoys = getGenderCountsStudents(studentData, 'M');
+
+  const teacherStudentRatio = totalStudents / totalTeachers;
+  const averageTeacherOfSchool = totalTeachers / totalSchools;
+  const averageStudentOfSchool = totalStudents / totalSchools;
+
+  const result = {
+    zoneName,
+    totalSchools,
+    totalStudents,
+    totalTeachers,
+    totalFemaleTeachers,
+    totalMaleTeachers,
+    totalGirls,
+    totalBoys,
+    teacherStudentRatio,
+    averageTeacherOfSchool,
+    averageStudentOfSchool,
+    schoolManagementWise,
+    zoneWiseCount,
+    districtWiseCount,
+    mediumWiseCount,
+    lowClassCount,
+    highClassCount,
+    shiftWiseCount,
+  };
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
+};
+
+/**
+ * Get all school, student, teacher graph data by districtName
+ * @param {string} districtName - The district name to filter the counts
+ * @returns {Promise<Object>} School, teacher, student graph data
+ */
 
 const getAggregatedSchoolDataByDistrictName = async (districtName) => {
-  // Check if the data is already cached in Redis
-  const cachedData = await redis.get('getAggregatedSchoolDataByDistrictName');
+  const cacheKey = `districtData:${districtName}`;
+  const cachedData = await redis.get(cacheKey);
 
   if (cachedData) {
     return JSON.parse(cachedData);
@@ -327,7 +469,6 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
   const schoolData = await School.find({ District_name: districtName });
 
   if (!schoolData || schoolData.length === 0) {
-    // Handle case when no schools found for the given districtName
     return {
       totalSchools: 0,
       schoolManagementWise: {},
@@ -347,23 +488,14 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
   const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
 
   schoolData.forEach((school) => {
-    // School Management Wise
     const schManagement = school.SchManagement || 'Unknown';
     schoolManagementWise[schManagement] = (schoolManagementWise[schManagement] || 0) + 1;
-
-    // Zone Wise School Count
     const zone = school.Zone_Name || 'Unknown';
     zoneWiseCount[zone] = (zoneWiseCount[zone] || 0) + 1;
-
-    // Medium Wise School Count
     const medium = school.medium || 'Unknown';
     mediumWiseCount[medium] = (mediumWiseCount[medium] || 0) + 1;
-
-    // Low and High Class Count
     lowClassCount += parseInt(school.low_class, 10) || 0;
     highClassCount += parseInt(school.High_class, 10) || 0;
-
-    // Shift Wise School Count
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
   });
@@ -379,6 +511,8 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
     highClassCount,
     shiftWiseCount,
   };
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
   await redis.set('getAggregatedSchoolDataByDistrictName', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
@@ -387,9 +521,9 @@ const getSchoolStudentCountByDistricts = async () => {
   // Check if the data is already cached in Redis
   const cachedData = await redis.get('getSchoolStudentCountByDistricts');
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
   const districts = await School.distinct('District_name');
   const counts = await Promise.all(
     districts.map(async (districtName) => {
@@ -410,7 +544,9 @@ module.exports = {
   getSchoolStats,
   getAggregatedSchoolData,
   getAggregatedSchoolDataByDistrictName,
+  getAllSchoolStudentTeacherDataByDistrictName,
   getAllSchoolStudentTeacherData,
   getSchoolStudentCountByDistricts,
+  getAllSchoolStudentTeacherDataByZoneName,
   getStudentsEnrollmentGraph,
 };
