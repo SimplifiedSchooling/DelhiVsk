@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const { graphsService } = require('../services');
+const { graphsService, teacherGraphService } = require('../services');
 
 const getStudentsEnrollmentGraph = catchAsync(async (req, res) => {
   const result = await graphsService.getStudentsEnrollmentGraph();
@@ -34,6 +34,11 @@ const getSchoolStudentCountByDistrictsController = async (req, res) => {
   const result = await graphsService.getSchoolStudentCountByDistricts();
   res.status(httpStatus.CREATED).send(result);
 };
+
+const getTeacherCountBySchoolManagement = async (req, res) => {
+  const result = await teacherGraphService.getTeacherCountBySchoolManagement();
+  res.status(httpStatus.CREATED).send(result);
+};
 module.exports = {
   getSchoolStats,
   getAggregatedSchoolDataController,
@@ -42,4 +47,5 @@ module.exports = {
   getAllSchoolStudentTeacherDataByDistrictName,
   getSchoolStudentCountByDistrictsController,
   getStudentsEnrollmentGraph,
+  getTeacherCountBySchoolManagement,
 };

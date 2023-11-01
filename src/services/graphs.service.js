@@ -222,6 +222,10 @@ const getAllSchoolStudentTeacherData = async () => {
   let lowClassCount = 0;
   let highClassCount = 0;
   const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
+  const afiliationCount = {};
+  const minorityCount = {};
+  const streamCount = {};
+  const typeOfSchoolCount = {};
 
   schoolData.forEach((school) => {
     // School Management Wise
@@ -247,6 +251,22 @@ const getAllSchoolStudentTeacherData = async () => {
     // Shift Wise School Count
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
+
+    // Afiliation Count
+    const afiliation = school.afiliation || 'Unknown';
+    afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
+
+    // Minority Count
+    const minority = school.minority || 'Unknown';
+    minorityCount[minority] = (minorityCount[minority] || 0) + 1;
+
+    // Stream Count
+    const stream = school.stream || 'Unknown';
+    streamCount[stream] = (streamCount[stream] || 0) + 1;
+
+    // Stream Count
+    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
   const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalGirls, totalBoys] =
@@ -271,6 +291,39 @@ const getAllSchoolStudentTeacherData = async () => {
       count: zoneWiseCount[zone],
     });
   });
+
+  const afiliationCounts = [];
+  Object.keys(afiliationCount).forEach((afiliation) => {
+    afiliationCounts.push({
+      afiliation,
+      count: afiliationCount[afiliation],
+    });
+  });
+
+  const minorityCounts = [];
+  Object.keys(minorityCount).forEach((minority) => {
+    minorityCounts.push({
+      minority,
+      count: minorityCount[minority],
+    });
+  });
+
+  const streamCounts = [];
+  Object.keys(streamCount).forEach((stream) => {
+    streamCounts.push({
+      stream,
+      count: streamCount[stream],
+    });
+  });
+
+  const typeOfSchoolCounts = [];
+  Object.keys(typeOfSchoolCount).forEach((typeOfSchool) => {
+    typeOfSchoolCounts.push({
+      typeOfSchool,
+      count: typeOfSchoolCount[typeOfSchool],
+    });
+  });
+
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudents.value,
@@ -289,12 +342,18 @@ const getAllSchoolStudentTeacherData = async () => {
     lowClassCount,
     highClassCount,
     shiftWiseCount,
+    afiliationCounts,
+    minorityCounts,
+    streamCounts,
+    typeOfSchoolCounts,
   };
 
- // Cache the result in Redis for future use
- await redis.set('getAllSchoolStudentTeacherData', JSON.stringify(result), 'EX', 24 * 60 * 60);
+  // Cache the result in Redis for future use
+  await redis.set('getAllSchoolStudentTeacherData', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
+
+
 
 /**
  * Get all school, student, teacher graph data by districtName
@@ -453,9 +512,9 @@ const getSchoolStudentCountByDistricts = async () => {
   // Check if the data is already cached in Redis
   const cachedData = await redis.get('getSchoolStudentCountByDistricts');
 
-    if (cachedData) {
-      return JSON.parse(cachedData);
-    }
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
   const districts = await School.distinct('District_name');
   const counts = await Promise.all(
     districts.map(async (districtName) => {
