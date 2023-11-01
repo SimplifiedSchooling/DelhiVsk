@@ -192,8 +192,8 @@ const getAllSchoolStudentTeacherData = async () => {
     shiftWiseCount,
   };
 
-  // Cache the result in Redis for future use
-  await redis.set('getAllSchoolStudentTeacherData', JSON.stringify(result), 'EX', 24 * 60 * 60);
+ // Cache the result in Redis for future use
+ await redis.set('getAllSchoolStudentTeacherData', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
@@ -421,15 +421,17 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
   };
   await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
+  await redis.set('getAggregatedSchoolDataByDistrictName', JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
 };
 
 const getSchoolStudentCountByDistricts = async () => {
   // Check if the data is already cached in Redis
   const cachedData = await redis.get('getSchoolStudentCountByDistricts');
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
   const districts = await School.distinct('District_name');
   const counts = await Promise.all(
     districts.map(async (districtName) => {
@@ -451,7 +453,7 @@ module.exports = {
   getAggregatedSchoolData,
   getAggregatedSchoolDataByDistrictName,
   getAllSchoolStudentTeacherDataByDistrictName,
-  getAllSchoolStudentTeacherDataByZoneName,
   getAllSchoolStudentTeacherData,
   getSchoolStudentCountByDistricts,
+  getAllSchoolStudentTeacherDataByZoneName,
 };

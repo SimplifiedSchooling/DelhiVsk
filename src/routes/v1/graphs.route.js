@@ -3,6 +3,7 @@ const { graphsController } = require('../../controllers');
 
 const router = express.Router();
 
+router.route('/student-enrollment').get(graphsController.getStudentsEnrollmentGraph);
 router.route('/').get(graphsController.getSchoolStats);
 
 router.route('/school-teacher-student-graph').get(graphsController.getAllSchoolStudentTeacherData);
@@ -21,6 +22,21 @@ module.exports = router;
  * tags:
  *   name: Graphs
  *   description: School management
+ */
+/**
+ * @swagger
+ * /graphs/student-enrollment:
+ *   get:
+ *     summary: Get all schCategory wise  student count
+ *     description: Get a school data students data.
+ *     tags: [Graphs]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
  */
 
 /**
