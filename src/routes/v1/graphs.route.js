@@ -12,7 +12,6 @@ router.route('/school-graph-district').post(graphsController.getAggregatedSchool
 router
   .route('/school-student-teacher-graph-districtname')
   .post(graphsController.getAllSchoolStudentTeacherDataByDistrictName);
-router.route('/school-student-teacher-graph-zonename').post(graphsController.getAllSchoolStudentTeacherDataByZoneName);
 router.route('/school-student-count-by-district').get(graphsController.getSchoolStudentCountByDistrictsController);
 
 module.exports = router;
@@ -111,31 +110,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-/**
- * @swagger
- * /graphs/school-student-teacher-graph-districtname:
- *   post:
- *     summary: Get all schools, students, teachers graph data by districtName.
- *     description: Get graph data for schools, students, teachers by districtName.
- *     tags: [Graphs]
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               districtName:
- *                 type: string
- *             example:
- *               districtName: "East"
- *     responses:
- *       "200":
- *         description: OK
- *       "401":
- *         description: Unauthorized
- *       "403":
- *         description: Forbidden
- */
 /**
  * @swagger
  * /graphs/school-student-teacher-graph-zonename:
