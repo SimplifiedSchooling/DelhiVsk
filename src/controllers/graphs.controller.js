@@ -21,8 +21,13 @@ const getAggregatedSchoolDataByDistrictNameController = async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 };
 const getAllSchoolStudentTeacherDataByDistrictName = async (req, res) => {
-  const { DistrictName } = req.body;
-  const result = await graphsService.getAllSchoolStudentTeacherDataByDistrictName(DistrictName);
+  const { districtName } = req.body;
+  const result = await graphsService.getAllSchoolStudentTeacherDataByDistrictName(districtName);
+  res.status(httpStatus.CREATED).send(result);
+};
+const getAllSchoolStudentTeacherDataByZoneName = async (req, res) => {
+  const { zoneName } = req.body;
+  const result = await graphsService.getAllSchoolStudentTeacherDataByZoneName(zoneName);
   res.status(httpStatus.CREATED).send(result);
 };
 const getSchoolStudentCountByDistrictsController = async (req, res) => {
@@ -35,5 +40,6 @@ module.exports = {
   getAggregatedSchoolDataByDistrictNameController,
   getAllSchoolStudentTeacherData,
   getAllSchoolStudentTeacherDataByDistrictName,
+  getAllSchoolStudentTeacherDataByZoneName,
   getSchoolStudentCountByDistrictsController,
 };
