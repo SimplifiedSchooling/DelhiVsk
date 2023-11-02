@@ -1,44 +1,44 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const { graphsService, teacherGraphService } = require('../services');
+const { graphsService } = require('../services');
 
 const getStudentsEnrollmentGraph = catchAsync(async (req, res) => {
   const result = await graphsService.getStudentsEnrollmentGraph();
   res.status(httpStatus.CREATED).send(result);
 });
+
 const getSchoolStats = catchAsync(async (req, res) => {
   const result = await graphsService.getSchoolStats();
   res.status(httpStatus.CREATED).send(result);
 });
 
-const getAggregatedSchoolDataController = async (req, res) => {
+const getAggregatedSchoolDataController = catchAsync(async (req, res) => {
   const result = await graphsService.getAggregatedSchoolData();
   res.status(httpStatus.CREATED).send(result);
-};
-const getAllSchoolStudentTeacherData = async (req, res) => {
+});
+
+const getAllSchoolStudentTeacherData = catchAsync(async (req, res) => {
   const result = await graphsService.getAllSchoolStudentTeacherData();
   res.status(httpStatus.CREATED).send(result);
-};
-const getAggregatedSchoolDataByDistrictNameController = async (req, res) => {
+});
+
+const getAggregatedSchoolDataByDistrictNameController = catchAsync(async (req, res) => {
   const { DistrictName } = req.body;
   const result = await graphsService.getAggregatedSchoolDataByDistrictName(DistrictName);
   res.status(httpStatus.CREATED).send(result);
-};
-const getAllSchoolStudentTeacherDataByDistrictName = async (req, res) => {
+});
+
+const getAllSchoolStudentTeacherDataByDistrictName = catchAsync(async (req, res) => {
   const { districtName } = req.body;
   const result = await graphsService.getAllSchoolStudentTeacherDataByDistrictName(districtName);
   res.status(httpStatus.CREATED).send(result);
-};
+});
 
-const getSchoolStudentCountByDistrictsController = async (req, res) => {
+const getSchoolStudentCountByDistrictsController = catchAsync(async (req, res) => {
   const result = await graphsService.getSchoolStudentCountByDistricts();
   res.status(httpStatus.CREATED).send(result);
-};
+});
 
-const getTeacherCountBySchoolManagement = async (req, res) => {
-  const result = await teacherGraphService.getTeacherCountBySchoolManagement();
-  res.status(httpStatus.CREATED).send(result);
-};
 module.exports = {
   getSchoolStats,
   getAggregatedSchoolDataController,
@@ -47,5 +47,4 @@ module.exports = {
   getAllSchoolStudentTeacherDataByDistrictName,
   getSchoolStudentCountByDistrictsController,
   getStudentsEnrollmentGraph,
-  getTeacherCountBySchoolManagement,
 };

@@ -14,7 +14,6 @@ router
   .post(graphsController.getAllSchoolStudentTeacherDataByDistrictName);
 router.route('/school-student-count-by-district').get(graphsController.getSchoolStudentCountByDistrictsController);
 
-router.route('/getTeacherCountBySchoolManagement').get(graphsController.getTeacherCountBySchoolManagement);
 module.exports = router;
 
 /**
@@ -22,22 +21,6 @@ module.exports = router;
  * tags:
  *   name: Graphs
  *   description: School management
- */
-
-/**
- * @swagger
- * /graphs/getTeacherCountBySchoolManagement:
- *   get:
- *     summary: Get all schCategory wise  student count
- *     description: Get a school data students data.
- *     tags: [Graphs]
- *     responses:
- *       "200":
- *         description: OK
- *       "401":
- *         description: Unauthorized
- *       "403":
- *         description: Forbidden
  */
 
 /**

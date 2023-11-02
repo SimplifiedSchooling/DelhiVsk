@@ -13,59 +13,46 @@ const getStudentCountBySchCategoryByGenders = async () => {
 
   const schCategorySchoolIds = await School.aggregate(pipeline);
 
-  const studentCounts = [];
-
-  for (const category of schCategorySchoolIds) {
-    const pipeline = [
-      {
-        $match: {
-          Schoolid: { $in: category.schoolIds },
+  const genderWiseEnrollmentPerSchCategory = await Promise.all(
+    schCategorySchoolIds.map(async (category) => {
+      const pipeline = [
+        {
+          $match: {
+            Schoolid: { $in: category.schoolIds },
+          },
         },
-      },
-      {
-        $group: {
-          _id: '$Gender', // Group by Gender
-          studentCount: { $sum: 1 }, // Count students
+        {
+          $group: {
+            _id: '$Gender', // Group by Gender
+            studentCount: { $sum: 1 }, // Count students
+          },
         },
-      },
-    ];
+      ];
 
-    const genderWiseCounts = await Student.aggregate(pipeline);
-
-    studentCounts.push({
-      SchCategory: category._id,
-      genderCounts: genderWiseCounts,
-    });
-  }
-
-  return studentCounts;
+      return {
+        SchCategory: category._id,
+        genderCounts: await Student.aggregate(pipeline),
+      };
+    })
+  );
+  const enrollmentBySchoolCatogory = await Promise.all(
+    schCategorySchoolIds.map(async (category) => {
+      const studentCount = await Student.countDocuments({ Schoolid: { $in: category.schoolIds } });
+      return {
+        SchCategory: category._id,
+        studentCount,
+      };
+    })
+  );
+  return {
+    genderWiseEnrollmentPerSchCategory,
+    enrollmentBySchoolCatogory,
+  };
 };
-
-const getStudentCountBySchCategory = async () => {
-  const pipeline = [
-    {
-      $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
-      },
-    },
-  ];
-
-  const schCategorySchoolIds = await School.aggregate(pipeline);
-
-  const studentCounts = [];
-
-  for (const category of schCategorySchoolIds) {
-    const studentCount = await Student.countDocuments({ Schoolid: { $in: category.schoolIds } });
-    studentCounts.push({
-      SchCategory: category._id,
-      studentCount,
-    });
-  }
-
-  return studentCounts;
-};
-
+/**
+ * Get student enrolment by school category and gender wise
+ * @returns {Promise<Object>} School statistics
+ */
 const getStudentsEnrollmentGraph = async () => {
   // Check if the data is already cached in Redis
   const cachedData = await redis.get('getStudentsEnrollmentGraph');
@@ -73,16 +60,14 @@ const getStudentsEnrollmentGraph = async () => {
   if (cachedData) {
     return JSON.parse(cachedData);
   }
-  const enrollmentBySchoolCatogory = await getStudentCountBySchCategory();
-  const genderWiseEnrollmentPerSchCategory = await getStudentCountBySchCategoryByGenders();
-  const result = {
-    enrollmentBySchoolCatogory,
-    genderWiseEnrollmentPerSchCategory,
-  };
+
+  const result = await getStudentCountBySchCategoryByGenders();
+
   // Cache the result in Redis for future use
   await redis.set('getStudentsEnrollmentGraph', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
+
 /**
  * Get school statistics
  * @returns {Promise<Object>} School statistics
