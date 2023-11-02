@@ -132,31 +132,6 @@ module.exports = router;
 
 /**
  * @swagger
- * /graphs/school-student-teacher-graph-zonename:
- *   post:
- *     summary: Get all schools, students, teachers graph  data by zoneName.
- *     description: Get graph data for schools, students, teachers by zoneName.
- *     tags: [Graphs]
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               zoneName:
- *                 type: string
- *             example:
- *               zoneName: "Zone-01"
- *     responses:
- *       "200":
- *         description: OK
- *       "401":
- *         description: Unauthorized
- *       "403":
- *         description: Forbidden
- */
-/**
- * @swagger
  * /graphs/school-student-count-by-district:
  *   get:
  *     summary: Get total school and student count for each district.
