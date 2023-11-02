@@ -1,8 +1,16 @@
 const express = require('express');
+const validate = require('../../middlewares/validate');
 const { zonegraph } = require('../../controllers');
+const zonegraphValidation = require('../../validations/zonegraph.validation');
 
 const router = express.Router();
-router.route('/school-student-teacher-graph-zonename').post(zonegraph.getAllSchoolStudentTeacherDataByZoneName);
+
+router
+  .route('/school-student-teacher-graph-zonename')
+  .post(
+    validate(zonegraphValidation.getAllStudentSchoolTeacherDataByZoneName),
+    zonegraph.getAllSchoolStudentTeacherDataByZoneName
+  );
 
 module.exports = router;
 
@@ -12,6 +20,7 @@ module.exports = router;
  *   name: Zonegraph
  *   description: School management
  */
+
 /**
  * @swagger
  * /zonegraph/school-student-teacher-graph-zonename:

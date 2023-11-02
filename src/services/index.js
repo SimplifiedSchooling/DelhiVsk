@@ -9,3 +9,4 @@ module.exports.graphsService = require('./graphs.service');
 module.exports.zonegraph = require('./zonegraph.service');
 module.exports.attendanceService = require('./attendance.sevice');
 module.exports.teacherGraphService = require('./teacher.graph.service');
+module.exports.studentGraphService = require('./student.graph.service');

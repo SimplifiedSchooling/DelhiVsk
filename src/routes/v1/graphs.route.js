@@ -14,7 +14,6 @@ router
   .post(graphsController.getAllSchoolStudentTeacherDataByDistrictName);
 router.route('/school-student-count-by-district').get(graphsController.getSchoolStudentCountByDistrictsController);
 
-
 router.route('/getTeacherCountBySchoolManagement').get(graphsController.getTeacherCountBySchoolManagement);
 module.exports = router;
 
@@ -40,7 +39,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
 
 /**
  * @swagger

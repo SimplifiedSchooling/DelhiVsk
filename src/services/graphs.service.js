@@ -351,8 +351,6 @@ const getAllSchoolStudentTeacherData = async () => {
   return result;
 };
 
-
-
 /**
  * Get all school, student, teacher graph data by districtName
  * @param {string} districtName - The district name to filter the counts
@@ -441,8 +439,6 @@ const getAllSchoolStudentTeacherDataByDistrictName = async (districtName) => {
   await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
-
-
 
 /**
  * Get all school, student, teacher graph data by districtName
