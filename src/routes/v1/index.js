@@ -7,7 +7,8 @@ const schoolRoute = require('./school.route');
 const studentRoute = require('./student.route');
 const teacherRoute = require('./teacher.route');
 const graphsRoute = require('./graphs.route');
-const zonegraph = require('./zonegraph.route');
+const zonegraphRoute = require('./zonegraph.route');
+const teacherGraphRoute = require('./teacher.graph.route');
 
 // const attendanceRoute = require('./attendance.route');
 
@@ -40,7 +41,11 @@ const defaultRoutes = [
   },
   {
     path: '/zonegraph',
-    route: zonegraph,
+    route: zonegraphRoute,
+  },
+  {
+    path: '/teacher-graph',
+    route: teacherGraphRoute,
   },
   // {
   //   path: '/attendance',

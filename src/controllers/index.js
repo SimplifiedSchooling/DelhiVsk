@@ -6,3 +6,4 @@ module.exports.teacherController = require('./teacher.controller');
 module.exports.graphsController = require('./graphs.controller');
 module.exports.zonegraph = require('./zonegraph.controller');
 module.exports.attendanceController = require('./attendance.controller');
+module.exports.teacherGraphController = require('./teacher.graph.controller');

@@ -13,9 +13,7 @@ const getStudentCountBySchCategoryByGenders = async () => {
 
   const schCategorySchoolIds = await School.aggregate(pipeline);
 
-  const studentCounts = [];
-
-  for (const category of schCategorySchoolIds) {
+  const genderWiseEnrollmentPerSchCategory = await Promise.all(schCategorySchoolIds.map(async (category) => {
     const pipeline = [
       {
         $match: {
@@ -30,42 +28,27 @@ const getStudentCountBySchCategoryByGenders = async () => {
       },
     ];
 
-    const genderWiseCounts = await Student.aggregate(pipeline);
-
-    studentCounts.push({
+    return {
       SchCategory: category._id,
-      genderCounts: genderWiseCounts,
-    });
-  }
-
-  return studentCounts;
-};
-
-const getStudentCountBySchCategory = async () => {
-  const pipeline = [
-    {
-      $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
-      },
-    },
-  ];
-
-  const schCategorySchoolIds = await School.aggregate(pipeline);
-
-  const studentCounts = [];
-
-  for (const category of schCategorySchoolIds) {
+      genderCounts: await Student.aggregate(pipeline),
+    };
+  }));
+  const enrollmentBySchoolCatogory = await Promise.all(schCategorySchoolIds.map(async (category) => {
     const studentCount = await Student.countDocuments({ Schoolid: { $in: category.schoolIds } });
-    studentCounts.push({
+    return {
       SchCategory: category._id,
       studentCount,
-    });
-  }
-
-  return studentCounts;
+    };
+  }));
+  return {
+    genderWiseEnrollmentPerSchCategory,
+    enrollmentBySchoolCatogory
+  };
 };
-
+/**
+ * Get student enrolment by school category and gender wise 
+ * @returns {Promise<Object>} School statistics
+ */
 const getStudentsEnrollmentGraph = async () => {
   // Check if the data is already cached in Redis
   const cachedData = await redis.get('getStudentsEnrollmentGraph');
@@ -73,16 +56,15 @@ const getStudentsEnrollmentGraph = async () => {
   if (cachedData) {
     return JSON.parse(cachedData);
   }
-  const enrollmentBySchoolCatogory = await getStudentCountBySchCategory();
-  const genderWiseEnrollmentPerSchCategory = await getStudentCountBySchCategoryByGenders();
-  const result = {
-    enrollmentBySchoolCatogory,
-    genderWiseEnrollmentPerSchCategory,
-  };
+
+  const result = await getStudentCountBySchCategoryByGenders();
+
   // Cache the result in Redis for future use
   await redis.set('getStudentsEnrollmentGraph', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
+
+
 /**
  * Get school statistics
  * @returns {Promise<Object>} School statistics
@@ -351,8 +333,6 @@ const getAllSchoolStudentTeacherData = async () => {
   return result;
 };
 
-
-
 /**
  * Get all school, student, teacher graph data by districtName
  * @param {string} districtName - The district name to filter the counts
@@ -441,8 +421,6 @@ const getAllSchoolStudentTeacherDataByDistrictName = async (districtName) => {
   await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
-
-
 
 /**
  * Get all school, student, teacher graph data by districtName
