@@ -8,6 +8,9 @@ router.route('/school-category-wise').get(teacherGraphController.getTeacherCount
 router.route('/school-category-wise/district').post(teacherGraphController.getTeacherStatsByDistrict);
 
 router.route('/school-category-wise/zone').post(teacherGraphController.getTeacherCountByZone);
+
+router.route('/school-category-wise/school').post(teacherGraphController.getTeacherCountBySchool);
+
 module.exports = router;
 
 /**
@@ -32,7 +35,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
 
 /**
  * @swagger
@@ -79,6 +81,33 @@ module.exports = router;
  *                 type: string
  *             required:
  *               - zoneName
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /teacher-graph/school-category-wise/school:
+ *   post:
+ *     summary: Get all teacher graph data by school name.
+ *     description: Get teacher graph data by school name.
+ *     tags: [TeacherGraph]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schname:
+ *                 type: string
+ *             required:
+ *               - schname
  *     responses:
  *       "200":
  *         description: OK

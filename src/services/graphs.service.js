@@ -13,40 +13,44 @@ const getStudentCountBySchCategoryByGenders = async () => {
 
   const schCategorySchoolIds = await School.aggregate(pipeline);
 
-  const genderWiseEnrollmentPerSchCategory = await Promise.all(schCategorySchoolIds.map(async (category) => {
-    const pipeline = [
-      {
-        $match: {
-          Schoolid: { $in: category.schoolIds },
+  const genderWiseEnrollmentPerSchCategory = await Promise.all(
+    schCategorySchoolIds.map(async (category) => {
+      const pipeline = [
+        {
+          $match: {
+            Schoolid: { $in: category.schoolIds },
+          },
         },
-      },
-      {
-        $group: {
-          _id: '$Gender', // Group by Gender
-          studentCount: { $sum: 1 }, // Count students
+        {
+          $group: {
+            _id: '$Gender', // Group by Gender
+            studentCount: { $sum: 1 }, // Count students
+          },
         },
-      },
-    ];
+      ];
 
-    return {
-      SchCategory: category._id,
-      genderCounts: await Student.aggregate(pipeline),
-    };
-  }));
-  const enrollmentBySchoolCatogory = await Promise.all(schCategorySchoolIds.map(async (category) => {
-    const studentCount = await Student.countDocuments({ Schoolid: { $in: category.schoolIds } });
-    return {
-      SchCategory: category._id,
-      studentCount,
-    };
-  }));
+      return {
+        SchCategory: category._id,
+        genderCounts: await Student.aggregate(pipeline),
+      };
+    })
+  );
+  const enrollmentBySchoolCatogory = await Promise.all(
+    schCategorySchoolIds.map(async (category) => {
+      const studentCount = await Student.countDocuments({ Schoolid: { $in: category.schoolIds } });
+      return {
+        SchCategory: category._id,
+        studentCount,
+      };
+    })
+  );
   return {
     genderWiseEnrollmentPerSchCategory,
-    enrollmentBySchoolCatogory
+    enrollmentBySchoolCatogory,
   };
 };
 /**
- * Get student enrolment by school category and gender wise 
+ * Get student enrolment by school category and gender wise
  * @returns {Promise<Object>} School statistics
  */
 const getStudentsEnrollmentGraph = async () => {
@@ -63,7 +67,6 @@ const getStudentsEnrollmentGraph = async () => {
   await redis.set('getStudentsEnrollmentGraph', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
-
 
 /**
  * Get school statistics
