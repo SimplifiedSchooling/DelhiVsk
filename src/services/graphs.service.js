@@ -1,8 +1,6 @@
 const { School, Student, Teacher } = require('../models');
 const redis = require('../utils/redis');
 
-
-
 const getStudentCountBySchCategoryByGenders = async () => {
   const pipeline = [
     {
