@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const axios = require('axios');
-const { School, Student } = require('../models');
+const { School, Student, Teacher } = require('../models');
+const redis = require('../utils/redis');
 const ApiError = require('../utils/ApiError');
 
 async function fetchStudentDataForSchool(schoolId, password) {
