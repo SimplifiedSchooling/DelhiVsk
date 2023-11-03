@@ -41,6 +41,12 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
 
   const districtWiseCount = countByField(schoolData, 'District_name');
 
+    // Add the following lines to count by affiliation, minority, stream, and typeOfSchool
+    const affiliationWiseCount = countByField(schoolData, 'affiliation');
+    const minorityWiseCount = countByField(schoolData, 'minority');
+    const streamWiseCount = countByField(schoolData, 'stream');
+    const typeOfSchoolWiseCount = countByField(schoolData, 'typeOfSchool');
+
   const lowClassCount = calculateTotal(schoolData, 'low_class');
   const highClassCount = calculateTotal(schoolData, 'High_class');
 
@@ -66,7 +72,37 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
   const teacherStudentRatio = totalStudents / totalTeachers;
   const averageTeacherOfSchool = totalTeachers / totalSchools;
   const averageStudentOfSchool = totalStudents / totalSchools;
+  const affiliationWiseCounts = [];
+  Object.keys(affiliationWiseCount).forEach((afiliation) => {
+    affiliationWiseCounts.push({
+      afiliation,
+      count: affiliationWiseCount[afiliation],
+    });
+  });
 
+  const minorityWiseCounts = [];
+  Object.keys(minorityWiseCount).forEach((minority) => {
+    minorityWiseCounts.push({
+      minority,
+      count: minorityWiseCounts[minority],
+    });
+  });
+
+  const streamWiseCounts = [];
+  Object.keys(streamWiseCount).forEach((stream) => {
+    streamWiseCounts.push({
+      stream,
+      count: streamWiseCounts[stream],
+    });
+  });
+
+  const typeOfSchoolWiseCounts = [];
+  Object.keys(typeOfSchoolWiseCount).forEach((typeOfSchool) => {
+    typeOfSchoolWiseCounts.push({
+      typeOfSchool,
+      count: typeOfSchoolWiseCounts[typeOfSchool],
+    });
+  });
   const result = {
     zoneName,
     totalSchools,
@@ -86,6 +122,10 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     lowClassCount,
     highClassCount,
     shiftWiseCount,
+    affiliationWiseCounts, 
+    minorityWiseCounts, 
+    streamWiseCounts, 
+    typeOfSchoolWiseCounts,
   };
 
   await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
