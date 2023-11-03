@@ -79,7 +79,6 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
       Student.countDocuments({ District: districtName, Gender: 'F' }).exec(),
       Student.countDocuments({ District: districtName, Gender: 'M' }).exec(),
     ]);
- console.log(totalStudents);
   const teacherStudentRatio = totalStudents.value / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = totalStudents.value / totalSchools.value;
