@@ -189,7 +189,7 @@ const getAggregatedSchoolData = async () => {
  * Get all school, student, teacher graph data
  * @returns {Promise<Object>} School, teacher, student graph data
  */
-const getAllSchoolStudentTeacherData = async () => {
+const getAllSchoolStudentTeacherData = async () => {  ////
   // Check if the data is already cached in Redis
   const cachedData = await redis.get('getAllSchoolStudentTeacherData');
 
@@ -431,7 +431,7 @@ const getAllSchoolStudentTeacherDataByDistrictName = async (districtName) => {
  * @returns {Promise<Object>} School, teacher, student graph data
  */
 
-const getAggregatedSchoolDataByDistrictName = async (districtName) => {
+const getAggregatedSchoolDataByDistrictName = async (districtName) => {  ///////to work
   const cacheKey = `districtData:${districtName}`;
   const cachedData = await redis.get(cacheKey);
 
@@ -449,6 +449,10 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
       lowClassCount: 0,
       highClassCount: 0,
       shiftWiseCount: { Morning: 0, Afternoon: 0, Evening: 0 },
+      afiliationCount: {},
+      minorityCount: {},
+      streamCount: {},
+      typeOfSchoolCount: {}
     };
   }
 
@@ -458,6 +462,10 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
   let lowClassCount = 0;
   let highClassCount = 0;
   const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
+  const afiliationCount = {};
+  const minorityCount = {};
+  const streamCount = {};
+  const typeOfSchoolCount = {};
 
   schoolData.forEach((school) => {
     const schManagement = school.SchManagement || 'Unknown';
@@ -470,6 +478,22 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
     highClassCount += parseInt(school.High_class, 10) || 0;
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
+
+        // Afiliation Count
+        const afiliation = school.affiliation || 'Unknown';
+        afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
+    
+        // Minority Count
+        const minority = school.minority || 'Unknown';
+        minorityCount[minority] = (minorityCount[minority] || 0) + 1;
+    
+        // Stream Count
+        const stream = school.stream || 'Unknown';
+        streamCount[stream] = (streamCount[stream] || 0) + 1;
+    
+        // Stream Count
+        const typeOfSchool = school.typeOfSchool || 'Unknown';
+        typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
   const totalSchools = schoolData.length;
@@ -482,6 +506,10 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
     lowClassCount,
     highClassCount,
     shiftWiseCount,
+    afiliationCount,
+    minorityCount,
+    streamCount,
+    typeOfSchoolCount,
   };
   await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
