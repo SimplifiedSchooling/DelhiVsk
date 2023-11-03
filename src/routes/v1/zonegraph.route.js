@@ -12,6 +12,12 @@ router
     zonegraph.getAllSchoolStudentTeacherDataByZoneName
   );
 
+  router
+  .route('/school-student-teacher-graph-district')
+  .post(
+    zonegraph.getAllSchoolStudentTeacherDataByDistrict
+  );
+
 module.exports = router;
 
 /**
@@ -38,6 +44,33 @@ module.exports = router;
  *                 type: string
  *             example:
  *               zoneName: "Zone-01"
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+
+/**
+ * @swagger
+ * /zonegraph/school-student-teacher-graph-district:
+ *   post:
+ *     summary: Get all schools, students, teachers graph  data by district.
+ *     description: Get graph data for schools, students, teachers by district.
+ *     tags: [Zonegraph]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               districtName:
+ *                 type: string
+ *             example:
+ *               districtName: "East"
  *     responses:
  *       "200":
  *         description: OK

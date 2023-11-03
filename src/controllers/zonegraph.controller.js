@@ -8,6 +8,13 @@ const getAllSchoolStudentTeacherDataByZoneName = catchAsync(async (req, res) => 
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getAllSchoolStudentTeacherDataByDistrict = catchAsync(async (req, res) => {
+  const { districtName } = req.body;
+  const result = await zonegraph.getAllSchoolStudentTeacherDataByDistrict(districtName);
+  res.status(httpStatus.CREATED).send(result);
+});
+
 module.exports = {
   getAllSchoolStudentTeacherDataByZoneName,
+  getAllSchoolStudentTeacherDataByDistrict,
 };
