@@ -12,11 +12,7 @@ router
     zonegraph.getAllSchoolStudentTeacherDataByZoneName
   );
 
-  router
-  .route('/school-student-teacher-graph-district')
-  .post(
-    zonegraph.getAllSchoolStudentTeacherDataByDistrict
-  );
+router.route('/school-student-teacher-graph-district').post(zonegraph.getAllSchoolStudentTeacherDataByDistrict);
 
 module.exports = router;
 
@@ -52,7 +48,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
 
 /**
  * @swagger

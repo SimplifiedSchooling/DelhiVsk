@@ -126,7 +126,6 @@ const redis = require('../utils/redis');
 //   const averageTeacherOfSchool = totalTeacher.value / totalSchools.value;
 //   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
 
-
 // const totalStudents = totalStudent.value;
 // const  totalGirls = totalGirl.value;
 // const  totalBoys = totalBoy.value;
@@ -181,8 +180,6 @@ const redis = require('../utils/redis');
 
 //   return studentStats;
 // };
-
-
 
 // Function to get school IDs by a specific field (e.g., SchCategory, stream, etc.)
 const getSchoolIdsByField = async (field) => {
@@ -264,19 +261,17 @@ const getStudentStats = async () => {
   const fieldResults = await Promise.all(fieldPromises);
 
   // Fetch other statistics
-  const [totalSchools, totalStudent, totalTeachers] =
-    await Promise.allSettled([
-      School.countDocuments().exec(),
-      Student.countDocuments().exec(),
-      Teacher.countDocuments().exec(),
-    ]);
+  const [totalSchools, totalStudent, totalTeachers] = await Promise.allSettled([
+    School.countDocuments().exec(),
+    Student.countDocuments().exec(),
+    Teacher.countDocuments().exec(),
+  ]);
 
   const teacherStudentRatio = totalStudent.value / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
 
   const totalStudents = totalStudent.value;
-
 
   return {
     studentStats: fieldResults,
@@ -306,10 +301,6 @@ const getStudentCount = async () => {
 
   return studentStats;
 };
-
-
-
-
 
 // const getSchoolIdByShiftWiseByDistrictName = async (districtName) => {
 //   const pipeline = [
@@ -456,7 +447,6 @@ const getStudentCount = async () => {
 //   const managmentWiseCountId = await getSchoolIdByManagmentWiseByDistrictName(districtName);
 //   const studentManagementWiseCounts = await getCountByCriteriaByDistrictName(managmentWiseCountId, 'SchManagement');
 
-  
 //   const [totalSchools, totalStudent, totalTeachers, totalGirl, totalBoy] =
 //   await Promise.allSettled([
 //     School.countDocuments({ District_name: districtName }).exec(),
@@ -521,14 +511,6 @@ const getStudentCount = async () => {
 //   await redis.set(cacheKey, JSON.stringify(studentStats), 'EX', 24 * 60 * 60);
 //   return studentStats;
 // };
-
-
-
-
-
-
-
-
 
 // Function to get student counts by a specific field and district
 const getStudentCountsByFieldAndDistrict = async (schoolIds, field, district) => {
@@ -610,12 +592,11 @@ const getStudentCountByDistrictName = async (district) => {
   const fieldResults = await Promise.all(fieldPromises);
 
   // Fetch other statistics
-  const [totalSchools, totalStudent, totalTeachers] =
-    await Promise.allSettled([
-      School.countDocuments({ District_name: district }).exec(),
-      Student.countDocuments({ District: district }).exec(),
-      Teacher.countDocuments({ districtname: district }).exec(),
-    ]);
+  const [totalSchools, totalStudent, totalTeachers] = await Promise.allSettled([
+    School.countDocuments({ District_name: district }).exec(),
+    Student.countDocuments({ District: district }).exec(),
+    Teacher.countDocuments({ districtname: district }).exec(),
+  ]);
 
   const teacherStudentRatio = totalStudent.value / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
@@ -634,25 +615,6 @@ const getStudentCountByDistrictName = async (district) => {
     totalStudents,
   };
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // const getSchoolIdByShiftWiseByZoneName = async (zoneName) => {
 //   const pipeline = [
@@ -842,36 +804,13 @@ const getStudentCountByDistrictName = async (district) => {
 //   return studentStats;
 // };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Function to get student counts by a specific field and district
 const getStudentCountsByFieldAndZone = async (schoolIds, field, zone) => {
   const counts = await Promise.all(
     schoolIds.map(async (item) => {
       const count = await Student.countDocuments({
         Schoolid: { $in: item.Schoolid },
-        z_name: zone.toLowerCase() ,
+        z_name: zone.toLowerCase(),
       });
       return { [field]: item._id, count };
     })
@@ -884,7 +823,7 @@ const getStudentCountsByFieldAndZone = async (schoolIds, field, zone) => {
 const getStudentStatusCountsByZone = async (zone) => {
   const pipeline = [
     {
-      $match: { z_name: zone.toLowerCase()  },
+      $match: { z_name: zone.toLowerCase() },
     },
     {
       $group: {
@@ -970,15 +909,6 @@ const getStudentCountByZoneName = async (zone) => {
     totalStudents,
   };
 };
-
-
-
-
-
-
-
-
-
 
 module.exports = {
   getStudentCount,
