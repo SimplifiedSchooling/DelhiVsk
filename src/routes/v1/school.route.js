@@ -24,6 +24,15 @@ router.route('/bulkupload').post(uploads.single('file'), schoolController.bulkUp
 router.route('/webApi').get(schoolController.storeSchoolDataInMongoDB);
 
 router.route('/').get(schoolController.schoolData);
+
+router.get('/districtNames', schoolController.getDistrictName);
+
+router.get('/zonename', schoolController.getZoneName);
+
+router.get('/getDistrictSchool', schoolController.getDistrictSchool);
+
+router.get('/getZoneSchool', schoolController.getZoneSchool);
+
 module.exports = router;
 
 /**
@@ -71,6 +80,71 @@ module.exports = router;
  *       404:
  *         description: Missing file
  */
+
+/**
+ * @swagger
+ * /school/districtNames:
+ *   get:
+ *     summary: Get district names
+ *     description: Get a list of district names.
+ *     tags: [School]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /school/zonename:
+ *   get:
+ *     summary: Get district names
+ *     description: Get a list of district names.
+ *     tags: [School]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /school/getDistrictSchool:
+ *   get:
+ *     summary: Get District School
+ *     description: Get a list of District School names.
+ *     tags: [School]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /school/getZoneSchool:
+ *   get:
+ *     summary: Get zone School names
+ *     description: Get a list of zone School names.
+ *     tags: [School]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
 // /**
 //  * @swagger
 //  * tags:

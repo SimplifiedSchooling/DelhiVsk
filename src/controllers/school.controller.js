@@ -33,8 +33,51 @@ const schoolData = catchAsync(async (req, res) => {
   const result = await schoolService.schoolData();
   res.status(httpStatus.CREATED).send(result);
 });
+
+async function getDistrictName(req, res) {
+  try {
+    const schoolData = await schoolService.fetchSchoolData();
+    const districtNames = schoolData.map((school) => school.District_name);
+    const uniqueDistrictNames = [...new Set(districtNames)];
+    res.json({ districtNames: uniqueDistrictNames });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+}
+async function getZoneName(req, res) {
+  try {
+    const schoolData = await schoolService.fetchSchoolData();
+    const ZoneNames = schoolData.map((school) => school.Zone_Name);
+    const uniqueZoneNames = [...new Set(ZoneNames)];
+    res.json({ ZoneNames: uniqueZoneNames });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+}
+
+async function getDistrictSchool(req, res) {
+  try {
+    const districtSchools = await schoolService.getDistrictSchools();
+    res.json({ districtSchools });
+  } catch (error) {
+    console.error(error);
+  }
+}
+async function getZoneSchool(req, res) {
+  try {
+    const ZoneSchool = await schoolService.getZoneNameSchools();
+    res.json({ ZoneSchool });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
   bulkUploadFile,
+  getDistrictName,
+  getZoneName,
+  getDistrictSchool,
+  getZoneSchool,
 };
