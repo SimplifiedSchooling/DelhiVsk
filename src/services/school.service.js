@@ -54,8 +54,62 @@ const bulkUpload = async (schoolArray, csvFilePath = null) => {
   return Promise.all(savePromises);
 };
 
+const apiUrl = 'http://165.22.216.223:3000/v1/school';
+
+async function fetchSchoolData() {
+  try {
+    const response = await axios.get(apiUrl);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getDistrictSchools() {
+  try {
+    const response = await axios.get(apiUrl);
+    const schools = response.data;
+    const districtSchools = {};
+    schools.forEach((school) => {
+      const district = school.District_name;
+      const schoolName = school.School_Name;
+
+      if (!districtSchools[district]) {
+        districtSchools[district] = [];
+      }
+      districtSchools[district].push(schoolName);
+    });
+    return districtSchools;
+  } catch (error) {
+    throw new Error('Error fetching data: ' + error.message);
+  }
+}
+
+async function getZoneNameSchools() {
+  try {
+    const response = await axios.get(apiUrl);
+    const schools = response.data;
+    const ZoneSchool = {};
+    schools.forEach((school) => {
+      const zone = school.Zone_Name;
+      const schoolName = school.School_Name;
+
+      if (!ZoneSchool[zone]) {
+        ZoneSchool[zone] = [];
+      }
+      ZoneSchool[zone].push(schoolName);
+    });
+    return ZoneSchool;
+  } catch (error) {
+    throw new Error('Error fetching data: ' + error.message);
+  }
+}
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
   bulkUpload,
+  fetchSchoolData,
+  getDistrictSchools,
+  getZoneNameSchools,
 };
