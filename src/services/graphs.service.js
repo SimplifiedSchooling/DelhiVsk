@@ -189,7 +189,8 @@ const getAggregatedSchoolData = async () => {
  * Get all school, student, teacher graph data
  * @returns {Promise<Object>} School, teacher, student graph data
  */
-const getAllSchoolStudentTeacherData = async () => {  ////
+const getAllSchoolStudentTeacherData = async () => {
+  /// /
   // Check if the data is already cached in Redis
   const cachedData = await redis.get('getAllSchoolStudentTeacherData');
 
@@ -431,7 +432,8 @@ const getAllSchoolStudentTeacherDataByDistrictName = async (districtName) => {
  * @returns {Promise<Object>} School, teacher, student graph data
  */
 
-const getAggregatedSchoolDataByDistrictName = async (districtName) => {  ///////to work
+const getAggregatedSchoolDataByDistrictName = async (districtName) => {
+  /// ////to work
   const cacheKey = `districtData:${districtName}`;
   const cachedData = await redis.get(cacheKey);
 
@@ -452,7 +454,7 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {  ///////
       afiliationCount: {},
       minorityCount: {},
       streamCount: {},
-      typeOfSchoolCount: {}
+      typeOfSchoolCount: {},
     };
   }
 
@@ -479,21 +481,21 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {  ///////
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
 
-        // Afiliation Count
-        const afiliation = school.affiliation || 'Unknown';
-        afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
-    
-        // Minority Count
-        const minority = school.minority || 'Unknown';
-        minorityCount[minority] = (minorityCount[minority] || 0) + 1;
-    
-        // Stream Count
-        const stream = school.stream || 'Unknown';
-        streamCount[stream] = (streamCount[stream] || 0) + 1;
-    
-        // Stream Count
-        const typeOfSchool = school.typeOfSchool || 'Unknown';
-        typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
+    // Afiliation Count
+    const afiliation = school.affiliation || 'Unknown';
+    afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
+
+    // Minority Count
+    const minority = school.minority || 'Unknown';
+    minorityCount[minority] = (minorityCount[minority] || 0) + 1;
+
+    // Stream Count
+    const stream = school.stream || 'Unknown';
+    streamCount[stream] = (streamCount[stream] || 0) + 1;
+
+    // Stream Count
+    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
   const totalSchools = schoolData.length;

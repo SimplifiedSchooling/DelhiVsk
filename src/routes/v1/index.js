@@ -10,7 +10,7 @@ const graphsRoute = require('./graphs.route');
 const zonegraphRoute = require('./zonegraph.route');
 const studentGraphRoute = require('./student.graph.route');
 const teacherGraphRoute = require('./teacher.graph.route');
-// const attendanceRoute = require('./attendance.route');
+const attendanceRoute = require('./attendance.route');
 
 const router = express.Router();
 
@@ -51,10 +51,10 @@ const defaultRoutes = [
     path: '/studentgraph',
     route: studentGraphRoute,
   },
-  // {
-  //   path: '/attendance',
-  //   route: attendanceRoute,
-  // },
+  {
+    path: '/attendance',
+    route: attendanceRoute,
+  },
 ];
 
 const devRoutes = [

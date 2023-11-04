@@ -18,29 +18,35 @@ const attendanceSchema = mongoose.Schema(
     shift: {
       type: String,
     },
-    Student_ID: {
-      type: String,
+    totalStudentCount: {
+      type: Number,
     },
-    Student_Name: {
-      type: String,
+    PreasentCount: {
+      type: Number,
     },
-    Gender: {
-      type: String,
-    },
-    CLASS: {
-      type: String,
-    },
-    section: {
-      type: String,
-    },
-    Date_Of_Birth: {
-      type: String,
-    },
-    attendance: {
-      type: String,
+    AbsentCount: {
+      type: Number,
     },
     attendance_DATE: {
       type: String,
+    },
+    malePresentCount: {
+      type: Number,
+    },
+    feMalePresentCount: {
+      type: Number,
+    },
+    otherPresentCount: {
+      type: Number,
+    },
+    maleAbsentCount: {
+      type: Number,
+    },
+    feMaleAbsentCount: {
+      type: Number,
+    },
+    othersAbsentCount: {
+      type: Number,
     },
   },
   {
@@ -51,9 +57,6 @@ const attendanceSchema = mongoose.Schema(
 // add plugin that converts mongoose to json
 attendanceSchema.plugin(toJSON);
 attendanceSchema.plugin(paginate);
-
-attendanceSchema.index({ date: 1 }, { unique: true });
-attendanceSchema.index({ s_Id: 1 }, { unique: true });
 
 /**
  * @typedef Attendance
