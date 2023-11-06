@@ -56,17 +56,43 @@ async function getZoneName(req, res) {
   }
 }
 
+// async function getDistrictSchool(req, res) {
+//   try {
+//     const districtSchools = await schoolService.getDistrictSchools();
+//     res.json({ districtSchools });
+//   } catch (error) {
+//     res.status(500).json({ error: 'An error occurred' });
+//   }
+// }
 async function getDistrictSchool(req, res) {
   try {
-    const districtSchools = await schoolService.getDistrictSchools();
+    const districtName = req.body.District_name;
+    if (!districtName) {
+      return res.status(400).json({ error: 'District_name is required' });
+    }
+    const districtSchools = await schoolService.getDistrictSchools(districtName);
     res.json({ districtSchools });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
   }
 }
+
+// async function getZoneSchool(req, res) {
+//   try {
+//     const ZoneSchool = await schoolService.getZoneNameSchools();
+//     res.json({ ZoneSchool });
+//   } catch (error) {
+//     res.status(500).json({ error: 'An error occurred' });
+//   }
+// }
 async function getZoneSchool(req, res) {
   try {
-    const ZoneSchool = await schoolService.getZoneNameSchools();
+    const zoneName = req.body.Zone_Name; // Get the Zone_Name from the query parameters
+    if (!zoneName) {
+      return res.status(400).json({ error: 'Zone_Name parameter is required' });
+    }
+
+    const ZoneSchool = await schoolService.getZoneNameSchools(zoneName);
     res.json({ ZoneSchool });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
