@@ -4,7 +4,9 @@ const { studentGraphController } = require('../../controllers');
 const studentgraphValidation = require('../../validations/student.graph.validation');
 
 const router = express.Router();
-
+router
+  .route('/student-graph-count-schoolName')
+  .post(validate(studentgraphValidation.getAllStudentBySchoolName), studentGraphController.getStudentStatsBySchoolName);
 router
   .route('/student-graph-count-districtname')
   .post(validate(studentgraphValidation.getAllStudentByDistrictName), studentGraphController.getStudentStatsByDistrictName);
@@ -59,6 +61,33 @@ module.exports = router;
  *                 type: string
  *             required:
  *               - districtName
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /studentgraph/student-graph-count-schoolName:
+ *   post:
+ *     summary: Get all student graph data by school name.
+ *     description: Get student graph data by school name.
+ *     tags: [StudentGraph]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schoolName:
+ *                 type: string
+ *             required:
+ *               - schoolName
  *     responses:
  *       "200":
  *         description: OK

@@ -16,9 +16,14 @@ const getStudentStatsByZoneName = catchAsync(async (req, res) => {
   const result = await studentGraphService.getStudentCountByZoneName(zoneName);
   res.status(httpStatus.CREATED).send(result);
 });
-
+const getStudentStatsBySchoolName = catchAsync(async (req, res) => {
+  const { schoolName } = req.body;
+  const result = await studentGraphService.getStudentCountBySchoolName(schoolName);
+  res.status(httpStatus.CREATED).send(result);
+});
 module.exports = {
   getStudentStats,
   getStudentStatsByDistrictName,
   getStudentStatsByZoneName,
+  getStudentStatsBySchoolName,
 };
