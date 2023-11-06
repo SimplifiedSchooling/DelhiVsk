@@ -362,7 +362,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
     });
   }
 
-  const streamWiseCountIds = await getSchoolIdByStreamWise();
+  const streamWiseCountIds = await getSchoolIdByStreamWise(districtName);
   const teacherStreamWiseCounts = [];
   for (const stream of streamWiseCountIds) {
     const teacherStreamWiseCount = await Teacher.countDocuments({ schoolid: { $in: stream.schoolIds } });
@@ -372,7 +372,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
     });
   }
 
-  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWise();
+  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWise(districtName);
   const teacherTypeOfSchoolWiseCounts = [];
 
   for (const typeOfSchool of typeOfSchoolWiseCountIds) {
@@ -383,7 +383,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
     });
   }
 
-  const minorityWiseCountIds = await getSchoolIdByMinorityWise();
+  const minorityWiseCountIds = await getSchoolIdByMinorityWise(districtName);
   const teacherMinorityWiseCounts = [];
 
   for (const minority of minorityWiseCountIds) {
@@ -560,7 +560,7 @@ const getTeacherCountByZone = async (zone) => {
       teacherShiftWiseCount,
     });
   }
-  const streamWiseCountIds = await getSchoolIdByStreamWise();
+  const streamWiseCountIds = await getSchoolIdByStreamWise(zone);
   const teacherStreamWiseCounts = [];
   for (const stream of streamWiseCountIds) {
     const teacherStreamWiseCount = await Teacher.countDocuments({ schoolid: { $in: stream.schoolIds } });
@@ -570,7 +570,7 @@ const getTeacherCountByZone = async (zone) => {
     });
   }
 
-  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWise();
+  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWise(zone);
   const teacherTypeOfSchoolWiseCounts = [];
 
   for (const typeOfSchool of typeOfSchoolWiseCountIds) {
@@ -581,7 +581,7 @@ const getTeacherCountByZone = async (zone) => {
     });
   }
 
-  const minorityWiseCountIds = await getSchoolIdByMinorityWise();
+  const minorityWiseCountIds = await getSchoolIdByMinorityWise(zone);
   const teacherMinorityWiseCounts = [];
 
   for (const minority of minorityWiseCountIds) {
