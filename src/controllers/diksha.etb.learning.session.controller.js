@@ -94,6 +94,12 @@ const getAllConsumptionByCourse = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getAllConsumptionByDistrict = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['state_name']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const result = await learningSessionService.getAllConsumptionByDistrict(filter, options);
+  res.send(result);
+});
 module.exports = {
   getAllLearningSessions,
   getAllPlaysPerCapita,
@@ -102,4 +108,5 @@ module.exports = {
   bulkUploadFileForPlaysPerCapita,
   bulkUploadFileForConsumptionByCourse,
   bulkUploadFileForConsumptionByDistrict,
+  getAllConsumptionByDistrict,
 };
