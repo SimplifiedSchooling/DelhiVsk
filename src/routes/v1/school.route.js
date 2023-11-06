@@ -29,9 +29,9 @@ router.get('/districtNames', schoolController.getDistrictName);
 
 router.get('/zonename', schoolController.getZoneName);
 
-router.get('/getDistrictSchool', schoolController.getDistrictSchool);
+router.post('/getDistrictSchool', schoolController.getDistrictSchool);
 
-router.get('/getZoneSchool', schoolController.getZoneSchool);
+router.post('/getZoneSchool', schoolController.getZoneSchool);
 
 module.exports = router;
 
@@ -116,13 +116,26 @@ module.exports = router;
 /**
  * @swagger
  * /school/getDistrictSchool:
- *   get:
+ *   post:
  *     summary: Get District School
  *     description: Get a list of District School names.
  *     tags: [School]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               District_name:
+ *                 type: string
+ *             required:
+ *               - District_name
  *     responses:
  *       "200":
  *         description: OK
+ *       "400":
+ *         description: Bad Request
  *       "401":
  *         description: Unauthorized
  *       "403":
@@ -132,10 +145,21 @@ module.exports = router;
 /**
  * @swagger
  * /school/getZoneSchool:
- *   get:
+ *   post:
  *     summary: Get zone School names
  *     description: Get a list of zone School names.
  *     tags: [School]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Zone_Name:
+ *                 type: string
+ *             required:
+ *               - Zone_Name
  *     responses:
  *       "200":
  *         description: OK
