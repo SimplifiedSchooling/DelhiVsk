@@ -146,6 +146,35 @@ module.exports = router;
 
 /**
  * @swagger
+ * /school/getDistrictZone:
+ *   post:
+ *     summary: Get District By Zone
+ *     description: Get a list of District Zone names.
+ *     tags: [School]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               District_name:
+ *                 type: string
+ *             required:
+ *               - District_name
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "400":
+ *         description: Bad Request
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
  * /school/getZoneSchool:
  *   post:
  *     summary: Get zone School names
