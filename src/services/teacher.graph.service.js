@@ -72,6 +72,19 @@ const getSchoolIdByManagmentWise = async () => {
   return schCategorySchoolIds;
 };
 
+const getSchoolIdByZoneNameWise = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$Zone_Name', // Group by Zone_Name
+        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+      },
+    },
+  ];
+  const zoneNameWiseSchoolIds = await School.aggregate(pipeline);
+  return zoneNameWiseSchoolIds;
+};
+
 const getSchoolIdByStreamWise = async () => {
   const pipeline = [
     {
@@ -147,6 +160,17 @@ const getTeacherStats = async () => {
     });
   }
 
+  const zoneNameWiseCountIds = await getSchoolIdByZoneNameWise();
+  const teacherZoneWiseCounts = [];
+
+for (const zone of zoneNameWiseCountIds) {
+  const teacherZoneWiseCount = await Teacher.countDocuments({ schoolid: { $in: zone.schoolIds } });
+  teacherZoneWiseCounts.push({
+    zoneName: zone._id,
+    teacherZoneWiseCount,
+  });
+}
+
   const managmentWiseCountId = await getSchoolIdByManagmentWise();
   const teacherManagmentWiseCounts = [];
   for (const managment of managmentWiseCountId) {
@@ -208,6 +232,7 @@ const getTeacherStats = async () => {
     teacherCounts,
     teacherShiftWiseCounts,
     teacherStreamWiseCounts,
+    teacherZoneWiseCounts,
     teacherTypeOfSchoolWiseCounts,
     teacherMinorityWiseCounts,
     postdescWiseTeacherCounts,
@@ -374,7 +399,6 @@ const getTeacherStatsByDistrict = async (districtName) => {
 
   const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWise(districtName);
   const teacherTypeOfSchoolWiseCounts = [];
-
   for (const typeOfSchool of typeOfSchoolWiseCountIds) {
     const teacherTypeOfSchoolWiseCount = await Teacher.countDocuments({ schoolid: { $in: typeOfSchool.schoolIds } });
     teacherTypeOfSchoolWiseCounts.push({
@@ -382,6 +406,17 @@ const getTeacherStatsByDistrict = async (districtName) => {
       teacherTypeOfSchoolWiseCount,
     });
   }
+
+  const zoneNameWiseCountIds = await getSchoolIdByZoneNameWise(districtName);
+const teacherZoneWiseCounts = [];
+
+for (const zone of zoneNameWiseCountIds) {
+  const teacherZoneWiseCount = await Teacher.countDocuments({ schoolid: { $in: zone.schoolIds } });
+  teacherZoneWiseCounts.push({
+    zoneName: zone._id,
+    teacherZoneWiseCount,
+  });
+}
 
   const minorityWiseCountIds = await getSchoolIdByMinorityWise(districtName);
   const teacherMinorityWiseCounts = [];
@@ -425,6 +460,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
   return {
     teacherCounts,
     teacherTypeOfSchoolWiseCounts,
+    teacherZoneWiseCounts,
     teacherStreamWiseCounts,
     teacherShiftWiseCounts,
     teacherMinorityWiseCounts,
@@ -570,6 +606,17 @@ const getTeacherCountByZone = async (zone) => {
     });
   }
 
+  const zoneNameWiseCountIds = await getSchoolIdByZoneNameWise(zone);
+  const teacherZoneWiseCounts = [];
+  
+  for (const zone of zoneNameWiseCountIds) {
+    const teacherZoneWiseCount = await Teacher.countDocuments({ schoolid: { $in: zone.schoolIds } });
+    teacherZoneWiseCounts.push({
+      zoneName: zone._id,
+      teacherZoneWiseCount,
+    });
+  }
+
   const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWise(zone);
   const teacherTypeOfSchoolWiseCounts = [];
 
@@ -625,6 +672,7 @@ const getTeacherCountByZone = async (zone) => {
     teacherCounts,
     teacherShiftWiseCounts,
     teacherStreamWiseCounts,
+    teacherZoneWiseCounts,
     teacherTypeOfSchoolWiseCounts,
     teacherMinorityWiseCounts,
     postdescWiseTeacherCounts,
