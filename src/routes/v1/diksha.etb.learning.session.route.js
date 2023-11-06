@@ -25,6 +25,9 @@ router
 router
   .route('/bulkupload-consumptionbycourse')
   .post(uploads.single('file'), learningSessionController.bulkUploadFileForConsumptionByCourse);
+router
+  .route('/bulkupload-consumptionbydistrict')
+  .post(uploads.single('file'), learningSessionController.bulkUploadFileForConsumptionByDistrict);
 
 router.route('/').get(learningSessionController.getAllLearningSessions);
 
@@ -90,6 +93,29 @@ module.exports = router;
  * /learningsession/bulkupload-consumptionbycourse:
  *   post:
  *     summary: Upload a CSV file for bulk consumptionbycourse upload
+ *     tags: [LearningSession]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Successfully added CSV file
+ *       404:
+ *         description: Missing file
+ */
+
+/**
+ * @swagger
+ * /learningsession/bulkupload-consumptionbydistrict:
+ *   post:
+ *     summary: Upload a CSV file for bulk consumptionbydistrict upload
  *     tags: [LearningSession]
  *     requestBody:
  *       required: true

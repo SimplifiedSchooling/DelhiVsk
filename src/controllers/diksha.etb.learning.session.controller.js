@@ -56,6 +56,23 @@ const bulkUploadFileForConsumptionByCourse = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'Missing file');
   }
 });
+
+const bulkUploadFileForConsumptionByDistrict = catchAsync(async (req, res) => {
+  if (req.file) {
+    if (req.file.mimetype !== 'text/csv') {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Uploaded file must be in CSV format.');
+    }
+
+    const csvFilePath = join(uploadsFolder, req.file.filename);
+    const csvJsonArray = await csv().fromFile(csvFilePath);
+    const result = await learningSessionService.bulkUploadFileForConsumptionByDistrict(csvJsonArray);
+
+    res.status(httpStatus.CREATED).json(result);
+  } else {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Missing file');
+  }
+});
+
 const getAllLearningSessions = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['state_name']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
@@ -84,4 +101,5 @@ module.exports = {
   bulkUploadFile,
   bulkUploadFileForPlaysPerCapita,
   bulkUploadFileForConsumptionByCourse,
+  bulkUploadFileForConsumptionByDistrict,
 };
