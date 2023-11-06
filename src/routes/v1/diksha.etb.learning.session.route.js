@@ -1,7 +1,33 @@
 const express = require('express');
-const learningSessionController = require('../../controllers/diksha.etb.learning.session.controller');
+const { learningSessionController } = require('../../controllers');
+const multer = require('multer');
+const path = require('path');
 
 const router = express.Router();
+// Construct the absolute path to the 'uploads' directory
+const uploadDir = path.join(__dirname, '../../uploads');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const uploads = multer({ storage });
+
+router.route('/bulkupload-learningsession').post(uploads.single('file'), learningSessionController.bulkUploadFile);
+router
+  .route('/bulkupload-playspercapita')
+  .post(uploads.single('file'), learningSessionController.bulkUploadFileForPlaysPerCapita);
+router
+  .route('/bulkupload-consumptionbycourse')
+  .post(uploads.single('file'), learningSessionController.bulkUploadFileForConsumptionByCourse);
+router
+  .route('/bulkupload-consumptionbydistrict')
+  .post(uploads.single('file'), learningSessionController.bulkUploadFileForConsumptionByDistrict);
 
 router.route('/').get(learningSessionController.getAllLearningSessions);
 
@@ -14,6 +40,98 @@ module.exports = router;
  * tags:
  *   name: LearningSession
  *   description: LearningSession management
+ */
+
+/**
+ * @swagger
+ * /learningsession/bulkupload-learningsession:
+ *   post:
+ *     summary: Upload a CSV file for bulk learningsession upload
+ *     tags: [LearningSession]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Successfully added CSV file
+ *       404:
+ *         description: Missing file
+ */
+
+/**
+ * @swagger
+ * /learningsession/bulkupload-playspercapita:
+ *   post:
+ *     summary: Upload a CSV file for bulk playspercapita upload
+ *     tags: [LearningSession]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Successfully added CSV file
+ *       404:
+ *         description: Missing file
+ */
+
+/**
+ * @swagger
+ * /learningsession/bulkupload-consumptionbycourse:
+ *   post:
+ *     summary: Upload a CSV file for bulk consumptionbycourse upload
+ *     tags: [LearningSession]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Successfully added CSV file
+ *       404:
+ *         description: Missing file
+ */
+
+/**
+ * @swagger
+ * /learningsession/bulkupload-consumptionbydistrict:
+ *   post:
+ *     summary: Upload a CSV file for bulk consumptionbydistrict upload
+ *     tags: [LearningSession]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Successfully added CSV file
+ *       404:
+ *         description: Missing file
  */
 
 /**
