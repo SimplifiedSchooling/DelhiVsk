@@ -1,4 +1,76 @@
-const { Learningsession, Playspercapita, Consumptionbycourse } = require('../models');
+const { Learningsession, Playspercapita, Consumptionbycourse, Consumptionbydistrict } = require('../models');
+
+const bulkUpload = async (schoolArray, csvFilePath = null) => {
+  let modifiedSchoolArray = schoolArray;
+  if (csvFilePath) {
+    modifiedSchoolArray = csvFilePath;
+  }
+
+  if (!modifiedSchoolArray || !modifiedSchoolArray.length) {
+    return { error: true, message: 'Missing array' };
+  }
+
+  const savePromises = modifiedSchoolArray.map(async (school) => {
+    const record = new Learningsession(school);
+    return record.save();
+  });
+
+  return Promise.all(savePromises);
+};
+
+const bulkUploadFileForPlaysPerCapita = async (schoolArray, csvFilePath = null) => {
+  let modifiedSchoolArray = schoolArray;
+  if (csvFilePath) {
+    modifiedSchoolArray = csvFilePath;
+  }
+
+  if (!modifiedSchoolArray || !modifiedSchoolArray.length) {
+    return { error: true, message: 'Missing array' };
+  }
+
+  const savePromises = modifiedSchoolArray.map(async (school) => {
+    const record = new Playspercapita(school);
+    return record.save();
+  });
+
+  return Promise.all(savePromises);
+};
+
+const bulkUploadFileForConsumptionByCourse = async (schoolArray, csvFilePath = null) => {
+  let modifiedSchoolArray = schoolArray;
+  if (csvFilePath) {
+    modifiedSchoolArray = csvFilePath;
+  }
+
+  if (!modifiedSchoolArray || !modifiedSchoolArray.length) {
+    return { error: true, message: 'Missing array' };
+  }
+
+  const savePromises = modifiedSchoolArray.map(async (school) => {
+    const record = new Consumptionbycourse(school);
+    return record.save();
+  });
+
+  return Promise.all(savePromises);
+};
+
+const bulkUploadFileForConsumptionByDistrict = async (schoolArray, csvFilePath = null) => {
+  let modifiedSchoolArray = schoolArray;
+  if (csvFilePath) {
+    modifiedSchoolArray = csvFilePath;
+  }
+
+  if (!modifiedSchoolArray || !modifiedSchoolArray.length) {
+    return { error: true, message: 'Missing array' };
+  }
+
+  const savePromises = modifiedSchoolArray.map(async (school) => {
+    const record = new Consumptionbydistrict(school);
+    return record.save();
+  });
+
+  return Promise.all(savePromises);
+};
 
 /**
  * Create a board
@@ -51,9 +123,28 @@ const getAllConsumptionByCourse = async (filter, options) => {
   return getAllConsumptionByCourses;
 };
 
+/**
+ * Query for board
+ * @param {Object} filter - Mongo filter
+ * @param {Object} options - Query options
+ * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
+ * @param {number} [options.limit] - Maximum number of results per page (default = 10)
+ * @param {number} [options.page] - Current page (default = 1)
+ * @returns {Promise<QueryResult>}
+ */
+const getAllConsumptionByDistrict = async (filter, options) => {
+  const getAllConsumptionByCourses = await Consumptionbydistrict.paginate(filter, options);
+  return getAllConsumptionByCourses;
+};
+
 module.exports = {
   createLearningSession,
   getAllLearningSessions,
   getAllPlaysPerCapita,
   getAllConsumptionByCourse,
+  bulkUpload,
+  bulkUploadFileForPlaysPerCapita,
+  bulkUploadFileForConsumptionByCourse,
+  bulkUploadFileForConsumptionByDistrict,
+  getAllConsumptionByDistrict,
 };
