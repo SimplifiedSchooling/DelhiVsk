@@ -7,7 +7,7 @@ const redis = require('../utils/redis');
  * @returns {Promise<Object>} School, teacher, student graph data
  */
 const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
-  console.log(districtName)
+  console.log(districtName);
   // Create a cache key based on the district name
   const cacheKey = `districtName:${districtName}`;
   const cachedData = await redis.get(cacheKey);
@@ -70,7 +70,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalGirls, totalBoys] =
     await Promise.allSettled([
       School.countDocuments({ District_name: districtName }).exec(),
-      Student.countDocuments({ District: districtName}).exec(),
+      Student.countDocuments({ District: districtName }).exec(),
       Teacher.countDocuments({ districtname: districtName }).exec(),
       Teacher.countDocuments({ gender: 'Female', districtname: districtName }).exec(),
       Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
@@ -217,7 +217,7 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
   const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalGirls, totalBoys] =
     await Promise.allSettled([
       School.countDocuments({ Zone_Name: zoneName }).exec(),
-      Student.countDocuments({ z_name: zoneName.toLowerCase()}).exec(),
+      Student.countDocuments({ z_name: zoneName.toLowerCase() }).exec(),
       Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
       Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
       Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
@@ -267,7 +267,6 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
       count: typeOfSchoolCount[typeOfSchool],
     });
   });
-
 
   const result = {
     totalSchools: totalSchools.value,
@@ -418,9 +417,9 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
 //     lowClassCount,
 //     highClassCount,
 //     shiftWiseCount,
-//     affiliationWiseCounts, 
-//     minorityWiseCounts, 
-//     streamWiseCounts, 
+//     affiliationWiseCounts,
+//     minorityWiseCounts,
+//     streamWiseCounts,
 //     typeOfSchoolWiseCounts,
 //   };
 

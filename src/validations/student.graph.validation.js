@@ -10,7 +10,13 @@ const getAllStudentByDistrictName = {
     districtName: Joi.string().required(),
   }),
 };
+const getAllStudentBySchoolName = {
+  body: Joi.object().keys({
+    schoolName: Joi.string().required(),
+  }),
+};
 module.exports = {
   getAllStudentByZoneName,
   getAllStudentByDistrictName,
+  getAllStudentBySchoolName,
 };
