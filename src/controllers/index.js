@@ -8,3 +8,4 @@ module.exports.zonegraph = require('./zonegraph.controller');
 module.exports.studentGraphController = require('./student.graph.controller');
 module.exports.attendanceController = require('./attendance.controller');
 module.exports.teacherGraphController = require('./teacher.graph.controller');
+module.exports.learningSessionController = require('./diksha.etb.learning.session.controller');
