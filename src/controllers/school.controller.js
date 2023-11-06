@@ -36,8 +36,8 @@ const schoolData = catchAsync(async (req, res) => {
 
 async function getDistrictName(req, res) {
   try {
-    const schoolData = await schoolService.fetchSchoolData();
-    const districtNames = schoolData.map((school) => school.District_name);
+    const schoolData1 = await schoolService.fetchSchoolData();
+    const districtNames = schoolData1.map((school) => school.District_name);
     const uniqueDistrictNames = [...new Set(districtNames)];
     res.json({ districtNames: uniqueDistrictNames });
   } catch (error) {
@@ -46,9 +46,10 @@ async function getDistrictName(req, res) {
 }
 async function getZoneName(req, res) {
   try {
-    const schoolData = await schoolService.fetchSchoolData();
-    const ZoneNames = schoolData.map((school) => school.Zone_Name);
+    const schoolData2 = await schoolService.fetchSchoolData();
+    const ZoneNames = schoolData2.map((school) => school.Zone_Name);
     const uniqueZoneNames = [...new Set(ZoneNames)];
+    // console.log(uniqueZoneNames);
     res.json({ ZoneNames: uniqueZoneNames });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
@@ -60,7 +61,7 @@ async function getDistrictSchool(req, res) {
     const districtSchools = await schoolService.getDistrictSchools();
     res.json({ districtSchools });
   } catch (error) {
-    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
   }
 }
 async function getZoneSchool(req, res) {
@@ -68,7 +69,7 @@ async function getZoneSchool(req, res) {
     const ZoneSchool = await schoolService.getZoneNameSchools();
     res.json({ ZoneSchool });
   } catch (error) {
-    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
   }
 }
 

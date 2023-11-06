@@ -1,8 +1,6 @@
 const { School, Student, Teacher } = require('../models');
 const redis = require('../utils/redis');
 
-
-
 /**
  * Get all school, student, teacher graph data by districtName
  * @param {string} districtName - The district name to filter the data
@@ -123,7 +121,6 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     });
   });
 
-
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudents.value,
@@ -151,12 +148,6 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
-
-
-
-
-
-
 
 /**
  * Get all school, student, teacher graph data by districtName
