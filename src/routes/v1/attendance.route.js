@@ -11,6 +11,8 @@ router.route('/district-wise/date-wise').post(attendanceController.getDistrictwi
 
 router.route('/zone/date-wise').post(attendanceController.getZoneAttendanceCount);
 
+router.route('/zone/shift/wise').post(attendanceController.getZoneAttendanceCount);
+
 module.exports = router;
 
 /**
@@ -110,6 +112,35 @@ module.exports = router;
  *             example:
  *               date: '04/11/2023'
  *               zoneName: "Zone-01"
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/zone/shift/wise:
+ *   post:
+ *     summary: Get all  Attendance graph  data by shift wise.
+ *     description: Get all  Attendance graph  data by shift .
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               shift:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               shift: 'morning'
+ *               date: '04/11/2023'
  *     responses:
  *       "200":
  *         description: OK

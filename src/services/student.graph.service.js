@@ -1,44 +1,162 @@
 const httpStatus = require('http-status');
-const { School, Student, Teacher } = require('../models');
+const { School, Student, Teacher, StudentCounts } = require('../models');
 const redis = require('../utils/redis');
 
-// const getSchoolIdByShiftWise = async () => {
-//   const pipeline = [
-//     {
-//       $group: {
-//         _id: '$shift',
-//         Schoolid: { $addToSet: '$Schoolid' },
-//       },
-//     },
-//   ];
+const getSchoolIdByShiftWise = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$shift',
+        Schoolid: { $addToSet: '$Schoolid' },
+      },
+    },
+  ];
 
-//   return School.aggregate(pipeline);
-// };
-// const getSchoolIdByStreamWise = async () => {
-//   const pipeline = [
-//     {
-//       $group: {
-//         _id: '$stream',
-//         Schoolid: { $addToSet: '$Schoolid' },
-//       },
-//     },
-//   ];
+  return School.aggregate(pipeline);
+};
+const getSchoolIdByTypeOfSchoolWise = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$typeOfSchool',
+        Schoolid: { $addToSet: '$Schoolid' },
+      },
+    },
+  ];
 
-//   return School.aggregate(pipeline);
-// };
+  return School.aggregate(pipeline);
+};
+const getSchoolIdByStreamWise = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$stream',
+        Schoolid: { $addToSet: '$Schoolid' },
+      },
+    },
+  ];
 
-// const getSchoolIdByManagmentWise = async () => {
-//   const pipeline = [
-//     {
-//       $group: {
-//         _id: '$SchManagement',
-//         Schoolid: { $addToSet: '$Schoolid' },
-//       },
-//     },
-//   ];
+  return School.aggregate(pipeline);
+};
 
-//   return School.aggregate(pipeline);
-// };
+const getSchoolIdByMinortyWise = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$minority',
+        Schoolid: { $addToSet: '$Schoolid' },
+      },
+    },
+  ];
+
+  return School.aggregate(pipeline);
+};
+
+const getSchoolIdByManagmentWise = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$SchManagement',
+        Schoolid: { $addToSet: '$Schoolid' },
+      },
+    },
+  ];
+
+  return School.aggregate(pipeline);
+};
+const getSchoolIdByAffiliationWise = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$affiliation',
+        Schoolid: { $addToSet: '$Schoolid' },
+      },
+    },
+  ];
+
+  return School.aggregate(pipeline);
+};
+const getCountByCriteria = async (criteria, field) => {
+  const counts = await Promise.all(
+    criteria.map(async (item) => {
+      const counts = await StudentCounts.aggregate([
+        {
+          $match: {
+            Schoolid: { $in: item.Schoolid },
+          },
+        },
+        {
+          $group: {
+            _id: `$${field}`,
+            count: { $sum: '$totalStudent' },
+          },
+        },
+      ]);
+      return counts;
+    })
+  );
+  return counts;
+};
+
+const getStudentCount = async () => {
+  // const managmentWiseCountId = await getSchoolIdByManagmentWise();
+
+  const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
+  const streamWisehoolIds = await getSchoolIdByStreamWise();
+  const streanWiseCount = await getCountByCriteria(streamWisehoolIds, 'stream');
+
+  const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
+  const minortyWiseCount = await getCountByCriteria(minorityWiseSchoolIds, 'minority');
+
+  const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
+  const affiliationWiseCount = await getCountByCriteria(affiliationWiseSchoolIds, 'affiliation');
+
+  const shiftWiseSchoolid = await getSchoolIdByShiftWise();
+  const studentShiftWiseCounts = await getCountByCriteria(shiftWiseSchoolid, 'shift');
+
+  const typeOfSchoolsWiseSchoolid = await getSchoolIdByTypeOfSchoolWise();
+  console.log(typeOfSchoolsWiseSchoolid);
+  const typeOfSchoolWiseCounts = await getCountByCriteria(typeOfSchoolsWiseSchoolid, 'typeOfSchool');
+  try {
+    const totalStudentCount = await StudentCounts.aggregate([
+      {
+        $group: {
+          _id: null,
+          count: { $sum: '$totalStudent' },
+          maleStudents: { $sum: '$maleStudents' },
+          femaleStudents: { $sum: '$femaleStudents' },
+          otherStudents: { $sum: '$otherStudents' },
+        },
+      },
+    ]);
+
+    const result = await StudentCounts.aggregate([
+      {
+        $unwind: '$classes',
+      },
+      {
+        $group: {
+          _id: '$classes.class',
+          totalMaleStudents: { $sum: '$classes.male' },
+          totalFemaleStudents: { $sum: '$classes.feMale' },
+          totalOtherStudents: { $sum: '$classes.other' },
+        },
+      },
+    ]);
+    return {
+      typeOfSchoolWiseCounts,
+      studentShiftWiseCounts,
+      minortyWiseCount,
+      affiliationWiseCount,
+      streanWiseCount,
+      // studentManagementWiseCounts,
+      totalStudentCount,
+      result,
+    };
+  } catch (error) {
+    console.error('Error updating student statistics:', error);
+  }
+};
 
 // const getSchoolIdBySchCategoryWise = async () => {
 //   const pipeline = [
@@ -106,9 +224,6 @@ const redis = require('../utils/redis');
 //   const typeOfSchoolSchoolIds = await getSchoolIdByTypeOfSchool();
 //   const typeOfSchoolSchoolCount = await getCountByCriteria(typeOfSchoolSchoolIds, 'typeOfSchool');
 
-//   const shiftWiseSchoolid = await getSchoolIdByShiftWise();
-//   const studentShiftWiseCounts = await getCountByCriteria(shiftWiseSchoolid, 'shift');
-
 //   const managmentWiseCountId = await getSchoolIdByManagmentWise();
 //   const studentManagementWiseCounts = await getCountByCriteria(managmentWiseCountId, 'SchManagement');
 //   const [totalSchools, totalStudent, totalTeacher, totalFemaleTeacher, totalMaleTeacher, totalGirl, totalBoy, totalOtherStudent] =
@@ -154,17 +269,6 @@ const redis = require('../utils/redis');
 //   };
 // };
 
-// const getCountByCriteria = async (criteria, field) => {
-//   const counts = await Promise.all(
-//     criteria.map(async (item) => {
-//       const count = await Student.countDocuments({ Schoolid: { $in: item.Schoolid } });
-//       return { [field]: item._id, count };
-//     })
-//   );
-
-//   return counts;
-// };
-
 // const getStudentCount = async () => {
 //   // Check if the data is already cached in Redis
 //   const cachedData = await redis.get('getStudentCount');
@@ -181,127 +285,115 @@ const redis = require('../utils/redis');
 //   return studentStats;
 // };
 
-// Function to get school IDs by a specific field (e.g., SchCategory, stream, etc.)
-const getSchoolIdsByField = async (field) => {
-  const pipeline = [
-    {
-      $group: {
-        _id: `$${field}`,
-        Schoolid: { $addToSet: '$Schoolid' },
-      },
-    },
-  ];
+/// ///////////////////////////////////////////////////////
+// // Function to get school IDs by a specific field (e.g., SchCategory, stream, etc.)
+// const getSchoolIdsByField = async (field) => {
+//   const pipeline = [
+//     {
+//       $group: {
+//         _id: `$${field}`,
+//         Schoolid: { $addToSet: '$Schoolid' },
+//       },
+//     },
+//   ];
 
-  return School.aggregate(pipeline);
-};
+//   return School.aggregate(pipeline);
+// };
 
-const getStudentStatusCountsAggregation = async () => {
-  const pipeline = [
-    {
-      $group: {
-        _id: '$status',
-        count: { $sum: 1 },
-      },
-    },
-  ];
+// // Function to get gender counts of students by district
+// const getGenderCountsStudents = async () => {
+//   const pipeline = [
+//     {
+//       $group: {
+//         _id: '$Gender',
+//         count: { $sum: 1 },
+//       },
+//     },
+//   ];
 
-  return Student.aggregate(pipeline);
-};
+//   return Student.aggregate(pipeline);
+// };
 
-// Function to get gender counts of students by district
-const getGenderCountsStudents = async () => {
-  const pipeline = [
-    {
-      $group: {
-        _id: '$Gender',
-        count: { $sum: 1 },
-      },
-    },
-  ];
+// // Function to get gender counts of teachers by district
+// const getGenderCountsTeachers = async () => {
+//   const pipeline = [
+//     {
+//       $group: {
+//         _id: '$gender',
+//         count: { $sum: 1 },
+//       },
+//     },
+//   ];
 
-  return Student.aggregate(pipeline);
-};
+//   return Teacher.aggregate(pipeline);
+// };
+// // Function to get student counts by a specific field (e.g., SchCategory, stream, etc.)
+// const getStudentCountsByField = async (schoolIds, field) => {
+//   const counts = await Promise.all(
+//     schoolIds.map(async (item) => {
+//       const count = await Student.countDocuments({ Schoolid: { $in: item.Schoolid } });
+//       return { [field]: item._id, count };
+//     })
+//   );
+//   return counts;
+// };
 
-// Function to get gender counts of teachers by district
-const getGenderCountsTeachers = async () => {
-  const pipeline = [
-    {
-      $group: {
-        _id: '$gender',
-        count: { $sum: 1 },
-      },
-    },
-  ];
+// // Function to get statistics about students
+// const getStudentStats = async () => {
+//   const fields = ['SchCategory', 'stream', 'minority', 'affiliation', 'typeOfSchool', 'shift', 'SchManagement'];
+//   const fieldPromises = fields.map(async (field) => {
+//     const schoolIds = await getSchoolIdsByField(field);
+//     const counts = await getStudentCountsByField(schoolIds, field);
+//     return { [field]: counts };
+//   });
+//   const statusCounts = await getStudentStatusCountsAggregation();
+//   const genderCountsStudents = await getGenderCountsStudents();
+//   const genderCountsTeachers = await getGenderCountsTeachers();
+//   const fieldResults = await Promise.all(fieldPromises);
 
-  return Teacher.aggregate(pipeline);
-};
-// Function to get student counts by a specific field (e.g., SchCategory, stream, etc.)
-const getStudentCountsByField = async (schoolIds, field) => {
-  const counts = await Promise.all(
-    schoolIds.map(async (item) => {
-      const count = await Student.countDocuments({ Schoolid: { $in: item.Schoolid } });
-      return { [field]: item._id, count };
-    })
-  );
+//   // Fetch other statistics
+//   const [totalSchools, totalStudent, totalTeachers] = await Promise.allSettled([
+//     School.countDocuments().exec(),
+//     Student.countDocuments().exec(),
+//     Teacher.countDocuments().exec(),
+//   ]);
 
-  return counts;
-};
+//   const teacherStudentRatio = totalStudent.value / totalTeachers.value;
+//   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
+//   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
 
-// Function to get statistics about students
-const getStudentStats = async () => {
-  const fields = ['SchCategory', 'stream', 'minority', 'affiliation', 'typeOfSchool', 'shift', 'SchManagement'];
-  const fieldPromises = fields.map(async (field) => {
-    const schoolIds = await getSchoolIdsByField(field);
-    const counts = await getStudentCountsByField(schoolIds, field);
-    return { [field]: counts };
-  });
-  const statusCounts = await getStudentStatusCountsAggregation();
-  const genderCountsStudents = await getGenderCountsStudents();
-  const genderCountsTeachers = await getGenderCountsTeachers();
-  const fieldResults = await Promise.all(fieldPromises);
+//   const totalStudents = totalStudent.value;
 
-  // Fetch other statistics
-  const [totalSchools, totalStudent, totalTeachers] = await Promise.allSettled([
-    School.countDocuments().exec(),
-    Student.countDocuments().exec(),
-    Teacher.countDocuments().exec(),
-  ]);
+//   return {
+//     studentStats: fieldResults,
+//     studentStatusCounts: statusCounts,
+//     studentGenderCounts: genderCountsStudents,
+//     teacherGenderCounts: genderCountsTeachers,
+//     teacherStudentRatio,
+//     averageTeacherOfSchool,
+//     averageStudentOfSchool,
+//     totalStudents,
+//   };
+// };
 
-  const teacherStudentRatio = totalStudent.value / totalTeachers.value;
-  const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
-  const averageStudentOfSchool = totalStudent.value / totalSchools.value;
+// // Function to get student counts
+// const getStudentCount = async () => {
+//   // Check if the data is already cached in Redis
+//   const cachedData = await redis.get('getStudentCount');
 
-  const totalStudents = totalStudent.value;
+//   if (cachedData) {
+//     return JSON.parse(cachedData);
+//   }
 
-  return {
-    studentStats: fieldResults,
-    studentStatusCounts: statusCounts,
-    studentGenderCounts: genderCountsStudents,
-    teacherGenderCounts: genderCountsTeachers,
-    teacherStudentRatio,
-    averageTeacherOfSchool,
-    averageStudentOfSchool,
-    totalStudents,
-  };
-};
+//   const studentStats = await getStudentStats();
 
-// Function to get student counts
-const getStudentCount = async () => {
-  // Check if the data is already cached in Redis
-  const cachedData = await redis.get('getStudentCount');
+//   // Cache the result in Redis for future use
+//   await redis.set('getStudentCount', JSON.stringify(studentStats), 'EX', 24 * 60 * 60);
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+//   return studentStats;
+// };
 
-  const studentStats = await getStudentStats();
-
-  // Cache the result in Redis for future use
-  await redis.set('getStudentCount', JSON.stringify(studentStats), 'EX', 24 * 60 * 60);
-
-  return studentStats;
-};
-
+/// /////////////////////////////////////////////////////////
 // const getSchoolIdByShiftWiseByDistrictName = async (districtName) => {
 //   const pipeline = [
 //     {

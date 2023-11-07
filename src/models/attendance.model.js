@@ -57,7 +57,6 @@ const attendanceSchema = mongoose.Schema(
 // add plugin that converts mongoose to json
 attendanceSchema.plugin(toJSON);
 attendanceSchema.plugin(paginate);
-
 /**
  * @typedef Attendance
  */
