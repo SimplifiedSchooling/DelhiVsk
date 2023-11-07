@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 // const httpStatus = require('http-status');
 const axios = require('axios');
 const { School, Attendance, Student, StudentCounts } = require('../models');
@@ -120,7 +120,7 @@ const storeAttendanceDataInMongoDB = async () => {
 };
 
 // const storeAttendanceDataInMongoDB = async () => {
-=======
+
 // // const httpStatus = require('http-status');
 // const axios = require('axios');
 // const { School, Attendance, Student } = require('../models');
@@ -154,18 +154,18 @@ const storeAttendanceDataInMongoDB = async () => {
 //  */
 
 // const storeAttendanceDataInMongoDB = async() =>  {
->>>>>>> 839c1e22d487fe5d84dc2a4231f38fe3611ab700
+
 //   const now = new Date();
 //   const day = String(now.getDate()).padStart(2, '0');
 //   const month = String(now.getMonth() + 1).padStart(2, '0');
 //   const year = now.getFullYear();
 
-<<<<<<< HEAD
+
 //   const date = '03/11/2023'
 //   //`${day}/${month}/${year}`;
-=======
+
 //   const date = `${day}/${month}/${year}`;
->>>>>>> 839c1e22d487fe5d84dc2a4231f38fe3611ab700
+
 //   const password = 'VSK@9180';
 
 //   const schools = await School.find().exec();
@@ -173,9 +173,9 @@ const storeAttendanceDataInMongoDB = async () => {
 //     const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
 
 //     if (studentData) {
-<<<<<<< HEAD
+
 //       const studentgenderWiseCount = await StudentCounts.find({Schoolid: school.Schoolid})
-=======
+
 //       const studentgenderWiseCount = await Student.aggregate([
 //         {
 //           $match: {
@@ -191,7 +191,7 @@ const storeAttendanceDataInMongoDB = async () => {
 //         },
 //       ]);
 
->>>>>>> 839c1e22d487fe5d84dc2a4231f38fe3611ab700
+
 //       const genderCounts = studentData.reduce(
 //         (count, student) => {
 //           count[student.Gender] = (count[student.Gender] || 0) + 1;
@@ -200,7 +200,7 @@ const storeAttendanceDataInMongoDB = async () => {
 //         { M: 0, F: 0, T: 0 }
 //       );
 
-<<<<<<< HEAD
+
 //       console.log(studentgenderWiseCount, studentgenderWiseCount.maleStudents,  studentgenderWiseCount.femaleStudents, studentgenderWiseCount.otherStudents)
 
 //       const genderAbsentCount = {
@@ -211,7 +211,7 @@ const storeAttendanceDataInMongoDB = async () => {
 //       const totalStudentCount = studentgenderWiseCount.maleStudents + studentgenderWiseCount.femaleStudents + studentgenderWiseCount.otherStudents;
 // console.log(genderAbsentCount, totalStudentCount);
 //       await Attendance.create({
-=======
+
 //       const genderPresentCount = studentgenderWiseCount.reduce(
 //         (count, gender) => {
 //           count[gender._id] = gender.count;
@@ -228,7 +228,7 @@ const storeAttendanceDataInMongoDB = async () => {
 // const totalStudentCount = genderPresentCount.M + genderPresentCount.F + genderPresentCount.T
 
 //         await Attendance.create({
->>>>>>> 839c1e22d487fe5d84dc2a4231f38fe3611ab700
+
 //         district_name: school.District_name,
 //         Z_name: school.Zone_Name,
 //         School_ID: school.Schoolid,
@@ -246,7 +246,7 @@ const storeAttendanceDataInMongoDB = async () => {
 //       });
 //     }
 //   }
-<<<<<<< HEAD
+
 // };
 
 const getAttendanceCounts = async (date) => {
@@ -652,7 +652,7 @@ module.exports = {
   getAttendanceCountsZoneWise,
   getAttendanceCountsShiftWise,
 };
-=======
+
 // }
 
 // const getAttendanceCounts = async (date) => {
@@ -951,4 +951,3 @@ module.exports = {
 //   getAttendanceCountsDistrictWise,
 //   getAttendanceCountsZoneWise,
 // };
->>>>>>> 839c1e22d487fe5d84dc2a4231f38fe3611ab700
