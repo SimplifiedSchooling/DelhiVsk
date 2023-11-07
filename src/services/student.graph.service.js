@@ -119,6 +119,7 @@ const getSchoolCountsByCriteria = async (criteria, field) => {
 
 
 const getStudentCount = async () => {
+<<<<<<< HEAD
   const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
   const schoolCriteria = await getSchoolIdByStreamWise();
   const streamCounts = await getSchoolCountsByCriteria(schoolCriteria, 'stream');
@@ -129,6 +130,20 @@ const getStudentCount = async () => {
   const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
   const affiliationWiseCount = await getSchoolCountsByCriteria(affiliationWiseSchoolIds, 'affiliation');
 
+=======
+  // const managmentWiseCountId = await getSchoolIdByManagmentWise();
+
+  const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
+  const streamWisehoolIds = await getSchoolIdByStreamWise();
+  const streanWiseCount = await getCountByCriteria(streamWisehoolIds, 'stream');
+
+  const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
+  const minortyWiseCount = await getCountByCriteria(minorityWiseSchoolIds, 'minority');
+
+  const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
+  const affiliationWiseCount = await getCountByCriteria(affiliationWiseSchoolIds, 'affiliation');
+
+>>>>>>> origin/main
   const shiftWiseSchoolid = await getSchoolIdByShiftWise();
   const studentShiftWiseCounts = await getCountByCriteria(shiftWiseSchoolid, 'shift');
 
@@ -165,10 +180,18 @@ const getStudentCount = async () => {
       studentShiftWiseCounts,
       minortyWiseCount,
       affiliationWiseCount,
+<<<<<<< HEAD
       streamCounts,
       totalStudentCount,
       result,
     }
+=======
+      streanWiseCount,
+      // studentManagementWiseCounts,
+      totalStudentCount,
+      result,
+    };
+>>>>>>> origin/main
   } catch (error) {
     console.error('Error updating student statistics:', error);
   }
@@ -240,8 +263,6 @@ const getStudentCount = async () => {
 //   const typeOfSchoolSchoolIds = await getSchoolIdByTypeOfSchool();
 //   const typeOfSchoolSchoolCount = await getCountByCriteria(typeOfSchoolSchoolIds, 'typeOfSchool');
 
-
-
 //   const managmentWiseCountId = await getSchoolIdByManagmentWise();
 //   const studentManagementWiseCounts = await getCountByCriteria(managmentWiseCountId, 'SchManagement');
 //   const [totalSchools, totalStudent, totalTeacher, totalFemaleTeacher, totalMaleTeacher, totalGirl, totalBoy, totalOtherStudent] =
@@ -287,8 +308,6 @@ const getStudentCount = async () => {
 //   };
 // };
 
-
-
 // const getStudentCount = async () => {
 //   // Check if the data is already cached in Redis
 //   const cachedData = await redis.get('getStudentCount');
@@ -305,8 +324,7 @@ const getStudentCount = async () => {
 //   return studentStats;
 // };
 
-
-//////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////
 // // Function to get school IDs by a specific field (e.g., SchCategory, stream, etc.)
 // const getSchoolIdsByField = async (field) => {
 //   const pipeline = [
@@ -320,7 +338,6 @@ const getStudentCount = async () => {
 
 //   return School.aggregate(pipeline);
 // };
-
 
 // // Function to get gender counts of students by district
 // const getGenderCountsStudents = async () => {
@@ -415,13 +432,7 @@ const getStudentCount = async () => {
 //   return studentStats;
 // };
 
-
-
-
-
-
-
-////////////////////////////////////////////////////////////
+/// /////////////////////////////////////////////////////////
 // const getSchoolIdByShiftWiseByDistrictName = async (districtName) => {
 //   const pipeline = [
 //     {

@@ -104,6 +104,12 @@ async function getZoneSchool(req, res) {
   }
 }
 
+const getSchoolStatsBySchoolName = catchAsync(async (req, res) => {
+  const { schoolName } = req.body;
+  const result = await schoolService.getStudentCountBySchoolName(schoolName);
+  res.status(httpStatus.CREATED).send(result);
+});
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
@@ -113,4 +119,5 @@ module.exports = {
   getZoneName,
   getDistrictSchool,
   getZoneSchool,
+  getSchoolStatsBySchoolName,
 };

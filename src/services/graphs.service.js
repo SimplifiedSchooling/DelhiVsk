@@ -1,4 +1,4 @@
-const { School, Student, Teacher } = require('../models');
+const { School, Student, Teacher, StudentCounts } = require('../models');
 const redis = require('../utils/redis');
 
 const getStudentCountBySchCategoryByGenders = async () => {
@@ -15,7 +15,7 @@ const getStudentCountBySchCategoryByGenders = async () => {
 
   const genderWiseEnrollmentPerSchCategory = await Promise.all(
     schCategorySchoolIds.map(async (category) => {
-      const pipeline = [
+      const pipeline2 = [
         {
           $match: {
             Schoolid: { $in: category.schoolIds },
@@ -31,7 +31,7 @@ const getStudentCountBySchCategoryByGenders = async () => {
 
       return {
         SchCategory: category._id,
-        genderCounts: await Student.aggregate(pipeline),
+        genderCounts: await Student.aggregate(pipeline2),
       };
     })
   );
@@ -81,32 +81,39 @@ const getSchoolStats = async () => {
   }
 
   // If data is not cached, fetch it from the database
-  const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalGirls, totalBoys] =
-    await Promise.allSettled([
-      School.countDocuments().exec(),
-      Student.countDocuments().exec(),
-      Teacher.countDocuments().exec(),
-      Teacher.countDocuments({ gender: 'Female' }).exec(),
-      Teacher.countDocuments({ gender: 'Male' }).exec(),
-      Student.countDocuments({ Gender: 'F' }).exec(),
-      Student.countDocuments({ Gender: 'M' }).exec(),
-    ]);
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+    School.countDocuments().exec(),
+    Teacher.countDocuments().exec(),
+    Teacher.countDocuments({ gender: 'Female' }).exec(),
+    Teacher.countDocuments({ gender: 'Male' }).exec(),
+  ]);
+  const studentCount = await StudentCounts.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalStudents: { $sum: '$totalStudent' },
+        maleStudents: { $sum: '$maleStudents' },
+        femaleStudents: { $sum: '$femaleStudents' },
+        otherStudents: { $sum: '$otherStudents' },
+      },
+    },
+  ]);
 
-  const teacherStudentRatio = totalStudents.value / totalTeachers.value;
+  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
-  const averageStudentOfSchool = totalStudents.value / totalSchools.value;
+  const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
 
   const schoolStats = {
     totalSchools: totalSchools.value,
-    totalStudents: totalStudents.value,
+    totalStudents: studentCount.totalStudents,
     totalTeachers: totalTeachers.value,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
-    totalGirls: totalGirls.value,
-    totalBoys: totalBoys.value,
-    teacherStudentRatio,
-    averageTeacherOfSchool,
+    totalGirls: studentCount.femaleStudents,
+    totalBoys: studentCount.maleStudents,
     averageStudentOfSchool,
+    averageTeacherOfSchool,
+    teacherStudentRatio,
   };
 
   // Cache the result in Redis for future use
@@ -253,21 +260,27 @@ const getAllSchoolStudentTeacherData = async () => {
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
-  const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalGirls, totalBoys] =
-    await Promise.allSettled([
-      School.countDocuments().exec(),
-      Student.countDocuments().exec(),
-      Teacher.countDocuments().exec(),
-      Teacher.countDocuments({ gender: 'Female' }).exec(),
-      Teacher.countDocuments({ gender: 'Male' }).exec(),
-      Student.countDocuments({ Gender: 'F' }).exec(),
-      Student.countDocuments({ Gender: 'M' }).exec(),
-    ]);
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+    School.countDocuments().exec(),
+    Teacher.countDocuments().exec(),
+    Teacher.countDocuments({ gender: 'Female' }).exec(),
+    Teacher.countDocuments({ gender: 'Male' }).exec(),
+  ]);
 
-  const teacherStudentRatio = totalStudents.value / totalTeachers.value;
+  const studentCount = await StudentCounts.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalStudents: { $sum: '$totalStudent' },
+        maleStudents: { $sum: '$maleStudents' },
+        femaleStudents: { $sum: '$femaleStudents' },
+        otherStudents: { $sum: '$otherStudents' },
+      },
+    },
+  ]);
+  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
-  const averageStudentOfSchool = totalStudents.value / totalSchools.value;
-
+  const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
   const zoneWiseCounts = [];
   Object.keys(zoneWiseCount).forEach((zone) => {
     zoneWiseCounts.push({
@@ -310,18 +323,17 @@ const getAllSchoolStudentTeacherData = async () => {
 
   const result = {
     totalSchools: totalSchools.value,
-    totalStudents: totalStudents.value,
+    totalStudents: studentCount[0].totalStudents,
     totalTeachers: totalTeachers.value,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
-    totalGirls: totalGirls.value,
-    totalBoys: totalBoys.value,
+    totalGirls: studentCount.femaleStudents,
+    totalBoys: studentCount.maleStudents,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
     schoolManagementWise,
     zoneWiseCounts,
-    districtWiseCount,
     mediumWiseCount,
     lowClassCount,
     highClassCount,

@@ -8,7 +8,7 @@ const getAttedanceData = catchAsync(async (req, res) => {
 });
 
 const getAttendanceCounts = catchAsync(async (req, res) => {
-  const result = await attendanceService.getAttendanceCounts(req.body.date, req.body.endDate,);
+  const result = await attendanceService.getAttendanceCounts(req.body.date, req.body.endDate);
   res.status(httpStatus.CREATED).send(result);
 });
 
