@@ -18,8 +18,7 @@ const getDistrictwiseAttendanceCount = catchAsync(async (req, res) => {
 });
 
 const getZoneAttendanceCount = catchAsync(async (req, res) => {
-  const {date, zoneName } = req.body;
-  console.log(req.body)
+  const { date, zoneName } = req.body;
   const result = await attendanceService.getAttendanceCountsZoneWise(date, zoneName);
   res.status(httpStatus.CREATED).send(result);
 });

@@ -1,0 +1,4 @@
+state_name,state_code,program,latitude,longitude,total_enrolments,total_completions,total_certificates_issued,total_courses,doe,local_body,%_target_achieved_enrolment,%_target_achieved_certificates,%_target_remaining_enrolment,%_target_remaining_certificates,total_expected_enrolment,total_expected_certification
+Delhi,10,NISHTHA 1.0,28.6368,77.17008462,901249,792557,792557,18,24949,18851,100,100,0,0,788400,788400
+Delhi,10,NISHTHA 2.0,28.6368,77.17008462,278754,209979,162463,13,31770,578,66.3,38.6,33.7,61.4,420524,420524
+Delhi,10,NISHTHA 3.0,28.6368,77.17008462,80199,60097,48401,12,3550,18560,30.2,18.2,69.8,81.8,265320,265320

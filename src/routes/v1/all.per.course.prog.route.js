@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { learningSessionController } = require('../../controllers');
+const { PerCourseProgressAlldashboardController } = require('../../controllers');
 
 const router = express.Router();
 // Construct the absolute path to the 'uploads' directory
@@ -18,37 +18,39 @@ const storage = multer.diskStorage({
 
 const uploads = multer({ storage });
 
-router.route('/bulkupload-learningsession').post(uploads.single('file'), learningSessionController.bulkUploadFile);
 router
-  .route('/bulkupload-playspercapita')
-  .post(uploads.single('file'), learningSessionController.bulkUploadFileForPlaysPerCapita);
+  .route('/bulkupload-percentageenrollmentcertification')
+  .post(uploads.single('file'), PerCourseProgressAlldashboardController.bulkUploadFile);
 router
-  .route('/bulkupload-consumptionbycourse')
-  .post(uploads.single('file'), learningSessionController.bulkUploadFileForConsumptionByCourse);
+  .route('/bulkupload-programstarted')
+  .post(uploads.single('file'), PerCourseProgressAlldashboardController.bulkUploadFileForPlaysPerCapita);
 router
-  .route('/bulkupload-consumptionbydistrict')
-  .post(uploads.single('file'), learningSessionController.bulkUploadFileForConsumptionByDistrict);
+  .route('/bulkupload-coursemedium')
+  .post(uploads.single('file'), PerCourseProgressAlldashboardController.bulkUploadFileForConsumptionByCourse);
+router
+  .route('/bulkupload-allDashboard')
+  .post(uploads.single('file'), PerCourseProgressAlldashboardController.bulkUploadFileForConsumptionByDistrict);
 
-router.route('/').get(learningSessionController.getAllLearningSessions);
+router.route('/').get(PerCourseProgressAlldashboardController.getAllLearningSessions);
 
-router.route('/playspercapita').get(learningSessionController.getAllPlaysPerCapita);
-router.route('/consumptionbycourse').get(learningSessionController.getAllConsumptionByCourse);
-router.route('/consumptionbydistrict').get(learningSessionController.getAllConsumptionByDistrict);
+router.route('/programstarted').get(PerCourseProgressAlldashboardController.getAllPlaysPerCapita);
+router.route('/coursemedium').get(PerCourseProgressAlldashboardController.getAllConsumptionByCourse);
+router.route('/alldashboard').get(PerCourseProgressAlldashboardController.getAllConsumptionByDistrict);
 
 module.exports = router;
 /**
  * @swagger
  * tags:
- *   name: LearningSession
- *   description: LearningSession management
+ *   name: AllDashboards
+ *   description: AllDashboards for percentageenrollmentcertification, programStarted, courseMedium, allDashboard management 
  */
 
 /**
  * @swagger
- * /learningsession/bulkupload-learningsession:
+ * /alldashboard/bulkupload-percentageenrollmentcertification:
  *   post:
- *     summary: Upload a CSV file for bulk learningsession upload
- *     tags: [LearningSession]
+ *     summary: Upload a CSV file for bulk diksha.nishtha.percentage.enrollment.certification.model
+ *     tags: [AllDashboards]
  *     requestBody:
  *       required: true
  *       content:
@@ -68,10 +70,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/bulkupload-playspercapita:
+ * /alldashboard/bulkupload-programstarted:
  *   post:
- *     summary: Upload a CSV file for bulk playspercapita upload
- *     tags: [LearningSession]
+ *     summary: Upload a CSV file for bulk diksha.nishtha.program.started.model
+ *     tags: [AllDashboards]
  *     requestBody:
  *       required: true
  *       content:
@@ -91,10 +93,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/bulkupload-consumptionbycourse:
+ * /alldashboard/bulkupload-coursemedium:
  *   post:
- *     summary: Upload a CSV file for bulk consumptionbycourse upload
- *     tags: [LearningSession]
+ *     summary: Upload a CSV file for bulk diksha.nishtha.tot.courses.medium.model
+ *     tags: [AllDashboards]
  *     requestBody:
  *       required: true
  *       content:
@@ -114,10 +116,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/bulkupload-consumptionbydistrict:
+ * /alldashboard/bulkupload-allDashboard:
  *   post:
- *     summary: Upload a CSV file for bulk consumptionbydistrict upload
- *     tags: [LearningSession]
+ *     summary: Upload a CSV file for bulk nas.all.dashboard.model
+ *     tags: [AllDashboards]
  *     requestBody:
  *       required: true
  *       content:
@@ -137,10 +139,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession:
+ * /alldashboard:
  *   get:
- *     summary: Get Diksha etb learning session
- *     tags: [LearningSession]
+ *     summary: Get data for diksha.nishtha.percentage.enrollment.certification.model
+ *     tags: [AllDashboards]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -199,10 +201,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/consumptionbydistrict:
+ * /alldashboard/programstarted:
  *   get:
- *     summary: Get Diksha nishtha consumption by district
- *     tags: [LearningSession]
+ *     summary: Get all data of diksha.nishtha.program.started.model
+ *     tags: [AllDashboards]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -261,10 +263,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/playspercapita:
+ * /alldashboard/coursemedium:
  *   get:
- *     summary: Get Diksha etb plys per capita
- *     tags: [LearningSession]
+ *     summary: Get all data of diksha.nishtha.tot.courses.medium.model
+ *     tags: [AllDashboards]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -323,10 +325,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/consumptionbycourse:
+ * /alldashboard/alldashboard:
  *   get:
- *     summary: Get Diksha nishtha consumption by course
- *     tags: [LearningSession]
+ *     summary: Get all data of nas.all.dashboard.model
+ *     tags: [AllDashboards]
  *     security:
  *       - bearerAuth: []
  *     parameters:
