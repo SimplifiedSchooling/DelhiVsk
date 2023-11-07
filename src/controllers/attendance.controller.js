@@ -8,7 +8,7 @@ const getAttedanceData = catchAsync(async (req, res) => {
 });
 
 const getAttendanceCounts = catchAsync(async (req, res) => {
-  const result = await attendanceService.getAttendanceCounts(req.body.date);
+  const result = await attendanceService.getAttendanceCounts(req.body.startDate, req.body.endDate,);
   res.status(httpStatus.CREATED).send(result);
 });
 
@@ -18,9 +18,8 @@ const getDistrictwiseAttendanceCount = catchAsync(async (req, res) => {
 });
 
 const getZoneAttendanceCount = catchAsync(async (req, res) => {
-  const {date, zoneName } = req.body;
-  console.log(req.body)
-  const result = await attendanceService.getAttendanceCountsZoneWise(date, zoneName);
+  const { startDate, endDate, zoneName } = req.body;
+  const result = await attendanceService.getAttendanceCountsZoneWise(startDate, endDate, zoneName);
   res.status(httpStatus.CREATED).send(result);
 });
 

@@ -81,7 +81,7 @@ async function getDistrictSchools() {
     });
     return districtSchools;
   } catch (error) {
-    throw new Error('Error fetching data: ' + error.message);
+    throw new Error(`Error fetching data: ${error.message}`);
   }
 }
 
@@ -101,7 +101,7 @@ async function getZoneNameSchools() {
     });
     return ZoneSchool;
   } catch (error) {
-    throw new Error('Error fetching data: ' + error.message);
+    throw new Error(`Error fetching data: ${error.message}`);
   }
 }
 

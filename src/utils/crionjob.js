@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const logger = require('../config/logger');
 const { attendanceService } = require('../services');
- 
+
 // Schedule the job to run every day at 9 PM
 cron.schedule('0 21 * * *', async () => {
   try {
@@ -12,8 +12,3 @@ cron.schedule('0 21 * * *', async () => {
     logger.info('Error running the job:', error);
   }
 });
-
-
-
-
-

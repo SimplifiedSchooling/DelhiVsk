@@ -1,8 +1,7 @@
 // const httpStatus = require('http-status');
 const axios = require('axios');
-const { School, Attendance, Student } = require('../models');
+const { School, Attendance, Student, StudentCounts } = require('../models');
 // const ApiError = require('../utils/ApiError');
-
 
 /**
  * Get Attendance data from server
@@ -18,9 +17,9 @@ async function fetchStudentDataForSchool(schoolId, password, date) {
     const response = await axios.get(apiUrl);
 
     if (Array.isArray(response.data.Cargo)) {
-      return response.data.Cargo; 
+      return response.data.Cargo;
     }
-    return [response.data.Cargo]; 
+    return [response.data.Cargo];
   } catch (error) {
     return null;
   }
@@ -31,13 +30,15 @@ async function fetchStudentDataForSchool(schoolId, password, date) {
  * @returns {Promise<Attendance>}
  */
 
-const storeAttendanceDataInMongoDB = async() =>  {
+
+const storeAttendanceDataInMongoDB = async () => {
   const now = new Date();
   const day = String(now.getDate()).padStart(2, '0');
-  const month = String(now.getMonth() + 1).padStart(2, '0'); 
+  const month = String(now.getMonth() + 1).padStart(2, '0');
   const year = now.getFullYear();
 
-  const date = `${day}/${month}/${year}`;
+  const date = '03/11/2023';
+  // `${day}/${month}/${year}`;
   const password = 'VSK@9180';
 
   const schools = await School.find().exec();
@@ -45,20 +46,11 @@ const storeAttendanceDataInMongoDB = async() =>  {
     const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
 
     if (studentData) {
-      const studentgenderWiseCount = await Student.aggregate([
-        {
-          $match: {
-            Schoolid: school.Schoolid,
-            Gender: { $in: ['M', 'F', 'T'] }, 
-          },
-        },
-        {
-          $group: {
-            _id: '$Gender',
-            count: { $sum: 1 },
-          },
-        },
-      ]);
+      // Create a unique identifier based on school and date
+      const identifier = `${school.Schoolid}-${date}`;
+
+      // Check if an entry with the same identifier exists
+      const existingAttendance = await Attendance.findOne({ identifier });
 
       const genderCounts = studentData.reduce(
         (count, student) => {
@@ -68,45 +60,124 @@ const storeAttendanceDataInMongoDB = async() =>  {
         { M: 0, F: 0, T: 0 }
       );
 
-      const genderPresentCount = studentgenderWiseCount.reduce(
-        (count, gender) => {
-          count[gender._id] = gender.count;
-          return count;
-        },
-        { M: 0, F: 0, T: 0 }
-      );
+      const studentgenderWiseCount = await StudentCounts.findOne({ Schoolid: school.Schoolid });
 
       const genderAbsentCount = {
-        male: genderPresentCount.M - genderCounts.M,
-        female: genderPresentCount.F - genderCounts.F,
-        others: genderPresentCount.T - genderCounts.T,
+        male: studentgenderWiseCount.maleStudents - genderCounts.M,
+        female: studentgenderWiseCount.femaleStudents - genderCounts.F,
+        others: studentgenderWiseCount.otherStudents - genderCounts.T,
       };
-const totalStudentCount = genderPresentCount.M + genderPresentCount.F + genderPresentCount.T
 
+      const totalStudentCount =
+        studentgenderWiseCount.maleStudents +
+        studentgenderWiseCount.femaleStudents +
+        studentgenderWiseCount.otherStudents;
+
+      if (existingAttendance) {
+        // If an entry with the same identifier exists, update it
+        await Attendance.updateOne(
+          { identifier },
+          {
+            district_name: school.District_name,
+            Z_name: school.Zone_Name,
+            School_ID: school.Schoolid,
+            school_name: school.School_Name,
+            shift: school.shift,
+            attendance_DATE: date,
+            totalStudentCount,
+            PreasentCount: studentData.length,
+            malePresentCount: genderCounts.M,
+            feMalePresentCount: genderCounts.F,
+            otherPresentCount: genderCounts.T,
+            maleAbsentCount: genderAbsentCount.male,
+            feMaleAbsentCount: genderAbsentCount.female,
+            othersAbsentCount: genderAbsentCount.others,
+          }
+        );
+      } else {
+        // If no entry with the same identifier exists, create a new one
         await Attendance.create({
-        district_name: school.District_name,
-        Z_name: school.Zone_Name,
-        School_ID: school.Schoolid,
-        school_name: school.School_Name,
-        shift: school.shift,
-        attendance_DATE: date,
-        totalStudentCount,
-        PreasentCount: studentData.length,
-        malePresentCount: genderCounts.M,
-        feMalePresentCount: genderCounts.F,
-        otherPresentCount: genderCounts.T,
-        maleAbsentCount: genderAbsentCount.male,
-        feMaleAbsentCount: genderAbsentCount.female,
-        othersAbsentCount: genderAbsentCount.others,
-      });
+          identifier, // Add the identifier to the entry
+          district_name: school.District_name,
+          Z_name: school.Zone_Name,
+          School_ID: school.Schoolid,
+          school_name: school.School_Name,
+          shift: school.shift,
+          attendance_DATE: date,
+          totalStudentCount,
+          PreasentCount: studentData.length,
+          malePresentCount: genderCounts.M,
+          feMalePresentCount: genderCounts.F,
+          otherPresentCount: genderCounts.T,
+          maleAbsentCount: genderAbsentCount.male,
+          feMaleAbsentCount: genderAbsentCount.female,
+          othersAbsentCount: genderAbsentCount.others,
+        });
+      }
     }
   }
-}
+};
 
+// const storeAttendanceDataInMongoDB = async () => {
+//   const now = new Date();
+//   const day = String(now.getDate()).padStart(2, '0');
+//   const month = String(now.getMonth() + 1).padStart(2, '0');
+//   const year = now.getFullYear();
 
-const getAttendanceCounts = async (date) => {
-  const match = { attendance_DATE: date };
+//   const date = '03/11/2023'
+//   //`${day}/${month}/${year}`;
+//   const password = 'VSK@9180';
 
+//   const schools = await School.find().exec();
+//   for (const school of schools) {
+//     const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
+
+//     if (studentData) {
+//       const studentgenderWiseCount = await StudentCounts.find({Schoolid: school.Schoolid})
+//       const genderCounts = studentData.reduce(
+//         (count, student) => {
+//           count[student.Gender] = (count[student.Gender] || 0) + 1;
+//           return count;
+//         },
+//         { M: 0, F: 0, T: 0 }
+//       );
+
+//       console.log(studentgenderWiseCount, studentgenderWiseCount.maleStudents,  studentgenderWiseCount.femaleStudents, studentgenderWiseCount.otherStudents)
+
+//       const genderAbsentCount = {
+//         male: studentgenderWiseCount.maleStudents - genderCounts.M,
+//         female: studentgenderWiseCount.femaleStudents - genderCounts.F,
+//         others: studentgenderWiseCount.otherStudents - genderCounts.T,
+//       };
+//       const totalStudentCount = studentgenderWiseCount.maleStudents + studentgenderWiseCount.femaleStudents + studentgenderWiseCount.otherStudents;
+// console.log(genderAbsentCount, totalStudentCount);
+//       await Attendance.create({
+//         district_name: school.District_name,
+//         Z_name: school.Zone_Name,
+//         School_ID: school.Schoolid,
+//         school_name: school.School_Name,
+//         shift: school.shift,
+//         attendance_DATE: date,
+//         totalStudentCount,
+//         PreasentCount: studentData.length,
+//         malePresentCount: genderCounts.M,
+//         feMalePresentCount: genderCounts.F,
+//         otherPresentCount: genderCounts.T,
+//         maleAbsentCount: genderAbsentCount.male,
+//         feMaleAbsentCount: genderAbsentCount.female,
+//         othersAbsentCount: genderAbsentCount.others,
+//       });
+//     }
+//   }
+// };
+
+const getAttendanceCounts = async (startDate, endDate) => {
+  const match = {
+    attendance_DATE: {
+      $gte: startDate,
+      $lte: endDate,
+    },
+  };
   const totalStudentCount = await Attendance.aggregate([
     { $match: match },
     {
@@ -199,22 +270,25 @@ const getAttendanceCounts = async (date) => {
   };
 };
 
-
-
 const getAttendanceCountsDistrictWise = async (body) => {
-  const { date,districtName } = body
+  const { startDate, endDate, districtName } = body;
   const dateMatch = {
-    $match: { attendance_DATE: date, district_name: districtName }
+    $match: {
+      attendance_DATE: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+      district_name: districtName,
+    },
   };
-
   const totalStudentCount = await Attendance.aggregate([
     dateMatch,
     {
       $group: {
         _id: null,
-        count: { $sum: '$totalStudentCount' }
-      }
-    }
+        count: { $sum: '$totalStudentCount' },
+      },
+    },
   ]);
 
   const presentStudentCount = await Attendance.aggregate([
@@ -222,9 +296,9 @@ const getAttendanceCountsDistrictWise = async (body) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$PreasentCount' }
-      }
-    }
+        count: { $sum: '$PreasentCount' },
+      },
+    },
   ]);
 
   const malePresentCount = await Attendance.aggregate([
@@ -232,9 +306,9 @@ const getAttendanceCountsDistrictWise = async (body) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$malePresentCount' }
-      }
-    }
+        count: { $sum: '$malePresentCount' },
+      },
+    },
   ]);
 
   const femalePresentCount = await Attendance.aggregate([
@@ -242,9 +316,9 @@ const getAttendanceCountsDistrictWise = async (body) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$feMalePresentCount' }
-      }
-    }
+        count: { $sum: '$feMalePresentCount' },
+      },
+    },
   ]);
 
   const otherPresentCount = await Attendance.aggregate([
@@ -252,9 +326,9 @@ const getAttendanceCountsDistrictWise = async (body) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$otherPresentCount' }
-      }
-    }
+        count: { $sum: '$otherPresentCount' },
+      },
+    },
   ]);
 
   const maleAbsentCount = await Attendance.aggregate([
@@ -262,9 +336,9 @@ const getAttendanceCountsDistrictWise = async (body) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$maleAbsentCount' }
-      }
-    }
+        count: { $sum: '$maleAbsentCount' },
+      },
+    },
   ]);
 
   const femaleAbsentCount = await Attendance.aggregate([
@@ -272,9 +346,9 @@ const getAttendanceCountsDistrictWise = async (body) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$feMaleAbsentCount' }
-      }
-    }
+        count: { $sum: '$feMaleAbsentCount' },
+      },
+    },
   ]);
 
   const otherAbsentCount = await Attendance.aggregate([
@@ -282,9 +356,9 @@ const getAttendanceCountsDistrictWise = async (body) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$othersAbsentCount' }
-      }
-    }
+        count: { $sum: '$othersAbsentCount' },
+      },
+    },
   ]);
 
   return {
@@ -299,11 +373,15 @@ const getAttendanceCountsDistrictWise = async (body) => {
   };
 };
 
-
-
-const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
+const getAttendanceCountsZoneWise = async (startDate, endDate, Z_name) => {
   const dateMatch = {
-    $match: { attendance_DATE: attendanceDate, Z_name }
+    $match: {
+      attendance_DATE: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+      Z_name,
+    },
   };
 
   const totalStudentCount = await Attendance.aggregate([
@@ -311,9 +389,9 @@ const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$totalStudentCount' }
-      }
-    }
+        count: { $sum: '$totalStudentCount' },
+      },
+    },
   ]);
 
   const presentStudentCount = await Attendance.aggregate([
@@ -321,9 +399,9 @@ const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$PreasentCount' }
-      }
-    }
+        count: { $sum: '$PreasentCount' },
+      },
+    },
   ]);
 
   const malePresentCount = await Attendance.aggregate([
@@ -331,9 +409,9 @@ const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$malePresentCount' }
-      }
-    }
+        count: { $sum: '$malePresentCount' },
+      },
+    },
   ]);
 
   const femalePresentCount = await Attendance.aggregate([
@@ -341,9 +419,9 @@ const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$feMalePresentCount' }
-      }
-    }
+        count: { $sum: '$feMalePresentCount' },
+      },
+    },
   ]);
 
   const otherPresentCount = await Attendance.aggregate([
@@ -351,9 +429,9 @@ const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$otherPresentCount' }
-      }
-    }
+        count: { $sum: '$otherPresentCount' },
+      },
+    },
   ]);
 
   const maleAbsentCount = await Attendance.aggregate([
@@ -361,9 +439,9 @@ const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$maleAbsentCount' }
-      }
-    }
+        count: { $sum: '$maleAbsentCount' },
+      },
+    },
   ]);
 
   const femaleAbsentCount = await Attendance.aggregate([
@@ -371,9 +449,9 @@ const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$feMaleAbsentCount' }
-      }
-    }
+        count: { $sum: '$feMaleAbsentCount' },
+      },
+    },
   ]);
 
   const otherAbsentCount = await Attendance.aggregate([
@@ -381,9 +459,9 @@ const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
     {
       $group: {
         _id: null,
-        count: { $sum: '$othersAbsentCount' }
-      }
-    }
+        count: { $sum: '$othersAbsentCount' },
+      },
+    },
   ]);
 
   return {
@@ -403,5 +481,4 @@ module.exports = {
   getAttendanceCounts,
   getAttendanceCountsDistrictWise,
   getAttendanceCountsZoneWise,
-  
 };

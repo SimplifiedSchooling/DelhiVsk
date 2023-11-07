@@ -48,10 +48,13 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               date:
+ *               startDate:
+ *                 type: string
+ *               endDate:
  *                 type: string
  *             example:
- *               date: '04/11/2023'
+ *               startDate: '04/11/2023'
+ *               endDate: '04/11/2023'
  *     responses:
  *       "200":
  *         description: OK
@@ -74,12 +77,15 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               date:
+ *               startDate:
+ *                 type: string
+ *               endDate:
  *                 type: string
  *               districtName:
  *                 type: string
  *             example:
- *               date: '04/11/2023'
+ *               startDate: '04/11/2023'
+ *               endDate: '04/11/2023'
  *               districtName: "East"
  *     responses:
  *       "200":
@@ -89,7 +95,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
 
 /**
  * @swagger
@@ -104,12 +109,15 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               date:
+ *               startDate:
+ *                 type: string
+ *               endDate:
  *                 type: string
  *               zoneName:
  *                 type: string
  *             example:
- *               date: '04/11/2023'
+ *               startDate: '04/11/2023'
+ *               endDate: '04/11/2023'
  *               zoneName: "Zone-01"
  *     responses:
  *       "200":
