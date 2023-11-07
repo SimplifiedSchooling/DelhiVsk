@@ -40,7 +40,7 @@ module.exports = router;
  * @swagger
  * tags:
  *   name: LearningSession
- *   description: LearningSession management
+ *   description: LearningSession management for learningsession , playePerCapita, consumptionbycourse, consumptionBydistrict
  */
 
 /**
