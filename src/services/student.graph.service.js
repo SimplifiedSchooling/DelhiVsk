@@ -119,18 +119,6 @@ const getSchoolCountsByCriteria = async (criteria, field) => {
 
 
 const getStudentCount = async () => {
-<<<<<<< HEAD
-  const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
-  const schoolCriteria = await getSchoolIdByStreamWise();
-  const streamCounts = await getSchoolCountsByCriteria(schoolCriteria, 'stream');
-
-  const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
-  const minortyWiseCount = await getSchoolCountsByCriteria(minorityWiseSchoolIds, 'minority');
-
-  const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
-  const affiliationWiseCount = await getSchoolCountsByCriteria(affiliationWiseSchoolIds, 'affiliation');
-
-=======
   // const managmentWiseCountId = await getSchoolIdByManagmentWise();
 
   const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
@@ -143,7 +131,6 @@ const getStudentCount = async () => {
   const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
   const affiliationWiseCount = await getCountByCriteria(affiliationWiseSchoolIds, 'affiliation');
 
->>>>>>> origin/main
   const shiftWiseSchoolid = await getSchoolIdByShiftWise();
   const studentShiftWiseCounts = await getCountByCriteria(shiftWiseSchoolid, 'shift');
 
@@ -180,18 +167,11 @@ const getStudentCount = async () => {
       studentShiftWiseCounts,
       minortyWiseCount,
       affiliationWiseCount,
-<<<<<<< HEAD
-      streamCounts,
-      totalStudentCount,
-      result,
-    }
-=======
       streanWiseCount,
       // studentManagementWiseCounts,
       totalStudentCount,
       result,
     };
->>>>>>> origin/main
   } catch (error) {
     console.error('Error updating student statistics:', error);
   }
