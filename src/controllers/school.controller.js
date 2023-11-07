@@ -77,14 +77,19 @@ async function getDistrictSchool(req, res) {
   }
 }
 
-// async function getZoneSchool(req, res) {
-//   try {
-//     const ZoneSchool = await schoolService.getZoneNameSchools();
-//     res.json({ ZoneSchool });
-//   } catch (error) {
-//     res.status(500).json({ error: 'An error occurred' });
-//   }
-// }
+async function getDistrictZoneNames(req, res) {
+  try {
+    const districtName = req.body.District_name;
+    if (!districtName) {
+      return res.status(400).json({ error: 'District_name is required' });
+    }
+    const ZoneSchool = await schoolService.getDistrictZoneNames(districtName);
+    res.json({ ZoneSchool });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+}
+
 async function getZoneSchool(req, res) {
   try {
     const zoneName = req.body.Zone_Name; // Get the Zone_Name from the query parameters
@@ -103,6 +108,7 @@ module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
   bulkUploadFile,
+  getDistrictZoneNames,
   getDistrictName,
   getZoneName,
   getDistrictSchool,
