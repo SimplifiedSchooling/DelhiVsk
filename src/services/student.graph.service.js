@@ -1,4 +1,3 @@
-const httpStatus = require('http-status');
 const { School, Student, Teacher, StudentCounts } = require('../models');
 const redis = require('../utils/redis');
 
@@ -11,9 +10,9 @@ const getSchoolIdByShiftWise = async () => {
       },
     },
   ];
-
   return School.aggregate(pipeline);
 };
+
 const getSchoolIdByTypeOfSchoolWise = async () => {
   const pipeline = [
     {
@@ -23,19 +22,18 @@ const getSchoolIdByTypeOfSchoolWise = async () => {
       },
     },
   ];
-
   return School.aggregate(pipeline);
 };
+
 const getSchoolIdByStreamWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$stream',
-        Schoolid: { $addToSet: '$Schoolid' },
+        _id: { $ifNull: ['$stream', null] },  // Group by stream or null for missing values
+        Schoolid: { $addToSet: '$Schoolid' }, 
       },
     },
   ];
-
   return School.aggregate(pipeline);
 };
 
@@ -48,7 +46,6 @@ const getSchoolIdByMinortyWise = async () => {
       },
     },
   ];
-
   return School.aggregate(pipeline);
 };
 
@@ -61,9 +58,9 @@ const getSchoolIdByManagmentWise = async () => {
       },
     },
   ];
-
   return School.aggregate(pipeline);
 };
+
 const getSchoolIdByAffiliationWise = async () => {
   const pipeline = [
     {
@@ -73,17 +70,16 @@ const getSchoolIdByAffiliationWise = async () => {
       },
     },
   ];
-
   return School.aggregate(pipeline);
 };
+
 const getCountByCriteria = async (criteria, field) => {
-  
   const counts = await Promise.all(
     criteria.map(async (item) => {
       const counts = await StudentCounts.aggregate([
         {
           $match: {
-            Schoolid: { $in: item.Schoolid  },
+            Schoolid: { $in: item.Schoolid },
           },
         },
         {
@@ -93,70 +89,86 @@ const getCountByCriteria = async (criteria, field) => {
           },
         },
       ]);
-      console.log(counts);
       return counts;
     })
   );
   return counts;
 };
 
+const getSchoolCountsByCriteria = async (criteria, field) => {
+  const counts = await Promise.all(
+    criteria.map(async (item) => {
+      const counts = await School.aggregate([
+        {
+          $match: {
+            Schoolid: { $in: item.Schoolid },
+          },
+        },
+        {
+          $group: {
+            _id: `$${field}`,
+            count: { $sum: 1 }, // Count schools
+          },
+        },
+      ]);
+      return counts;
+    })
+  );
+  return counts;
+};
+
+
 const getStudentCount = async () => {
+  const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
+  const schoolCriteria = await getSchoolIdByStreamWise();
+  const streamCounts = await getSchoolCountsByCriteria(schoolCriteria, 'stream');
 
-  // const managmentWiseCountId = await getSchoolIdByManagmentWise();
+  const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
+  const minortyWiseCount = await getSchoolCountsByCriteria(minorityWiseSchoolIds, 'minority');
 
-    const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
-    const streamWisehoolIds = await getSchoolIdByStreamWise();
-    const streanWiseCount = await getCountByCriteria(streamWisehoolIds, 'stream');
+  const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
+  const affiliationWiseCount = await getSchoolCountsByCriteria(affiliationWiseSchoolIds, 'affiliation');
 
-    const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
-    const minortyWiseCount =await getCountByCriteria(minorityWiseSchoolIds, 'minority');
-
-    const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
-    const affiliationWiseCount =await getCountByCriteria(affiliationWiseSchoolIds, 'affiliation');
-
-    const shiftWiseSchoolid = await getSchoolIdByShiftWise();
+  const shiftWiseSchoolid = await getSchoolIdByShiftWise();
   const studentShiftWiseCounts = await getCountByCriteria(shiftWiseSchoolid, 'shift');
 
   const typeOfSchoolsWiseSchoolid = await getSchoolIdByTypeOfSchoolWise();
-  console.log(typeOfSchoolsWiseSchoolid);
-  const typeOfSchoolWiseCounts = await getCountByCriteria(typeOfSchoolsWiseSchoolid, 'typeOfSchool');
+  const typeOfSchoolWiseCounts = await getSchoolCountsByCriteria(typeOfSchoolsWiseSchoolid, 'typeOfSchool');
   try {
-      const totalStudentCount = await StudentCounts.aggregate([
-        {
-          $group: {
-            _id: null,
-            count: { $sum: '$totalStudent' },
-            maleStudents: {$sum: '$maleStudents'},
-            femaleStudents: {$sum: '$femaleStudents'},
-            otherStudents: {$sum: '$otherStudents'},
-          },
+    const totalStudentCount = await StudentCounts.aggregate([
+      {
+        $group: {
+          _id: null,
+          count: { $sum: '$totalStudent' },
+          maleStudents: { $sum: '$maleStudents' },
+          femaleStudents: { $sum: '$femaleStudents' },
+          otherStudents: { $sum: '$otherStudents' },
         },
-      ]);
+      },
+    ]);
 
-      const result = await StudentCounts.aggregate([
-        {
-          $unwind: '$classes',
+    const result = await StudentCounts.aggregate([
+      {
+        $unwind: '$classes',
+      },
+      {
+        $group: {
+          _id: '$classes.class',
+          totalMaleStudents: { $sum: '$classes.male' },
+          totalFemaleStudents: { $sum: '$classes.feMale' },
+          totalOtherStudents: { $sum: '$classes.other' },
         },
-        {
-          $group: {
-            _id: '$classes.class',
-            totalMaleStudents: { $sum: '$classes.male' },
-            totalFemaleStudents: { $sum: '$classes.feMale' },
-            totalOtherStudents: { $sum: '$classes.other' },
-          },
-        },
-      ]);
-   return {
-    typeOfSchoolWiseCounts,
-    studentShiftWiseCounts,
-    minortyWiseCount,
-    affiliationWiseCount,
-    streanWiseCount,
-    //studentManagementWiseCounts,
-    totalStudentCount,
-    result,
-
-   }
+      },
+    ]);
+    return {
+      typeOfSchoolWiseCounts,
+      studentShiftWiseCounts,
+      minortyWiseCount,
+      affiliationWiseCount,
+      streamCounts,
+      totalStudentCount,
+      result,
+    }
   } catch (error) {
     console.error('Error updating student statistics:', error);
   }
