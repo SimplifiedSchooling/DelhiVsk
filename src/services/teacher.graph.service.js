@@ -7,7 +7,6 @@ const getTeacherExperienceCountByRange = async () => {
   try {
     const currentDate = new Date(); // Current date
     const teachers = await Teacher.find({});
-
     // Initialize an object to store the count in each experience range
     const experienceCounts = {
       under5Years: 0,
@@ -226,9 +225,24 @@ for (const zone of zoneNameWiseCountIds) {
     },
   ];
 
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] =
+    await Promise.allSettled([
+      School.countDocuments({  }).exec(),
+      Teacher.countDocuments({  }).exec(),
+      Teacher.countDocuments({ gender: 'Female'}).exec(),
+      Teacher.countDocuments({ gender: 'Male' }).exec(),
+    ]);
+
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRange();
+  const averageTeachers = totalTeachers.value / totalSchools.value;
+
   return {
+    averageTeachers,
+    totalSchools: totalSchools.value,
+    totalTeachers: totalTeachers.value,
+    totalFemaleTeachers: totalFemaleTeachers.value,
+    totalMaleTeachers: totalMaleTeachers.value,
     teacherCounts,
     teacherShiftWiseCounts,
     teacherStreamWiseCounts,
@@ -247,16 +261,16 @@ for (const zone of zoneNameWiseCountIds) {
  */
 const getTeacherCountBySchoolManagement = async () => {
   // Check if the data is already cached in Redis
-  const cachedData = await redis.get('getTeacherData');
+  // const cachedData = await redis.get('getTeacherData');
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
 
   const teacherStats = await getTeacherStats();
 
   // Cache the result in Redis for future use
-  await redis.set('getTeacherData', JSON.stringify(teacherStats), 'EX', 24 * 60 * 60);
+  // await redis.set('getTeacherData', JSON.stringify(teacherStats), 'EX', 24 * 60 * 60);
 
   return teacherStats;
 };
@@ -454,10 +468,23 @@ for (const zone of zoneNameWiseCountIds) {
       $sort: { _id: 1 },
     },
   ];
-
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] =
+    await Promise.allSettled([
+      School.countDocuments({ District_name: districtName }).exec(),
+      Teacher.countDocuments({ districtname: districtName }).exec(),
+      Teacher.countDocuments({ gender: 'Female', districtname: districtName }).exec(),
+      Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
+    ]);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeDistrictWise(districtName);
+  const averageTeachers = totalTeachers.value / totalSchools.value;
+  
   return {
+    averageTeachers,
+    totalSchools: totalSchools.value,
+    totalTeachers: totalTeachers.value,
+    totalFemaleTeachers: totalFemaleTeachers.value,
+    totalMaleTeachers: totalMaleTeachers.value,
     teacherCounts,
     teacherTypeOfSchoolWiseCounts,
     teacherZoneWiseCounts,
@@ -666,9 +693,23 @@ const getTeacherCountByZone = async (zone) => {
     },
   ];
 
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] =
+  await Promise.allSettled([
+    School.countDocuments({ Zone_Name: cleanedZoneName }).exec(),
+    Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
+    Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
+    Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
+  ]);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeZoneWise(cleanedZoneName);
+  const averageTeachers = totalTeachers.value / totalSchools.value;
+
   return {
+    averageTeachers,
+    totalSchools: totalSchools.value,
+    totalTeachers: totalTeachers.value,
+    totalFemaleTeachers: totalFemaleTeachers.value,
+    totalMaleTeachers: totalMaleTeachers.value,
     teacherCounts,
     teacherShiftWiseCounts,
     teacherStreamWiseCounts,
