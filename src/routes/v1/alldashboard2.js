@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { learningSessionController } = require('../../controllers');
+const { allDashboard2 } = require('../../controllers');
 
 const router = express.Router();
 // Construct the absolute path to the 'uploads' directory
@@ -18,37 +18,35 @@ const storage = multer.diskStorage({
 
 const uploads = multer({ storage });
 
-router.route('/bulkupload-learningsession').post(uploads.single('file'), learningSessionController.bulkUploadFile);
+router.route('/bulkupload-nas-program-started').post(uploads.single('file'), allDashboard2.bulkUploadFile);
+router.route('/bulkupload-pgi-alldashboard').post(uploads.single('file'), allDashboard2.bulkUploadFileForPlaysPerCapita);
 router
-  .route('/bulkupload-playspercapita')
-  .post(uploads.single('file'), learningSessionController.bulkUploadFileForPlaysPerCapita);
+  .route('/bulkupload-udise-alldashboard')
+  .post(uploads.single('file'), allDashboard2.bulkUploadFileForConsumptionByCourse);
 router
-  .route('/bulkupload-consumptionbycourse')
-  .post(uploads.single('file'), learningSessionController.bulkUploadFileForConsumptionByCourse);
-router
-  .route('/bulkupload-consumptionbydistrict')
-  .post(uploads.single('file'), learningSessionController.bulkUploadFileForConsumptionByDistrict);
+  .route('/bulkupload-udise-programstarted')
+  .post(uploads.single('file'), allDashboard2.bulkUploadFileForConsumptionByDistrict);
 
-router.route('/').get(learningSessionController.getAllLearningSessions);
+router.route('/').get(allDashboard2.getAllLearningSessions);
 
-router.route('/playspercapita').get(learningSessionController.getAllPlaysPerCapita);
-router.route('/consumptionbycourse').get(learningSessionController.getAllConsumptionByCourse);
-router.route('/consumptionbydistrict').get(learningSessionController.getAllConsumptionByDistrict);
+router.route('/pgi-alldashboard').get(allDashboard2.getAllPlaysPerCapita);
+router.route('/udise-alldashboard').get(allDashboard2.getAllConsumptionByCourse);
+router.route('/udise-programstarted').get(allDashboard2.getAllConsumptionByDistrict);
 
 module.exports = router;
 /**
  * @swagger
  * tags:
- *   name: LearningSession
- *   description: LearningSession management for learningsession , playePerCapita, consumptionbycourse, consumptionBydistrict
+ *   name: AllDashboards2
+ *   description: AllDashboards2 management for Nas-programStarted, Pgi-AllDashboards, UdiseAlldashboards , UdiseProgrameStarted
  */
 
 /**
  * @swagger
- * /learningsession/bulkupload-learningsession:
+ * /alldashboard2/bulkupload-nas-program-started:
  *   post:
- *     summary: Upload a CSV file for bulk learningsession upload
- *     tags: [LearningSession]
+ *     summary: Upload a CSV file for bulk nas.program.started.model
+ *     tags: [AllDashboards2]
  *     requestBody:
  *       required: true
  *       content:
@@ -68,10 +66,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/bulkupload-playspercapita:
+ * /alldashboard2/bulkupload-pgi-alldashboard:
  *   post:
- *     summary: Upload a CSV file for bulk playspercapita upload
- *     tags: [LearningSession]
+ *     summary: Upload a CSV file for bulk pgi.all.dashboard.model
+ *     tags: [AllDashboards2]
  *     requestBody:
  *       required: true
  *       content:
@@ -91,10 +89,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/bulkupload-consumptionbycourse:
+ * /alldashboard2/bulkupload-udise-alldashboard:
  *   post:
- *     summary: Upload a CSV file for bulk consumptionbycourse upload
- *     tags: [LearningSession]
+ *     summary: Upload a CSV file for bulk udise.all.dashboard.model
+ *     tags: [AllDashboards2]
  *     requestBody:
  *       required: true
  *       content:
@@ -114,10 +112,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/bulkupload-consumptionbydistrict:
+ * /alldashboard2/bulkupload-udise-programstarted:
  *   post:
- *     summary: Upload a CSV file for bulk consumptionbydistrict upload
- *     tags: [LearningSession]
+ *     summary: Upload a CSV file for bulk udise.program.started.model
+ *     tags: [AllDashboards2]
  *     requestBody:
  *       required: true
  *       content:
@@ -137,10 +135,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession:
+ * /alldashboard2:
  *   get:
- *     summary: Get Diksha etb learning session
- *     tags: [LearningSession]
+ *     summary: Get data for nas.program.started.model
+ *     tags: [AllDashboards2]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -199,10 +197,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/consumptionbydistrict:
+ * /alldashboard2/pgi-alldashboard:
  *   get:
- *     summary: Get Diksha nishtha consumption by district
- *     tags: [LearningSession]
+ *     summary: Get all data of pgi.all.dashboard.model
+ *     tags: [AllDashboards2]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -261,10 +259,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/playspercapita:
+ * /alldashboard2/udise-alldashboard:
  *   get:
- *     summary: Get Diksha etb plys per capita
- *     tags: [LearningSession]
+ *     summary: Get all data of udise.all.dashboard.model
+ *     tags: [AllDashboards2]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -323,10 +321,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/consumptionbycourse:
+ * /alldashboard2/udise-programstarted:
  *   get:
- *     summary: Get Diksha nishtha consumption by course
- *     tags: [LearningSession]
+ *     summary: Get all data of udise.program.started.model
+ *     tags: [AllDashboards2]
  *     security:
  *       - bearerAuth: []
  *     parameters:

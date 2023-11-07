@@ -225,13 +225,12 @@ const getTeacherStats = async () => {
     },
   ];
 
-  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] =
-    await Promise.allSettled([
-      School.countDocuments({}).exec(),
-      Teacher.countDocuments({}).exec(),
-      Teacher.countDocuments({ gender: 'Female' }).exec(),
-      Teacher.countDocuments({ gender: 'Male' }).exec(),
-    ]);
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+    School.countDocuments({}).exec(),
+    Teacher.countDocuments({}).exec(),
+    Teacher.countDocuments({ gender: 'Female' }).exec(),
+    Teacher.countDocuments({ gender: 'Male' }).exec(),
+  ]);
 
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRange();
@@ -337,7 +336,7 @@ const getSchoolIdByShiftWiseAndDistrict = async (districtName) => {
   return schCategorySchoolIds;
 };
 
-const getSchoolIdByStreamWiseAndDistrict= async (districtName) => {
+const getSchoolIdByStreamWiseAndDistrict = async (districtName) => {
   const pipeline = [
     {
       $match: {
@@ -410,7 +409,6 @@ const getSchoolIdByZoneNameWiseAndDistrict = async (districtName) => {
   const schCategorySchoolIds = await School.aggregate(pipeline);
   return schCategorySchoolIds;
 };
-
 
 const getSchoolIdByManagmentWiseAndDistrict = async (districtName) => {
   const pipeline = [
@@ -539,13 +537,12 @@ const getTeacherStatsByDistrict = async (districtName) => {
       $sort: { _id: 1 },
     },
   ];
-  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] =
-    await Promise.allSettled([
-      School.countDocuments({ District_name: districtName }).exec(),
-      Teacher.countDocuments({ districtname: districtName }).exec(),
-      Teacher.countDocuments({ gender: 'Female', districtname: districtName }).exec(),
-      Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
-    ]);
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+    School.countDocuments({ District_name: districtName }).exec(),
+    Teacher.countDocuments({ districtname: districtName }).exec(),
+    Teacher.countDocuments({ gender: 'Female', districtname: districtName }).exec(),
+    Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
+  ]);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeDistrictWise(districtName);
   const averageTeachers = totalTeachers.value / totalSchools.value;
@@ -707,7 +704,6 @@ const getSchoolIdByZoneWiseAndZone = async (zone) => {
   return schCategorySchoolIds;
 };
 
-
 const getSchoolIdByManagmentWiseAndZone = async (zone) => {
   const pipeline = [
     {
@@ -804,7 +800,7 @@ const getTeacherCountByZone = async (zone) => {
     });
   }
 
-    const zoneNameWiseCountIds = await getSchoolIdByZoneWiseAndZone(zone);
+  const zoneNameWiseCountIds = await getSchoolIdByZoneWiseAndZone(zone);
   const teacherZoneWiseCounts = [];
   for (const zone of zoneNameWiseCountIds) {
     const teacherZoneWiseCount = await Teacher.countDocuments({ schoolid: { $in: zone.schoolIds } });
@@ -841,13 +837,12 @@ const getTeacherCountByZone = async (zone) => {
     },
   ];
 
-  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] =
-    await Promise.allSettled([
-      School.countDocuments({ Zone_Name: cleanedZoneName }).exec(),
-      Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
-      Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
-      Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
-    ]);
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+    School.countDocuments({ Zone_Name: cleanedZoneName }).exec(),
+    Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
+    Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
+    Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
+  ]);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeZoneWise(cleanedZoneName);
   const averageTeachers = totalTeachers.value / totalSchools.value;

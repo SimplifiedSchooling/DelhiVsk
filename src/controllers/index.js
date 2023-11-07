@@ -9,3 +9,6 @@ module.exports.studentGraphController = require('./student.graph.controller');
 module.exports.attendanceController = require('./attendance.controller');
 module.exports.teacherGraphController = require('./teacher.graph.controller');
 module.exports.learningSessionController = require('./diksha.etb.learning.session.controller');
+module.exports.PerCourseProgressAlldashboardController = require('./all.per.course.prog.controller');
+module.exports.allDashboard2 = require('./alldashboard2.controller');
+module.exports.allDashboard3 = require('./alldashboard3.controller');

@@ -110,7 +110,7 @@ async function getDistrictZoneNames(districtName) {
     const districtZoneNames = Array.from(uniqueZoneNames);
     return districtZoneNames;
   } catch (error) {
-    throw new Error('Error fetching data: ' + error.message);
+    throw new Error(`Error fetching data: ${error.message}`);
   }
 }
 
@@ -118,9 +118,7 @@ async function getZoneNameSchools(zoneName) {
   try {
     const response = await axios.get(apiUrl);
     const schools = response.data;
-    const zoneSchools = schools
-      .filter((school) => school.Zone_Name === zoneName)
-      .map((school) => school.School_Name);
+    const zoneSchools = schools.filter((school) => school.Zone_Name === zoneName).map((school) => school.School_Name);
     return zoneSchools;
   } catch (error) {
     throw new Error(`Error fetching data: ${error.message}`);
