@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const axios = require('axios');
-const { School, Student, Teacher } = require('../models');
+const { School, StudentCounts, Teacher } = require('../models');
 const redis = require('../utils/redis');
 const ApiError = require('../utils/ApiError');
 
@@ -16,25 +16,49 @@ async function fetchStudentDataForSchool(schoolId, password) {
   }
 }
 
-async function processStudentData(studentData, dups, records) {
-  for (const student of studentData) {
-    // const existingStudent = await Student.findOne({ S_ID: student.S_ID });
+async function processStudentData(studentData, Schoolid, School_Name, medium, shift, Zone_Name, District_name) {
+  const totalStudentCount = studentData.length;
+  const genderCounts = { M: 0, F: 0, T: 0 };
+  const classGenderCounts = {};
 
-    // if (existingStudent) {
-    //     dups.push(student);
-    // } else {
-    let record = new Student(student);
-    record = await record.save();
-    //     if (record) {
-    //         records.push(student);
-    //     }
-    // }
+  for (const student of studentData) {
+    const gender = student.Gender || 'T';
+    genderCounts[gender]++;
+
+    const className = student.CLASS || 'Unknown';
+    if (!classGenderCounts[className]) {
+      classGenderCounts[className] = { M: 0, F: 0, T: 0 };
+    }
+    classGenderCounts[className][gender]++;
   }
+
+  // Create a student record
+  const studentRecord = new StudentCounts({
+    Schoolid,
+    School_Name,
+    medium,
+    shift,
+    Zone_Name,
+    District_name,
+    totalStudent: totalStudentCount,
+    maleStudents: genderCounts.M,
+    femaleStudents: genderCounts.F,
+    otherStudents: genderCounts.T,
+    classes: Object.entries(classGenderCounts).map(([className, counts]) => ({
+      class: className.toString(),
+      male: counts.M,
+      feMale: counts.F,
+      other: counts.T,
+    })),
+  });
+
+  // Save the student record
+  await studentRecord.save();
 }
 
 async function storeStudentDataInMongoDB() {
   const schools = await School.find().exec();
-  const password = 'VSK@9180'; // Replace with your password
+  const password = 'VSK@9180';
   const records = [];
   const dups = [];
 
@@ -42,35 +66,19 @@ async function storeStudentDataInMongoDB() {
     const studentData = await fetchStudentDataForSchool(school.Schoolid, password);
 
     if (studentData && studentData.Cargo) {
-      await processStudentData(studentData.Cargo, dups, records);
+      await processStudentData(
+        studentData.Cargo,
+        school.Schoolid,
+        school.School_Name,
+        school.medium,
+        school.shift,
+        school.Zone_Name,
+        school.District_name
+      );
     }
   }
-
-  // const duplicates = {
-  //     totalDuplicates: dups.length,
-  //     data: dups,
-  // };
-
-  // const nonduplicates = {
-  //     totalNonDuplicates: records.length,
-  //     data: records,
-  // };
-
-  // return { nonduplicates, duplicates };
 }
-
-const studentData = async () => {
-  const students = async (limit) => {
-    const data = await Student.aggregate([{ $sample: { size: limit } }]);
-    return data;
-  };
-
-  // Usage
-  const randomStudents = await students(10000);
-  return randomStudents;
-};
 
 module.exports = {
   storeStudentDataInMongoDB,
-  studentData,
 };

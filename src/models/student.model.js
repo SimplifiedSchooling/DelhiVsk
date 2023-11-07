@@ -3,47 +3,58 @@ const { toJSON, paginate } = require('./plugins');
 
 const studentSchema = mongoose.Schema(
   {
-    District: {
-      type: String,
-    },
-    z_name: {
-      type: String,
-    },
-    S_ID: {
-      type: String,
-      require: true,
-      unique: true,
-    },
-    Name: {
-      type: String,
-    },
-    Dob: {
-      type: String,
-    },
-    Father_Name: {
-      type: String,
-    },
-    Gender: {
-      type: String,
-    },
-    CLASS: {
-      type: String,
-    },
-    status: {
-      type: String,
-    },
-    stream: {
-      type: String,
-    },
-    section: {
-      type: String,
-    },
     Schoolid: {
       type: Number,
+      required: true,
     },
-    SCHOOL_NAME: {
+    School_Name: {
+      type: String,
+      required: true,
+    },
+    medium: {
+      type: String,
+      required: true,
+    },
+    shift: {
       type: String,
     },
+    Zone_Name: {
+      type: String,
+    },
+    District_name: {
+      type: String,
+    },
+    totalStudent: {
+      type: Number,
+    },
+    maleStudents: {
+      type: Number,
+    },
+    femaleStudents: {
+      type: Number,
+    },
+    otherStudents: {
+      type: Number,
+    },
+    session: {
+      type: String,
+    },
+    classes: [
+      {
+        class: {
+          type: String,
+        },
+        male: {
+          type: Number,
+        },
+        feMale: {
+          type: Number,
+        },
+        other: {
+          type: Number,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -54,7 +65,7 @@ const studentSchema = mongoose.Schema(
 studentSchema.plugin(toJSON);
 studentSchema.plugin(paginate);
 
-// studentSchema.index({ S_ID: 1 }, { unique: true });
+studentSchema.index({ Schoolid: 1 }, { unique: true });
 /**
  * Check if email is taken
  * @param {string} email - The user's email
@@ -66,8 +77,8 @@ studentSchema.statics.isS_IDTaken = async function (S_ID, excludeUserId) {
   return !!student;
 };
 /**
- * @typedef Student
+ * @typedef StudentCounts
  */
-const Student = mongoose.model('Student', studentSchema);
+const StudentCounts = mongoose.model('Student_counts', studentSchema);
 
-module.exports = Student;
+module.exports = StudentCounts;

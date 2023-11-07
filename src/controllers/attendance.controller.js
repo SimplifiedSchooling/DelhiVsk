@@ -8,7 +8,7 @@ const getAttedanceData = catchAsync(async (req, res) => {
 });
 
 const getAttendanceCounts = catchAsync(async (req, res) => {
-  const result = await attendanceService.getAttendanceCounts(req.body.date);
+  const result = await attendanceService.getAttendanceCounts(req.body.date, req.body.endDate,);
   res.status(httpStatus.CREATED).send(result);
 });
 
@@ -23,9 +23,15 @@ const getZoneAttendanceCount = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getAttendanceCountsShiftWise = catchAsync(async (req, res) => {
+  const { date, shift } = req.body;
+  const result = await attendanceService.getAttendanceCountsShiftWise(date, shift);
+  res.status(httpStatus.CREATED).send(result);
+});
 module.exports = {
   getAttedanceData,
   getAttendanceCounts,
   getDistrictwiseAttendanceCount,
   getZoneAttendanceCount,
+  getAttendanceCountsShiftWise,
 };
