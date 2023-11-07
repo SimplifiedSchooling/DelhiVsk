@@ -1,407 +1,400 @@
-// const httpStatus = require('http-status');
-const axios = require('axios');
-const { School, Attendance, Student } = require('../models');
-// const ApiError = require('../utils/ApiError');
+// // const httpStatus = require('http-status');
+// const axios = require('axios');
+// const { School, Attendance, Student } = require('../models');
+// // const ApiError = require('../utils/ApiError');
 
+// /**
+//  * Get Attendance data from server
+//  * @param {string} schoolId
+//  * @param {string} password
+//  * @param {string} date
+//  * @returns {Promise<Attendance>}
+//  */
+// async function fetchStudentDataForSchool(schoolId, password, date) {
+//   try {
+//     const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/Student_Attendence_School?password=${password}&School_ID=${schoolId}&Date=${date}`;
 
-/**
- * Get Attendance data from server
- * @param {string} schoolId
- * @param {string} password
- * @param {string} date
- * @returns {Promise<Attendance>}
- */
-async function fetchStudentDataForSchool(schoolId, password, date) {
-  try {
-    const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/Student_Attendence_School?password=${password}&School_ID=${schoolId}&Date=${date}`;
+//     const response = await axios.get(apiUrl);
 
-    const response = await axios.get(apiUrl);
+//     if (Array.isArray(response.data.Cargo)) {
+//       return response.data.Cargo;
+//     }
+//     return [response.data.Cargo];
+//   } catch (error) {
+//     return null;
+//   }
+// }
 
-    if (Array.isArray(response.data.Cargo)) {
-      return response.data.Cargo; 
-    }
-    return [response.data.Cargo]; 
-  } catch (error) {
-    return null;
-  }
-}
+// /**
+//  * Get Attendance data from server and store in databae
+//  * @returns {Promise<Attendance>}
+//  */
 
-/**
- * Get Attendance data from server and store in databae
- * @returns {Promise<Attendance>}
- */
+// const storeAttendanceDataInMongoDB = async() =>  {
+//   const now = new Date();
+//   const day = String(now.getDate()).padStart(2, '0');
+//   const month = String(now.getMonth() + 1).padStart(2, '0');
+//   const year = now.getFullYear();
 
-const storeAttendanceDataInMongoDB = async() =>  {
-  const now = new Date();
-  const day = String(now.getDate()).padStart(2, '0');
-  const month = String(now.getMonth() + 1).padStart(2, '0'); 
-  const year = now.getFullYear();
+//   const date = `${day}/${month}/${year}`;
+//   const password = 'VSK@9180';
 
-  const date = `${day}/${month}/${year}`;
-  const password = 'VSK@9180';
+//   const schools = await School.find().exec();
+//   for (const school of schools) {
+//     const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
 
-  const schools = await School.find().exec();
-  for (const school of schools) {
-    const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
+//     if (studentData) {
+//       const studentgenderWiseCount = await Student.aggregate([
+//         {
+//           $match: {
+//             Schoolid: school.Schoolid,
+//             Gender: { $in: ['M', 'F', 'T'] },
+//           },
+//         },
+//         {
+//           $group: {
+//             _id: '$Gender',
+//             count: { $sum: 1 },
+//           },
+//         },
+//       ]);
 
-    if (studentData) {
-      const studentgenderWiseCount = await Student.aggregate([
-        {
-          $match: {
-            Schoolid: school.Schoolid,
-            Gender: { $in: ['M', 'F', 'T'] }, 
-          },
-        },
-        {
-          $group: {
-            _id: '$Gender',
-            count: { $sum: 1 },
-          },
-        },
-      ]);
+//       const genderCounts = studentData.reduce(
+//         (count, student) => {
+//           count[student.Gender] = (count[student.Gender] || 0) + 1;
+//           return count;
+//         },
+//         { M: 0, F: 0, T: 0 }
+//       );
 
-      const genderCounts = studentData.reduce(
-        (count, student) => {
-          count[student.Gender] = (count[student.Gender] || 0) + 1;
-          return count;
-        },
-        { M: 0, F: 0, T: 0 }
-      );
+//       const genderPresentCount = studentgenderWiseCount.reduce(
+//         (count, gender) => {
+//           count[gender._id] = gender.count;
+//           return count;
+//         },
+//         { M: 0, F: 0, T: 0 }
+//       );
 
-      const genderPresentCount = studentgenderWiseCount.reduce(
-        (count, gender) => {
-          count[gender._id] = gender.count;
-          return count;
-        },
-        { M: 0, F: 0, T: 0 }
-      );
+//       const genderAbsentCount = {
+//         male: genderPresentCount.M - genderCounts.M,
+//         female: genderPresentCount.F - genderCounts.F,
+//         others: genderPresentCount.T - genderCounts.T,
+//       };
+// const totalStudentCount = genderPresentCount.M + genderPresentCount.F + genderPresentCount.T
 
-      const genderAbsentCount = {
-        male: genderPresentCount.M - genderCounts.M,
-        female: genderPresentCount.F - genderCounts.F,
-        others: genderPresentCount.T - genderCounts.T,
-      };
-const totalStudentCount = genderPresentCount.M + genderPresentCount.F + genderPresentCount.T
+//         await Attendance.create({
+//         district_name: school.District_name,
+//         Z_name: school.Zone_Name,
+//         School_ID: school.Schoolid,
+//         school_name: school.School_Name,
+//         shift: school.shift,
+//         attendance_DATE: date,
+//         totalStudentCount,
+//         PreasentCount: studentData.length,
+//         malePresentCount: genderCounts.M,
+//         feMalePresentCount: genderCounts.F,
+//         otherPresentCount: genderCounts.T,
+//         maleAbsentCount: genderAbsentCount.male,
+//         feMaleAbsentCount: genderAbsentCount.female,
+//         othersAbsentCount: genderAbsentCount.others,
+//       });
+//     }
+//   }
+// }
 
-        await Attendance.create({
-        district_name: school.District_name,
-        Z_name: school.Zone_Name,
-        School_ID: school.Schoolid,
-        school_name: school.School_Name,
-        shift: school.shift,
-        attendance_DATE: date,
-        totalStudentCount,
-        PreasentCount: studentData.length,
-        malePresentCount: genderCounts.M,
-        feMalePresentCount: genderCounts.F,
-        otherPresentCount: genderCounts.T,
-        maleAbsentCount: genderAbsentCount.male,
-        feMaleAbsentCount: genderAbsentCount.female,
-        othersAbsentCount: genderAbsentCount.others,
-      });
-    }
-  }
-}
+// const getAttendanceCounts = async (date) => {
+//   const match = { attendance_DATE: date };
 
+//   const totalStudentCount = await Attendance.aggregate([
+//     { $match: match },
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$totalStudentCount' },
+//       },
+//     },
+//   ]);
 
-const getAttendanceCounts = async (date) => {
-  const match = { attendance_DATE: date };
+//   const presentStudentCount = await Attendance.aggregate([
+//     { $match: match },
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$PreasentCount' },
+//       },
+//     },
+//   ]);
 
-  const totalStudentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$totalStudentCount' },
-      },
-    },
-  ]);
+//   const malePresentCount = await Attendance.aggregate([
+//     { $match: match },
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$malePresentCount' },
+//       },
+//     },
+//   ]);
 
-  const presentStudentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$PreasentCount' },
-      },
-    },
-  ]);
+//   const femalePresentCount = await Attendance.aggregate([
+//     { $match: match },
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$feMalePresentCount' },
+//       },
+//     },
+//   ]);
 
-  const malePresentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$malePresentCount' },
-      },
-    },
-  ]);
+//   const otherPresentCount = await Attendance.aggregate([
+//     { $match: match },
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$otherPresentCount' },
+//       },
+//     },
+//   ]);
 
-  const femalePresentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMalePresentCount' },
-      },
-    },
-  ]);
+//   const maleAbsentCount = await Attendance.aggregate([
+//     { $match: match },
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$maleAbsentCount' },
+//       },
+//     },
+//   ]);
 
-  const otherPresentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$otherPresentCount' },
-      },
-    },
-  ]);
+//   const femaleAbsentCount = await Attendance.aggregate([
+//     { $match: match },
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$feMaleAbsentCount' },
+//       },
+//     },
+//   ]);
 
-  const maleAbsentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$maleAbsentCount' },
-      },
-    },
-  ]);
+//   const otherAbsentCount = await Attendance.aggregate([
+//     { $match: match },
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$othersAbsentCount' },
+//       },
+//     },
+//   ]);
 
-  const femaleAbsentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMaleAbsentCount' },
-      },
-    },
-  ]);
+//   return {
+//     totalStudentCount: totalStudentCount[0] ? totalStudentCount[0].count : 0,
+//     presentStudentCount: presentStudentCount[0] ? presentStudentCount[0].count : 0,
+//     malePresentCount: malePresentCount[0] ? malePresentCount[0].count : 0,
+//     femalePresentCount: femalePresentCount[0] ? femalePresentCount[0].count : 0,
+//     otherPresentCount: otherPresentCount[0] ? otherPresentCount[0].count : 0,
+//     maleAbsentCount: maleAbsentCount[0] ? maleAbsentCount[0].count : 0,
+//     femaleAbsentCount: femaleAbsentCount[0] ? femaleAbsentCount[0].count : 0,
+//     otherAbsentCount: otherAbsentCount[0] ? otherAbsentCount[0].count : 0,
+//   };
+// };
 
-  const otherAbsentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$othersAbsentCount' },
-      },
-    },
-  ]);
+// const getAttendanceCountsDistrictWise = async (body) => {
+//   const { date,districtName } = body
+//   const dateMatch = {
+//     $match: { attendance_DATE: date, district_name: districtName }
+//   };
 
-  return {
-    totalStudentCount: totalStudentCount[0] ? totalStudentCount[0].count : 0,
-    presentStudentCount: presentStudentCount[0] ? presentStudentCount[0].count : 0,
-    malePresentCount: malePresentCount[0] ? malePresentCount[0].count : 0,
-    femalePresentCount: femalePresentCount[0] ? femalePresentCount[0].count : 0,
-    otherPresentCount: otherPresentCount[0] ? otherPresentCount[0].count : 0,
-    maleAbsentCount: maleAbsentCount[0] ? maleAbsentCount[0].count : 0,
-    femaleAbsentCount: femaleAbsentCount[0] ? femaleAbsentCount[0].count : 0,
-    otherAbsentCount: otherAbsentCount[0] ? otherAbsentCount[0].count : 0,
-  };
-};
+//   const totalStudentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$totalStudentCount' }
+//       }
+//     }
+//   ]);
 
+//   const presentStudentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$PreasentCount' }
+//       }
+//     }
+//   ]);
 
+//   const malePresentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$malePresentCount' }
+//       }
+//     }
+//   ]);
 
-const getAttendanceCountsDistrictWise = async (body) => {
-  const { date,districtName } = body
-  const dateMatch = {
-    $match: { attendance_DATE: date, district_name: districtName }
-  };
+//   const femalePresentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$feMalePresentCount' }
+//       }
+//     }
+//   ]);
 
-  const totalStudentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$totalStudentCount' }
-      }
-    }
-  ]);
+//   const otherPresentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$otherPresentCount' }
+//       }
+//     }
+//   ]);
 
-  const presentStudentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$PreasentCount' }
-      }
-    }
-  ]);
+//   const maleAbsentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$maleAbsentCount' }
+//       }
+//     }
+//   ]);
 
-  const malePresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$malePresentCount' }
-      }
-    }
-  ]);
+//   const femaleAbsentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$feMaleAbsentCount' }
+//       }
+//     }
+//   ]);
 
-  const femalePresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMalePresentCount' }
-      }
-    }
-  ]);
+//   const otherAbsentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$othersAbsentCount' }
+//       }
+//     }
+//   ]);
 
-  const otherPresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$otherPresentCount' }
-      }
-    }
-  ]);
+//   return {
+//     totalStudentCount: totalStudentCount[0].count,
+//     presentStudentCount: presentStudentCount[0].count,
+//     malePresentCount: malePresentCount[0].count,
+//     femalePresentCount: femalePresentCount[0].count,
+//     otherPresentCount: otherPresentCount[0].count,
+//     maleAbsentCount: maleAbsentCount[0].count,
+//     femaleAbsentCount: femaleAbsentCount[0].count,
+//     otherAbsentCount: otherAbsentCount[0].count,
+//   };
+// };
 
-  const maleAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$maleAbsentCount' }
-      }
-    }
-  ]);
+// const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
+//   const dateMatch = {
+//     $match: { attendance_DATE: attendanceDate, Z_name }
+//   };
 
-  const femaleAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMaleAbsentCount' }
-      }
-    }
-  ]);
+//   const totalStudentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$totalStudentCount' }
+//       }
+//     }
+//   ]);
 
-  const otherAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$othersAbsentCount' }
-      }
-    }
-  ]);
+//   const presentStudentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$PreasentCount' }
+//       }
+//     }
+//   ]);
 
-  return {
-    totalStudentCount: totalStudentCount[0].count,
-    presentStudentCount: presentStudentCount[0].count,
-    malePresentCount: malePresentCount[0].count,
-    femalePresentCount: femalePresentCount[0].count,
-    otherPresentCount: otherPresentCount[0].count,
-    maleAbsentCount: maleAbsentCount[0].count,
-    femaleAbsentCount: femaleAbsentCount[0].count,
-    otherAbsentCount: otherAbsentCount[0].count,
-  };
-};
+//   const malePresentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$malePresentCount' }
+//       }
+//     }
+//   ]);
 
+//   const femalePresentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$feMalePresentCount' }
+//       }
+//     }
+//   ]);
 
+//   const otherPresentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$otherPresentCount' }
+//       }
+//     }
+//   ]);
 
-const getAttendanceCountsZoneWise = async (attendanceDate, Z_name) => {
-  const dateMatch = {
-    $match: { attendance_DATE: attendanceDate, Z_name }
-  };
+//   const maleAbsentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$maleAbsentCount' }
+//       }
+//     }
+//   ]);
 
-  const totalStudentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$totalStudentCount' }
-      }
-    }
-  ]);
+//   const femaleAbsentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$feMaleAbsentCount' }
+//       }
+//     }
+//   ]);
 
-  const presentStudentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$PreasentCount' }
-      }
-    }
-  ]);
+//   const otherAbsentCount = await Attendance.aggregate([
+//     dateMatch,
+//     {
+//       $group: {
+//         _id: null,
+//         count: { $sum: '$othersAbsentCount' }
+//       }
+//     }
+//   ]);
 
-  const malePresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$malePresentCount' }
-      }
-    }
-  ]);
+//   return {
+//     totalStudentCount: totalStudentCount[0].count,
+//     presentStudentCount: presentStudentCount[0].count,
+//     malePresentCount: malePresentCount[0].count,
+//     femalePresentCount: femalePresentCount[0].count,
+//     otherPresentCount: otherPresentCount[0].count,
+//     maleAbsentCount: maleAbsentCount[0].count,
+//     femaleAbsentCount: femaleAbsentCount[0].count,
+//     otherAbsentCount: otherAbsentCount[0].count,
+//   };
+// };
 
-  const femalePresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMalePresentCount' }
-      }
-    }
-  ]);
-
-  const otherPresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$otherPresentCount' }
-      }
-    }
-  ]);
-
-  const maleAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$maleAbsentCount' }
-      }
-    }
-  ]);
-
-  const femaleAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMaleAbsentCount' }
-      }
-    }
-  ]);
-
-  const otherAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$othersAbsentCount' }
-      }
-    }
-  ]);
-
-  return {
-    totalStudentCount: totalStudentCount[0].count,
-    presentStudentCount: presentStudentCount[0].count,
-    malePresentCount: malePresentCount[0].count,
-    femalePresentCount: femalePresentCount[0].count,
-    otherPresentCount: otherPresentCount[0].count,
-    maleAbsentCount: maleAbsentCount[0].count,
-    femaleAbsentCount: femaleAbsentCount[0].count,
-    otherAbsentCount: otherAbsentCount[0].count,
-  };
-};
-
-module.exports = {
-  storeAttendanceDataInMongoDB,
-  getAttendanceCounts,
-  getAttendanceCountsDistrictWise,
-  getAttendanceCountsZoneWise,
-  
-};
+// module.exports = {
+//   storeAttendanceDataInMongoDB,
+//   getAttendanceCounts,
+//   getAttendanceCountsDistrictWise,
+//   getAttendanceCountsZoneWise,
+// };

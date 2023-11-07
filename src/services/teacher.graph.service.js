@@ -693,7 +693,7 @@ const getSchoolAndTeacherInfo = async (schname) => {
       SchManagement: school.SchManagement,
       SchCategory: school.SchCategory,
       typeOfSchool: school.typeOfSchool,
-      stream: school.stream, 
+      stream: school.stream,
       minority: school.minority,
       stream: school.affiliation,
       stream: school.stream,

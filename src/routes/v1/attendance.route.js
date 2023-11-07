@@ -90,7 +90,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /attendance/zone/date-wise:

@@ -1,0 +1,10 @@
+state_name,state_code,district_name,district_code,latitude,longitude,outcome,effective_classroom_transaction,infrastructure_facilities_studententitlements,school_safety_and_child_protection,digital_learning,governance_processes,grand_total
+DELHI,10,Central,77,28.6859,77.2148,148,82,41,35,27,77,410
+DELHI,10,East,740,28.6146,77.2959,152,83,43,35,28,80,421
+DELHI,10,New Delhi,79,28.5669,77.1295,164,84,43,33,33,82,438
+DELHI,10,North,80,28.6859,77.2148,159,83,43,35,28,79,427
+DELHI,10,North East,741,28.7133,77.257,142,86,41,34,25,76,404
+DELHI,10,North West A,82,28.7186,77.0685,145,84,42,35,29,80,415
+DELHI,10,South,743,28.5436,77.2706,142,84,42,33,30,75,405
+DELHI,10,South West A,84,28.5929,77.0346,152,84,43,33,32,77,421
+DELHI,10,West A,85,28.6246,77.2987,153,84,42,35,29,81,425
