@@ -110,7 +110,7 @@ async function getDistrictZoneNames(districtName) {
     const districtZoneNames = Array.from(uniqueZoneNames);
     return districtZoneNames;
   } catch (error) {
-    throw new Error('Error fetching data: ' + error.message);
+    throw new Error(`Error fetching data: ${error.message}`);
   }
 }
 

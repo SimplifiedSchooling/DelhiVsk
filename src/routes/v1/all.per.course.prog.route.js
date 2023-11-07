@@ -42,7 +42,7 @@ module.exports = router;
  * @swagger
  * tags:
  *   name: AllDashboards
- *   description: AllDashboards for percentageenrollmentcertification, programStarted, courseMedium, allDashboard management 
+ *   description: AllDashboards for percentageenrollmentcertification, programStarted, courseMedium, allDashboard management
  */
 
 /**

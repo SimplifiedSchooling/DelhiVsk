@@ -1,0 +1,425 @@
+textbook_id,textbook_name,medium,grade,subject,day_of_created_on,qr_coverage,qr_codes_linked_to_content,total_qr_codes
+do_3134941661652828161289,Understanding Of ICT in Education,English,Class 9;Others;Class 10;CPD;Class 1;Class 11;Class 2;Class 12;Class 3;Class 4;Class 5;Class 6;Class 7;Class 8,ICT;Information And Communication Technology;Education,14/03/2022,100,39,39
+do_31304270483372441611703,A Pact With The Sun (Class 6),English,Class 6,English,14/06/2020,0,0,0
+do_31304275485156147212950,An Alien Hand (Class 7),English,Class 7,English,14/06/2020,0,0,0
+do_31304319994698137614928,Beehive (Class 9),English,Class 9,English,15/06/2020,0,0,0
+do_3130349792046694401952,Class 10 Mathematics,English,Class 10,Mathematics,03/06/2020,0,0,0
+do_31304327401913548816088,Class 10 Science,English,Class 10,Science,15/06/2020,0,0,0
+do_3130349523764920321526,Class 6 Mathematics,English,Class 6,Mathematics,03/06/2020,0,0,0
+do_3130349587322716161867,Class 7 Mathematics,English,Class 7,Mathematics,03/06/2020,0,0,0
+do_31304275639695769612146,Class 7 Science,English,Class 7,Science,14/06/2020,0,0,0
+do_3130349808557506561338,Class 8 Mathematics,English,Class 8,Mathematics,03/06/2020,0,0,0
+do_31304287434395648014291,Class 8 Science,English,Class 8,Science,14/06/2020,0,0,0
+do_31304319916077875215386,Class 9 Economics,English,Class 9,Economics,15/06/2020,0,0,0
+do_3130349745145856001492,Class 9 Mathematics,English,Class 9,Mathematics,03/06/2020,0,0,0
+do_31304321071601254413158,Class 9 Science (Delhi SCERT),English,Class 9,Science,15/06/2020,0,0,0
+do_31304320371701350412929,Contemporary India  I (Class 9),English,Class 9,Geography,15/06/2020,0,0,0
+do_31304325140698726413444,Contemporary India II (Class 10),English,Class 10,Geography,15/06/2020,0,0,0
+do_3128968873113681921201,Coordinate Geometry,Hindi,Class 9,Mathematics,21/11/2019,100,1,1
+do_31313957268771635212534,Delhi_ A Pact With The Sun (by NCERT),English,Class 6,English,29/10/2020,100,11,11
+do_31310352226590720011773,Delhi_ Accountancy - I - Not for Profit Organisation & Parternship Accounts (by NCERT),English,Class 12,Accountancy,08/09/2020,100,5,5
+do_31310352159870976011211,Delhi_ Accountancy Financial Accounting - I (by NCERT),English,Class 11,Accountancy,08/09/2020,100,8,8
+do_31313957309806182411968,Delhi_ Accountancy Financial Accounting - II (by NCERT),English,Class 11,Accountancy,29/10/2020,0,0,0
+do_31313957341921280013248,Delhi_ Accountancy Part - II (by NCERT),English,Class 12,Accountancy,29/10/2020,0,0,0
+do_31313957272947097613964,Delhi_ An Alien Hand (by NCERT),English,Class 7,English,29/10/2020,100,11,11
+do_31310352038809600011749,Delhi_ Beehive English Text Book (by NCERT),English,Class 9,English,08/09/2020,100,11,11
+do_31310352178212864011769,Delhi_ Biology (by NCERT),English,Class 12,Biology,08/09/2020,100,16,16
+do_31310352106962944011616,Delhi_ Biology (by NCERT),English,Class 11,Biology,08/09/2020,100,22,22
+do_3131035215555543041972,Delhi_ Business Studies (by NCERT),English,Class 11,Business Studies,08/09/2020,100,11,11
+do_3131395733786542081909,Delhi_ Business Studies -II (by NCERT),English,Class 12,Business Studies,29/10/2020,0,0,0
+do_31310352222534860811715,Delhi_ Business Studies Part -1 (by NCERT),English,Class 12,Business Studies,08/09/2020,100,8,8
+do_31310352182200729611691,Delhi_ Chemistry Part 1 (by NCERT),English,Class 12,Chemistry,08/09/2020,100,9,9
+do_31313957321972940813776,Delhi_ Chemistry Part II (by NCERT),English,Class 12,Chemistry,29/10/2020,0,0,0
+do_31310352110985216011698,Delhi_ Chemistry Part-1 (by NCERT),English,Class 11,Chemistry,08/09/2020,100,7,7
+do_31313957297703321612400,Delhi_ Chemistry Part-2 (by NCERT),English,Class 11,Chemistry,29/10/2020,0,0,0
+do_3131395735014686721913,Delhi_ Computerised Accounting System (by NCERT),English,Class 12,Accountancy,29/10/2020,0,0,0
+do_31310352053252915211602,Delhi_ Contemporary India 1 (by NCERT),English,Class 9,Geography,08/09/2020,100,6,6
+do_31310352084240793611199,Delhi_ Contemporary India Part-II (by NCERT),English,Class 10,Geography,08/09/2020,100,7,7
+do_31310352210571264011321,Delhi_ Contemporary World Politics (by NCERT),English,Class 12,Political Science,08/09/2020,100,9,9
+do_31310352092566323211259,Delhi_ Democratic Politics Part-II (by NCERT),English,Class 10,Political Science,08/09/2020,100,8,8
+do_31310352057452953611694,Delhi_ Economics (by NCERT),English,Class 9,Economics,08/09/2020,100,4,4
+do_31310352069753241611757,Delhi_ First Flight - English Textbook (by NCERT),English,Class 10,English,08/09/2020,100,11,11
+do_31310352171994316811620,Delhi_ Flamingo - English Core (by NCERT),English,Class 12,English,08/09/2020,100,14,14
+do_31313957291319296012396,Delhi_ Footprints without Feet - English Supplementary Reader (by NCERT),English,Class 10,English,29/10/2020,0,0,0
+do_31310352194386329611622,Delhi_ Fundamentals of Human Geography (by NCERT),English,Class 12,Geography,08/09/2020,100,10,10
+do_31310352123066777611307,Delhi_ Fundamentals of Physical Geography (by NCERT),English,Class 11,Geography,08/09/2020,100,16,16
+do_31310351985727078411665,Delhi_ Honeycomb (by NCERT),English,Class 7,English,08/09/2020,100,10,10
+do_31310352011993907211743,Delhi_ Honeydew English (by NCERT),English,Class 8,English,08/09/2020,100,10,10
+do_31310351959140761611185,Delhi_ Honeysuckle (by NCERT),English,Class 6,English,08/09/2020,100,10,10
+do_31310352100674764811261,Delhi_ Hornbill - English Core (by NCERT),English,Class 11,English,08/09/2020,100,14,14
+do_31310352080134963211608,Delhi_ India & Contemporary World II (by NCERT),English,Class 10,History,08/09/2020,100,5,5
+do_31310352049142169611251,Delhi_ India And The Contemporary World I (by NCERT),English,Class 9,History,08/09/2020,100,5,5
+do_3131035219838402561980,Delhi_ India People and Economy (by NCERT),English,Class 12,Geography,08/09/2020,100,12,12
+do_31310352127089049611203,Delhi_ India Physical Environment (by NCERT),English,Class 11,Geography,08/09/2020,100,7,7
+do_31310352139323801611207,Delhi_ Indian Constitution at Work (by NCERT),English,Class 11,Political Science,08/09/2020,100,10,10
+do_3131035213525975041970,Delhi_ Indian Economic Development (by NCERT),English,Class 11,Economics,08/09/2020,100,10,10
+do_31310352218488012811323,Delhi_ Indian Society (by NCERT),English,Class 12,Sociology,08/09/2020,100,7,7
+do_31310352147515801611767,Delhi_ Introducing Sociology (by NCERT),English,Class 11,Sociology,08/09/2020,100,5,5
+do_31310352206527692811711,Delhi_ Introductory Macroeconomics (by NCERT),English,Class 12,Economics,08/09/2020,100,6,6
+do_31310352202462822411317,Delhi_ Introductory Microeconomics (by NCERT),English,Class 12,Economics,08/09/2020,100,6,6
+do_31313957277073408013768,Delhi_ It so happened English Suppl. (by NCERT),English,Class 8,English,29/10/2020,0,0,0
+do_3131395731596984321966,Delhi_ Kaleidoscope - English Elective (by NCERT),English,Class 12,English,29/10/2020,0,0,0
+do_31310351925653504011181,Delhi_ Looking Around (by NCERT),English,Class 3,Environmental Studies,08/09/2020,100,24,24
+do_31310351938247065611590,Delhi_ Looking Around Book-II (by NCERT),English,Class 4,Environmental Studies,08/09/2020,100,27,27
+do_31310351950646476811680,Delhi_ Looking Around Book-III (by NCERT),English,Class 5,Environmental Studies,08/09/2020,100,22,22
+do_31310351931922841611735,Delhi_ Marigold (by NCERT),English,Class 4,English,08/09/2020,100,9,9
+do_3131035191091527681950,Delhi_ Marigold (by NCERT),English,Class 2,English,08/09/2020,100,10,10
+do_31310351902339072011731,Delhi_ Marigold (by NCERT),English,Class 1,English,08/09/2020,100,10,10
+do_31310351919307980811584,Delhi_ Marigold (by NCERT),English,Class 3,English,08/09/2020,100,10,10
+do_31310351944436940811239,Delhi_ Marigold Book - V (by NCERT),English,Class 5,English,08/09/2020,100,10,10
+do_31310351904516505611235,Delhi_ Math-Magic Book 1 Textbook in Mathematics for Class I (by NCERT),English,Class 1,Mathematics,08/09/2020,100,13,13
+do_3131035191300505601952,Delhi_ Math-Magic Book 2 Textbook in Mathematics for Class II (by NCERT),English,Class 2,Mathematics,08/09/2020,100,15,15
+do_31310351921482137611733,Delhi_ Math-Magic Book 3 Textbook in Mathematics for Class III (by NCERT),English,Class 3,Mathematics,08/09/2020,100,3,3
+do_31310351933986406411183,Delhi_ Math-magic Book 4 Textbook In Mathematics For Class IV (by NCERT),English,Class 4,Mathematics,08/09/2020,100,14,14
+do_31310351946435788811241,Delhi_ Math-Magic Book 5 Textbook in Mathematics for ClassV (by NCERT),English,Class 5,Mathematics,08/09/2020,100,14,14
+do_31310351961320652811684,Delhi_ Mathematics (by NCERT),English,Class 6,Mathematics,08/09/2020,100,14,14
+do_31310352102704742411761,Delhi_ Mathematics (by NCERT),English,Class 11,Mathematics,08/09/2020,100,16,16
+do_31310352174039040011687,Delhi_ Mathematics Part I (by NCERT),English,Class 12,Mathematics,08/09/2020,100,6,6
+do_31313957317981798413774,Delhi_ Mathematics Part II (by NCERT),English,Class 12,Mathematics,29/10/2020,0,0,0
+do_31310352040876441611751,Delhi_ Mathematics Textbook for Class IX (by NCERT),English,Class 9,Mathematics,08/09/2020,100,15,15
+do_31310351987783270411667,Delhi_ Mathematics Textbook for Class VII (by NCERT),English,Class 7,Mathematics,08/09/2020,100,15,15
+do_31310352014132838411669,Delhi_ Mathematics Textbook for Class VIII (by NCERT),English,Class 8,Mathematics,08/09/2020,100,16,16
+do_31310352071899545611759,Delhi_ Mathematics textbook for class X (by NCERT),English,Class 10,Mathematics,08/09/2020,100,15,15
+do_31313957283166617612392,Delhi_ Moments - English Suppl. Reader (by NCERT),English,Class 9,English,29/10/2020,0,0,0
+do_31310352045054361611673,Delhi_ Ncert Science Textbook For Class IX (by NCERT),English,Class 9,Science,08/09/2020,100,15,15
+do_31310351999944294411297,Delhi_ Our Environment (by NCERT),English,Class 7,Geography,08/09/2020,100,9,9
+do_31310351995941683211594,Delhi_ Our Past II (by NCERT),English,Class 7,History,08/09/2020,100,10,10
+do_31310351969712537611686,Delhi_ Our Pasts I (by NCERT),English,Class 6,History,08/09/2020,100,11,11
+do_31310352032618905611600,Delhi_ Our Pasts III (by NCERT),English,Class 8,History,08/09/2020,100,10,10
+do_31310352114997657611265,Delhi_ Physics Part 1 (by NCERT),English,Class 11,Physics,08/09/2020,100,8,8
+do_31310352186443366411771,Delhi_ Physics Part I (by NCERT),English,Class 12,Physics,08/09/2020,100,8,8
+do_31313957325945241612538,Delhi_ Physics Part II (by NCERT),English,Class 12,Physics,29/10/2020,0,0,0
+do_31313957301731328012536,Delhi_ Physics Part II (by NCERT),English,Class 11,Physics,29/10/2020,0,0,0
+do_31310352143334604811703,Delhi_ Political Theory (by NCERT),English,Class 11,Political Science,08/09/2020,100,10,10
+do_31310352228723916811717,Delhi_ Politics in India since Independence (by NCERT),English,Class 12,Political Science,08/09/2020,100,9,9
+do_31313957333893939212542,Delhi_ Practial Work in Geography - II (by NCERT),English,Class 12,Geography,29/10/2020,0,0,0
+do_31313957305885491213772,Delhi_ Practical Work in Geography - Part - I (by NCERT),English,Class 11,Geography,29/10/2020,0,0,0
+do_31310352234668851211327,Delhi_ Psychology (by NCERT),English,Class 12,Psychology,08/09/2020,100,9,9
+do_31310352163921920011705,Delhi_ Psychology (by NCERT),English,Class 11,Psychology,08/09/2020,100,9,9
+do_3131395726465597441901,Delhi_ Raindrop-II (by NCERT),English,Class 2,English,29/10/2020,100,16,16
+do_31313957262428569613244,Delhi_ Raindrops-I (by NCERT),English,Class 1,English,29/10/2020,100,20,20
+do_3131035202443100161966,Delhi_ Resources and Development (by NCERT),English,Class 8,Geography,08/09/2020,100,6,6
+do_31310351965572300811289,Delhi_ SCIENCE TEXT BOOK FOR CLASS VI (by NCERT),English,Class 6,Science,08/09/2020,100,16,16
+do_31310351991868620811245,Delhi_ SCIENCE TEXTBOOK FOR CLASS VII (by NCERT),English,Class 7,Science,08/09/2020,100,18,18
+do_31310352018284544011671,Delhi_ Science Textbook for Class VIII (by NCERT),English,Class 8,Science,08/09/2020,100,18,18
+do_31310352076073369611257,Delhi_ Science Textbook for Class X (by NCERT),English,Class 10,Science,08/09/2020,100,16,16
+do_31313957293452492812398,Delhi_ Snapshot - English Suppl. Core (by NCERT),English,Class 11,English,29/10/2020,0,0,0
+do_31310352003919052811739,Delhi_ Social and Political Life - II (by NCERT),English,Class 7,Political Science,08/09/2020,100,9,9
+do_31310352028476211211598,Delhi_ Social and Political Life - III (by NCERT),English,Class 8,Political Science,08/09/2020,100,10,10
+do_31310351977701376011690,Delhi_ Social and Political Life- I (by NCERT),English,Class 6,Political Science,08/09/2020,100,9,9
+do_31310352214552576011713,Delhi_ Social Change and Development in India (by NCERT),English,Class 12,Sociology,08/09/2020,100,8,8
+do_31310352131127705611765,Delhi_ Statistics for Economics (by NCERT),English,Class 11,Economics,08/09/2020,100,9,9
+do_3131035197369221121957,Delhi_ The Earth: Our Habitat (by NCERT),English,Class 6,Geography,08/09/2020,100,8,8
+do_31310352190416486411271,Delhi_ Themes in Indian History Part-I (by NCERT),English,Class 12,History,08/09/2020,100,4,4
+do_31313957329960140811970,Delhi_ Themes in Indian History Part-II (by NCERT),English,Class 12,History,29/10/2020,0,0,0
+do_31313957346184396812544,Delhi_ Themes in Indian History Part-III (by NCERT),English,Class 12,History,29/10/2020,0,0,0
+do_31310352119002726411305,Delhi_ Themes in World History (by NCERT),English,Class 11,History,08/09/2020,100,4,4
+do_31310352088405606411303,Delhi_ Understanding Economic Development (by NCERT),English,Class 10,Economics,08/09/2020,100,5,5
+do_31310352151598694411313,Delhi_ Understanding Society (by NCERT),English,Class 11,Sociology,08/09/2020,100,5,5
+do_31313957313879244813246,Delhi_ Vistas; English Suppl. Reader Core (by NCERT),English,Class 12,English,29/10/2020,0,0,0
+do_31313957285176115213770,Delhi_ Words And Expression I (by NCERT),English,Class 9,English,29/10/2020,0,0,0
+do_31313957354107699213430,Delhi_ Words and Expressions -II (by NCERT),English,Class 10,English,29/10/2020,0,0,0
+do_31313957295646310413655,Delhi_ Woven Words (by NCERT),English,Class 11,English,29/10/2020,0,0,0
+do_31310352098679193611612,Delhi_ अंतरा भाग 1 (by NCERT),Hindi,Class 11,Hindi,08/09/2020,100,19,19
+do_31310352169952870411685,Delhi_ अंतरा भाग-2 (by NCERT),Hindi,Class 12,Hindi,08/09/2020,100,21,21
+do_31310352059473100811677,Delhi_ अर्थशास्त्र (by NCERT),Hindi,Class 9,Economics,08/09/2020,100,4,4
+do_31310352096531251211679,Delhi_ आरोह भाग-1 (by NCERT),Hindi,Class 11,Hindi,08/09/2020,100,20,20
+do_3131035216793600001976,Delhi_ आरोह भाग-2 (by NCERT),Hindi,Class 12,Hindi,08/09/2020,100,18,18
+do_31310352090569932811696,Delhi_ आर्थिक विकास की समझ (by NCERT),Hindi,Class 10,Economics,08/09/2020,100,5,5
+do_31310351952687923211243,Delhi_ आस-पास (by NCERT),Hindi,Class 5,Environmental Studies,08/09/2020,100,22,22
+do_31310351927809638411282,Delhi_ आस-पास (by NCERT),Hindi,Class 3,Environmental Studies,08/09/2020,100,24,24
+do_3131035194043351041955,Delhi_ आस-पास (by NCERT),Hindi,Class 4,Environmental Studies,08/09/2020,100,27,27
+do_31313957279104204812390,Delhi_ कृतिका भाग -1 (by NCERT),Hindi,Class 9,Hindi,29/10/2020,0,0,0
+do_31313957287242137613966,Delhi_ कृतिका भाग -2 (by NCERT),Hindi,Class 10,Hindi,29/10/2020,0,0,0
+do_31310352034657075211191,Delhi_ क्षितिज भाग -1 (by NCERT),Hindi,Class 9,Hindi,08/09/2020,100,17,17
+do_31310352065652326411195,Delhi_ क्षितिज भाग -2 (by NCERT),Hindi,Class 10,Hindi,08/09/2020,100,17,17
+do_31310352104726528011614,Delhi_ गणित (by NCERT),Hindi,Class 11,Mathematics,08/09/2020,100,16,16
+do_31310352074059776011255,Delhi_ गणित कक्षा 10 के लिए पाठ्यपुस्तक (by NCERT),Hindi,Class 10,Mathematics,08/09/2020,100,15,15
+do_31310351989828812811293,Delhi_ गणित कक्षा 7 की पाठ्यपुस्तक (by NCERT),Hindi,Class 7,Mathematics,08/09/2020,100,15,15
+do_3131035204299898881968,Delhi_ गणित कक्षा 9 के लिए पाठ्यपुस्तक (by NCERT),Hindi,Class 9,Mathematics,08/09/2020,100,15,15
+do_31310351963525939211187,Delhi_ गणित कक्षा ६ की पाठ्यपुस्तक (by NCERT),Hindi,Class 6,Mathematics,08/09/2020,100,14,14
+do_31310351948535398411678,Delhi_ गणित का जादू (by NCERT),Hindi,Class 5,Mathematics,08/09/2020,100,14,14
+do_31310351906584166411676,Delhi_ गणित का जादू भाग 1 (by NCERT),Hindi,Class 1,Mathematics,08/09/2020,100,13,13
+do_31310351915157913611582,Delhi_ गणित का जादू भाग 2 (by NCERT),Hindi,Class 2,Mathematics,08/09/2020,100,15,15
+do_31310351923567820811586,Delhi_ गणित का जादू भाग 3 (by NCERT),Hindi,Class 3,Mathematics,08/09/2020,100,14,14
+do_31310351936206438411588,Delhi_ गणित का जादू भाग 4 (by NCERT),Hindi,Class 4,Mathematics,08/09/2020,100,14,14
+do_31310352176223846411707,Delhi_ गणित पाठ्य पुस्तक भाग -1 (by NCERT),Hindi,Class 12,Mathematics,08/09/2020,100,6,6
+do_3131395731998720001968,Delhi_ गणित पाठ्य पुस्तक भाग -2 (by NCERT),Hindi,Class 12,Mathematics,29/10/2020,0,0,0
+do_31310352016209510411745,Delhi_ गणित; कक्षा 8 के लिए पाठ्य पुस्तक (by NCERT),Hindi,Class 8,Mathematics,08/09/2020,100,16,16
+do_31310352180221542411689,Delhi_ जीव विज्ञान (by NCERT),Hindi,Class 12,Biology,08/09/2020,100,16,16
+do_31310352108987187211201,Delhi_ जीव विज्ञान (by NCERT),Hindi,Class 11,Biology,08/09/2020,100,22,22
+do_3131035198373150721959,Delhi_ दूर्वा भाग - 2 (by NCERT),Hindi,Class 7,Hindi,08/09/2020,100,18,18
+do_31310351957082931211682,Delhi_ दूर्वा भाग 1 (by NCERT),Hindi,Class 6,Hindi,08/09/2020,100,28,28
+do_31310352010012262411299,Delhi_ दूर्वा भाग 3 (by NCERT),Hindi,Class 8,Hindi,08/09/2020,100,19,19
+do_31310351975691059211663,Delhi_ पृथ्वी - हमारा आवास (by NCERT),Hindi,Class 6,Geography,08/09/2020,100,8,8
+do_31313957270861414413766,Delhi_ बाल महाभारत कथा (by NCERT),Hindi,Class 7,Hindi,29/10/2020,100,41,41
+do_31313957266716262413764,Delhi_ बाल रामकथा (by NCERT),Hindi,Class 6,Hindi,29/10/2020,100,13,13
+do_31310352051273728011675,Delhi_ भारत और समकालीन विश्‍व-1 (by NCERT),Hindi,Class 9,History,08/09/2020,100,5,5
+do_31310352082138726411197,Delhi_ भारत और समकालीन विश्‍व-2 (by NCERT),Hindi,Class 10,History,08/09/2020,100,5,5
+do_31310352141314457611269,Delhi_ भारत का संविधान सिध्दांत और व्यवहार (by NCERT),Hindi,Class 11,Political Science,08/09/2020,100,10,10
+do_31313957274993459211962,Delhi_ भारत की खोज (by NCERT),Hindi,Class 8,History,29/10/2020,0,0,0
+do_31310352129151795211205,Delhi_ भारत भौतिक पर्यावरण (by NCERT),Hindi,Class 11,Geography,08/09/2020,100,7,7
+do_31310352216510464011221,Delhi_ भारत में सामाजिक परिवर्तन एवं विकास (by NCERT),Hindi,Class 12,Sociology,08/09/2020,100,8,8
+do_31310352200417280011217,Delhi_ भारत लोग और अर्थव्यवस्था (by NCERT),Hindi,Class 12,Geography,08/09/2020,100,12,12
+do_31310352137306112011618,Delhi_ भारतीय अर्थव्यवस्था का विकास (by NCERT),Hindi,Class 11,Economics,08/09/2020,100,10,10
+do_31310352192388300811215,Delhi_ भारतीय इतिहास के कुछ विषय-I (by NCERT),Hindi,Class 12,History,08/09/2020,100,4,4
+do_31313957331928678411972,Delhi_ भारतीय इतिहास के कुछ विषय-II (by NCERT),Hindi,Class 12,History,29/10/2020,0,0,0
+do_31313957348142284813778,Delhi_ भारतीय इतिहास के कुछ विषय-III (by NCERT),Hindi,Class 12,History,29/10/2020,0,0,0
+do_31310352220569600011325,Delhi_ भारतीय समाज (by NCERT),Hindi,Class 12,Sociology,08/09/2020,100,7,7
+do_3131395730783518721905,Delhi_ भूगोल में प्रयोगात्मक कार्य भाग -I (by NCERT),Hindi,Class 11,Geography,29/10/2020,0,0,0
+do_31313957335860019211974,Delhi_ भूगोल में प्रयोगात्मक कार्य भाग 2 (by NCERT),Hindi,Class 12,Geography,29/10/2020,0,0,0
+do_31310352125066444811701,Delhi_ भौतिक भूगोल के मूल सिद्धांत (by NCERT),Hindi,Class 11,Geography,08/09/2020,100,16,16
+do_3131035218845040641978,Delhi_ भौतिकी भाग -I (by NCERT),Hindi,Class 12,Physics,08/09/2020,100,8,8
+do_31313957327933440012540,Delhi_ भौतिकी भाग -II (by NCERT),Hindi,Class 12,Physics,29/10/2020,0,0,0
+do_31310352116992409611763,Delhi_ भौतिकी भाग I (by NCERT),Hindi,Class 11,Physics,08/09/2020,100,8,8
+do_31313957303816192011966,Delhi_ भौतिकी भाग II (by NCERT),Hindi,Class 11,Physics,29/10/2020,0,0,0
+do_31310352165910937611213,Delhi_ मनोविज्ञान (by NCERT),Hindi,Class 11,Psychology,08/09/2020,100,9,9
+do_31310352236644761611227,Delhi_ मनोविज्ञान (by NCERT),Hindi,Class 12,Psychology,08/09/2020,100,9,9
+do_31310352196385177611709,Delhi_ मानव भूगोल के मूल सिद्धांत (by NCERT),Hindi,Class 12,Geography,08/09/2020,100,10,10
+do_31310352184297062411315,Delhi_ रसायन भाग-1 (by NCERT),Hindi,Class 12,Chemistry,08/09/2020,100,9,9
+do_31310352113002086411263,Delhi_ रसायन विज्ञान भाग-1 (by NCERT),Hindi,Class 11,Chemistry,08/09/2020,100,7,7
+do_3131395729972592641903,Delhi_ रसायन विज्ञानं भाग २ (by NCERT),Hindi,Class 11,Chemistry,29/10/2020,0,0,0
+do_31310352145318707211311,Delhi_ राजनीतिक सिद्धांत (by NCERT),Hindi,Class 11,Political Science,08/09/2020,100,10,10
+do_31310351900026470411729,Delhi_ रिमझिम (by NCERT),Hindi,Class 1,Hindi,08/09/2020,100,22,22
+do_3131035190870179841948,Delhi_ रिमझिम 2 (by NCERT),Hindi,Class 2,Hindi,08/09/2020,100,15,15
+do_31310351917236224011661,Delhi_ रिमझिम 3 (by NCERT),Hindi,Class 3,Hindi,08/09/2020,100,14,14
+do_31310351942443008011237,Delhi_ रिमझिम भाग -v (by NCERT),Hindi,Class 5,Hindi,08/09/2020,100,18,18
+do_31310351929843712011284,Delhi_ रिमझिम भाग IV (by NCERT),Hindi,Class 4,Hindi,08/09/2020,100,14,14
+do_31310352230711296011223,Delhi_ लेखाशास्त्र - अलाभकारी संस्थाएं एवं साझेदारी खाते (by NCERT),Hindi,Class 12,Accountancy,08/09/2020,100,5,5
+do_31313957344203571211976,Delhi_ लेखाशास्त्र -कंपनी खाते एवं वित्तीय विवरणों का विश्लेषण (by NCERT),Hindi,Class 12,Accountancy,29/10/2020,0,0,0
+do_31310352161934540811683,Delhi_ लेखाशास्त्र- वित्तीय लेखांकन भाग-1 (by NCERT),Hindi,Class 11,Accountancy,08/09/2020,100,8,8
+do_31313957311818137612402,Delhi_ लेखाशास्त्र- वित्तीय लेखांकन भाग-2 (by NCERT),Hindi,Class 11,Accountancy,29/10/2020,0,0,0
+do_31310352094544691211610,Delhi_ लोकतांत्रिक राजनीति-2 (by NCERT),Hindi,Class 10,Political Science,08/09/2020,100,7,7
+do_31310352063529779211253,Delhi_ लोक्तांत्रिक राजनिति (by NCERT),Hindi,Class 9,Political Science,08/09/2020,100,5,5
+do_31310351981691699211737,Delhi_ वसंत भाग- 2 (by NCERT),Hindi,Class 7,Hindi,08/09/2020,100,20,20
+do_31310351954708070411287,Delhi_ वसंत भाग-1 (by NCERT),Hindi,Class 6,Hindi,08/09/2020,100,17,17
+do_3131035200794214401964,Delhi_ वसंत भाग-3 (by NCERT),Hindi,Class 8,Hindi,08/09/2020,100,18,18
+do_31310352078132838411606,Delhi_ विज्ञान (by NCERT),Hindi,Class 10,Science,08/09/2020,100,16,16
+do_31310351993934643211592,Delhi_ विज्ञान कक्षा 7 के लिए पाठ्यपुस्तक (by NCERT),Hindi,Class 7,Science,08/09/2020,100,18,18
+do_31310352047136768011753,Delhi_ विज्ञान कक्षा 9 के लिए पाठ्यपुस्तक (by NCERT),Hindi,Class 9,Science,08/09/2020,100,15,15
+do_31310352020365312011596,Delhi_ विज्ञान कक्षा आठ के लिये पाठ्य -पुस्तक (by NCERT),Hindi,Class 8,Science,08/09/2020,100,18,18
+do_31310351967693209611291,Delhi_ विज्ञान कक्षा ६ के लिए पाठ्य पुस्तक (by NCERT),Hindi,Class 6,Science,08/09/2020,100,16,16
+do_31310352121022873611267,Delhi_ विश्व इतिहास के कुछ विषय (by NCERT),Hindi,Class 11,History,08/09/2020,100,11,11
+do_3131035215756328961974,Delhi_ व्यवसाय अध्ययन (by NCERT),Hindi,Class 11,Business Studies,08/09/2020,100,11,11
+do_31310352224622182411695,Delhi_ व्यवसाय अध्ययन भाग 1 (by NCERT),Hindi,Class 12,Business Studies,08/09/2020,100,8,8
+do_3131395733990440961911,Delhi_ व्यवसाय अध्ययन भाग 2 (by NCERT),Hindi,Class 12,Business Studies,29/10/2020,0,0,0
+do_31310352204455116811319,Delhi_ व्यष्टि अर्थशास्त्र -एक परिचय (by NCERT),Hindi,Class 12,Economics,08/09/2020,100,6,6
+do_3131395735212605441915,Delhi_ संक्षिप्त बुद्धचरित (by NCERT),Hindi,Class 8,Hindi,29/10/2020,0,0,0
+do_31313957289219686412394,Delhi_ संचयन भाग 2 (by NCERT),Hindi,Class 10,Hindi,29/10/2020,0,0,0
+do_31310352026433945611747,Delhi_ संसाधन एवं विकास (by NCERT),Hindi,Class 8,Geography,08/09/2020,100,6,6
+do_31310352086401843211301,Delhi_ समकालीन भारत -II (by NCERT),Hindi,Class 10,Geography,08/09/2020,100,7,7
+do_31310352055462297611692,Delhi_ समकालीन भारत 1 (by NCERT),Hindi,Class 9,Geography,08/09/2020,100,6,6
+do_31310352212542259211693,Delhi_ समकालीन विश्व राजनीति (by NCERT),Hindi,Class 12,Political Science,08/09/2020,100,9,9
+do_31310352208526540811219,Delhi_ समस्थि अर्थशास्त्र -एक परिचय (by NCERT),Hindi,Class 12,Economics,08/09/2020,100,6,6
+do_31310352153578700811209,Delhi_ समाज का बोध (by NCERT),Hindi,Class 11,Sociology,08/09/2020,100,5,5
+do_31310352149565440011681,Delhi_ समाजशास्त्र परिचय​ (by NCERT),Hindi,Class 11,Sociology,08/09/2020,100,5,5
+do_31310352133168332811309,Delhi_ सांख्यिकी (by NCERT),Hindi,Class 11,Economics,08/09/2020,100,9,9
+do_31310352030596300811249,Delhi_ सामाजिक एवं राजनीतिक जीवन - III (by NCERT),Hindi,Class 8,Political Science,08/09/2020,100,10,10
+do_31310351979718246411189,Delhi_ सामाजिक एवं राजनीतिक जीवन- I (by NCERT),Hindi,Class 6,Political Science,08/09/2020,100,9,9
+do_31310352005973606411741,Delhi_ सामाजिक एवं राजनीतिक जीवन- II (by NCERT),Hindi,Class 7,Political Science,08/09/2020,100,9,9
+do_31310352036664115211193,Delhi_ स्पर्श (by NCERT),Hindi,Class 9,Hindi,08/09/2020,100,13,13
+do_31310352067686400011604,Delhi_ स्पर्श भाग 2 (by NCERT),Hindi,Class 10,Hindi,08/09/2020,100,17,17
+do_31310352232674099211225,Delhi_ स्वतंत्र भारत में राजनीति (by NCERT),Hindi,Class 12,Political Science,08/09/2020,100,9,9
+do_3131035200193495041961,Delhi_ हमारा पर्यावरण (by NCERT),Hindi,Class 7,Geography,08/09/2020,100,9,9
+do_31310351971723673611688,Delhi_ हमारे अतीत I (by NCERT),Hindi,Class 6,History,08/09/2020,100,11,11
+do_31310351997966745611295,Delhi_ हमारे अतीत II (by NCERT),Hindi,Class 7,History,08/09/2020,100,10,10
+do_31310352022354329611247,Delhi_ हमारे अतीत III (by NCERT),Hindi,Class 8,History,08/09/2020,100,10,10
+do_31304487301045452815318,Delhi_Computer Science Textbook for Class XI (by NCERT),English,Class 11,Computer Science,17/06/2020,100,12,12
+do_31304487306535731214855,Delhi_Gulistan-e-Adab  (by NCERT),Urdu,Class 11,Urdu,17/06/2020,100,22,22
+do_31304487266163097618369,Delhi_Health and Physical Education Textbook for Class IX (by NCERT),English,Class 9,Health and Physical Education,17/06/2020,100,15,15
+do_31304487285148057614837,Delhi_Human Ecology and Family Sciences Part I (by NCERT),English,Class 11,Home Science,17/06/2020,100,11,11
+do_31304487285408563214156,Delhi_Human Ecology and Family Sciences Part II (by NCERT),English,Class 11,Home Science,17/06/2020,0,1,1
+do_31304487301360025618597,Delhi_Ict (by NCERT),English,Class 9,ICT,17/06/2020,100,9,9
+do_31304487301867929614178,Delhi_Informatic Practices (by NCERT),English,Class 11,Informatics practices,17/06/2020,100,9,9
+do_31304487258063667218561,Delhi_Ruchira - Tritiya Bhag (Sanskrit)  (by NCERT),Sanskrit,Class 8,Sanskrit,17/06/2020,100,16,16
+do_31304487268706713614142,Delhi_Shemusi Dwitiya Bhag- Sanskrit  (by NCERT),English,Class 10,Sanskrit,17/06/2020,46.1538461538462,13,13
+do_31304487272434073614144,Delhi_Vitan Bhag - I - Hindi Suppl. (Core)  (by NCERT),Hindi,Class 11,Hindi,17/06/2020,100,6,6
+do_31304487302389760015320,Delhi_ابتدائ اردو (by NCERT),Urdu,Class 1,Urdu,17/06/2020,100,28,28
+do_31304487303451443215182,Delhi_ابتدائ اردو (by NCERT),Urdu,Class 3,Urdu,17/06/2020,100,21,21
+do_31304487302874726415474,Delhi_ابتدائی اردو -١١ (by NCERT),Urdu,Class 2,Urdu,17/06/2020,100,21,21
+do_31304487304738406418599,Delhi_اردو گلدسته (by NCERT),Urdu,Class 7,Urdu,17/06/2020,100,16,16
+do_31304487304212480014184,Delhi_اردو گلدسته (by NCERT),Urdu,Class 6,Urdu,17/06/2020,100,11,11
+do_31304487305216000015322,Delhi_اردو گلدستہ (by NCERT),Urdu,Class 8,Urdu,17/06/2020,100,10,10
+do_31304487303969996815476,Delhi_اپنی زبان (by NCERT),Urdu,Class 6,Urdu,17/06/2020,100,20,20
+do_31304487304977612817234,Delhi_اپنی زبان (by NCERT),Urdu,Class 8,Urdu,17/06/2020,100,10,10
+do_31304487304515584017232,Delhi_اپنی زبان (by NCERT),Urdu,Class 7,Urdu,17/06/2020,100,22,22
+do_31304487306253107218401,Delhi_جان پہچان (by NCERT),Urdu,Class 10,Urdu,17/06/2020,100,8,8
+do_31304487305451110415478,Delhi_جان پہچان (by NCERT),Urdu,Class 8,Urdu,17/06/2020,100,21,21
+do_31304487307218944015326,Delhi_خیابان اردو (by NCERT),Urdu,Class 12,Urdu,17/06/2020,100,7,7
+do_31304487302621593615180,Delhi_ریاضی  کا جادو -١ (by NCERT),Urdu,Class 1,Mathematics,17/06/2020,100,14,14
+do_31304487303164723214180,Delhi_ریاضی کا جادو (by NCERT),Urdu,Class 2,Mathematics,17/06/2020,100,16,16
+do_31304487303727513614182,Delhi_ریاضی کا جادو (by NCERT),Urdu,Class 3,Mathematics,17/06/2020,100,15,15
+do_31304487305675571214853,Delhi_نواءے اردو (by NCERT),Urdu,Class 9,Urdu,17/06/2020,100,24,24
+do_31304487305975398415324,Delhi_نواءے اردو (by NCERT),Urdu,Class 10,Urdu,17/06/2020,100,24,24
+do_31304487306799513615184,Delhi_گلستان ادب (by NCERT),Urdu,Class 12,Urdu,17/06/2020,100,14,14
+do_31304487272908390415148,Delhi_अंतराल भाग-1 (by NCERT),Hindi,Class 11,Hindi,17/06/2020,100,4,4
+do_31304487286694707214160,Delhi_अंतराल भाग-दो कक्षा-12- हिंदी ऐच्छिक (by NCERT),Hindi,Class 12,Hindi,17/06/2020,100,5,5
+do_31304487437051494418601,Delhi_अभिव्यक्ति और माध्यम (by NCERT),Hindi,Class 11;Class 12,Hindi,17/06/2020,100,17,17
+do_31304487266712780815442,Delhi_अभ्यासवान् भव (by NCERT),Sanskrit,Class 9,Sanskrit,17/06/2020,53.8461538461539,13,13
+do_31304487285651865618581,Delhi_भारतीय कला का परिचय (by NCERT),Hindi,Class 11,Fine Arts,17/06/2020,100,9,9
+do_31304487253874278417212,Delhi_रुचिरा द्वितीयो भागः (by NCERT),Sanskrit,Class 7,Sanskrit,17/06/2020,100,7,7
+do_31304487249276108818353,Delhi_रुचिरा प्रथमो भागः (by NCERT),Sanskrit,Class 6,Sanskrit,17/06/2020,100,4,4
+do_31304487286210560015294,Delhi_वितान भाग 2 (by NCERT),Hindi,Class 12,Hindi,17/06/2020,100,5,5
+do_31304487436340428815186,Delhi_व्याकरणवीथि: (by NCERT),Sanskrit,Class 9;Class 10,Sanskrit,17/06/2020,100,7,7
+do_31304487274064281615452,Delhi_शाश्वती-प्रथमो भागः (by NCERT),Sanskrit,Class 11,Sanskrit,17/06/2020,100,13,13
+do_31304487300727603215314,Delhi_सृजन भाग -2 (by NCERT),Hindi,Class 12,Creative Writing and Translation,17/06/2020,100,5,5
+do_31304487284899020815462,Delhi_सृजन भाग 1 (by NCERT),Hindi,Class 11,Creative Writing and Translation,17/06/2020,100,5,5
+do_31304321013919744015835,Democratic Politics I (Class 9),English,Class 9,Political Science,15/06/2020,0,0,0
+do_31304327048443494415842,Democratic Politics II (Class 10),English,Class 10,Political Science,15/06/2020,0,0,0
+do_31310352061459660811755,Democratic Politics-I (by NCERT),English,Class 9,Political Science,08/09/2020,100,5,5
+do_31304327129965363214328,Democratic Politics-II Practice Book (Class 10),English,Class 10,Geography,15/06/2020,0,0,0
+do_3132289387703173121673,DL_ Economics Practice Book,English,Class 10,Economics,04/03/2021,0,0,0
+do_31322893472961331211199,DL_ Geography Practice Book,English,Class 10,Geography,04/03/2021,0,0,0
+do_31322894013401497612099,DL_Democratic Politics-II Practice Book,English,Class 10,Political Science,04/03/2021,0,0,0
+do_31322894256159129611694,DL_English-First Flight Practice Book,English,Class 10,English,04/03/2021,0,0,0
+do_31322893215903744015021,DL_History Practice Book,English,Class 10,History,04/03/2021,0,0,0
+do_31322892031366758411687,DL_Math Practice Book,English,Class 10,Mathematics,04/03/2021,0,0,0
+do_31322892507339980811779,DL_Science Practice Book,English,Class 10,Science,04/03/2021,0,0,0
+do_31350719153880268815640,DoE Worksheets and Assessment Book 4 for classes Nursery to Class 10 from Feb 2022 onwards,English;Hindi,Class 9;Others;Class 10;Class 1;Class 2;Class 3;Class 4;Class 5;Class 6;Class 7;Class 8,English;Environmental Studies;Hindi;Mathematics;Science;Social Science;General Awareness,01/04/2022,0,0,0
+do_3133929519877816321297,DoE Worksheets and Assessments Book 3; Session 2021-22 Class Nur to 10; from 20 September 2021 onwards,English;Hindi,Class 9;Class 10;Class 1;Class 2;Class 3;Class 4;Class 5;Class 6;Class 7;Class 8,English;Environmental Studies;General Awareness;Hindi;Mathematics;Science;Social Science;Social Studies,22/10/2021,0,0,0
+do_313254958745272320128934,DoE Worksheets Book 2;  Session 2021-22; Class KG to 10; from 05 April to 18 Sept 2021,Hindi;English,Class 6;Class 9;Class 10,Mathematics;English;Science,10/04/2021,0,0,0
+do_31304322940556083215740,Economics Practice Book (Class 10),English,Class 10,Economics,15/06/2020,0,0,0
+do_3130837776758210561948,EMC Worksheets (Compilation),Hindi,Class 9;Class 10;Class 11;Class 12,Entrepreneurship Mindset Curriculum ,11/08/2020,0,0,0
+do_31304323116070502413520,English-First Flight Practice Book (Class 10),English,Class 10,English,15/06/2020,0,0,0
+do_31304323249364992014075,English-Foot Prints Without Feet Practice Book (Class 10),English,Class 10,English,15/06/2020,0,0,0
+do_31304323339282841612665,First Flight (Class 10),English,Class 10,English,15/06/2020,0,0,0
+do_31304325002968268813139,Foot Prints Without Feet (Class 10),English,Class 10,English,15/06/2020,0,0,0
+do_31304325218811904016016,Geography Practice Book (Class 10),English,Class 10,Geography,15/06/2020,0,0,0
+do_31304320496528588813100,Health And Physical Education Textbook for Class 9,English,Class 9,Health and Physical Education,15/06/2020,0,0,0
+do_31304327731802112014364,Hindi-संचयन २ Practice Book,Hindi,Class 10,Hindi,15/06/2020,0,0,0
+do_31304325266989875215767,Hindi-स्पर्श २ Practice Book (Class 10),Hindi,Class 10,Hindi,15/06/2020,0,0,0
+do_31304325779182387216598,History Practice Book (Class 10),Hindi,Class 10,History,15/06/2020,0,0,0
+do_31304277907904921614423,Honeycomb (Class 7),English,Class 7,English,14/06/2020,0,0,0
+do_31304280446873600012686,Honeydew (Class 8),English,Class 8,English,14/06/2020,0,0,0
+do_31304270565418598412365,Honeysuckle (Class 6),English,Class 6,English,14/06/2020,0,0,0
+do_31304320709398528015542,India And The Contemporary World I (Class 9),English,Class 9,History,15/06/2020,0,0,0
+do_31304325833751756814169,India And The Contemporary World II (Class 10),English,Class 10,History,15/06/2020,0,0,0
+do_31304320934209945612511,Information and Communication Technology (Class 9),English,Class 9,ICT,15/06/2020,0,0,0
+do_3126584581653544961654,Information and Communications in Technology in Education,Hindi,Class 6,Information And Communication Technology,19/12/2018,100,2,2
+do_31304280959017779213107,It So Happened (Class 8),English,Class 8,English,14/06/2020,0,0,0
+do_31304210137873612811696,Looking Around,English,Class 3,Environmental Studies,13/06/2020,0,0,0
+do_31304217231610675212097,Looking Around (Class 4),English,Class 4,Environmental Studies,13/06/2020,0,0,0
+do_31304219214007500812942,Looking Around (Class 5),English,Class 5,Environmental Studies,13/06/2020,0,0,0
+do_3136238367121408001227,MANTHAN- Integrated Work Book,English;Hindi,Class 5,English;Hindi;Mathematics,13/09/2022,0,2,2
+do_3130484341220802561861,Marigold,English,Class 1,English,22/06/2020,0,0,0
+do_31304210067587891212621,Marigold,English,Class 3,English,13/06/2020,0,0,0
+do_31304215477785395211704,Marigold,English,Class 4,English,13/06/2020,0,0,0
+do_3130294313320038401172,Marigold (Class 1; English; Delhi SCERT),English,Class 1,English,26/05/2020,0,0,0
+do_31304219148600934412900,Marigold (Class 5),English,Class 5,English,13/06/2020,0,0,0
+do_313025051535335424111327,Math Practice Book,English,Class 10,Mathematics,20/05/2020,0,0,0
+do_313025060422328320111526,Math-Magic,English,Class 3,Mathematics,20/05/2020,0,0,0
+do_313025061068791808111653,Math-Magic,English,Class 4,Mathematics,20/05/2020,0,0,0
+do_313025061689901056111780,Math-Magic,English,Class 5,Mathematics,20/05/2020,0,0,0
+do_3130250597492326401710,Math-Magic,English,Class 2,Mathematics,20/05/2020,0,0,0
+do_313025047929487360111209,Math-Magic,English,Class 1,Mathematics,20/05/2020,0,0,0
+do_3130250529381662721537,Mathematics (Class 11; Delhi SCERT),English,Class 11,Mathematics,20/05/2020,0,0,0
+do_313025054581530624111407,Mathematics Part-I (Delhi SCERT; Class 12),English,Class 12,Mathematics,20/05/2020,0,0,0
+do_313025055393521664111462,Mathematics Part-II (Class 12; Delhi SCERT),English,Class 12,Mathematics,20/05/2020,0,0,0
+do_31304487268988518415268,Mathematics textbook for class X,English,Class 10,Mathematics,17/06/2020,100,16,16
+do_31304320090955776013749,Moments (Class 9),English,Class 9,English,15/06/2020,0,0,0
+do_31307308335976448011864,Online Classes for Class 12 (Core Academic Unit; DOE; Delhi),Hindi;English,Class 12,Biology;Geography;Economics;Chemistry;Sociology;Political Science;Accountancy;Mathematics;Psychology;Home Science;Physics;History;Business Studies,27/07/2020,0,0,0
+do_31304278007829299212204,Our Environment (Class 7),English,Class 7,Geography,14/06/2020,0,0,0
+do_31304270850133196812471,Our Pasts  I (Class 6),English,Class 6,History,14/06/2020,0,0,0
+do_31304278075355136013260,Our Pasts II (Class 7),English,Class 7,History,14/06/2020,0,0,0
+do_31304281251870310415320,Our Pasts III (Class 8),English,Class 8,History,14/06/2020,0,0,0
+do_31304207144075264012286,Raindrop,English,Class 2,English,13/06/2020,0,0,0
+do_31304206160615833611846,Raindrop,English,Class 1,English,13/06/2020,0,0,0
+do_31304209931390976011454,Raindrop-II,English,Class 2,English,13/06/2020,0,0,0
+do_31304281048071372815135,Resources And Development,English,Class 8,Geography,14/06/2020,0,0,0
+do_31307576148294860817172,Samarth Booklet for Children with Special Needs (CWSN),English,Class 4;Class 3;Class 1;Class 2;Class 6;Class 5,General Awareness,31/07/2020,0,0,0
+do_3136238312781660161284,SANGAM- Integrated Work Book,English;Hindi,Class 4,English;Hindi;Mathematics,13/09/2022,100,2,2
+do_31270727687632486412449,Science,English,Class 10,Science,26/02/2019,100,5,5
+do_31304273174555033612938,Science (Class 6),English,Class 6,Science,14/06/2020,0,0,0
+do_31304327488725811212513,Science Practice Book (Class 10),English,Class 10,Science,15/06/2020,0,0,0
+do_31304273078851174414028,Social And Political Life I  (Class 6),English,Class 6,Political Science,14/06/2020,0,0,0
+do_31304278140331622413440,Social And Political Life II (Class 7),English,Class 7,Political Science,14/06/2020,0,0,0
+do_31304287366519193613427,Social And Political Life III (Class 8),English,Class 8,Political Science,14/06/2020,0,0,0
+do_3136238284773130241220,TARANG- Integrated Work Book,English;Hindi,Class 3,English;Hindi;Mathematics,13/09/2022,100,2,2
+do_31304270632348876811839,The Earth Our Habitat (Class 6),English,Class 6,Geography,14/06/2020,0,0,0
+do_3136238197719695361214,UDGAM - Integrated Work Book,English;Hindi,Class 1,English;General Awareness;Hindi;Mathematics,13/09/2022,100,2,2
+do_3136238252716851201217,UMANG- Integrated Work Book,English;Hindi,Class 2,English;Hindi,13/09/2022,100,2,2
+do_31304322996168294416256,Understanding Economic Development (Class 10),English,Class 10,Economics,15/06/2020,0,0,0
+do_31362298486185164812464,VIDYARAMBH,English,Others,CPD,12/09/2022,100,4,4
+do_31304325073176985614122,Words and expressions -2 - Workbook in English (Class 10),English,Class 10,English,15/06/2020,0,0,0
+do_31304320247443456012458,Words and Expressions I (Workbook for English Class IX),English,Class 9,English,15/06/2020,0,0,0
+do_31304321857148518412615,अभ्यासवान् भव (Class 9),Sanskrit,Class 9,Sanskrit,15/06/2020,0,0,0
+do_31304328696738611216621,अभ्यासवान् भव - 2 (Class 10),Sanskrit,Class 10,Sanskrit,15/06/2020,0,0,0
+do_31304321125624217615696,अर्थशास्त्र (Class 9),Hindi,Class 9,Economics,15/06/2020,0,0,0
+do_31304327604417331213615,आर्थिक विकास की समझ (Class 10),Hindi,Class 10,Economics,15/06/2020,0,0,0
+do_31304210347310284812057,आस-पास,Hindi,Class 3,Environmental Studies,13/06/2020,0,0,0
+do_31304267495138099212391,आस-पास,Hindi,Class 5,Environmental Studies,14/06/2020,0,0,0
+do_31304217570607104012144,आस-पास (Class 4),Hindi,Class 4,Environmental Studies,13/06/2020,0,0,0
+do_312785727717359616114306,एन्त्रप्रेन्योरशिप माइंडसेट,Hindi,Class 9;Class 10,Entrepreneurship Mindset Curriculum ,17/06/2019,100,22,22
+do_312785815794335744114627,एन्त्रप्रेन्योरशिप माइंडसेट,Hindi,Class 11;Class 12,Entrepreneurship Mindset Curriculum ,17/06/2019,100,21,21
+do_3129670041587712001235,एन्त्रप्रेन्योरशिप माइंडसेट अवयव,English;Hindi,Class 9;Class 10;Class 11;Class 12,Entrepreneurship Mindset Curriculum ,28/02/2020,77.7777777777778,9,9
+do_3129655241080913921223,कक्षा 10 - एन्त्रप्रेन्योरशिप माइंडसेट,English;Hindi,Class 10,Entrepreneurship Mindset Curriculum ,26/02/2020,100,7,7
+do_312966258516516864191,कक्षा 11 - एन्त्रप्रेन्योरशिप माइंडसेट,English;Hindi,Class 11,Entrepreneurship Mindset Curriculum ,27/02/2020,100,8,8
+do_3129668531452067841125,कक्षा 12 - एन्त्रप्रेन्योरशिप माइंडसेट,Hindi;English,Class 12,Entrepreneurship Mindset Curriculum ,28/02/2020,83.3333333333333,6,6
+do_3129654922461265921248,कक्षा 9 - एन्त्रप्रेन्योरशिप माइंडसेट,Hindi,Class 9,Entrepreneurship Mindset Curriculum ,26/02/2020,90,10,10
+do_31304321453259980814053,कृतिका भाग -1;कोर्स  - अ (Class 9),Hindi,Class 9,Hindi,15/06/2020,0,0,0
+do_31304327777782169614378,कृतिका भाग -2;कोर्स  -अ (Class 10),Hindi,Class 10,Hindi,15/06/2020,0,0,0
+do_31304321511906508812545,क्षितिज भाग -1;कोर्स  - अ (Class 9),Hindi,Class 9,Hindi,15/06/2020,0,0,0
+do_31304328273433395216060,क्षितिज भाग -2;कोर्स  - अ (Class 10),Hindi,Class 10,Hindi,15/06/2020,0,0,0
+do_3136244106054451201275,खेल पिटारा (KHEL Pitara),Hindi;English,Class 1;Class 2;Class 3,English;Hindi;General Awareness;Mathematics,14/09/2022,100,6,6
+do_313025053827350528111374,गणित,Hindi,Class 11,Mathematics,20/05/2020,0,0,0
+do_31304287774352179214805,गणित (Class 8),Hindi,Class 8,Mathematics,14/06/2020,0,0,0
+do_3130349780005601281261,गणित कक्षा 10 (Class 10),Hindi,Class 10,Mathematics,03/06/2020,0,0,0
+do_3130349599091097601374,गणित कक्षा 7 (Class 7),Hindi,Class 7,Mathematics,03/06/2020,0,0,0
+do_31303498306203648012046,गणित कक्षा 8 (Class 8),Hindi,Class 8,Mathematics,03/06/2020,0,0,0
+do_3130349765626920961857,गणित कक्षा 9 (Class 9),Hindi,Class 9,Mathematics,03/06/2020,0,0,0
+do_3130349572046766081300,गणित कक्षा ६ की पाठ्यपुस्तक (Class 6),Hindi,Class 6,Mathematics,03/06/2020,0,0,0
+do_31304262756708352012683,गणित का जादू (Class 5),Hindi,Class 5,Mathematics,14/06/2020,0,0,0
+do_31304206649376768011598,गणित का जादू भाग 1,Hindi,Class 1,Mathematics,13/06/2020,0,0,0
+do_31304209567409766411929,गणित का जादू भाग 2,Hindi,Class 2,Mathematics,13/06/2020,0,0,0
+do_31304210576581427212107,गणित का जादू भाग 3,Hindi,Class 3,Mathematics,13/06/2020,0,0,0
+do_31304217456558899211746,गणित का जादू भाग 4,Hindi,Class 4,Mathematics,13/06/2020,0,0,0
+do_3130250558751539201682,गणित भाग-1,Hindi,Class 12,Mathematics,20/05/2020,0,0,0
+do_3130250574015692801695,गणित भाग-2,Hindi,Class 12,Mathematics,20/05/2020,0,0,0
+do_31304278299920793614984,दूर्वा भाग - 2 (Class 7),Hindi,Class 7,Hindi,14/06/2020,0,0,0
+do_31304287567704883214727,दूर्वा भाग - 3 (Class 8),Hindi,Class 8,Hindi,14/06/2020,0,0,0
+do_31304273409758822412833,दूर्वा भाग 1 (Class 6),Hindi,Class 6,Hindi,14/06/2020,0,0,0
+do_31304273327554560013326,पृथ्वी - हमारा आवास,Hindi,Class 6,Geography,14/06/2020,0,0,0
+do_31304278380589875213741,बाल महाभारत कथा (Class 7),Hindi,Class 7,Hindi,14/06/2020,0,0,0
+do_31304270696349696012008,बाल रामकथा (Class 6),Hindi,Class 6,Hindi,14/06/2020,0,0,0
+do_31304321572081664015989,भारत और समकालीन विश्‍व-1 (Class 9),Hindi,Class 9,History,15/06/2020,0,0,0
+do_31304328335501721613316,भारत और समकालीन विश्‍व-2 (Class 10),Hindi,Class 10,History,15/06/2020,0,0,0
+do_31304281125722521614998,भारत की खोज (Class 8),Hindi,Class 8,Hindi,14/06/2020,0,0,0
+do_3131395732393410561907,रसायन विज्ञान भाग-II (by NCERT),Hindi,Class 12,Chemistry,29/10/2020,0,0,0
+do_31304209466682572812011,रिमझिम,Hindi,Class 2,Hindi,13/06/2020,0,0,0
+do_31304210206928076811991,रिमझिम,Hindi,Class 3,Hindi,13/06/2020,0,0,0
+do_31304206404143513611995,रिमझिम,Hindi,Class 1,Hindi,13/06/2020,0,0,0
+do_31304210458910720012739,रिमझिम,Hindi,Class 3,Hindi,13/06/2020,0,0,0
+do_31304262605891174413410,रिमझिम,Hindi,Class 5,Hindi,14/06/2020,0,0,0
+do_31304217318223052812585,रिमझिम (Class 4),Hindi,Class 4,Hindi,13/06/2020,0,0,0
+do_31304278541398835214868,रुचिरा  द्वितीयो  भागः (Class 7),Sanskrit,Class 7,Sanskrit,14/06/2020,0,0,0
+do_31304287944200192015763,रुचिरा तृतीयो भागः (Class 8),Sanskrit,Class 8,Sanskrit,14/06/2020,0,0,0
+do_31304273946058752012084,रुचिरा प्रथमो भागः (Class 6),Sanskrit,Class 6,Sanskrit,14/06/2020,0,0,0
+do_31304321677212057613113,लोकतांत्रिक राजनीति-1 (Class 9),Hindi,Class 9,Political Science,15/06/2020,0,0,0
+do_31304328561924505613637,लोकतांत्रिक राजनीति-2 (Class 10),Hindi,Class 10,Political Science,15/06/2020,0,0,0
+do_31304270770230067213497,वसंत १ (Class 6),Hindi,Class 6,Hindi,14/06/2020,0,0,0
+do_31304278597788467213565,वसंत २ (Class 7),Hindi,Class 7,Hindi,14/06/2020,0,0,0
+do_31304281184892518412531,वसंत ३ (Class 8),Hindi,Class 8,Hindi,14/06/2020,0,0,0
+do_31304328631000268816130,विज्ञान (Class 10),Hindi,Class 10,Science,15/06/2020,0,0,0
+do_31304278691696640014169,विज्ञान (Class 7),Hindi,Class 7,Science,14/06/2020,0,0,0
+do_31304287891528908815689,विज्ञान (Class 8),Hindi,Class 8,Science,14/06/2020,0,0,0
+do_31304321745210572816144,विज्ञान (Class 9),Hindi,Class 9,Science,15/06/2020,0,0,0
+do_31304273802761830414349,विज्ञान कक्षा ६ के लिए पाठ्य पुस्तक (Class 6),Hindi,Class 6,Science,14/06/2020,0,0,0
+do_31304328921667174413671,व्याकरणवीथि: (Class 9;10),Sanskrit,Class 9;Class 10,Sanskrit,15/06/2020,0,0,0
+do_31304328837128192016679,शेमुषी द्वितीयो भाग: (Class 10),Sanskrit,Class 10,Sanskrit,15/06/2020,0,0,0
+do_31304321798247219216206,शेमुषी प्रथमो भाग: (Class 9),Sanskrit,Class 9,Sanskrit,15/06/2020,0,0,0
+do_31304287640107417615309,संक्षिप्त बुद्धचरित (Class 8),Hindi,Class 8,Hindi,14/06/2020,0,0,0
+do_31313957281129267211964,संचयन भाग -1 (by NCERT),Hindi,Class 9,Hindi,29/10/2020,0,0,0
+do_31304320561113497615510,संचयन १ (Class 9),Hindi,Class 9,Hindi,15/06/2020,0,0,0
+do_31304325326774272016502,संचयन २ (Class 10),Hindi,Class 10,Hindi,15/06/2020,0,0,0
+do_31304287501785497615283,संसाधन एवं विकास (Class 8),Hindi,Class 8,Geography,14/06/2020,0,0,0
+do_31304321364837171215714,समकालीन भारत - 1 (Class 9),Hindi,Class 9,Geography,15/06/2020,0,0,0
+do_31304327665331404814176,समकालीन भारत - 2 (Class 10),Hindi,Class 10,Geography,15/06/2020,0,0,0
+do_31304273885928652813360,सामाजिक एवम राजनितिक जीवन-I (Class 6),Hindi,Class 6,Political Science,14/06/2020,0,0,0
+do_31304278749419110414243,सामाजिक और राजनीतिक जीवन -2 (Class 7),Hindi,Class 7,Political Science,14/06/2020,0,0,0
+do_31304287828583219214871,सामाजिक और राजनीतिक जीवन -3 (Class 8),Hindi,Class 8,Political Science,14/06/2020,0,0,0
+do_31304320637757030415694,स्पर्श १ (Class 9),Hindi,Class 9,Hindi,15/06/2020,0,0,0
+do_31304325657023283213659,स्पर्श २ (Class 10),Hindi,Class 10,Hindi,15/06/2020,0,0,0
+do_31304278798476902415058,हमारा पर्यावरण (Class 7),Hindi,Class 7,Geography,14/06/2020,0,0,0
+do_31304278858656972812587,हमारे अतीत - 2 (Class 7),Hindi,Class 7,History,14/06/2020,0,0,0
+do_31304273677941964814303,हमारे अतीत - I (Class 6),Hindi,Class 6,History,14/06/2020,0,0,0
+do_31304287712455884815331,हमारे अतीत - III (Class 8),Hindi,Class 8,History,14/06/2020,0,0,0
