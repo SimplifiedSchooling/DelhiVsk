@@ -325,8 +325,9 @@ const getAttendanceCounts = async (date) => {
       },
     },
   ]);
-
+   const countofSchoool = await School.countDocuments({attendance_DATE: date}).exec();
   return {
+    countofSchoool,
     totalStudentCount: totalStudentCount[0] ? totalStudentCount[0].count : 0,
     presentStudentCount: presentStudentCount[0] ? presentStudentCount[0].count : 0,
     malePresentCount: malePresentCount[0] ? malePresentCount[0].count : 0,
@@ -425,8 +426,9 @@ const getAttendanceCountsDistrictWise = async (body) => {
       },
     },
   ]);
-
+  const countofSchoool = await School.countDocuments({District_name: districtName}).exec();
   return {
+    countofSchoool,
     totalStudentCount: totalStudentCount[0].count,
     presentStudentCount: presentStudentCount[0].count,
     malePresentCount: malePresentCount[0].count,
@@ -525,8 +527,9 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
       },
     },
   ]);
-
+  const countofSchoool = await School.countDocuments({Zone_Name: Z_name,}).exec();
   return {
+    countofSchoool,
     totalStudentCount: totalStudentCount[0].count,
     presentStudentCount: presentStudentCount[0].count,
     malePresentCount: malePresentCount[0].count,
@@ -545,7 +548,6 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
       shift,
     },
   };
-
   const totalStudentCount = await Attendance.aggregate([
     dateMatch,
     {
@@ -625,8 +627,9 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
       },
     },
   ]);
-
+  const countofSchoool = await School.countDocuments({shift}).exec();
   return {
+    countofSchoool,
     totalStudentCount: totalStudentCount[0].count,
     presentStudentCount: presentStudentCount[0].count,
     malePresentCount: malePresentCount[0].count,

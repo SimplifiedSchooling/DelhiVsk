@@ -11,7 +11,7 @@ router.route('/district-wise/date-wise').post(attendanceController.getDistrictwi
 
 router.route('/zone/date-wise').post(attendanceController.getZoneAttendanceCount);
 
-router.route('/zone/shift/wise').post(attendanceController.getZoneAttendanceCount);
+router.route('/zone/shift/wise').post(attendanceController.getAttendanceCountsShiftWise);
 
 module.exports = router;
 
