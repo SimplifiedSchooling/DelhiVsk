@@ -1,4 +1,4 @@
-const { School, Student, Teacher } = require('../models');
+const { School, Teacher, StudentCounts } = require('../models');
 const redis = require('../utils/redis');
 
 /**
@@ -7,7 +7,6 @@ const redis = require('../utils/redis');
  * @returns {Promise<Object>} School, teacher, student graph data
  */
 const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
-  console.log(districtName);
   // Create a cache key based on the district name
   const cacheKey = `districtName:${districtName}`;
   const cachedData = await redis.get(cacheKey);
@@ -67,20 +66,32 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
-  const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalGirls, totalBoys] =
-    await Promise.allSettled([
-      School.countDocuments({ District_name: districtName }).exec(),
-      Student.countDocuments({ District: districtName }).exec(),
-      Teacher.countDocuments({ districtname: districtName }).exec(),
-      Teacher.countDocuments({ gender: 'Female', districtname: districtName }).exec(),
-      Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
-      Student.countDocuments({ District: districtName, Gender: 'F' }).exec(),
-      Student.countDocuments({ District: districtName, Gender: 'M' }).exec(),
-    ]);
-  const teacherStudentRatio = totalStudents.value / totalTeachers.value;
-  const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
-  const averageStudentOfSchool = totalStudents.value / totalSchools.value;
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+    School.countDocuments({ District_name: districtName }).exec(),
+    Teacher.countDocuments({ districtname: districtName }).exec(),
+    Teacher.countDocuments({ gender: 'Female', districtname: districtName }).exec(),
+    Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
+  ]);
 
+  const studentCount = await StudentCounts.aggregate([
+    {
+      $match: {
+        District_name: districtName,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalStudents: { $sum: '$totalStudent' },
+        maleStudents: { $sum: '$maleStudents' },
+        femaleStudents: { $sum: '$femaleStudents' },
+        otherStudents: { $sum: '$otherStudents' },
+      },
+    },
+  ]);
+  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
+  const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
+  const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
   const zoneWiseCounts = [];
   Object.keys(zoneWiseCount).forEach((zone) => {
     zoneWiseCounts.push({
@@ -123,12 +134,12 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
 
   const result = {
     totalSchools: totalSchools.value,
-    totalStudents: totalStudents.value,
+    totalStudents: studentCount.totalStudents,
     totalTeachers: totalTeachers.value,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
-    totalGirls: totalGirls.value,
-    totalBoys: totalBoys.value,
+    totalGirls: studentCount.femaleStudents,
+    totalBoys: studentCount.maleStudents,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
@@ -150,8 +161,8 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
 };
 
 /**
- * Get all school, student, teacher graph data by districtName
- * @param {string} districtName - The district name to filter the data
+ * Get all school, student, teacher graph data by zoneName
+ * @param {string} zoneName - The zoneName name to filter the data
  * @returns {Promise<Object>} School, teacher, student graph data
  */
 const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
@@ -214,19 +225,31 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
-  const [totalSchools, totalStudents, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalGirls, totalBoys] =
-    await Promise.allSettled([
-      School.countDocuments({ Zone_Name: zoneName }).exec(),
-      Student.countDocuments({ z_name: zoneName.toLowerCase() }).exec(),
-      Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
-      Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
-      Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
-      Student.countDocuments({ z_name: zoneName.toLowerCase(), Gender: 'F' }).exec(),
-      Student.countDocuments({ z_name: zoneName.toLowerCase(), Gender: 'M' }).exec(),
-    ]);
-  const teacherStudentRatio = totalStudents.value / totalTeachers.value;
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+    School.countDocuments({ Zone_Name: zoneName }).exec(),
+    Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
+    Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
+    Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
+  ]);
+  const studentCount = await StudentCounts.aggregate([
+    {
+      $match: {
+        Zone_Name: zoneName,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalStudents: { $sum: '$totalStudent' },
+        maleStudents: { $sum: '$maleStudents' },
+        femaleStudents: { $sum: '$femaleStudents' },
+        otherStudents: { $sum: '$otherStudents' },
+      },
+    },
+  ]);
+  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
-  const averageStudentOfSchool = totalStudents.value / totalSchools.value;
+  const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
 
   const zoneWiseCounts = [];
   Object.keys(zoneWiseCount).forEach((zone) => {
@@ -270,12 +293,12 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
 
   const result = {
     totalSchools: totalSchools.value,
-    totalStudents: totalStudents.value,
+    totalStudents: studentCount.totalStudents,
     totalTeachers: totalTeachers.value,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
-    totalGirls: totalGirls.value,
-    totalBoys: totalBoys.value,
+    totalGirls: studentCount.femaleStudents,
+    totalBoys: studentCount.maleStudents,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
@@ -426,8 +449,166 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
 //   await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
 //   return result;
 // };
+/**
+ * Get all school, student, teacher graph data by schoolName
+ * @param {string} schoolName - The schoolName name to filter the data
+ * @returns {Promise<Object>} School, teacher, student graph data
+ */
+const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
+  // Create a cache key based on the district name
+  const cacheKey = `schoolName:${schoolName}`;
+  const cachedData = await redis.get(cacheKey);
 
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+  const schoolData = await School.find({ District_name: schoolName });
+
+  const schoolManagementWise = {};
+  const zoneWiseCount = {};
+  const mediumWiseCount = {};
+  let lowClassCount = 0;
+  let highClassCount = 0;
+  const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
+  const afiliationCount = {};
+  const minorityCount = {};
+  const streamCount = {};
+  const typeOfSchoolCount = {};
+
+  schoolData.forEach((school) => {
+    // School Management Wise
+    const schManagement = school.SchManagement || 'Unknown';
+    schoolManagementWise[schManagement] = (schoolManagementWise[schManagement] || 0) + 1;
+
+    // Zone Wise School Count
+    const zone = school.Zone_Name || 'Unknown';
+    zoneWiseCount[zone] = (zoneWiseCount[zone] || 0) + 1;
+
+    // Medium Wise School Count
+    const medium = school.medium || 'Unknown';
+    mediumWiseCount[medium] = (mediumWiseCount[medium] || 0) + 1;
+
+    // Low and High Class Count
+    lowClassCount += parseInt(school.low_class, 10) || 0;
+    highClassCount += parseInt(school.High_class, 10) || 0;
+
+    // Shift Wise School Count
+    const shift = school.shift || 'Unknown';
+    shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
+
+    // Afiliation Count
+    const afiliation = school.affiliation || 'Unknown';
+    afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
+
+    // Minority Count
+    const minority = school.minority || 'Unknown';
+    minorityCount[minority] = (minorityCount[minority] || 0) + 1;
+
+    // Stream Count
+    const stream = school.stream || 'Unknown';
+    streamCount[stream] = (streamCount[stream] || 0) + 1;
+
+    // Stream Count
+    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
+  });
+
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+    School.countDocuments({ School_Name: schoolName }).exec(),
+    Teacher.countDocuments({ schname: schoolName }).exec(),
+    Teacher.countDocuments({ gender: 'Female', schname: schoolName }).exec(),
+    Teacher.countDocuments({ gender: 'Male', schname: schoolName }).exec(),
+  ]);
+
+  const studentCount = await StudentCounts.aggregate([
+    {
+      $match: {
+        School_Name: schoolName,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalStudents: { $sum: '$totalStudent' },
+        maleStudents: { $sum: '$maleStudents' },
+        femaleStudents: { $sum: '$femaleStudents' },
+        otherStudents: { $sum: '$otherStudents' },
+      },
+    },
+  ]);
+  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
+  const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
+  const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
+  const zoneWiseCounts = [];
+  Object.keys(zoneWiseCount).forEach((zone) => {
+    zoneWiseCounts.push({
+      zone,
+      count: zoneWiseCount[zone],
+    });
+  });
+
+  const afiliationCounts = [];
+  Object.keys(afiliationCount).forEach((afiliation) => {
+    afiliationCounts.push({
+      afiliation,
+      count: afiliationCount[afiliation],
+    });
+  });
+
+  const minorityCounts = [];
+  Object.keys(minorityCount).forEach((minority) => {
+    minorityCounts.push({
+      minority,
+      count: minorityCount[minority],
+    });
+  });
+
+  const streamCounts = [];
+  Object.keys(streamCount).forEach((stream) => {
+    streamCounts.push({
+      stream,
+      count: streamCount[stream],
+    });
+  });
+
+  const typeOfSchoolCounts = [];
+  Object.keys(typeOfSchoolCount).forEach((typeOfSchool) => {
+    typeOfSchoolCounts.push({
+      typeOfSchool,
+      count: typeOfSchoolCount[typeOfSchool],
+    });
+  });
+
+  const result = {
+    totalSchools: totalSchools.value,
+    totalStudents: studentCount.totalStudents,
+    totalTeachers: totalTeachers.value,
+    totalFemaleTeachers: totalFemaleTeachers.value,
+    totalMaleTeachers: totalMaleTeachers.value,
+    totalGirls: studentCount.femaleStudents,
+    totalBoys: studentCount.maleStudents,
+    teacherStudentRatio,
+    averageTeacherOfSchool,
+    averageStudentOfSchool,
+    schoolManagementWise,
+    zoneWiseCounts,
+    mediumWiseCount,
+    lowClassCount,
+    highClassCount,
+    shiftWiseCount,
+    afiliationCounts,
+    minorityCounts,
+    streamCounts,
+    typeOfSchoolCounts,
+  };
+
+  // Cache the result in Redis for future use
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
+};
 module.exports = {
   getAllSchoolStudentTeacherDataByZoneName,
   getAllSchoolStudentTeacherDataByDistrict,
+  getAllSchoolStudentTeacherDataBySchoolName,
 };

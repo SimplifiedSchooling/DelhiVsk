@@ -13,8 +13,14 @@ const getAllSchoolStudentTeacherDataByDistrict = catchAsync(async (req, res) => 
   const result = await zonegraph.getAllSchoolStudentTeacherDataByDistrict(districtName);
   res.status(httpStatus.CREATED).send(result);
 });
+const getAllSchoolStudentTeacherDataBySchoolName = catchAsync(async (req, res) => {
+  const { schoolName } = req.body;
+  const result = await zonegraph.getAllSchoolStudentTeacherDataBySchoolName(schoolName);
+  res.status(httpStatus.CREATED).send(result);
+});
 
 module.exports = {
   getAllSchoolStudentTeacherDataByZoneName,
   getAllSchoolStudentTeacherDataByDistrict,
+  getAllSchoolStudentTeacherDataBySchoolName,
 };

@@ -77,13 +77,12 @@ const getSchoolIdByAffiliationWise = async () => {
   return School.aggregate(pipeline);
 };
 const getCountByCriteria = async (criteria, field) => {
-  
   const counts = await Promise.all(
     criteria.map(async (item) => {
       const counts = await StudentCounts.aggregate([
         {
           $match: {
-            Schoolid: { $in: item.Schoolid  },
+            Schoolid: { $in: item.Schoolid },
           },
         },
         {
@@ -93,7 +92,6 @@ const getCountByCriteria = async (criteria, field) => {
           },
         },
       ]);
-      console.log(counts);
       return counts;
     })
   );
@@ -101,62 +99,60 @@ const getCountByCriteria = async (criteria, field) => {
 };
 
 const getStudentCount = async () => {
-
   // const managmentWiseCountId = await getSchoolIdByManagmentWise();
 
-    const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
-    const streamWisehoolIds = await getSchoolIdByStreamWise();
-    const streanWiseCount = await getCountByCriteria(streamWisehoolIds, 'stream');
+  const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
+  const streamWisehoolIds = await getSchoolIdByStreamWise();
+  const streanWiseCount = await getCountByCriteria(streamWisehoolIds, 'stream');
 
-    const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
-    const minortyWiseCount =await getCountByCriteria(minorityWiseSchoolIds, 'minority');
+  const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
+  const minortyWiseCount = await getCountByCriteria(minorityWiseSchoolIds, 'minority');
 
-    const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
-    const affiliationWiseCount =await getCountByCriteria(affiliationWiseSchoolIds, 'affiliation');
+  const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
+  const affiliationWiseCount = await getCountByCriteria(affiliationWiseSchoolIds, 'affiliation');
 
-    const shiftWiseSchoolid = await getSchoolIdByShiftWise();
+  const shiftWiseSchoolid = await getSchoolIdByShiftWise();
   const studentShiftWiseCounts = await getCountByCriteria(shiftWiseSchoolid, 'shift');
 
   const typeOfSchoolsWiseSchoolid = await getSchoolIdByTypeOfSchoolWise();
   console.log(typeOfSchoolsWiseSchoolid);
   const typeOfSchoolWiseCounts = await getCountByCriteria(typeOfSchoolsWiseSchoolid, 'typeOfSchool');
   try {
-      const totalStudentCount = await StudentCounts.aggregate([
-        {
-          $group: {
-            _id: null,
-            count: { $sum: '$totalStudent' },
-            maleStudents: {$sum: '$maleStudents'},
-            femaleStudents: {$sum: '$femaleStudents'},
-            otherStudents: {$sum: '$otherStudents'},
-          },
+    const totalStudentCount = await StudentCounts.aggregate([
+      {
+        $group: {
+          _id: null,
+          count: { $sum: '$totalStudent' },
+          maleStudents: { $sum: '$maleStudents' },
+          femaleStudents: { $sum: '$femaleStudents' },
+          otherStudents: { $sum: '$otherStudents' },
         },
-      ]);
+      },
+    ]);
 
-      const result = await StudentCounts.aggregate([
-        {
-          $unwind: '$classes',
+    const result = await StudentCounts.aggregate([
+      {
+        $unwind: '$classes',
+      },
+      {
+        $group: {
+          _id: '$classes.class',
+          totalMaleStudents: { $sum: '$classes.male' },
+          totalFemaleStudents: { $sum: '$classes.feMale' },
+          totalOtherStudents: { $sum: '$classes.other' },
         },
-        {
-          $group: {
-            _id: '$classes.class',
-            totalMaleStudents: { $sum: '$classes.male' },
-            totalFemaleStudents: { $sum: '$classes.feMale' },
-            totalOtherStudents: { $sum: '$classes.other' },
-          },
-        },
-      ]);
-   return {
-    typeOfSchoolWiseCounts,
-    studentShiftWiseCounts,
-    minortyWiseCount,
-    affiliationWiseCount,
-    streanWiseCount,
-    //studentManagementWiseCounts,
-    totalStudentCount,
-    result,
-
-   }
+      },
+    ]);
+    return {
+      typeOfSchoolWiseCounts,
+      studentShiftWiseCounts,
+      minortyWiseCount,
+      affiliationWiseCount,
+      streanWiseCount,
+      // studentManagementWiseCounts,
+      totalStudentCount,
+      result,
+    };
   } catch (error) {
     console.error('Error updating student statistics:', error);
   }
@@ -228,8 +224,6 @@ const getStudentCount = async () => {
 //   const typeOfSchoolSchoolIds = await getSchoolIdByTypeOfSchool();
 //   const typeOfSchoolSchoolCount = await getCountByCriteria(typeOfSchoolSchoolIds, 'typeOfSchool');
 
-
-
 //   const managmentWiseCountId = await getSchoolIdByManagmentWise();
 //   const studentManagementWiseCounts = await getCountByCriteria(managmentWiseCountId, 'SchManagement');
 //   const [totalSchools, totalStudent, totalTeacher, totalFemaleTeacher, totalMaleTeacher, totalGirl, totalBoy, totalOtherStudent] =
@@ -275,8 +269,6 @@ const getStudentCount = async () => {
 //   };
 // };
 
-
-
 // const getStudentCount = async () => {
 //   // Check if the data is already cached in Redis
 //   const cachedData = await redis.get('getStudentCount');
@@ -293,8 +285,7 @@ const getStudentCount = async () => {
 //   return studentStats;
 // };
 
-
-//////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////
 // // Function to get school IDs by a specific field (e.g., SchCategory, stream, etc.)
 // const getSchoolIdsByField = async (field) => {
 //   const pipeline = [
@@ -308,7 +299,6 @@ const getStudentCount = async () => {
 
 //   return School.aggregate(pipeline);
 // };
-
 
 // // Function to get gender counts of students by district
 // const getGenderCountsStudents = async () => {
@@ -403,13 +393,7 @@ const getStudentCount = async () => {
 //   return studentStats;
 // };
 
-
-
-
-
-
-
-////////////////////////////////////////////////////////////
+/// /////////////////////////////////////////////////////////
 // const getSchoolIdByShiftWiseByDistrictName = async (districtName) => {
 //   const pipeline = [
 //     {
