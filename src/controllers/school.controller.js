@@ -36,8 +36,8 @@ const schoolData = catchAsync(async (req, res) => {
 
 async function getDistrictName(req, res) {
   try {
-    const schoolData = await schoolService.fetchSchoolData();
-    const districtNames = schoolData.map((school) => school.District_name);
+    const schoolData1 = await schoolService.fetchSchoolData();
+    const districtNames = schoolData1.map((school) => school.District_name);
     const uniqueDistrictNames = [...new Set(districtNames)];
     res.json({ districtNames: uniqueDistrictNames });
   } catch (error) {
@@ -46,29 +46,61 @@ async function getDistrictName(req, res) {
 }
 async function getZoneName(req, res) {
   try {
-    const schoolData = await schoolService.fetchSchoolData();
-    const ZoneNames = schoolData.map((school) => school.Zone_Name);
+    const schoolData2 = await schoolService.fetchSchoolData();
+    const ZoneNames = schoolData2.map((school) => school.Zone_Name);
     const uniqueZoneNames = [...new Set(ZoneNames)];
+    // console.log(uniqueZoneNames);
     res.json({ ZoneNames: uniqueZoneNames });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
   }
 }
 
+// async function getDistrictSchool(req, res) {
+//   try {
+//     const districtSchools = await schoolService.getDistrictSchools();
+//     res.json({ districtSchools });
+//   } catch (error) {
+//     res.status(500).json({ error: 'An error occurred' });
+//   }
+// }
 async function getDistrictSchool(req, res) {
   try {
-    const districtSchools = await schoolService.getDistrictSchools();
+    const districtName = req.body.District_name;
+    if (!districtName) {
+      return res.status(400).json({ error: 'District_name is required' });
+    }
+    const districtSchools = await schoolService.getDistrictSchools(districtName);
     res.json({ districtSchools });
   } catch (error) {
-    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
   }
 }
-async function getZoneSchool(req, res) {
+
+async function getDistrictZoneNames(req, res) {
   try {
-    const ZoneSchool = await schoolService.getZoneNameSchools();
+    const districtName = req.body.District_name;
+    if (!districtName) {
+      return res.status(400).json({ error: 'District_name is required' });
+    }
+    const ZoneSchool = await schoolService.getDistrictZoneNames(districtName);
     res.json({ ZoneSchool });
   } catch (error) {
-    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+}
+
+async function getZoneSchool(req, res) {
+  try {
+    const zoneName = req.body.Zone_Name; // Get the Zone_Name from the query parameters
+    if (!zoneName) {
+      return res.status(400).json({ error: 'Zone_Name parameter is required' });
+    }
+
+    const ZoneSchool = await schoolService.getZoneNameSchools(zoneName);
+    res.json({ ZoneSchool });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
   }
 }
 
@@ -76,6 +108,7 @@ module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
   bulkUploadFile,
+  getDistrictZoneNames,
   getDistrictName,
   getZoneName,
   getDistrictSchool,

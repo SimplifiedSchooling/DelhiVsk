@@ -65,41 +65,63 @@ async function fetchSchoolData() {
   }
 }
 
-async function getDistrictSchools() {
+// async function getDistrictSchools() {
+//   try {
+//     const response = await axios.get(apiUrl);
+//     const schools = response.data;
+//     const districtSchools = {};
+//     schools.forEach((school) => {
+//       const district = school.District_name;
+//       const schoolName = school.School_Name;
+
+//       if (!districtSchools[district]) {
+//         districtSchools[district] = [];
+//       }
+//       districtSchools[district].push(schoolName);
+//     });
+//     return districtSchools;
+//   } catch (error) {
+//     throw new Error('Error fetching data: ' + error.message);
+//   }
+// }
+
+async function getDistrictSchools(districtName) {
   try {
     const response = await axios.get(apiUrl);
     const schools = response.data;
-    const districtSchools = {};
-    schools.forEach((school) => {
-      const district = school.District_name;
-      const schoolName = school.School_Name;
-
-      if (!districtSchools[district]) {
-        districtSchools[district] = [];
-      }
-      districtSchools[district].push(schoolName);
-    });
+    const districtSchools = schools
+      .filter((school) => school.District_name === districtName)
+      .map((school) => school.School_Name);
     return districtSchools;
   } catch (error) {
     throw new Error(`Error fetching data: ${error.message}`);
   }
 }
 
-async function getZoneNameSchools() {
+async function getDistrictZoneNames(districtName) {
   try {
     const response = await axios.get(apiUrl);
     const schools = response.data;
-    const ZoneSchool = {};
-    schools.forEach((school) => {
-      const zone = school.Zone_Name;
-      const schoolName = school.School_Name;
-
-      if (!ZoneSchool[zone]) {
-        ZoneSchool[zone] = [];
-      }
-      ZoneSchool[zone].push(schoolName);
+    const districtSchools = schools.filter((school) => school.District_name === districtName);
+    const uniqueZoneNames = new Set();
+    districtSchools.forEach((school) => {
+      uniqueZoneNames.add(school.Zone_Name);
     });
-    return ZoneSchool;
+    const districtZoneNames = Array.from(uniqueZoneNames);
+    return districtZoneNames;
+  } catch (error) {
+    throw new Error('Error fetching data: ' + error.message);
+  }
+}
+
+async function getZoneNameSchools(zoneName) {
+  try {
+    const response = await axios.get(apiUrl);
+    const schools = response.data;
+    const zoneSchools = schools
+      .filter((school) => school.Zone_Name === zoneName)
+      .map((school) => school.School_Name);
+    return zoneSchools;
   } catch (error) {
     throw new Error(`Error fetching data: ${error.message}`);
   }
@@ -110,6 +132,7 @@ module.exports = {
   schoolData,
   bulkUpload,
   fetchSchoolData,
+  getDistrictZoneNames,
   getDistrictSchools,
   getZoneNameSchools,
 };

@@ -11,6 +11,7 @@ const zonegraphRoute = require('./zonegraph.route');
 const studentGraphRoute = require('./student.graph.route');
 const teacherGraphRoute = require('./teacher.graph.route');
 const attendanceRoute = require('./attendance.route');
+const learningSession = require('./diksha.etb.learning.session.route');
 
 const router = express.Router();
 
@@ -54,6 +55,10 @@ const defaultRoutes = [
   {
     path: '/attendance',
     route: attendanceRoute,
+  },
+  {
+    path: '/learningsession',
+    route: learningSession,
   },
 ];
 
