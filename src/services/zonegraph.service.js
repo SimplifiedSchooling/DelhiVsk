@@ -89,6 +89,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
       },
     },
   ]);
+
   const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
