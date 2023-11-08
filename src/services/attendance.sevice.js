@@ -640,12 +640,45 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
     otherAbsentCount: otherAbsentCount[0].count,
   };
 };
+
+const getDistrictWisePresentCount = async (date) => {
+  const match = {
+    attendance_DATE: date,
+  };
+
+  const districtCounts = await Attendance.aggregate([
+    {
+      $match: match,
+    },
+    {
+      $group: {
+        _id: '$district_name',
+        totalStudentCount: { $sum: '$totalStudentCount' },
+        totalPreasentCount: { $sum: '$PreasentCount' },
+      },
+    },
+    {
+      $addFields: {
+        presentPercentage: {
+          $multiply: [
+            { $divide: ['$totalPreasentCount', '$totalStudentCount'] },
+            100, // To convert to percentage
+          ],
+        },
+      },
+    },
+  ]);
+  return districtCounts;
+};
+
+
 module.exports = {
   storeAttendanceDataInMongoDB,
   getAttendanceCounts,
   getAttendanceCountsDistrictWise,
   getAttendanceCountsZoneWise,
   getAttendanceCountsShiftWise,
+  getDistrictWisePresentCount,
 };
 
 // }

@@ -28,10 +28,17 @@ const getAttendanceCountsShiftWise = catchAsync(async (req, res) => {
   const result = await attendanceService.getAttendanceCountsShiftWise(date, shift);
   res.status(httpStatus.CREATED).send(result);
 });
+
+const getDistrictWisePresentCount = catchAsync(async (req, res) => {
+  const { date} = req.body;
+  const result = await attendanceService.getDistrictWisePresentCount(date);
+  res.status(httpStatus.CREATED).send(result);
+});
 module.exports = {
   getAttedanceData,
   getAttendanceCounts,
   getDistrictwiseAttendanceCount,
   getZoneAttendanceCount,
   getAttendanceCountsShiftWise,
+  getDistrictWisePresentCount,
 };
