@@ -73,6 +73,30 @@ const getSchoolIdByAffiliationWise = async () => {
   return School.aggregate(pipeline);
 };
 
+const getSchoolIdByManagementWise = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$SchManagement',
+        Schoolid: { $addToSet: '$Schoolid' },
+      },
+    },
+  ];
+  return School.aggregate(pipeline);
+};
+
+const getSchoolIdBySchCategory= async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$SchCategory',
+        Schoolid: { $addToSet: '$Schoolid' },
+      },
+    },
+  ];
+  return School.aggregate(pipeline);
+};
+
 const getCountByCriteria = async (criteria, field) => {
   const counts = await Promise.all(
     criteria.map(async (item) => {
@@ -117,12 +141,23 @@ const getSchoolCountsByCriteria = async (criteria, field) => {
   return counts;
 };
 
-const getStudentCount = async () => {
-  // const managmentWiseCountId = await getSchoolIdByManagmentWise();
+const getSchoolIdBySchCategoryWise = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$SchCategory', // Group by SchCategory
+        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+      },
+    },
+  ];
+  const schCategorySchoolIds = await School.aggregate(pipeline);
+  return schCategorySchoolIds;
+};
 
+const getStudentCount = async () => {
   const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
   const streamWisehoolIds = await getSchoolIdByStreamWise();
-  const streanWiseCount = await getSchoolCountsByCriteria(streamWisehoolIds, 'stream');
+  const streamWiseCount = await getSchoolCountsByCriteria(streamWisehoolIds, 'stream');
 
   const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
   const minortyWiseCount = await getSchoolCountsByCriteria(minorityWiseSchoolIds, 'minority');
@@ -130,17 +165,24 @@ const getStudentCount = async () => {
   const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
   const affiliationWiseCount = await getSchoolCountsByCriteria(affiliationWiseSchoolIds, 'affiliation');
 
+  const ManagementWiseSchoolIds = await getSchoolIdByManagementWise();
+  const managementWiseCount = await getSchoolCountsByCriteria(ManagementWiseSchoolIds, 'SchManagement');
+  
+  const SchCategory = await getSchoolIdBySchCategory();
+  const SchCategoryCount = await getSchoolCountsByCriteria(SchCategory, 'SchCategory');
+
   const shiftWiseSchoolid = await getSchoolIdByShiftWise();
   const studentShiftWiseCounts = await getSchoolCountsByCriteria(shiftWiseSchoolid, 'shift');
 
   const typeOfSchoolsWiseSchoolid = await getSchoolIdByTypeOfSchoolWise();
   const typeOfSchoolWiseCounts = await getSchoolCountsByCriteria(typeOfSchoolsWiseSchoolid, 'typeOfSchool');
+
   try {
-    const totalStudentCount = await StudentCounts.aggregate([
+    const studentCount = await StudentCounts.aggregate([
       {
         $group: {
           _id: null,
-          count: { $sum: '$totalStudent' },
+          totalStudents: { $sum: '$totalStudent' },
           maleStudents: { $sum: '$maleStudents' },
           femaleStudents: { $sum: '$femaleStudents' },
           otherStudents: { $sum: '$otherStudents' },
@@ -148,7 +190,19 @@ const getStudentCount = async () => {
       },
     ]);
 
-    const result = await StudentCounts.aggregate([
+    const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+      School.countDocuments().exec(),
+      Teacher.countDocuments().exec(),
+      Teacher.countDocuments({ gender: 'Female' }).exec(),
+      Teacher.countDocuments({ gender: 'Male' }).exec(),
+    ]);
+
+    const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
+    const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
+    const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
+
+
+    const SchoolCatogoryStudent = await StudentCounts.aggregate([
       {
         $unwind: '$classes',
       },
@@ -161,20 +215,188 @@ const getStudentCount = async () => {
         },
       },
     ]);
+
+    // Format the output data consistently
+    const formattedTypeOfSchoolWiseCounts = typeOfSchoolWiseCounts.map((item) => ({
+      _id: item[0]._id,
+      count: item[0].count,
+    }));
+
+    const formattedStudentShiftWiseCounts = studentShiftWiseCounts.map((item) => ({
+      _id: item[0]._id,
+      count: item[0].count,
+    }));
+
+    // Format other fields in a similar way
+    const formattedMinortyWiseCount = minortyWiseCount.map((item) => ({
+      _id: item[0]._id,
+      count: item[0].count,
+    }));
+
+    const formattedAffiliationWiseCount = affiliationWiseCount.map((item) => ({
+      _id: item[0]._id,
+      count: item[0].count,
+    }));
+
+    const formattedmanagementWiseCount = managementWiseCount.map((item) => ({
+      _id: item[0]._id,
+      count: item[0].count,
+    }));
+
+    const formattedSchCategoryCount= SchCategoryCount.map((item) => ({
+      _id: item[0]._id,
+      count: item[0].count,
+    }));
+    const formattedStreamWiseCount = streamWiseCount.map((item) => ({
+      _id: item[0]._id,
+      count: item[0].count,
+    }));
+
     return {
-      typeOfSchoolWiseCounts,
-      studentShiftWiseCounts,
-      minortyWiseCount,
-      affiliationWiseCount,
-      streanWiseCount,
-      // studentManagementWiseCounts,
-      totalStudentCount,
-      result,
+      typeOfSchoolWiseCounts: formattedTypeOfSchoolWiseCounts,
+      studentShiftWiseCounts: formattedStudentShiftWiseCounts,
+      minortyWiseCount: formattedMinortyWiseCount,
+      affiliationWiseCount: formattedAffiliationWiseCount,
+      managementWiseCount: formattedmanagementWiseCount,
+      streamWiseCount: formattedStreamWiseCount,
+      SchCategoryCount: formattedSchCategoryCount,
+      studentCount,
+      averageStudentOfSchool,
+      averageTeacherOfSchool,
+      teacherStudentRatio,
+      // SchoolCatogoryStudent,
+      // teacherCounts,
+
     };
   } catch (error) {
     console.error('Error updating student statistics:', error);
   }
 };
+
+// const getStudentCount = async () => {
+//   const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
+//   const streamWisehoolIds = await getSchoolIdByStreamWise();
+//   const streanWiseCount = await getSchoolCountsByCriteria(streamWisehoolIds, 'stream');
+
+//   const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
+//   const minortyWiseCount = await getSchoolCountsByCriteria(minorityWiseSchoolIds, 'minority');
+
+//   const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
+//   const affiliationWiseCount = await getSchoolCountsByCriteria(affiliationWiseSchoolIds, 'affiliation');
+
+//   const shiftWiseSchoolid = await getSchoolIdByShiftWise();
+//   const studentShiftWiseCounts = await getSchoolCountsByCriteria(shiftWiseSchoolid, 'shift');
+
+//   const typeOfSchoolsWiseSchoolid = await getSchoolIdByTypeOfSchoolWise();
+//   const typeOfSchoolWiseCounts = await getSchoolCountsByCriteria(typeOfSchoolsWiseSchoolid, 'typeOfSchool');
+
+//   // Reformat typeOfSchoolWiseCounts
+//   const reformattedTypeOfSchoolWiseCounts = typeOfSchoolWiseCounts.map((typeCount) => ({
+//     _id: typeCount[0]._id,
+//     count: typeCount[0].count
+//   }));
+
+//   try {
+//     const totalStudentCount = await StudentCounts.aggregate([
+//       {
+//         $group: {
+//           _id: null,
+//           count: { $sum: '$totalStudent' },
+//           maleStudents: { $sum: '$maleStudents' },
+//           femaleStudents: { $sum: '$femaleStudents' },
+//           otherStudents: { $sum: '$otherStudents' },
+//         },
+//       },
+//     ]);
+
+//     const result = await StudentCounts.aggregate([
+//       {
+//         $unwind: '$classes',
+//       },
+//       {
+//         $group: {
+//           _id: '$classes.class',
+//           totalMaleStudents: { $sum: '$classes.male' },
+//           totalFemaleStudents: { $sum: '$classes.feMale' },
+//           totalOtherStudents: { $sum: '$classes.other' },
+//         },
+//       },
+//     ]);
+
+//     return {
+//       typeOfSchoolWiseCounts: reformattedTypeOfSchoolWiseCounts,
+//       studentShiftWiseCounts,
+//       minortyWiseCount,
+//       affiliationWiseCount,
+//       streanWiseCount,
+//       studentManagementWiseCounts,
+//       totalStudentCount,
+//       result,
+//     };
+//   } catch (error) {
+//     console.error('Error updating student statistics:', error);
+//   }
+// };
+
+
+// const getStudentCount = async () => {
+//   // const managmentWiseCountId = await getSchoolIdByManagmentWise();
+
+//   const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
+//   const streamWisehoolIds = await getSchoolIdByStreamWise();
+//   const streanWiseCount = await getSchoolCountsByCriteria(streamWisehoolIds, 'stream');
+
+//   const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
+//   const minortyWiseCount = await getSchoolCountsByCriteria(minorityWiseSchoolIds, 'minority');
+
+//   const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
+//   const affiliationWiseCount = await getSchoolCountsByCriteria(affiliationWiseSchoolIds, 'affiliation');
+
+//   const shiftWiseSchoolid = await getSchoolIdByShiftWise();
+//   const studentShiftWiseCounts = await getSchoolCountsByCriteria(shiftWiseSchoolid, 'shift');
+
+//   const typeOfSchoolsWiseSchoolid = await getSchoolIdByTypeOfSchoolWise();
+//   const typeOfSchoolWiseCounts = await getSchoolCountsByCriteria(typeOfSchoolsWiseSchoolid, 'typeOfSchool');
+//   try {
+//     const totalStudentCount = await StudentCounts.aggregate([
+//       {
+//         $group: {
+//           _id: null,
+//           count: { $sum: '$totalStudent' },
+//           maleStudents: { $sum: '$maleStudents' },
+//           femaleStudents: { $sum: '$femaleStudents' },
+//           otherStudents: { $sum: '$otherStudents' },
+//         },
+//       },
+//     ]);
+
+//     const result = await StudentCounts.aggregate([
+//       {
+//         $unwind: '$classes',
+//       },
+//       {
+//         $group: {
+//           _id: '$classes.class',
+//           totalMaleStudents: { $sum: '$classes.male' },
+//           totalFemaleStudents: { $sum: '$classes.feMale' },
+//           totalOtherStudents: { $sum: '$classes.other' },
+//         },
+//       },
+//     ]);
+//     return {
+//       typeOfSchoolWiseCounts,
+//       studentShiftWiseCounts,
+//       minortyWiseCount,
+//       affiliationWiseCount,
+//       streanWiseCount,
+//       // studentManagementWiseCounts,
+//       totalStudentCount,
+//       result,
+//     };
+//   } catch (error) {
+//     console.error('Error updating student statistics:', error);
+//   }
+// };
 
 // const getSchoolIdBySchCategoryWise = async () => {
 //   const pipeline = [
@@ -1255,21 +1477,35 @@ const getSchoolCountsByCriteriaDistrict = async (criteria, field, districtName) 
   return counts;
 };
 
+
 const getStudentCountByDistrictName = async (districtName) => {
-  const studentManagementWiseCounts = await getSchoolIdByShiftWiseDistrict(districtName);
-  const studentTypeOfSchoolWiseCounts = await getSchoolIdByTypeOfSchoolWiseDistrict(districtName);
-  const studentMinorityWiseCounts = await getSchoolIdByMinorityWiseDistrict(districtName);
+  const studentShiftWiseCounts = await getSchoolIdByShiftWiseDistrict(districtName);
+  const typeOfSchoolWiseCounts = await getSchoolIdByTypeOfSchoolWiseDistrict(districtName);
+  const minortyWiseCount = await getSchoolIdByMinorityWiseDistrict(districtName);
   const studentManagemenetWiseCounts = await getSchoolIdByManagementWiseDistrict(districtName);
-  const studentAffilitionWiseCounts = await getSchoolIdByAffiliationWiseDistrict(districtName);
+  const affiliationWiseCount = await getSchoolIdByAffiliationWiseDistrict(districtName);
   const schoolCriteria = await getSchoolIdByStreamWiseDistrict(districtName);
-  const streamCounts = await getSchoolCountsByCriteriaDistrict(schoolCriteria, 'stream', districtName);
+  const streamWiseCount = await getSchoolCountsByCriteriaDistrict(schoolCriteria, 'stream', districtName);
+  const studentCount = await StudentCounts.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalStudents: { $sum: '$totalStudent' },
+        maleStudents: { $sum: '$maleStudents' },
+        femaleStudents: { $sum: '$femaleStudents' },
+        otherStudents: { $sum: '$otherStudents' },
+      },
+    },
+  ]);
+
   return {
-    studentManagementWiseCounts,
-    studentTypeOfSchoolWiseCounts,
-    studentMinorityWiseCounts,
+    studentShiftWiseCounts,
+    typeOfSchoolWiseCounts,
+    minortyWiseCount,
     studentManagemenetWiseCounts,
-    studentAffilitionWiseCounts,
-    streamCounts,
+    affiliationWiseCount,
+    streamWiseCount,
+    studentCount,
   };
 };
 
