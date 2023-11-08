@@ -521,7 +521,7 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
     Teacher.countDocuments({ gender: 'Female', schname: schoolName }).exec(),
     Teacher.countDocuments({ gender: 'Male', schname: schoolName }).exec(),
   ]);
-
+  // for studentCounts
   const studentCount = await StudentCounts.aggregate([
     {
       $match: {
@@ -538,6 +538,7 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
       },
     },
   ]);
+
   const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
