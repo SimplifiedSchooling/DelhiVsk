@@ -18,7 +18,7 @@ const getTeacherCountByZone = catchAsync(async (req, res) => {
 });
 
 const getTeacherCountBySchool = catchAsync(async (req, res) => {
-  const result = await teacherGraphService.getSchoolAndTeacherInfo(req.body.schname);
+  const result = await teacherGraphService.getTeacherCountBySchoolName(req.body.schname);
   res.status(httpStatus.CREATED).send(result);
 });
 
