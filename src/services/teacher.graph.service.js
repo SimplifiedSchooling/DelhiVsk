@@ -871,7 +871,7 @@ const getTeacherCountByZone = async (zone) => {
 const getTeacherExperienceCountByRangeSchool = async (schname) => {
   try {
     const currentDate = new Date(); // Current date
-    const teachers = await Teacher.find({ School_Name: schname, });
+    const teachers = await Teacher.find({ School_Name: schname });
 
     // Initialize an object to store the count in each experience range
     const experienceCounts = {
@@ -1164,7 +1164,6 @@ const getTeacherCountByZone1 = async (schname) => {
     experianceOfTeachers,
   };
 };
-
 
 module.exports = {
   getTeacherCountBySchoolManagement,
