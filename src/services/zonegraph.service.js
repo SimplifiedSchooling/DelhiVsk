@@ -464,7 +464,7 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
     return JSON.parse(cachedData);
   }
 
-  const schoolData = await School.find({ District_name: schoolName });
+  const schoolData = await School.find({ School_Name: schoolName });
 
   const schoolManagementWise = {};
   const zoneWiseCount = {};
