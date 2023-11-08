@@ -540,12 +540,26 @@ const getSchoolStudentCountByDistricts = async () => {
   const counts = await Promise.all(
     districts.map(async (districtName) => {
       const schoolCount = await School.countDocuments({ District_name: districtName });
-      const studentCount = await Student.countDocuments({ District: districtName });
-
+      const studentCount = await StudentCounts.aggregate([
+        {
+          $match: {
+            District_name: districtName,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            totalStudents: { $sum: '$totalStudent' },
+            maleStudents: { $sum: '$maleStudents' },
+            femaleStudents: { $sum: '$femaleStudents' },
+            otherStudents: { $sum: '$otherStudents' },
+          },
+        },
+      ]);
       return {
         districtName,
         totalSchoolCount: schoolCount,
-        totalStudentCount: studentCount,
+        totalStudentCount: studentCount[0].totalStudents,
       };
     })
   );
