@@ -570,9 +570,35 @@ const getTeacherStatsByDistrict = async (districtName) => {
 // Function to calculate teacher experience based on JoiningDate and get counts by experience range
 const getTeacherExperienceCountByRangeZoneWise = async (zonename) => {
   try {
-    const currentDate = new Date(); // Current date
-    const teachers = await Teacher.find({ zonename });
-
+    const currentDate = new Date();
+    const teachers = await Teacher.find({zonename})
+    // const teacherName = "AJAY KUMAR JAISWAL"; 
+    // const teachers = await Teacher.find({ Name: teacherName }).sort({ zonename: 1 });
+    // const teachers = await Teacher.aggregate([
+    //   {
+    //     $match: {
+    //       zonename: zonename, 
+    //     },
+    //   },
+    //   {
+    //     $group: {
+    //       _id: "$Name", // Group by teacher's name
+    //       teachers: {
+    //         $push: {
+    //           empid: "$empid",
+    //           postdesc: "$postdesc",
+    //           dob: "$dob",
+    //           gender: "$gender",
+    //           JoiningDate: "$JoiningDate",
+    //           schoolid: "$schoolid",
+    //           schname: "$schname",
+    //           districtname: "$districtname",
+    //         },
+    //       },
+    //     },
+    //   },
+    // ]);
+    console.log(teachers)
     // Initialize an object to store the count in each experience range
     const experienceCounts = {
       under5Years: 0,
@@ -882,12 +908,10 @@ const getTeacherExperienceCountByRangeSchool = async (schname) => {
       twentyTo25Years: 0,
       over25Years: 0,
     };
-
     teachers.forEach((teacher) => {
       const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
       const experienceInMilliseconds = currentDate - joiningDate;
       const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
-
       if (yearsOfExperience < 5) {
         experienceCounts.under5Years += 1;
       } else if (yearsOfExperience >= 5 && yearsOfExperience < 10) {
@@ -902,7 +926,6 @@ const getTeacherExperienceCountByRangeSchool = async (schname) => {
         experienceCounts.over25Years += 1;
       }
     });
-
     return experienceCounts;
   } catch (error) {
     throw error;
@@ -928,7 +951,7 @@ const getSchoolIdByShiftWiseAndSchoolName = async (schname) => {
   return schCategorySchoolIds;
 };
 
-const getSchoolIdByStreamWiseAndZone1 = async (schname) => {
+const getSchoolIdByStreamWiseAndSchoolName = async (schname) => {
   const pipeline = [
     {
       $match: {
@@ -947,7 +970,7 @@ const getSchoolIdByStreamWiseAndZone1 = async (schname) => {
   return schCategorySchoolIds;
 };
 
-const getSchoolIdByTypeOfSchoolWiseAndZone1 = async (schname) => {
+const getSchoolIdByTypeOfSchoolWiseAndSchoolName = async (schname) => {
   const pipeline = [
     {
       $match: {
@@ -966,7 +989,7 @@ const getSchoolIdByTypeOfSchoolWiseAndZone1 = async (schname) => {
   return schCategorySchoolIds;
 };
 
-const getSchoolIdByMinorityWiseAndZone1 = async (schname) => {
+const getSchoolIdByMinorityWiseAndSchoolName = async (schname) => {
   const pipeline = [
     {
       $match: {
@@ -985,7 +1008,7 @@ const getSchoolIdByMinorityWiseAndZone1 = async (schname) => {
   return schCategorySchoolIds;
 };
 
-const getSchoolIdByZoneWiseAndZone1 = async (schname) => {
+const getSchoolIdByZoneWiseAndSchoolName = async (schname) => {
   const pipeline = [
     {
       $match: {
@@ -1004,7 +1027,7 @@ const getSchoolIdByZoneWiseAndZone1 = async (schname) => {
   return schCategorySchoolIds;
 };
 
-const getSchoolIdByManagmentWiseAndZone1 = async (schname) => {
+const getSchoolIdByManagmentWiseAndSchoolName = async (schname) => {
   const pipeline = [
     {
       $match: {
@@ -1023,7 +1046,7 @@ const getSchoolIdByManagmentWiseAndZone1 = async (schname) => {
   return schCategorySchoolIds;
 };
 
-const getSchoolIdBySchCategoryWiseAndZone1 = async (schname) => {
+const getSchoolIdBySchCategoryWiseAndSchoolName = async (schname) => {
   const pipeline = [
     {
       $match: {
@@ -1047,9 +1070,10 @@ const getSchoolIdBySchCategoryWiseAndZone1 = async (schname) => {
  * @returns {Promise<Object>} School statistics
  */
 
-const getTeacherCountByZone1 = async (schname) => {
-  const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndZone1(schname);
-  const teacherCounts = [];
+const getTeacherCountBySchoolName = async (schname) => {
+  console.log(schname)
+    const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndSchoolName(schname);
+    const teacherCounts = [];
 
   for (const category of schCategorySchoolIds) {
     const teacherCount = await Teacher.countDocuments({ schoolid: { $in: category.schoolIds } });
@@ -1068,7 +1092,7 @@ const getTeacherCountByZone1 = async (schname) => {
     });
   }
 
-  const streamWiseCountIds = await getSchoolIdByStreamWiseAndZone1(schname);
+  const streamWiseCountIds = await getSchoolIdByStreamWiseAndSchoolName(schname);
   const teacherStreamWiseCounts = [];
   for (const stream of streamWiseCountIds) {
     const teacherStreamWiseCount = await Teacher.countDocuments({ schoolid: { $in: stream.schoolIds } });
@@ -1078,7 +1102,7 @@ const getTeacherCountByZone1 = async (schname) => {
     });
   }
 
-  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWiseAndZone1(schname);
+  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWiseAndSchoolName(schname);
   const teacherTypeOfSchoolWiseCounts = [];
 
   for (const typeOfSchool of typeOfSchoolWiseCountIds) {
@@ -1089,9 +1113,8 @@ const getTeacherCountByZone1 = async (schname) => {
     });
   }
 
-  const minorityWiseCountIds = await getSchoolIdByMinorityWiseAndZone1(schname);
+  const minorityWiseCountIds = await getSchoolIdByMinorityWiseAndSchoolName(schname);
   const teacherMinorityWiseCounts = [];
-
   for (const minority of minorityWiseCountIds) {
     const teacherMinorityWiseCount = await Teacher.countDocuments({ schoolid: { $in: minority.schoolIds } });
     teacherMinorityWiseCounts.push({
@@ -1100,7 +1123,7 @@ const getTeacherCountByZone1 = async (schname) => {
     });
   }
 
-  const zoneNameWiseCountIds = await getSchoolIdByZoneWiseAndZone1(schname);
+  const zoneNameWiseCountIds = await getSchoolIdByZoneWiseAndSchoolName(schname);
   const teacherZoneWiseCounts = [];
   for (const zone of zoneNameWiseCountIds) {
     const teacherZoneWiseCount = await Teacher.countDocuments({ schoolid: { $in: zone.schoolIds } });
@@ -1110,7 +1133,7 @@ const getTeacherCountByZone1 = async (schname) => {
     });
   }
 
-  const managmentWiseCountId = await getSchoolIdByManagmentWiseAndZone1(schname);
+  const managmentWiseCountId = await getSchoolIdByManagmentWiseAndSchoolName(schname);
   const teacherManagmentWiseCounts = [];
   for (const managment of managmentWiseCountId) {
     const teacherManagmentWiseCount = await Teacher.countDocuments({ schoolid: { $in: managment.schoolIds } });
@@ -1119,7 +1142,6 @@ const getTeacherCountByZone1 = async (schname) => {
       teacherManagmentWiseCount,
     });
   }
-  const cleanedZoneName = zone.replace(/[^0-9]/g, '');
   const pipeline3 = [
     {
       $match: {
@@ -1139,12 +1161,12 @@ const getTeacherCountByZone1 = async (schname) => {
 
   const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
     School.countDocuments({ School_Name: schname }).exec(),
-    Teacher.countDocuments({ School_Name: schname }).exec(),
-    Teacher.countDocuments({ gender: 'Female', School_Name: schname }).exec(),
-    Teacher.countDocuments({ gender: 'Male', School_Name: schname }).exec(),
+    Teacher.countDocuments({ schname }).exec(),
+    Teacher.countDocuments({ gender: 'Female', schname }).exec(),
+    Teacher.countDocuments({ gender: 'Male', schname }).exec(),
   ]);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
-  const experianceOfTeachers = await getTeacherExperienceCountByRangeZoneWise(cleanedZoneName);
+  const experianceOfTeachers = await getTeacherExperienceCountByRangeSchool(schname);
   const averageTeachers = totalTeachers.value / totalSchools.value;
 
   return {
@@ -1170,5 +1192,5 @@ module.exports = {
   getTeacherStatsByDistrict,
   getTeacherCountByZone,
   getTeacherExperienceCountByRange,
-  getTeacherCountByZone1,
+  getTeacherCountBySchoolName,
 };
