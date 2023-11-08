@@ -1,4 +1,4 @@
-const { School, Teacher } = require('../models');
+const { School, Teacher, StudentCounts } = require('../models');
 const redis = require('../utils/redis');
 
 ///  Get all teacher statistics ////
@@ -212,14 +212,12 @@ const getTeacherStats = async () => {
     });
   }
   const pipeline3 = [
-    // Group teachers by post description and count
     {
       $group: {
         _id: '$postdesc',
         teacherCount: { $sum: 1 },
       },
     },
-    // Sort the result if needed
     {
       $sort: { _id: 1 },
     },
@@ -232,11 +230,23 @@ const getTeacherStats = async () => {
     Teacher.countDocuments({ gender: 'Male' }).exec(),
   ]);
 
+
+  const totalStudentCount = await StudentCounts.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalStudent: { $sum: '$totalStudent' },
+      },
+    },
+  ]);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRange();
   const averageTeachers = totalTeachers.value / totalSchools.value;
+  const teacherStudentRatio = totalStudentCount[0].totalStudent / totalTeachers.value
+
 
   return {
+    teacherStudentRatio,
     averageTeachers,
     totalSchools: totalSchools.value,
     totalTeachers: totalTeachers.value,
@@ -543,11 +553,28 @@ const getTeacherStatsByDistrict = async (districtName) => {
     Teacher.countDocuments({ gender: 'Female', districtname: districtName }).exec(),
     Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
   ]);
+
+  const studentCount = await StudentCounts.aggregate([
+    {
+      $match: {
+        District_name: districtName,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalStudents: { $sum: '$totalStudent' },
+      },
+    },
+  ]);
+
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeDistrictWise(districtName);
   const averageTeachers = totalTeachers.value / totalSchools.value;
+  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
 
   return {
+    teacherStudentRatio,
     averageTeachers,
     totalSchools: totalSchools.value,
     totalTeachers: totalTeachers.value,
@@ -572,34 +599,6 @@ const getTeacherExperienceCountByRangeZoneWise = async (zonename) => {
   try {
     const currentDate = new Date();
     const teachers = await Teacher.find({zonename})
-    // const teacherName = "AJAY KUMAR JAISWAL"; 
-    // const teachers = await Teacher.find({ Name: teacherName }).sort({ zonename: 1 });
-    // const teachers = await Teacher.aggregate([
-    //   {
-    //     $match: {
-    //       zonename: zonename, 
-    //     },
-    //   },
-    //   {
-    //     $group: {
-    //       _id: "$Name", // Group by teacher's name
-    //       teachers: {
-    //         $push: {
-    //           empid: "$empid",
-    //           postdesc: "$postdesc",
-    //           dob: "$dob",
-    //           gender: "$gender",
-    //           JoiningDate: "$JoiningDate",
-    //           schoolid: "$schoolid",
-    //           schname: "$schname",
-    //           districtname: "$districtname",
-    //         },
-    //       },
-    //     },
-    //   },
-    // ]);
-    console.log(teachers)
-    // Initialize an object to store the count in each experience range
     const experienceCounts = {
       under5Years: 0,
       fiveTo10Years: 0,
@@ -610,7 +609,7 @@ const getTeacherExperienceCountByRangeZoneWise = async (zonename) => {
     };
 
     teachers.forEach((teacher) => {
-      const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
+      const joiningDate = new Date(teacher.JoiningDate);
       const experienceInMilliseconds = currentDate - joiningDate;
       const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
 
@@ -644,8 +643,8 @@ const getSchoolIdByShiftWiseAndZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$shift', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -663,8 +662,8 @@ const getSchoolIdByStreamWiseAndZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$stream', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$stream',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -682,8 +681,8 @@ const getSchoolIdByTypeOfSchoolWiseAndZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -701,8 +700,8 @@ const getSchoolIdByMinorityWiseAndZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$minority', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$minority',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -864,16 +863,33 @@ const getTeacherCountByZone = async (zone) => {
   ];
 
   const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
-    School.countDocuments({ Zone_Name: cleanedZoneName }).exec(),
+    School.countDocuments({ Zone_Name: zone }).exec(),
     Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
     Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
     Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
   ]);
+
+  const studentCount = await StudentCounts.aggregate([
+    {
+      $match: {
+        Zone_Name: zone,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalStudents: { $sum: '$totalStudent' },
+      },
+    },
+  ]);
+
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeZoneWise(cleanedZoneName);
   const averageTeachers = totalTeachers.value / totalSchools.value;
+  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
 
   return {
+    teacherStudentRatio,
     averageTeachers,
     totalSchools: totalSchools.value,
     totalTeachers: totalTeachers.value,
@@ -1071,7 +1087,6 @@ const getSchoolIdBySchCategoryWiseAndSchoolName = async (schname) => {
  */
 
 const getTeacherCountBySchoolName = async (schname) => {
-  console.log(schname)
     const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndSchoolName(schname);
     const teacherCounts = [];
 
@@ -1145,7 +1160,7 @@ const getTeacherCountBySchoolName = async (schname) => {
   const pipeline3 = [
     {
       $match: {
-        School_Name: schname,
+        schname: schname,
       },
     },
     {
@@ -1165,11 +1180,29 @@ const getTeacherCountBySchoolName = async (schname) => {
     Teacher.countDocuments({ gender: 'Female', schname }).exec(),
     Teacher.countDocuments({ gender: 'Male', schname }).exec(),
   ]);
+
+  const studentCount = await StudentCounts.aggregate([
+    {
+      $match: {
+        School_Name: schname,
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalStudents: { $sum: '$totalStudent' },
+      },
+    },
+  ]);
+
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeSchool(schname);
   const averageTeachers = totalTeachers.value / totalSchools.value;
+  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
+
 
   return {
+    teacherStudentRatio,
     averageTeachers,
     totalSchools: totalSchools.value,
     totalTeachers: totalTeachers.value,

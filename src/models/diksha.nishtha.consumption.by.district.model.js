@@ -9,7 +9,7 @@ const consumptionByDistrict = mongoose.Schema(
     state_code: {
       type: String,
     },
-    latitiude: {
+    latitude: {
       type: String,
     },
     longitude: {
