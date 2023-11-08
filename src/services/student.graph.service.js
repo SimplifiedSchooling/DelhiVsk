@@ -29,7 +29,7 @@ const getSchoolIdByStreamWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: { $ifNull: ['$stream', null] },  // Group by stream or null for missing values
+        _id: { $ifNull: ['$stream', null] }, // Group by stream or null for missing values
         Schoolid: { $addToSet: '$Schoolid' },
       },
     },
@@ -116,7 +116,6 @@ const getSchoolCountsByCriteria = async (criteria, field) => {
   );
   return counts;
 };
-
 
 const getStudentCount = async () => {
   // const managmentWiseCountId = await getSchoolIdByManagmentWise();
@@ -1141,7 +1140,7 @@ const getSchoolIdByStreamWiseDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: { $ifNull: ['$stream', null] },  // Group by stream or null for missing values
+        _id: { $ifNull: ['$stream', null] }, // Group by stream or null for missing values
         Schoolid: { $addToSet: '$Schoolid' },
       },
     },
@@ -1271,9 +1270,8 @@ const getStudentCountByDistrictName = async (districtName) => {
     studentManagemenetWiseCounts,
     studentAffilitionWiseCounts,
     streamCounts,
-  }
+  };
 };
-
 
 const getSchoolIdByStreamWiseZone = async (zone) => {
   const pipeline = [
@@ -1284,7 +1282,7 @@ const getSchoolIdByStreamWiseZone = async (zone) => {
     },
     {
       $group: {
-        _id: { $ifNull: ['$stream', null] },  // Group by stream or null for missing values
+        _id: { $ifNull: ['$stream', null] }, // Group by stream or null for missing values
         Schoolid: { $addToSet: '$Schoolid' },
       },
     },
@@ -1415,7 +1413,7 @@ const getStudentCountByZoneName = async (zone) => {
     ManagemenetCountsZoneWise,
     AffilitionCountsZoneWise,
     streamCountsZoneWise,
-  }
+  };
 };
 const getSchoolIdByStreamWiseschoolName = async (schoolName) => {
   const pipeline = [
@@ -1426,7 +1424,7 @@ const getSchoolIdByStreamWiseschoolName = async (schoolName) => {
     },
     {
       $group: {
-        _id: { $ifNull: ['$stream', null] },  // Group by stream or null for missing values
+        _id: { $ifNull: ['$stream', null] }, // Group by stream or null for missing values
         Schoolid: { $addToSet: '$Schoolid' },
       },
     },
@@ -1557,7 +1555,7 @@ const getStudentCountBySchoolName = async (schoolName) => {
     ManagemenetCountsschoolNameWise,
     AffilitionCountsschoolNameWise,
     streamCountsschoolNameWise,
-  }
+  };
 };
 
 module.exports = {
