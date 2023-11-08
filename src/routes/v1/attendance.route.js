@@ -123,7 +123,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /attendance/zone/shift/wise:
@@ -169,7 +168,7 @@ module.exports = router;
  *               date:
  *                 type: string
  *             example:
- *               date: '04/11/2023'    
+ *               date: '04/11/2023'
  *     responses:
  *       "200":
  *         description: OK
@@ -178,4 +177,3 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-

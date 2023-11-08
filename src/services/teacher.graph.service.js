@@ -230,7 +230,6 @@ const getTeacherStats = async () => {
     Teacher.countDocuments({ gender: 'Male' }).exec(),
   ]);
 
-
   const totalStudentCount = await StudentCounts.aggregate([
     {
       $group: {
@@ -242,8 +241,7 @@ const getTeacherStats = async () => {
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRange();
   const averageTeachers = totalTeachers.value / totalSchools.value;
-  const teacherStudentRatio = totalStudentCount[0].totalStudent / totalTeachers.value
-
+  const teacherStudentRatio = totalStudentCount[0].totalStudent / totalTeachers.value;
 
   return {
     teacherStudentRatio,
@@ -598,7 +596,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
 const getTeacherExperienceCountByRangeZoneWise = async (zonename) => {
   try {
     const currentDate = new Date();
-    const teachers = await Teacher.find({zonename})
+    const teachers = await Teacher.find({ zonename });
     const experienceCounts = {
       under5Years: 0,
       fiveTo10Years: 0,
@@ -913,7 +911,7 @@ const getTeacherCountByZone = async (zone) => {
 const getTeacherExperienceCountByRangeSchool = async (schname) => {
   try {
     const currentDate = new Date(); // Current date
-    const teachers = await Teacher.find({  schname });
+    const teachers = await Teacher.find({ schname });
 
     // Initialize an object to store the count in each experience range
     const experienceCounts = {
@@ -1087,8 +1085,8 @@ const getSchoolIdBySchCategoryWiseAndSchoolName = async (schname) => {
  */
 
 const getTeacherCountBySchoolName = async (schname) => {
-    const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndSchoolName(schname);
-    const teacherCounts = [];
+  const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndSchoolName(schname);
+  const teacherCounts = [];
 
   for (const category of schCategorySchoolIds) {
     const teacherCount = await Teacher.countDocuments({ schoolid: { $in: category.schoolIds } });
@@ -1160,7 +1158,7 @@ const getTeacherCountBySchoolName = async (schname) => {
   const pipeline3 = [
     {
       $match: {
-        schname: schname,
+        schname,
       },
     },
     {
@@ -1199,7 +1197,6 @@ const getTeacherCountBySchoolName = async (schname) => {
   const experianceOfTeachers = await getTeacherExperienceCountByRangeSchool(schname);
   const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
-
 
   return {
     teacherStudentRatio,
