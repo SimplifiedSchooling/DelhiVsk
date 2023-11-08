@@ -156,6 +156,8 @@ const getSchoolIdBySchCategoryWise = async () => {
 
 const getStudentCount = async () => {
   const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
+  const ManagementWiseCounts = await getSchoolCountsByCriteria(studentManagementWiseCounts, 'SchManagement');
+
   const streamWisehoolIds = await getSchoolIdByStreamWise();
   const streamWiseCount = await getSchoolCountsByCriteria(streamWisehoolIds, 'stream');
 
@@ -251,7 +253,11 @@ const getStudentCount = async () => {
       _id: item[0]._id,
       count: item[0].count,
     }));
-
+    // 
+    const formattedManagementWiseCounts = ManagementWiseCounts.map((item) => ({
+      _id: item[0]._id,
+      count: item[0].count,
+    }));
     return {
       typeOfSchoolWiseCounts: formattedTypeOfSchoolWiseCounts,
       studentShiftWiseCounts: formattedStudentShiftWiseCounts,
@@ -260,6 +266,7 @@ const getStudentCount = async () => {
       managementWiseCount: formattedmanagementWiseCount,
       streamWiseCount: formattedStreamWiseCount,
       SchCategoryCount: formattedSchCategoryCount,
+      ManagementWiseCounts:formattedManagementWiseCounts,
       studentCount,
       averageStudentOfSchool,
       averageTeacherOfSchool,
