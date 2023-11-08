@@ -13,6 +13,8 @@ router.route('/zone/date-wise').post(attendanceController.getZoneAttendanceCount
 
 router.route('/zone/shift/wise').post(attendanceController.getAttendanceCountsShiftWise);
 
+router.route('/district/present-student/per').post(attendanceController.getDistrictWisePresentCount);
+
 module.exports = router;
 
 /**
@@ -122,8 +124,6 @@ module.exports = router;
  */
 
 
-
-
 /**
  * @swagger
  * /attendance/zone/shift/wise:
@@ -152,3 +152,30 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
+
+/**
+ * @swagger
+ * /attendance/district/present-student/per:
+ *   post:
+ *     summary: Get all  Attendance persentage by district wise.
+ *     description: Get all  Attendance persentage by district wise.
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               date:
+ *                 type: string
+ *             example:
+ *               date: '04/11/2023'    
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
