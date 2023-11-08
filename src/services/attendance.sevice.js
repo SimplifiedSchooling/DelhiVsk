@@ -1,8 +1,7 @@
 const axios = require('axios');
 const cron = require('node-cron');
 const logger = require('../config/logger');
-const { School, Attendance, Student, StudentCounts } = require('../models');
-
+const { School, Attendance, StudentCounts } = require('../models');
 
 /**
  * Get Attendance data from server
@@ -126,7 +125,6 @@ cron.schedule('0 21 * * *', async () => {
   }
 });
 
-
 const getAttendanceCounts = async (date) => {
   const match = {
     attendance_DATE: date,
@@ -210,7 +208,7 @@ const getAttendanceCounts = async (date) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({ attendance_DATE: date }).exec();
+  const countofSchoool = await School.countDocuments().exec();
   return {
     countofSchoool,
     totalStudentCount: totalStudentCount[0] ? totalStudentCount[0].count : 0,
@@ -556,7 +554,6 @@ const getDistrictWisePresentCount = async (date) => {
   return districtCounts;
 };
 
-
 module.exports = {
   storeAttendanceDataInMongoDB,
   getAttendanceCounts,
@@ -565,4 +562,3 @@ module.exports = {
   getAttendanceCountsShiftWise,
   getDistrictWisePresentCount,
 };
-
