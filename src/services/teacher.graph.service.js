@@ -1027,7 +1027,7 @@ const getSchoolIdBySchCategoryWiseAndZone1 = async (schname) => {
   const pipeline = [
     {
       $match: {
-        School_Name: schname, 
+        School_Name: schname,
       },
     },
     {
@@ -1048,7 +1048,7 @@ const getSchoolIdBySchCategoryWiseAndZone1 = async (schname) => {
  */
 
 const getTeacherCountByZone1 = async (schname) => {
-  const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndZone(schname);
+  const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndZone1(schname);
   const teacherCounts = [];
 
   for (const category of schCategorySchoolIds) {
@@ -1171,5 +1171,5 @@ module.exports = {
   getTeacherStatsByDistrict,
   getTeacherCountByZone,
   getTeacherExperienceCountByRange,
-  // getSchoolAndTeacherInfo,
+  getTeacherCountByZone1,
 };

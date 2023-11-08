@@ -123,16 +123,16 @@ const getStudentCount = async () => {
 
   const studentManagementWiseCounts = await getSchoolIdByManagmentWise();
   const streamWisehoolIds = await getSchoolIdByStreamWise();
-  const streanWiseCount = await getCountByCriteria(streamWisehoolIds, 'stream');
+  const streanWiseCount = await getSchoolCountsByCriteria(streamWisehoolIds, 'stream');
 
   const minorityWiseSchoolIds = await getSchoolIdByMinortyWise();
-  const minortyWiseCount = await getCountByCriteria(minorityWiseSchoolIds, 'minority');
+  const minortyWiseCount = await getSchoolCountsByCriteria(minorityWiseSchoolIds, 'minority');
 
   const affiliationWiseSchoolIds = await getSchoolIdByAffiliationWise();
-  const affiliationWiseCount = await getCountByCriteria(affiliationWiseSchoolIds, 'affiliation');
+  const affiliationWiseCount = await getSchoolCountsByCriteria(affiliationWiseSchoolIds, 'affiliation');
 
   const shiftWiseSchoolid = await getSchoolIdByShiftWise();
-  const studentShiftWiseCounts = await getCountByCriteria(shiftWiseSchoolid, 'shift');
+  const studentShiftWiseCounts = await getSchoolCountsByCriteria(shiftWiseSchoolid, 'shift');
 
   const typeOfSchoolsWiseSchoolid = await getSchoolIdByTypeOfSchoolWise();
   const typeOfSchoolWiseCounts = await getSchoolCountsByCriteria(typeOfSchoolsWiseSchoolid, 'typeOfSchool');
