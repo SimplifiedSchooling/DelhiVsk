@@ -1,4 +1,3 @@
-
 // const httpStatus = require('http-status');
 const axios = require('axios');
 const { School, Attendance, Student, StudentCounts } = require('../models');
@@ -30,7 +29,6 @@ async function fetchStudentDataForSchool(schoolId, password, date) {
  * Get Attendance data from server and store in databae
  * @returns {Promise<Attendance>}
  */
-
 
 const storeAttendanceDataInMongoDB = async () => {
   const now = new Date();
@@ -70,9 +68,7 @@ const storeAttendanceDataInMongoDB = async () => {
       };
 
       const totalStudentCount =
-        studentgenderWiseCount.maleStudents +
-        studentgenderWiseCount.femaleStudents +
-        studentgenderWiseCount.otherStudents;
+        studentgenderWiseCount.maleStudents + studentgenderWiseCount.femaleStudents + studentgenderWiseCount.otherStudents;
 
       if (existingAttendance) {
         // If an entry with the same identifier exists, update it
@@ -160,7 +156,6 @@ const storeAttendanceDataInMongoDB = async () => {
 //   const month = String(now.getMonth() + 1).padStart(2, '0');
 //   const year = now.getFullYear();
 
-
 //   const date = '03/11/2023'
 //   //`${day}/${month}/${year}`;
 
@@ -191,7 +186,6 @@ const storeAttendanceDataInMongoDB = async () => {
 //         },
 //       ]);
 
-
 //       const genderCounts = studentData.reduce(
 //         (count, student) => {
 //           count[student.Gender] = (count[student.Gender] || 0) + 1;
@@ -199,7 +193,6 @@ const storeAttendanceDataInMongoDB = async () => {
 //         },
 //         { M: 0, F: 0, T: 0 }
 //       );
-
 
 //       console.log(studentgenderWiseCount, studentgenderWiseCount.maleStudents,  studentgenderWiseCount.femaleStudents, studentgenderWiseCount.otherStudents)
 
@@ -332,7 +325,7 @@ const getAttendanceCounts = async (date) => {
       },
     },
   ]);
-   const countofSchoool = await School.countDocuments({attendance_DATE: date}).exec();
+  const countofSchoool = await School.countDocuments({ attendance_DATE: date }).exec();
   return {
     countofSchoool,
     totalStudentCount: totalStudentCount[0] ? totalStudentCount[0].count : 0,
@@ -347,7 +340,7 @@ const getAttendanceCounts = async (date) => {
 };
 
 const getAttendanceCountsDistrictWise = async (body) => {
-  const {date, districtName } = body;
+  const { date, districtName } = body;
   const dateMatch = {
     $match: {
       attendance_DATE: date,
@@ -433,7 +426,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({District_name: districtName}).exec();
+  const countofSchoool = await School.countDocuments({ District_name: districtName }).exec();
   return {
     countofSchoool,
     totalStudentCount: totalStudentCount[0].count,
@@ -534,7 +527,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({Zone_Name: Z_name,}).exec();
+  const countofSchoool = await School.countDocuments({ Zone_Name: Z_name }).exec();
   return {
     countofSchoool,
     totalStudentCount: totalStudentCount[0].count,
@@ -547,7 +540,6 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
     otherAbsentCount: otherAbsentCount[0].count,
   };
 };
-
 
 const getAttendanceCountsShiftWise = async (date, shift) => {
   const dateMatch = {
@@ -635,7 +627,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({shift}).exec();
+  const countofSchoool = await School.countDocuments({ shift }).exec();
   return {
     countofSchoool,
     totalStudentCount: totalStudentCount[0].count,

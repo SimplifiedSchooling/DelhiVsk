@@ -60,6 +60,9 @@ const udiseAllDashboard = mongoose.Schema(
     school_having_drinking_percentage: {
       type: String,
     },
+    school_having_electricity_percentage: {
+      type: String,
+    },
     school_having_library_percentage: {
       type: String,
     },

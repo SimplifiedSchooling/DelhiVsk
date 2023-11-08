@@ -143,7 +143,7 @@ module.exports = router;
  *                 type: string
  *             example:
  *               shift: 'morning'
- *               date: '04/11/2023'    
+ *               date: '04/11/2023'
  *     responses:
  *       "200":
  *         description: OK
