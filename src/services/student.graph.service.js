@@ -713,7 +713,7 @@ const getSchoolIdByStreamWiseZone = async (zone) => {
       },
     },
   ];
-  return StudentCounts.aggregate(pipeline);
+  return School.aggregate(pipeline);
 };
 
 const getSchoolIdByShiftWisZone = async (zone) => {
@@ -830,7 +830,7 @@ const getSchoolCountsByCriteriaZone = async (criteria, field, zone) => {
         {
           $group: {
             _id: `$${field}`,
-            count: { $sum: 1 }, // Count schools
+            count: { $sum: 1 }, 
           },
         },
       ]);
@@ -988,33 +988,36 @@ const getStudentCountByZoneName = async (zone) => {
     });
   }
   
-  const schoolCriteria = await getSchoolIdByStreamWiseZone(zone);
-  const streamWiseCount = await getSchoolCountsByCriteriaZone(schoolCriteria, 'stream', zone);
+  // const schoolCriteria = await getSchoolIdByStreamWiseZone(zone);
+  // const streamWiseCount = await getSchoolCountsByCriteriaZone(schoolCriteria, 'stream', zone);
 
 
-  // const streamWiseCountIds = await getSchoolCountsByCriteriaZone(zone);
-  // const streamWiseCount = [];
-  // for (const fieldData of streamWiseCountIds) {
-  //   const schoolIds = Array.isArray(fieldData.Schoolid) ? fieldData.Schoolid : [fieldData.Schoolid];
-  //   const count = await StudentCounts.aggregate([
-  //     {
-  //       $match: {
-  //         Schoolid: { $in: schoolIds },
-  //         Zone_Name: zone,
-  //       },
-  //     },
-  //     {
-  //       $group: {
-  //         _id: null,
-  //         totalCount: { $sum: '$totalStudent' },
-  //       },
-  //     },
-  //   ]);
-  //   streamWiseCount.push({
-  //     stream: fieldData._id,
-  //     count: count.length > 0 ? count[0].totalCount : 0,
-  //   });
-  // }
+  const streamWiseCountIds = await getSchoolIdByStreamWiseZone(zone);
+  const streamWiseCount = [];
+  for (const fieldData of streamWiseCountIds) {
+    const schoolIds = Array.isArray(fieldData.Schoolid) ? fieldData.Schoolid : [fieldData.Schoolid];
+    const count = await StudentCounts.aggregate([
+      {
+        $match: {
+          Schoolid: { $in: schoolIds },
+          Zone_Name: zone,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalCount: { $sum: '$totalStudent' },
+        },
+      },
+    ]);
+    streamWiseCount.push({
+      stream: fieldData._id || 'Unknown', // Use 'Unknown' if _id is null
+      count: count.length > 0 ? count[0].totalCount : 0,
+    });
+    
+    // });
+  }
+  
   const studentCount = await StudentCounts.aggregate([
     {
       $match: {
