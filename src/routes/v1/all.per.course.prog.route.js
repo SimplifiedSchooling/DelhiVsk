@@ -35,22 +35,16 @@ router.route('/').get(PerCourseProgressAlldashboardController.getAllLearningSess
 
 router.route('/programstarted').get(PerCourseProgressAlldashboardController.getAllPlaysPerCapita);
 router.route('/coursemedium').get(PerCourseProgressAlldashboardController.getAllConsumptionByCourse);
-router.route('/alldashboard').get(PerCourseProgressAlldashboardController.getAllConsumptionByDistrict);
+router.route('/nas-alldashboard').get(PerCourseProgressAlldashboardController.getAllConsumptionByDistrict);
 router.route('/dashboard').post(PerCourseProgressAlldashboardController.getDashboard);
 module.exports = router;
-/**
- * @swagger
- * tags:
- *   name: AllDashboards
- *   description: AllDashboards for percentageenrollmentcertification, programStarted, courseMedium, allDashboard management
- */
 
 /**
  * @swagger
  * /alldashboard/bulkupload-percentageenrollmentcertification:
  *   post:
  *     summary: Upload a CSV file for bulk diksha.nishtha.percentage.enrollment.certification.model
- *     tags: [AllDashboards]
+ *     tags: [diksha.nishtha.percentage.enrollment.certification]
  *     requestBody:
  *       required: true
  *       content:
@@ -73,7 +67,7 @@ module.exports = router;
  * /alldashboard/bulkupload-programstarted:
  *   post:
  *     summary: Upload a CSV file for bulk diksha.nishtha.program.started.model
- *     tags: [AllDashboards]
+ *     tags: [diksha.nishtha.program.started]
  *     requestBody:
  *       required: true
  *       content:
@@ -96,7 +90,7 @@ module.exports = router;
  * /alldashboard/bulkupload-coursemedium:
  *   post:
  *     summary: Upload a CSV file for bulk diksha.nishtha.tot.courses.medium.model
- *     tags: [AllDashboards]
+ *     tags: [diksha.nishtha.tot.courses.medium]
  *     requestBody:
  *       required: true
  *       content:
@@ -119,7 +113,7 @@ module.exports = router;
  * /alldashboard/bulkupload-allDashboard:
  *   post:
  *     summary: Upload a CSV file for bulk nas.all.dashboard.model
- *     tags: [AllDashboards]
+ *     tags: [nas.all.dashboard]
  *     requestBody:
  *       required: true
  *       content:
@@ -142,7 +136,7 @@ module.exports = router;
  * /alldashboard:
  *   get:
  *     summary: Get data for diksha.nishtha.percentage.enrollment.certification.model
- *     tags: [AllDashboards]
+ *     tags: [diksha.nishtha.percentage.enrollment.certification]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -159,7 +153,24 @@ module.exports = router;
  * /alldashboard/programstarted:
  *   get:
  *     summary: Get all data of diksha.nishtha.program.started.model
- *     tags: [AllDashboards]
+ *     tags: [diksha.nishtha.program.started]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ */
+
+/**
+ * @swagger
+ * /alldashboard/nas-alldashboard:
+ *   get:
+ *     summary: Get all data of nas.all.dashboard model
+ *     tags: [nas.all.dashboard]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -176,7 +187,7 @@ module.exports = router;
  * /alldashboard/coursemedium:
  *   get:
  *     summary: Get all data of diksha.nishtha.tot.courses.medium.model
- *     tags: [AllDashboards]
+ *     tags: [diksha.nishtha.tot.courses.medium]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -192,9 +203,9 @@ module.exports = router;
  * @swagger
  * /alldashboard/dashboard:
  *   post:
- *     summary: Get dashboard data based on filters
- *     description: Get dashboard data based on filters
- *     tags: [AllDashboards]
+ *     summary: Get dashboard data based on filters grade, subject, learning_outcome_code for nas.all.dashboard
+ *     description: Get dashboard data based on filters for nas.all.dashboard
+ *     tags: [nas.all.dashboard]
  *     requestBody:
  *       required: true
  *       content:

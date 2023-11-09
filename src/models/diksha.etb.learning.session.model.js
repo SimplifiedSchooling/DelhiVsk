@@ -22,10 +22,10 @@ const learningSessionSchema = mongoose.Schema(
       type: String,
     },
     total_no_of_plays_App_and_Portal: {
-      type: String,
+      type: Number,
     },
     total_play_time_App_and_Portal: {
-      type: String,
+      type: Number,
     },
     grade: {
       type: String,
