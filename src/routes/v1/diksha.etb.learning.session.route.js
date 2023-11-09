@@ -34,13 +34,14 @@ router.route('/').get(learningSessionController.getAllLearningSessions);
 router.route('/playspercapita').get(learningSessionController.getAllPlaysPerCapita);
 router.route('/consumptionbycourse').get(learningSessionController.getAllConsumptionByCourse);
 router.route('/consumptionbydistrict').get(learningSessionController.getAllConsumptionByDistrict);
-router.route('/counts').post(learningSessionController.getCounts);
+router.route('/counts-consumption by course').post(learningSessionController.getCounts);
+router.route('/counts-learningsession').post(learningSessionController.getCounts);
 module.exports = router;
 /**
  * @swagger
  * tags:
  *   name: LearningSession
- *   description: LearningSession management for learningsession , playePerCapita, consumptionbycourse, consumptionBydistrict
+ *   description: LearningSession management
  */
 
 /**
@@ -71,7 +72,7 @@ module.exports = router;
  * /learningsession/bulkupload-playspercapita:
  *   post:
  *     summary: Upload a CSV file for bulk playspercapita upload
- *     tags: [LearningSession]
+ *     tags: [diksha.etb.plays.per.capita.model]
  *     requestBody:
  *       required: true
  *       content:
@@ -94,7 +95,7 @@ module.exports = router;
  * /learningsession/bulkupload-consumptionbycourse:
  *   post:
  *     summary: Upload a CSV file for bulk consumptionbycourse upload
- *     tags: [LearningSession]
+ *     tags: [diksha.nishtha.consumption.by.course.model]
  *     requestBody:
  *       required: true
  *       content:
@@ -117,7 +118,7 @@ module.exports = router;
  * /learningsession/bulkupload-consumptionbydistrict:
  *   post:
  *     summary: Upload a CSV file for bulk consumptionbydistrict upload
- *     tags: [LearningSession]
+ *     tags: [diksha.nishtha.consumption.by.district.model]
  *     requestBody:
  *       required: true
  *       content:
@@ -157,7 +158,7 @@ module.exports = router;
  * /learningsession/consumptionbydistrict:
  *   get:
  *     summary: Get Diksha nishtha consumption by district
- *     tags: [LearningSession]
+ *     tags: [diksha.nishtha.consumption.by.district.model]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -174,7 +175,7 @@ module.exports = router;
  * /learningsession/playspercapita:
  *   get:
  *     summary: Get Diksha etb plys per capita
- *     tags: [LearningSession]
+ *     tags: [diksha.etb.plays.per.capita.model]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -191,7 +192,7 @@ module.exports = router;
  * /learningsession/consumptionbycourse:
  *   get:
  *     summary: Get Diksha nishtha consumption by course
- *     tags: [LearningSession]
+ *     tags: [diksha.nishtha.consumption.by.course.model]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -205,10 +206,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/counts:
+ * /learningsession/counts-consumption by course:
  *     post:
- *       summary: Get counts based on program
- *       tags: [LearningSession]
+ *       summary: Get counts based on program for consumption by course
+ *       tags: [diksha.nishtha.consumption.by.course.model]
  *       requestBody:
  *         content:
  *           application/json:
@@ -235,4 +236,37 @@ module.exports = router;
  *           description: Bad request
  *         500:
  *           description: Internal server error
+ */
+
+/**
+ * @swagger
+ * /learningsession/counts-learningsession:
+ *   post:
+ *     summary: Get dashboard data based on medium,grade,subject filters for Learning Session
+ *     description: Get dashboard data based on medium,grade,subject filters for Learning Session
+ *     tags: [LearningSession]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               subject:
+ *                 type: string
+ *               grade:
+ *                 type: string
+ *               medium:
+ *                 type: string
+ *             example:
+ *               subject: "English"
+ *               grade: "Class 10"
+ *               medium: "English"
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
  */

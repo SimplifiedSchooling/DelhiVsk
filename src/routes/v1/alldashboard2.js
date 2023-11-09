@@ -34,19 +34,13 @@ router.route('/udise-alldashboard').get(allDashboard2.getAllConsumptionByCourse)
 router.route('/udise-programstarted').get(allDashboard2.getAllConsumptionByDistrict);
 
 module.exports = router;
-/**
- * @swagger
- * tags:
- *   name: AllDashboards2
- *   description: AllDashboards2 management for Nas-programStarted, Pgi-AllDashboards, UdiseAlldashboards , UdiseProgrameStarted
- */
 
 /**
  * @swagger
  * /alldashboard2/bulkupload-nas-program-started:
  *   post:
  *     summary: Upload a CSV file for bulk nas.program.started.model
- *     tags: [AllDashboards2]
+ *     tags: [nas.program.started]
  *     requestBody:
  *       required: true
  *       content:
@@ -69,7 +63,7 @@ module.exports = router;
  * /alldashboard2/bulkupload-pgi-alldashboard:
  *   post:
  *     summary: Upload a CSV file for bulk pgi.all.dashboard.model
- *     tags: [AllDashboards2]
+ *     tags: [pgi.all.dashboard]
  *     requestBody:
  *       required: true
  *       content:
@@ -92,7 +86,7 @@ module.exports = router;
  * /alldashboard2/bulkupload-udise-alldashboard:
  *   post:
  *     summary: Upload a CSV file for bulk udise.all.dashboard.model
- *     tags: [AllDashboards2]
+ *     tags: [udise.all.dashboard]
  *     requestBody:
  *       required: true
  *       content:
@@ -115,7 +109,7 @@ module.exports = router;
  * /alldashboard2/bulkupload-udise-programstarted:
  *   post:
  *     summary: Upload a CSV file for bulk udise.program.started.model
- *     tags: [AllDashboards2]
+ *     tags: [udise.program.started]
  *     requestBody:
  *       required: true
  *       content:
@@ -138,7 +132,7 @@ module.exports = router;
  * /alldashboard2:
  *   get:
  *     summary: Get data for nas.program.started.model
- *     tags: [AllDashboards2]
+ *     tags: [nas.program.started]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -155,7 +149,7 @@ module.exports = router;
  * /alldashboard2/pgi-alldashboard:
  *   get:
  *     summary: Get all data of pgi.all.dashboard.model
- *     tags: [AllDashboards2]
+ *     tags: [pgi.all.dashboard]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -172,7 +166,7 @@ module.exports = router;
  * /alldashboard2/udise-alldashboard:
  *   get:
  *     summary: Get all data of udise.all.dashboard.model
- *     tags: [AllDashboards2]
+ *     tags: [udise.all.dashboard]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -189,7 +183,7 @@ module.exports = router;
  * /alldashboard2/udise-programstarted:
  *   get:
  *     summary: Get all data of udise.program.started.model
- *     tags: [AllDashboards2]
+ *     tags: [udise.program.started]
  *     security:
  *       - bearerAuth: []
  *     responses:

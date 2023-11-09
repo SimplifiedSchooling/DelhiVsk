@@ -161,6 +161,25 @@ const getAllConsumptionByDistrict = async () => {
   return getAllConsumptionByCourses;
 };
 
+async function calculateMimeTypeCounts(query) {
+  // Aggregate pipeline to group counts by mime_type
+  const pipeline = [
+    { $match: query },
+    {
+      $group: {
+        _id: '$mime_type',
+        counts: { $sum: '$total_no_of_plays_App_and_Portal' },
+      },
+    },
+  ];
+
+  // Execute the aggregation pipeline
+  const counts = await Learningsession.aggregate(pipeline);
+
+  // Return the counts
+  return counts;
+}
+
 module.exports = {
   createLearningSession,
   getAllLearningSessions,
@@ -172,4 +191,5 @@ module.exports = {
   bulkUploadFileForConsumptionByDistrict,
   getAllConsumptionByDistrict,
   calculateRangeWiseCounts,
+  calculateMimeTypeCounts,
 };
