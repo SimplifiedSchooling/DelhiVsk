@@ -8,7 +8,7 @@ async function fetchStudentDataForSchool() {
     const response = await axios.get(apiUrl);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching data for school `, error);
+    throw new Error(`Error fetching data: ${error.message}`);
     return null;
   }
 }

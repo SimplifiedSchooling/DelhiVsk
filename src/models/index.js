@@ -18,3 +18,4 @@ module.exports.UdiseallDashboard = require('./udise.all.dashboard.model');
 module.exports.Udiseprogramstarted = require('./udise.program.started.model');
 module.exports.Coveragestatus = require('./vsk.diksha.etb.coverage.status.model');
 module.exports.Coverageqr = require('./vsk.diksha.etb.qr.coverage.model');
+module.exports.Udiseschool = require('./udise.school.model');
