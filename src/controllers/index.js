@@ -12,3 +12,4 @@ module.exports.learningSessionController = require('./diksha.etb.learning.sessio
 module.exports.PerCourseProgressAlldashboardController = require('./all.per.course.prog.controller');
 module.exports.allDashboard2 = require('./alldashboard2.controller');
 module.exports.allDashboard3 = require('./alldashboard3.controller');
+module.exports.udiseSchooolController = require('./udise.school.controller');
