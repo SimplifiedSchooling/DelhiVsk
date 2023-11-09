@@ -34,7 +34,7 @@ router.route('/').get(learningSessionController.getAllLearningSessions);
 router.route('/playspercapita').get(learningSessionController.getAllPlaysPerCapita);
 router.route('/consumptionbycourse').get(learningSessionController.getAllConsumptionByCourse);
 router.route('/consumptionbydistrict').get(learningSessionController.getAllConsumptionByDistrict);
-router.route('/counts-consumption by course').post(learningSessionController.getCounts);
+router.route('/data/counts').post(learningSessionController.getCountsByProgram);
 router.route('/counts-learningsession').post(learningSessionController.getCounts);
 module.exports = router;
 /**
@@ -206,7 +206,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /learningsession/counts-consumption by course:
+ * /learningsession/data/counts:
  *     post:
  *       summary: Get counts based on program for consumption by course
  *       tags: [diksha.nishtha.consumption.by.course.model]

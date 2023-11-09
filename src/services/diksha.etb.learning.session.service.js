@@ -120,25 +120,27 @@ async function calculateRangeWiseCounts(program) {
   const enrollmentRanges = new Array(ranges.length - 1).fill(0);
   const completionRanges = new Array(ranges.length - 1).fill(0);
   const certificationRanges = new Array(ranges.length - 1).fill(0);
-
   const schoolData = await Consumptionbycourse.find({ program });
 
   schoolData.forEach((data) => {
     const { enrollments, completion, certification } = data;
-
+    /* eslint-disable-next-line no-plusplus */
     for (let i = 0; i < ranges.length - 1; i++) {
       const startRange = ranges[i];
       const endRange = ranges[i + 1];
 
       if (enrollments >= startRange && enrollments < endRange) {
+        /* eslint-disable-next-line no-plusplus */
         enrollmentRanges[i]++;
       }
 
       if (completion >= startRange && completion < endRange) {
+        /* eslint-disable-next-line no-plusplus */
         completionRanges[i]++;
       }
 
       if (certification >= startRange && certification < endRange) {
+        /* eslint-disable-next-line no-plusplus */
         certificationRanges[i]++;
       }
     }
