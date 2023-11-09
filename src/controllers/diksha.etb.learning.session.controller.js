@@ -104,6 +104,12 @@ async function getCounts(req, res) {
   res.send(counts);
 }
 
+async function getCountsByProgram(req, res) {
+  const { program } = req.body;
+  const counts = await learningSessionService.calculateRangeWiseCounts(program);
+  res.send(counts);
+}
+
 module.exports = {
   getAllLearningSessions,
   getAllPlaysPerCapita,
@@ -114,4 +120,5 @@ module.exports = {
   bulkUploadFileForConsumptionByDistrict,
   getAllConsumptionByDistrict,
   getCounts,
+  getCountsByProgram,
 };
