@@ -114,6 +114,17 @@ async function getDashboardData(query) {
   return dashboardData;
 }
 
+/**
+ * Get all AllDashboard data by grade,subject and learning_outcome_code
+ * @param {string} query - The grade,subject,learning_outcome_code name to filter the data
+ * @returns {Promise<Object>} Get all AllDashboard data by grade,subject and learning_outcome_code
+ */
+
+async function getLearningSessionCountData(query) {
+  const dashboardData = await AllDashboard.find(query);
+  return dashboardData;
+}
+
 module.exports = {
   getAllLearningSessions,
   getAllPlaysPerCapita,
@@ -124,4 +135,5 @@ module.exports = {
   bulkUploadFileForConsumptionByDistrict,
   getAllConsumptionByDistrict,
   getDashboardData,
+  getLearningSessionCountData,
 };

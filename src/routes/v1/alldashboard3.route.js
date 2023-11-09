@@ -26,19 +26,13 @@ router.route('/').get(allDashboard3.getAllLearningSessions);
 router.route('/coverageqr').get(allDashboard3.getAllPlaysPerCapita);
 
 module.exports = router;
-/**
- * @swagger
- * tags:
- *   name: AllDashboards3
- *   description: AllDashboards3 management for coveragestatus,coverageqr
- */
 
 /**
  * @swagger
  * /alldashboard3/bulkupload-coveragestatus:
  *   post:
  *     summary: Upload a CSV file for bulk vsk.diksha.etb.coverage.status.model
- *     tags: [AllDashboards3]
+ *     tags: [vsk.diksha.etb.coverage.status]
  *     requestBody:
  *       required: true
  *       content:
@@ -61,7 +55,7 @@ module.exports = router;
  * /alldashboard3/bulkupload-coverageqr:
  *   post:
  *     summary: Upload a CSV file for vsk.diksha.etb.qr.coverage.model
- *     tags: [AllDashboards3]
+ *     tags: [vsk.diksha.etb.qr.coverage]
  *     requestBody:
  *       required: true
  *       content:
@@ -84,7 +78,7 @@ module.exports = router;
  * /alldashboard3:
  *   get:
  *     summary: Get data for vsk.diksha.etb.coverage.status.model
- *     tags: [AllDashboards3]
+ *     tags: [vsk.diksha.etb.coverage.status]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -101,7 +95,7 @@ module.exports = router;
  * /alldashboard3/coverageqr:
  *   get:
  *     summary: Get all data of vsk.diksha.etb.qr.coverage.model
- *     tags: [AllDashboards3]
+ *     tags: [vsk.diksha.etb.qr.coverage]
  *     security:
  *       - bearerAuth: []
  *     responses:

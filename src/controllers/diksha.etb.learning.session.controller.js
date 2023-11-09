@@ -92,15 +92,18 @@ const getAllConsumptionByDistrict = catchAsync(async (req, res) => {
   res.send(result);
 });
 
-async function getCounts(req, res, next) {
-  try {
-    const { program } = req.body;
-    const counts = await learningSessionService.calculateRangeWiseCounts(program);
-    return res.json(counts);
-  } catch (error) {
-    return next(error);
-  }
+async function getCounts(req, res) {
+  const { subject, grade, medium } = req.body;
+
+  // Build query based on request parameters
+  const query = {};
+  if (subject) query.subject = subject;
+  if (grade) query.grade = grade;
+  if (medium) query.medium = medium;
+  const counts = await learningSessionService.calculateMimeTypeCounts(query);
+  res.send(counts);
 }
+
 module.exports = {
   getAllLearningSessions,
   getAllPlaysPerCapita,

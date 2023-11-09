@@ -1,4 +1,4 @@
-state_name,state_code,board,subject,content_name,mime_type,total_no_of_plays(App and Portal),total_play_time(App and Portal),grade,medium,category
+state_name,state_code,board,subject,content_name,mime_type,total_no_of_plays_App_and_Portal,total_play_time_App_and_Portal,grade,medium,category
 Delhi,10,CBSE (Delhi),English,A letter to God,YouTube Content,1837,3.38,Class 10,English,ETB
 Delhi,10,CBSE (Delhi),English,Fire and Ice,YouTube Content,900,2.22,Class 10,English,ETB
 Delhi,10,CBSE (Delhi),English,A dust of Snow,YouTube Content,409,5.14,Class 10,English,ETB
@@ -344,20 +344,20 @@ Delhi,10,State (Delhi),Economics,Money and Credit,Document,3,0.44,Class 10,Engli
 Delhi,10,State (Delhi),Economics,Consumer Rights,Document,1,0.19,Class 10,English,ETB
 Delhi,10,State (Delhi),Economics,Development,Document,1,0.28,Class 10,English,ETB
 Delhi,10,State (Delhi),Economics,Money and Credit,Document,1,3.99,Class 10,English,ETB
-Delhi,10,State (Delhi),Economics,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 2: à¤†à¤°à¥à¤¥à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¾ à¤•à¥‡ à¤•à¥à¤·à¥‡à¤¤à¥à¤°à¤•",Document,1,0.12,Class 10,English,ETB
+Delhi,10,State (Delhi),Economics,à¤…à¤§à¥à¤¯à¤¾à¤¯ 2: à¤†à¤°à¥à¤¥à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¾ à¤•à¥‡ à¤•à¥à¤·à¥‡à¤¤à¥à¤°à¤•,Document,1,0.12,Class 10,English,ETB
 Delhi,10,State (Delhi),Economics,Development,Document,0,0,Class 10,English,ETB
 Delhi,10,State (Delhi),Economics,Sectors of Economy,Document,0,0,Class 10,English,ETB
-Delhi,10,State (Delhi),Economics,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 1: à¤µà¤¿à¤•à¤¾à¤¸",Document,0,0,Class 10,English,ETB
-Delhi,10,State (Delhi),Economics,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 3: à¤®à¥à¤¦à¥à¤°à¤¾ à¤”à¤° à¤¸à¤¾à¤–",Document,0,0,Class 10,English,ETB
-Delhi,10,State (Delhi),Economics,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 5: à¤‰à¤ªà¤­à¥‹à¤•à¥à¤¤à¤¾ à¤…à¤§à¤¿à¤•à¤¾à¤°",Document,0,0,Class 10,English,ETB
-Delhi,10,State (Delhi),Economics,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 4: à¤µà¥ˆà¤¶à¥à¤µà¥€à¤•à¤°à¤£ à¤”à¤° à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤…à¤°à¥à¤¥à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¾",Document,0,0,Class 10,English,ETB
+Delhi,10,State (Delhi),Economics,à¤…à¤§à¥à¤¯à¤¾à¤¯ 1: à¤µà¤¿à¤•à¤¾à¤¸,Document,0,0,Class 10,English,ETB
+Delhi,10,State (Delhi),Economics,à¤…à¤§à¥à¤¯à¤¾à¤¯ 3: à¤®à¥à¤¦à¥à¤°à¤¾ à¤”à¤° à¤¸à¤¾à¤–,Document,0,0,Class 10,English,ETB
+Delhi,10,State (Delhi),Economics,à¤…à¤§à¥à¤¯à¤¾à¤¯ 5: à¤‰à¤ªà¤­à¥‹à¤•à¥à¤¤à¤¾ à¤…à¤§à¤¿à¤•à¤¾à¤°,Document,0,0,Class 10,English,ETB
+Delhi,10,State (Delhi),Economics,à¤…à¤§à¥à¤¯à¤¾à¤¯ 4: à¤µà¥ˆà¤¶à¥à¤µà¥€à¤•à¤°à¤£ à¤”à¤° à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤…à¤°à¥à¤¥à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¾,Document,0,0,Class 10,English,ETB
 Delhi,10,State (Delhi),English,"05 July 2021 Class 10  Science, Hindi, Maths  DoE Worksheet",Document,1648,0.63,Class 10,English,ETB
 Delhi,10,State (Delhi),English,"08 July 2021 Class 10 English , Social Science DoE Worksheet",Document,411,0.55,Class 10,English,ETB
 Delhi,10,State (Delhi),English,"06 July 2021 Class 10 English, Social science  DoE Worksheet",Document,212,0.57,Class 10,English,ETB
 Delhi,10,State (Delhi),English,DoE Worksheets,Document,166,0.67,Class 10,English,ETB
 Delhi,10,State (Delhi),English,DoE Worksheets,Document,160,0.62,Class 10,English,ETB
 Delhi,10,State (Delhi),English,"06 July 2021 Class 10 English, Social science  DoE Worksheet",Document,99,0.38,Class 10,English,ETB
-Delhi,10,State (Delhi),English,"3 Sept 2021 Class 10 English Assessment Worksheet",Document,90,0.57,Class 10,English,ETB
+Delhi,10,State (Delhi),English,3 Sept 2021 Class 10 English Assessment Worksheet,Document,90,0.57,Class 10,English,ETB
 Delhi,10,State (Delhi),English,"02 Feb 2021 Class 10 English , Social science DoE Worksheet",Document,73,0.25,Class 10,English,ETB
 Delhi,10,State (Delhi),English,"10 Dec 2020 Class 10 Social sience, English DoE Worksheet",Document,51,0.43,Class 10,English,ETB
 Delhi,10,State (Delhi),English,28 October 2020 Class 5 English DoE worksheet,Document,41,1.49,Class 10,English,ETB
@@ -2534,18 +2534,18 @@ Delhi,10,State (Delhi),Social Science,24 July 2021 Class 10 Social science Engli
 Delhi,10,State (Delhi),Social Science,29 Sept 2021 Class 10 Social Science Assessment DoE Worksheet,Document,5,0.58,Class 10,Hindi,ETB
 Delhi,10,State (Delhi),Unknown,09 Nov 2021 Class 10 Mathematics Hindi Medium Assessment DOE Worksheet,Document,7,7.53,Class 10,Hindi,ETB
 Delhi,10,State (Delhi),Unknown,16 Nov 2021 Class 10 Maths  Hindi  Medium Assessment DOE Worksheet,Document,4,5.88,Class 10,Hindi,ETB
-Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']","à¤…à¤§à¥à¤¯à¤¾à¤¯ 1: à¤µà¤¿à¤•à¤¾à¤¸",Document,115,0.43,Class 10,Hindi,ETB
+Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",à¤…à¤§à¥à¤¯à¤¾à¤¯ 1: à¤µà¤¿à¤•à¤¾à¤¸,Document,115,0.43,Class 10,Hindi,ETB
 Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",Geography Class 10,Document,41,1.56,Class 10,Hindi,ETB
-Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']","à¤­à¤¾à¤°à¤¤ à¤®à¥‡à¤‚ à¤°à¤¾à¤·à¥à¤Ÿà¥à¤°à¤µà¤¾à¤¦",Document,33,0.41,Class 10,Hindi,ETB
-Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']","à¤¯à¥‚à¤°à¥‹à¤ª à¤®à¥‡à¤‚ à¤°à¤¾à¤·à¥à¤Ÿà¥à¤°à¤µà¤¾à¤¦ à¤•à¤¾ à¤‰à¤¦à¤¯",Document,22,0.36,Class 10,Hindi,ETB
-Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']","à¤­à¥‚à¤®à¤‚à¤¡à¤²à¥€à¤•à¥ƒà¤¤ à¤µà¤¿à¤¶à¥à¤µ à¤•à¤¾ à¤¬à¤¨à¤¨à¤¾",Document,15,0.38,Class 10,Hindi,ETB
+Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤®à¥‡à¤‚ à¤°à¤¾à¤·à¥à¤Ÿà¥à¤°à¤µà¤¾à¤¦,Document,33,0.41,Class 10,Hindi,ETB
+Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",à¤¯à¥‚à¤°à¥‹à¤ª à¤®à¥‡à¤‚ à¤°à¤¾à¤·à¥à¤Ÿà¥à¤°à¤µà¤¾à¤¦ à¤•à¤¾ à¤‰à¤¦à¤¯,Document,22,0.36,Class 10,Hindi,ETB
+Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",à¤­à¥‚à¤®à¤‚à¤¡à¤²à¥€à¤•à¥ƒà¤¤ à¤µà¤¿à¤¶à¥à¤µ à¤•à¤¾ à¤¬à¤¨à¤¨à¤¾,Document,15,0.38,Class 10,Hindi,ETB
 Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",Geography (Class 10 ),Document,7,0.27,Class 10,Hindi,ETB
-Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']","à¤…à¤§à¥à¤¯à¤¾à¤¯ 5: à¤‰à¤ªà¤­à¥‹à¤•à¥à¤¤à¤¾ à¤…à¤§à¤¿à¤•à¤¾à¤°",Document,6,0.7,Class 10,Hindi,ETB
-Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']","à¤…à¤§à¥à¤¯à¤¾à¤¯ 2: à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤…à¤°à¥à¤¥à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¾ à¤•à¥‡ à¤•à¥à¤·à¥‡à¤¤à¥à¤°à¤•",Document,5,0.09,Class 10,Hindi,ETB
-Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']","à¤…à¤§à¥à¤¯à¤¾à¤¯ 3: à¤®à¥à¤¦à¥à¤°à¤¾ à¤”à¤° à¤¸à¤¾à¤–",Document,3,0.48,Class 10,Hindi,ETB
-Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']","à¤®à¥à¤¦à¥à¤°à¤£ à¤¸à¤‚à¤¸à¥à¤•à¥ƒà¤¤à¤¿ à¤”à¤° à¤†à¤§à¥à¤¨à¤¿à¤• à¤¦à¥à¤¨à¤¿à¤¯à¤¾",Document,2,0.12,Class 10,Hindi,ETB
-Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']","à¤…à¤§à¥à¤¯à¤¾à¤¯ 4: à¤µà¥ˆà¤¶à¥à¤µà¥€à¤•à¤°à¤£ à¤”à¤° à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤…à¤°à¥à¤¥à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¾",Document,2,0.16,Class 10,Hindi,ETB
-Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']","à¤”à¤¦à¥à¤¯à¥‹à¤—à¤¿à¤•à¥€à¤•à¤°à¤£ à¤•à¤¾ à¤¯à¥à¤—",Document,0,0,Class 10,Hindi,ETB
+Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",à¤…à¤§à¥à¤¯à¤¾à¤¯ 5: à¤‰à¤ªà¤­à¥‹à¤•à¥à¤¤à¤¾ à¤…à¤§à¤¿à¤•à¤¾à¤°,Document,6,0.7,Class 10,Hindi,ETB
+Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",à¤…à¤§à¥à¤¯à¤¾à¤¯ 2: à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤…à¤°à¥à¤¥à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¾ à¤•à¥‡ à¤•à¥à¤·à¥‡à¤¤à¥à¤°à¤•,Document,5,0.09,Class 10,Hindi,ETB
+Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",à¤…à¤§à¥à¤¯à¤¾à¤¯ 3: à¤®à¥à¤¦à¥à¤°à¤¾ à¤”à¤° à¤¸à¤¾à¤–,Document,3,0.48,Class 10,Hindi,ETB
+Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",à¤®à¥à¤¦à¥à¤°à¤£ à¤¸à¤‚à¤¸à¥à¤•à¥ƒà¤¤à¤¿ à¤”à¤° à¤†à¤§à¥à¤¨à¤¿à¤• à¤¦à¥à¤¨à¤¿à¤¯à¤¾,Document,2,0.12,Class 10,Hindi,ETB
+Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",à¤…à¤§à¥à¤¯à¤¾à¤¯ 4: à¤µà¥ˆà¤¶à¥à¤µà¥€à¤•à¤°à¤£ à¤”à¤° à¤­à¤¾à¤°à¤¤à¥€à¤¯ à¤…à¤°à¥à¤¥à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¾,Document,2,0.16,Class 10,Hindi,ETB
+Delhi,10,State (Delhi),"['Economics', 'Geography', 'History', 'Political Science', 'Social Science']",à¤”à¤¦à¥à¤¯à¥‹à¤—à¤¿à¤•à¥€à¤•à¤°à¤£ à¤•à¤¾ à¤¯à¥à¤—,Document,0,0,Class 10,Hindi,ETB
 Delhi,10,State (Delhi),"['Economics', 'Political Science']",DoE Worksheets,Document,133,0.6,Class 10,Hindi,ETB
 Delhi,10,State (Delhi),"['English', 'Hindi', 'Mathematics', 'Science']","24 JAN to 29 JAN2022 Class 10 Science, Social Science,Maths,Hindi and English  Hindi Medium Assessment DOE Worksheet",Document,13,0.59,Class 10,Hindi,ETB
 Delhi,10,State (Delhi),"['English', 'Mathematics', 'Science']","08 Oct 2021 Class 10 Hindi, Science Maths DoE Worksheets",Document,85,0.85,Class 10,Hindi,ETB
@@ -2706,62 +2706,62 @@ Delhi,10,State (Delhi),Entrepreneurship Mindset CurriculumÂ ,EMC Class 11 Unit
 Delhi,10,State (Delhi),Entrepreneurship Mindset CurriculumÂ ,EMC Class 11 Unit 8 (Hindi),Video,0,0,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Geography,à¤­à¥‚à¤—à¥‹à¤² à¤à¤• à¤µà¤¿à¤·à¤¯ à¤•à¥‡ à¤°à¥‚à¤ª à¤®à¥‡à¤‚     (Concept Map/à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°),Document,17,0.44,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Geography,XI GEOGRAPHY CHAPTER 4 DISTRIBUTION OF OCEANS AND CONTINENTS,Video,12,1.57,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤­à¥‚à¤—à¥‹à¤² à¤à¤• à¤µà¤¿à¤·à¤¯ à¤•à¥‡ à¤°à¥‚à¤ª à¤®à¥‡à¤‚    (à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨/IMPORTANT MULTIPLE CHOICE QUESTIONS)",Document,10,0.47,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤®à¥‡à¤‚ à¤œà¤²(à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨-à¤‰à¤¤à¥à¤¤à¤°)",Interactive Content,5,1.02,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤‰à¤¤à¥à¤ªà¤¤à¥à¤¤à¤¿ à¤à¤µà¤‚ à¤µà¤¿à¤•à¤¾à¤¸  (à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨/IMPORTANT MULTIPLE CHOICE QUESTIONS)",Document,5,0.19,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤­à¥‚à¤—à¥‹à¤² à¤à¤• à¤µà¤¿à¤·à¤¯ à¤•à¥‡ à¤°à¥‚à¤ª à¤®à¥‡à¤‚    (à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨/IMPORTANT MULTIPLE CHOICE QUESTIONS),Document,10,0.47,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤®à¥‡à¤‚ à¤œà¤²(à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨-à¤‰à¤¤à¥à¤¤à¤°),Interactive Content,5,1.02,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤‰à¤¤à¥à¤ªà¤¤à¥à¤¤à¤¿ à¤à¤µà¤‚ à¤µà¤¿à¤•à¤¾à¤¸  (à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨/IMPORTANT MULTIPLE CHOICE QUESTIONS),Document,5,0.19,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Geography,à¤œà¤²à¤µà¤¾à¤¯à¥,Document,4,0.26,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤‰à¤¤à¥à¤ªà¤¤à¥à¤¤à¤¿ à¤à¤µà¤‚ à¤µà¤¿à¤•à¤¾à¤¸  (à¤ªà¤¾à¤  à¤•à¤¾ à¤¸à¤¾à¤°/GIST OF CHAPTER)",Document,4,0.39,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤†à¤‚à¤¤à¤°à¤¿à¤• à¤¸à¤‚à¤°à¤šà¤¨à¤¾ (à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°/CONCEPT MAP)",Document,3,0.52,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤•à¤¾ à¤¸à¤‚à¤˜à¤Ÿà¤¨ à¤¤à¤¥à¤¾ à¤¸à¤‚à¤°à¤šà¤¨à¤¾ ( à¤ªà¤¾à¤  à¤•à¤¾ à¤¸à¤¾à¤° )",Document,3,0.17,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 4 à¤®à¤¹à¤¾à¤¸à¤¾à¤—à¤°à¥‹ à¤”à¤° à¤®à¤¹à¤¾à¤¦à¥à¤µà¥€à¤ªà¥‹ à¤•à¤¾ à¤µà¤¿à¤¤à¤°à¤£ (à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°)",Document,2,0.09,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 5 à¤–à¤¨à¤¿à¤œ à¤”à¤° à¤¶à¥ˆà¤² ( à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤…à¤­à¥à¤¯à¤¾à¤¸ à¤ªà¥à¤°à¤¶à¥à¤¨ )",Document,2,0.23,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤²à¥€à¤¯ à¤ªà¤°à¤¿à¤¸à¤‚à¤šà¤°à¤£ à¤¤à¤¥à¤¾ à¤®à¥Œà¤¸à¤® à¤ªà¥à¤°à¤£à¤¾à¤²à¤¿à¤¯à¤¾à¤(à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨ à¤à¤µà¤‚ à¤‰à¤¨à¤•à¥‡ à¤‰à¤¤à¥à¤¤à¤°)",Interactive Content,2,1.37,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤ªà¤¾à¤  -11       à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤®à¥‡à¤‚ à¤œà¤²",Document,2,0.05,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤®à¥‡à¤‚ à¤œà¤²(CONCEPT MAP)",Document,2,0.07,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯: 14  à¤®à¤¹à¤¾à¤¸à¤¾à¤—à¤°à¥€à¤¯ à¤œà¤² à¤¸à¤‚à¤šà¤²à¤¨(à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°)",Document,2,0.39,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤‰à¤¤à¥à¤ªà¤¤à¥à¤¤à¤¿ à¤à¤µà¤‚ à¤µà¤¿à¤•à¤¾à¤¸  (à¤ªà¤¾à¤  à¤•à¤¾ à¤¸à¤¾à¤°/GIST OF CHAPTER),Document,4,0.39,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤†à¤‚à¤¤à¤°à¤¿à¤• à¤¸à¤‚à¤°à¤šà¤¨à¤¾ (à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°/CONCEPT MAP),Document,3,0.52,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤•à¤¾ à¤¸à¤‚à¤˜à¤Ÿà¤¨ à¤¤à¤¥à¤¾ à¤¸à¤‚à¤°à¤šà¤¨à¤¾ ( à¤ªà¤¾à¤  à¤•à¤¾ à¤¸à¤¾à¤° ),Document,3,0.17,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯ 4 à¤®à¤¹à¤¾à¤¸à¤¾à¤—à¤°à¥‹ à¤”à¤° à¤®à¤¹à¤¾à¤¦à¥à¤µà¥€à¤ªà¥‹ à¤•à¤¾ à¤µà¤¿à¤¤à¤°à¤£ (à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°),Document,2,0.09,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯ 5 à¤–à¤¨à¤¿à¤œ à¤”à¤° à¤¶à¥ˆà¤² ( à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤…à¤­à¥à¤¯à¤¾à¤¸ à¤ªà¥à¤°à¤¶à¥à¤¨ ),Document,2,0.23,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤²à¥€à¤¯ à¤ªà¤°à¤¿à¤¸à¤‚à¤šà¤°à¤£ à¤¤à¤¥à¤¾ à¤®à¥Œà¤¸à¤® à¤ªà¥à¤°à¤£à¤¾à¤²à¤¿à¤¯à¤¾à¤(à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨ à¤à¤µà¤‚ à¤‰à¤¨à¤•à¥‡ à¤‰à¤¤à¥à¤¤à¤°),Interactive Content,2,1.37,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤ªà¤¾à¤  -11       à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤®à¥‡à¤‚ à¤œà¤²,Document,2,0.05,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤®à¥‡à¤‚ à¤œà¤²(CONCEPT MAP),Document,2,0.07,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯: 14  à¤®à¤¹à¤¾à¤¸à¤¾à¤—à¤°à¥€à¤¯ à¤œà¤² à¤¸à¤‚à¤šà¤²à¤¨(à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°),Document,2,0.39,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Geography,"à¤œà¤²à¤µà¤¾à¤¯à¥ ,à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°",Document,2,0.24,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤†à¤‚à¤¤à¤°à¤¿à¤• à¤¸à¤‚à¤°à¤šà¤¨à¤¾     (à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨/IMPORTANT MULTIPLE CHOICE QUESTIONS)",Document,2,0.16,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤‰à¤¤à¥à¤ªà¤¤à¥à¤¤à¤¿ à¤à¤µà¤‚ à¤µà¤¿à¤•à¤¾à¤¸      (à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°/CONCEPT MAP)",Document,2,0.4,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤†à¤‚à¤¤à¤°à¤¿à¤• à¤¸à¤‚à¤°à¤šà¤¨à¤¾     (à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨/IMPORTANT MULTIPLE CHOICE QUESTIONS),Document,2,0.16,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤‰à¤¤à¥à¤ªà¤¤à¥à¤¤à¤¿ à¤à¤µà¤‚ à¤µà¤¿à¤•à¤¾à¤¸      (à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°/CONCEPT MAP),Document,2,0.4,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 9 :- à¤¸à¥Œà¤° à¤µà¤¿à¤•à¤¿à¤°à¤£ ,à¤Šà¤·à¥à¤®à¤¾ à¤¸à¤‚à¤¤à¥à¤²à¤¨ à¤à¤µà¤‚ à¤¤à¤¾à¤ªà¤®à¤¾à¤¨ (à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤° )",Document,2,0.01,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 5 à¤–à¤¨à¤¿à¤œ à¤à¤‚à¤µ à¤¶à¥ˆà¤² à¤­à¤¾à¤— 2 (à¤ªà¥€ à¤ªà¥€ à¤Ÿà¥€ )",Document,1,0.29,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤ªà¤¾à¤  10- à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤²à¥€à¤¯ à¤ªà¤°à¤¿à¤¸à¤‚à¤šà¤°à¤£ à¤¤à¤¥à¤¾ à¤®à¥Œà¤¸à¤® à¤ªà¥à¤°à¤£à¤¾à¤²à¤¿à¤¯à¤¾à¤ (CONCEPT MAP))",Document,1,0.34,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤†à¤‚à¤¤à¤°à¤¿à¤• à¤¸à¤‚à¤°à¤šà¤¨à¤¾    (à¤ªà¤¾à¤  à¤•à¤¾ à¤¸à¤¾à¤°/GIST OF CHAPTER)",Document,1,0.11,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤­à¥‚à¤—à¥‹à¤² à¤à¤• à¤µà¤¿à¤·à¤¯ à¤•à¥‡ à¤°à¥‚à¤ª à¤®à¥‡à¤‚     (à¤ªà¤¾à¤  à¤•à¤¾ à¤¸à¤¾à¤°/GIST OF CHAPTER)",Document,1,0.24,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 8 :- à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤•à¤¾ à¤¸à¤‚à¤˜à¤Ÿà¤¨ à¤¤à¤¥à¤¾ à¤¸à¤‚à¤°à¤šà¤¨à¤¾ (à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤° )",Document,1,0.09,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 4  à¤®à¤¹à¤¾à¤¸à¤—à¤°à¥‹ à¤”à¤° à¤®à¤¹à¤¾à¤¦à¥à¤µà¥€à¤ªà¥‹ à¤•à¤¾ à¤µà¤¿à¤¤à¤°à¤£  à¤­à¤¾à¤— 2 (à¤ªà¥€ à¤ªà¥€ à¤Ÿà¥€ )",Document,0,0,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 4 à¤®à¤¹à¤¾à¤¸à¤—à¤°à¥‹ à¤”à¤° à¤®à¤¹à¤¾à¤¦à¥à¤µà¥€à¤ªà¥‹à¤‚ à¤•à¤¾ à¤µà¤¿à¤¤à¤°à¤£ à¤­à¤¾à¤— 1  ( à¤ªà¥€ à¤ªà¥€ à¤Ÿà¥€ )",Document,0,0,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 4 à¤®à¤¹à¤¾à¤¸à¤¾à¤—à¤°à¥‹ à¤”à¤° à¤®à¤¹à¤¾à¤¦à¥à¤µà¥€à¤ªà¥‹ à¤•à¤¾ à¤µà¤¿à¤¤à¤°à¤£ ( à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤…à¤­à¥à¤¯à¤¾à¤¸ à¤ªà¥à¤°à¤¶à¥à¤¨ )",Document,0,0,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 5 à¤–à¤¨à¤¿à¤œ à¤à¤‚à¤µ à¤¶à¥ˆà¤² ( à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤° )",Document,0,0,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 5 à¤–à¤¨à¤¿à¤œ à¤à¤‚à¤µ à¤¶à¥ˆà¤² à¤­à¤¾à¤— 1 (à¤ªà¥€ à¤ªà¥€ à¤Ÿà¥€ )",Document,0,0,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤ªà¤¾à¤  10- à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤²à¥€à¤¯ à¤ªà¤°à¤¿à¤¸à¤‚à¤šà¤°à¤£ à¤¤à¤¥à¤¾ à¤®à¥Œà¤¸à¤® à¤ªà¥à¤°à¤£à¤¾à¤²à¤¿à¤¯à¤¾à¤",Document,0,0,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯: 14  à¤®à¤¹à¤¾à¤¸à¤¾à¤—à¤°à¥€à¤¯ à¤œà¤² à¤¸à¤‚à¤šà¤²à¤¨",Document,0,0,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤œà¤²à¤µà¤¾à¤¯à¥ (à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨ à¤‰à¤¤à¥à¤¤à¤°)",Document,0,0,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯:14  à¤®à¤¹à¤¾à¤¸à¤¾à¤—à¤°à¥€à¤¯ à¤œà¤² à¤¸à¤‚à¤šà¤²à¤¨(à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨ à¤‰à¤¤à¥à¤¤à¤°)",Document,0,0,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯ 5 à¤–à¤¨à¤¿à¤œ à¤à¤‚à¤µ à¤¶à¥ˆà¤² à¤­à¤¾à¤— 2 (à¤ªà¥€ à¤ªà¥€ à¤Ÿà¥€ ),Document,1,0.29,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤ªà¤¾à¤  10- à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤²à¥€à¤¯ à¤ªà¤°à¤¿à¤¸à¤‚à¤šà¤°à¤£ à¤¤à¤¥à¤¾ à¤®à¥Œà¤¸à¤® à¤ªà¥à¤°à¤£à¤¾à¤²à¤¿à¤¯à¤¾à¤ (CONCEPT MAP)),Document,1,0.34,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤ªà¥ƒà¤¥à¥à¤µà¥€ à¤•à¥€ à¤†à¤‚à¤¤à¤°à¤¿à¤• à¤¸à¤‚à¤°à¤šà¤¨à¤¾    (à¤ªà¤¾à¤  à¤•à¤¾ à¤¸à¤¾à¤°/GIST OF CHAPTER),Document,1,0.11,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤­à¥‚à¤—à¥‹à¤² à¤à¤• à¤µà¤¿à¤·à¤¯ à¤•à¥‡ à¤°à¥‚à¤ª à¤®à¥‡à¤‚     (à¤ªà¤¾à¤  à¤•à¤¾ à¤¸à¤¾à¤°/GIST OF CHAPTER),Document,1,0.24,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯ 8 :- à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤•à¤¾ à¤¸à¤‚à¤˜à¤Ÿà¤¨ à¤¤à¤¥à¤¾ à¤¸à¤‚à¤°à¤šà¤¨à¤¾ (à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤° ),Document,1,0.09,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯ 4  à¤®à¤¹à¤¾à¤¸à¤—à¤°à¥‹ à¤”à¤° à¤®à¤¹à¤¾à¤¦à¥à¤µà¥€à¤ªà¥‹ à¤•à¤¾ à¤µà¤¿à¤¤à¤°à¤£  à¤­à¤¾à¤— 2 (à¤ªà¥€ à¤ªà¥€ à¤Ÿà¥€ ),Document,0,0,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯ 4 à¤®à¤¹à¤¾à¤¸à¤—à¤°à¥‹ à¤”à¤° à¤®à¤¹à¤¾à¤¦à¥à¤µà¥€à¤ªà¥‹à¤‚ à¤•à¤¾ à¤µà¤¿à¤¤à¤°à¤£ à¤­à¤¾à¤— 1  ( à¤ªà¥€ à¤ªà¥€ à¤Ÿà¥€ ),Document,0,0,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯ 4 à¤®à¤¹à¤¾à¤¸à¤¾à¤—à¤°à¥‹ à¤”à¤° à¤®à¤¹à¤¾à¤¦à¥à¤µà¥€à¤ªà¥‹ à¤•à¤¾ à¤µà¤¿à¤¤à¤°à¤£ ( à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤…à¤­à¥à¤¯à¤¾à¤¸ à¤ªà¥à¤°à¤¶à¥à¤¨ ),Document,0,0,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯ 5 à¤–à¤¨à¤¿à¤œ à¤à¤‚à¤µ à¤¶à¥ˆà¤² ( à¤…à¤µà¤§à¤¾à¤°à¤£à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤° ),Document,0,0,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯ 5 à¤–à¤¨à¤¿à¤œ à¤à¤‚à¤µ à¤¶à¥ˆà¤² à¤­à¤¾à¤— 1 (à¤ªà¥€ à¤ªà¥€ à¤Ÿà¥€ ),Document,0,0,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤ªà¤¾à¤  10- à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤²à¥€à¤¯ à¤ªà¤°à¤¿à¤¸à¤‚à¤šà¤°à¤£ à¤¤à¤¥à¤¾ à¤®à¥Œà¤¸à¤® à¤ªà¥à¤°à¤£à¤¾à¤²à¤¿à¤¯à¤¾à¤,Document,0,0,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯: 14  à¤®à¤¹à¤¾à¤¸à¤¾à¤—à¤°à¥€à¤¯ à¤œà¤² à¤¸à¤‚à¤šà¤²à¤¨,Document,0,0,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤œà¤²à¤µà¤¾à¤¯à¥ (à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨ à¤‰à¤¤à¥à¤¤à¤°),Document,0,0,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯:14  à¤®à¤¹à¤¾à¤¸à¤¾à¤—à¤°à¥€à¤¯ à¤œà¤² à¤¸à¤‚à¤šà¤²à¤¨(à¤®à¤¹à¤¤à¥à¤µà¤ªà¥‚à¤°à¥à¤£ à¤ªà¥à¤°à¤¶à¥à¤¨ à¤‰à¤¤à¥à¤¤à¤°),Document,0,0,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 9 :- à¤¸à¥Œà¤° à¤µà¤¿à¤•à¤¿à¤°à¤£ , à¤Šà¤·à¥à¤®à¤¾ à¤¸à¤‚à¤¤à¥à¤²à¤¨ à¤à¤µà¤‚ à¤¤à¤¾à¤ªà¤®à¤¾à¤¨ ( à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤ªà¥à¤°à¤¶à¥à¤¨ )",Document,0,0,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 9 :- à¤¸à¥Œà¤° à¤µà¤¿à¤•à¤¿à¤°à¤£ , à¤Šà¤·à¥à¤®à¤¾ à¤¸à¤‚à¤¤à¥à¤²à¤¨ à¤à¤µà¤‚ à¤¤à¤¾à¤ªà¤®à¤¾à¤¨ (à¤ªà¤¾à¤  à¤•à¤¾ à¤¸à¤¾à¤° )",Document,0,0,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Geography,"à¤…à¤§à¥à¤¯à¤¾à¤¯ 8 :- à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤•à¤¾ à¤¸à¤‚à¤˜à¤Ÿà¤¨ à¤¤à¤¥à¤¾ à¤¸à¤‚à¤°à¤šà¤¨à¤¾ ( à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤ªà¥à¤°à¤¶à¥à¤¨ )",Document,0,0,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Geography,à¤…à¤§à¥à¤¯à¤¾à¤¯ 8 :- à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤•à¤¾ à¤¸à¤‚à¤˜à¤Ÿà¤¨ à¤¤à¤¥à¤¾ à¤¸à¤‚à¤°à¤šà¤¨à¤¾ ( à¤¬à¤¹à¥à¤µà¤¿à¤•à¤²à¥à¤ªà¥€à¤¯ à¤ªà¥à¤°à¤¶à¥à¤¨ ),Document,0,0,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XI HINDI  à¤•à¤¾à¤µà¥à¤¯ à¤–à¤‚à¤¡ - à¤•à¤¬à¥€à¤°, à¤ªà¤¦ 1, ""à¤…à¤°à¥‡ à¤‡à¤¨ à¤¦à¥‹à¤¹à¥à¤¨ à¤°à¤¾à¤¹ à¤¨ à¤ªà¤¾à¤ˆ",Video,161,6.17,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI    à¤¹à¤¿à¤‚à¤¦à¥€ à¤¸à¤¾à¤¹à¤¿à¤¤à¥à¤¯ à¤•à¤¾ à¤µà¤¿à¤•à¤¾à¤¸",Video,137,4.56,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI    à¤¹à¤¿à¤‚à¤¦à¥€ à¤¸à¤¾à¤¹à¤¿à¤¤à¥à¤¯ à¤•à¤¾ à¤µà¤¿à¤•à¤¾à¤¸,Video,137,4.56,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XI HINDI à¤ªà¤°à¤¿à¤šà¤¯à¤¾à¤¤à¥à¤®à¤• à¤¸à¤¤à¥à¤°, à¤ªà¤¾à¤ à¥à¤¯à¤•à¥à¤°à¤® à¤µà¤¿à¤¨à¤¿à¤°à¥à¤¦à¥‡à¤¶à¤¨ :à¥¨à¥¦à¥¨à¥¦-à¥¨à¥§",Video,98,3.18,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XI HINDI à¤•à¤¾à¤µà¥à¤¯ à¤–à¤‚à¤¡ - à¤•à¤¬à¥€à¤°, à¤ªà¤¦ 2, "" à¤¬à¤¾à¤²à¤® à¤†à¤¬à¥‹ à¤¹à¤®à¤¾à¤°à¥‡ à¤—à¥‡à¤¹ à¤°à¥‡",Video,76,10.53,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XI HINDI à¤¸à¥‚à¤°à¤¦à¤¾à¤¸:à¤œà¥€à¤µà¤¨ à¤ªà¤°à¤¿à¤šà¤¯ à¤à¤µà¤‚ à¤ªà¤¦ 1, (à¤–à¥‡à¤²à¤¨ à¤®à¥‡à¤‚ à¤•à¥‹ à¤•à¤¾à¤•à¥‹ à¤—à¥à¤¸à¥ˆà¤¯à¤¾à¤‚)",Video,54,5.92,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI  à¤—à¥‚à¤à¤—à¥‡ (à¤•à¤¹à¤¾à¤¨à¥€) - à¤°à¤¾à¤‚à¤—à¥‡à¤¯ à¤°à¤¾à¤˜à¤µ",Video,53,3.27,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI  à¤—à¥‚à¤à¤—à¥‡ (à¤•à¤¹à¤¾à¤¨à¥€) - à¤°à¤¾à¤‚à¤—à¥‡à¤¯ à¤°à¤¾à¤˜à¤µ,Video,53,3.27,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XI HINDI  à¤ˆà¤¦à¤—à¤¾à¤¹ (à¤•à¤¹à¤¾à¤¨à¥€) à¤­à¤¾à¤— -: 2, à¤ªà¥à¤°à¥‡à¤®à¤šà¤‚à¤¦",Video,46,2.51,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI à¤œà¤¾à¤— à¤¤à¥à¤à¤•à¥‹ à¤¦à¥‚à¤° à¤œà¤¾à¤¨à¤¾ (à¤•à¤µà¤¿à¤¤à¤¾) - à¤®à¤¹à¤¾à¤¦à¥‡à¤µà¥€ à¤µà¤°à¥à¤®à¤¾",Video,33,1.78,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI à¤–à¤¾à¤¨à¤¾à¤¬à¤¦à¥‹à¤¶ (à¤•à¤¹à¤¾à¤¨à¥€) - à¤“à¤®à¤ªà¥à¤°à¤•à¤¾à¤¶ à¤µà¤¾à¤²à¥à¤®à¥€à¤•à¤¿",Video,27,2.48,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI à¤œà¤¾à¤— à¤¤à¥à¤à¤•à¥‹ à¤¦à¥‚à¤° à¤œà¤¾à¤¨à¤¾ (à¤•à¤µà¤¿à¤¤à¤¾) - à¤®à¤¹à¤¾à¤¦à¥‡à¤µà¥€ à¤µà¤°à¥à¤®à¤¾,Video,33,1.78,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI à¤–à¤¾à¤¨à¤¾à¤¬à¤¦à¥‹à¤¶ (à¤•à¤¹à¤¾à¤¨à¥€) - à¤“à¤®à¤ªà¥à¤°à¤•à¤¾à¤¶ à¤µà¤¾à¤²à¥à¤®à¥€à¤•à¤¿,Video,27,2.48,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XI HINDI  à¤ˆà¤¦à¤—à¤¾à¤¹ (à¤•à¤¹à¤¾à¤¨à¥€) à¤­à¤¾à¤— -: 1, à¤ªà¥à¤°à¥‡à¤®à¤šà¤‚à¤¦",Video,24,4.18,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI à¤•à¤¾à¤µà¥à¤¯ à¤–à¤£à¥à¤¡ à¤ªà¤¾à¤  à¥ª à¤ªà¤¦à¥à¤®à¤¾à¤•à¤° à¤­à¤¾à¤— - 1 à¤ªà¥à¤°à¤•à¥ƒà¤¤à¤¿ à¤”à¤° à¤¶à¥à¤°à¥ƒà¤‚à¤—à¤¾à¤°",Video,23,4.07,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI  à¤•à¤¾à¤µà¥à¤¯ à¤–à¤£à¥à¤¡ - à¤¸à¤¬ à¤†à¤à¤–à¥‹à¤‚ à¤•à¥‡ à¤†à¤à¤¸à¥‚ à¤‰à¤œà¤²à¥‡ - à¤®à¤¹à¤¾à¤¦à¥‡à¤µà¥€ à¤µà¤°à¥à¤®à¤¾",Video,20,2.43,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI à¤•à¤¾à¤µà¥à¤¯ à¤–à¤£à¥à¤¡ à¤ªà¤¾à¤  à¥ª à¤ªà¤¦à¥à¤®à¤¾à¤•à¤° à¤­à¤¾à¤— - 1 à¤ªà¥à¤°à¤•à¥ƒà¤¤à¤¿ à¤”à¤° à¤¶à¥à¤°à¥ƒà¤‚à¤—à¤¾à¤°,Video,23,4.07,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI  à¤•à¤¾à¤µà¥à¤¯ à¤–à¤£à¥à¤¡ - à¤¸à¤¬ à¤†à¤à¤–à¥‹à¤‚ à¤•à¥‡ à¤†à¤à¤¸à¥‚ à¤‰à¤œà¤²à¥‡ - à¤®à¤¹à¤¾à¤¦à¥‡à¤µà¥€ à¤µà¤°à¥à¤®à¤¾,Video,20,2.43,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XI HINDI à¤…à¤‚à¤¡à¥‡ à¤•à¥‡ à¤›à¤¿à¤²à¤•à¥‡ (à¤à¤•à¤¾à¤‚à¤•à¥€) - à¤®à¥‹à¤¹à¤¨ à¤°à¤¾à¤•à¥‡à¤¶, à¤¹à¥à¤¸à¥ˆà¤¨ à¤•à¥€ à¤•à¤¹à¤¾à¤¨à¥€ à¤…à¤ªà¤¨à¥€ à¤œà¥à¤¬à¤¾à¤¨à¥€ (à¤†à¤¤à¥à¤®à¤•à¤¥à¤¾ ) - à¤®à¥˜à¤¬à¥‚à¤² à¥žà¤¿à¤¦à¤¾ à¤¹à¥à¤¸à¥ˆà¤¨",Video,17,3.48,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI à¤•à¤¾à¤µà¥à¤¯ à¤–à¤‚à¤¡: à¤¸à¥‚à¤°à¤¦à¤¾à¤¸ à¤•à¥‡ à¤ªà¤¦ -2   à¤®à¥à¤°à¤²à¥€ à¤¤à¤Š à¤—à¥à¤ªà¤¾à¤²à¤¹à¤¿à¤‚ à¤­à¤¾à¤µà¤¤à¤¿",Video,15,3.71,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI à¤•à¤¾à¤µà¥à¤¯ à¤–à¤‚à¤¡: à¤¸à¥‚à¤°à¤¦à¤¾à¤¸ à¤•à¥‡ à¤ªà¤¦ -2   à¤®à¥à¤°à¤²à¥€ à¤¤à¤Š à¤—à¥à¤ªà¤¾à¤²à¤¹à¤¿à¤‚ à¤­à¤¾à¤µà¤¤à¤¿,Video,15,3.71,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XI HINDI à¤ˆà¤¦à¤—à¤¾à¤¹ (à¤•à¤¹à¤¾à¤¨à¥€) à¤…à¤‚à¤¤à¤¿à¤® à¤­à¤¾à¤— - 4, à¤ªà¥à¤°à¥‡à¤®à¤šà¤‚à¤¦",Video,15,0.68,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XI HINDI à¤—à¥‹à¤•à¥à¤² à¤•à¥‡ à¤•à¥à¤²......à¤­à¥Œà¤‚à¤°à¤¨ à¤•à¥‹ à¤—à¥à¤‚à¤œà¤¨ à¤¬à¤¿à¤¹à¤¾à¤°, : à¤ªà¤¦à¥à¤®à¤¾à¤•à¤° à¤­à¤¾à¤— - 2, (à¤•à¤¾à¤µà¥à¤¯ à¤–à¤‚à¤¡)",Video,14,2.68,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI  à¤ªà¤¾à¤  à¥¨  à¤¦à¥‹à¤ªà¤¹à¤° à¤•à¤¾ à¤­à¥‹à¤œà¤¨ (à¤•à¤¹à¤¾à¤¨à¥€) - à¤…à¤®à¤°à¤•à¤¾à¤‚à¤¤",Video,14,6.79,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI à¤˜à¤° à¤®à¥‡à¤‚  à¤µà¤¾à¤ªà¤¸à¥€ (à¤•à¤µà¤¿à¤¤à¤¾ ) - à¤§à¥‚à¤®à¤¿à¤²",Video,14,6.17,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI à¤¬à¤¾à¤¦à¤² à¤•à¥‹ à¤˜à¤¿à¤°à¤¤à¥‡ à¤¦à¥‡à¤–à¤¾ à¤¹à¥ˆ (à¤•à¤µà¤¿à¤¤à¤¾) - à¤¨à¤¾à¤—à¤¾à¤°à¥à¤œà¥à¤¨",Video,13,1.91,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI  à¤œà¥à¤¯à¥‹à¤¤à¤¿à¤¬à¤¾ à¤«à¥à¤²à¥‡ (à¤œà¥€à¤µà¤¨à¥€-à¤—à¤¦à¥à¤¯) - à¤¸à¥à¤§à¤¾ à¤…à¤°à¥‹à¥œà¤¾",Video,11,2.7,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI  à¤ªà¤¾à¤  à¥¨  à¤¦à¥‹à¤ªà¤¹à¤° à¤•à¤¾ à¤­à¥‹à¤œà¤¨ (à¤•à¤¹à¤¾à¤¨à¥€) - à¤…à¤®à¤°à¤•à¤¾à¤‚à¤¤,Video,14,6.79,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI à¤˜à¤° à¤®à¥‡à¤‚  à¤µà¤¾à¤ªà¤¸à¥€ (à¤•à¤µà¤¿à¤¤à¤¾ ) - à¤§à¥‚à¤®à¤¿à¤²,Video,14,6.17,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI à¤¬à¤¾à¤¦à¤² à¤•à¥‹ à¤˜à¤¿à¤°à¤¤à¥‡ à¤¦à¥‡à¤–à¤¾ à¤¹à¥ˆ (à¤•à¤µà¤¿à¤¤à¤¾) - à¤¨à¤¾à¤—à¤¾à¤°à¥à¤œà¥à¤¨,Video,13,1.91,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI  à¤œà¥à¤¯à¥‹à¤¤à¤¿à¤¬à¤¾ à¤«à¥à¤²à¥‡ (à¤œà¥€à¤µà¤¨à¥€-à¤—à¤¦à¥à¤¯) - à¤¸à¥à¤§à¤¾ à¤…à¤°à¥‹à¥œà¤¾,Video,11,2.7,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XI HINDI à¤ˆà¤¦à¤—à¤¾à¤¹ (à¤•à¤¹à¤¾à¤¨à¥€) à¤­à¤¾à¤— -: 3, à¤ªà¥à¤°à¥‡à¤®à¤šà¤‚à¤¦",Video,10,0.92,Class 11,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XI HINDI à¤…à¤‚à¤¤à¤°à¤¾ à¤­à¤¾à¤— à¥§ à¤Ÿà¥‰à¤°à¥à¤š à¤¬à¥‡à¤šà¤¨à¥‡ à¤µà¤¾à¤²à¥‡ (à¤µà¥à¤¯à¤‚à¤—à¥à¤¯- à¤•à¤¹à¤¾à¤¨à¥€) - à¤¹à¤°à¤¿à¤¶à¤‚à¤•à¤° à¤ªà¤°à¤¸à¤¾à¤ˆ",Video,9,5.1,Class 11,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XI HINDI à¤…à¤‚à¤¤à¤°à¤¾ à¤­à¤¾à¤— à¥§ à¤Ÿà¥‰à¤°à¥à¤š à¤¬à¥‡à¤šà¤¨à¥‡ à¤µà¤¾à¤²à¥‡ (à¤µà¥à¤¯à¤‚à¤—à¥à¤¯- à¤•à¤¹à¤¾à¤¨à¥€) - à¤¹à¤°à¤¿à¤¶à¤‚à¤•à¤° à¤ªà¤°à¤¸à¤¾à¤ˆ,Video,9,5.1,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Political Science,Constitution at 70,Document,51,1.49,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),"['Biology', 'Economics']",Step 4 - Business Blasters - Preparing Presentation,YouTube Content,82,3.59,Class 11,Hindi,ETB
 Delhi,10,State (Delhi),Accountancy,DOE Accountancy Class XII July 23,Video,115,2.76,Class 12,Hindi,ETB
@@ -2784,43 +2784,43 @@ Delhi,10,State (Delhi),Geography,XII GEOGRAPHY CHAPTER TWO JANSHAKHYA VRIDHI KI 
 Delhi,10,State (Delhi),Hindi,"Class 12 Hindi Online Class for Delhi School Students, July 11th, 2020",Video,1016,2.56,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"Class 12 Hindi online class for Delhi school students, July 18th, 2020",Video,543,2.07,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"Hindi online class for Delhi school students, July 25, 2020",Video,331,3.92,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI CHAPTER 1 à¤œà¤¯à¤¶à¤‚à¤•à¤° à¤ªà¥à¤°à¤¸à¤¾à¤¦-à¤•à¤¾à¤°à¥à¤¨à¥‡à¤²à¤¿à¤¯à¤¾ à¤•à¤¾ à¤—à¥€à¤¤",Video,274,3.11,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI CHAPTER 1 à¤œà¤¯à¤¶à¤‚à¤•à¤° à¤ªà¥à¤°à¤¸à¤¾à¤¦-à¤•à¤¾à¤°à¥à¤¨à¥‡à¤²à¤¿à¤¯à¤¾ à¤•à¤¾ à¤—à¥€à¤¤,Video,274,3.11,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"Class 12 Hindi online class for Delhi school students, July 18th, 2020",YouTube Content,206,2.73,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤²à¥‡à¤–à¤¨ à¤•à¥Œà¤¶à¤²:à¤ªà¤¤à¥à¤° à¤²à¥‡à¤–à¤¨",Video,187,5.15,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤²à¥‡à¤–à¤¨ à¤•à¥Œà¤¶à¤²:à¤ªà¤¤à¥à¤° à¤²à¥‡à¤–à¤¨,Video,187,5.15,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"Class 12 Hindi online class for Delhi school students, July 18th, 2020",Video,145,2,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤†à¤§à¥à¤¨à¤¿à¤• à¤•à¤¾à¤² -à¤µà¤¿à¤·à¥à¤£à¥ à¤–à¤°à¥‡ : à¤à¤• à¤•à¤®",Video,103,3.16,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI  à¤•à¤µà¤¿à¤¤à¤¾  à¤¸à¤¤à¥à¤¯ - à¤µà¤¿à¤·à¥à¤£à¥ à¤–à¤°à¥‡",Video,97,3.46,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI  à¤¸à¥à¤®à¤¿à¤°à¤¨à¥€ à¤•à¥‡ à¤®à¤¨à¤•à¥‡ (à¤²à¤˜à¥-à¤¨à¤¿à¤¬à¤‚à¤˜) à¤­à¤¾à¤— - 1 : à¤šà¤‚à¤¦à¥à¤°à¤§à¤° à¤¶à¤°à¥à¤®à¤¾ 'à¤—à¥à¤²à¥‡à¤°à¥€'",Video,97,1.83,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI CHAPTER 12 à¤ªà¥à¤°à¥‡à¤®à¤˜à¤¨ à¤•à¥€ à¤›à¤¾à¤¯à¤¾à¤¸à¥à¤®à¥ƒà¤¤à¤¿",Video,96,3.54,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤œà¤¹à¤¾à¤ à¤•à¥‹à¤ˆ à¤µà¤¾à¤ªà¤¸à¥€ à¤¨à¤¹à¥€à¤‚ (à¤¯à¤¾à¤¤à¥à¤°à¤¾-à¤µà¥ƒà¤¤à¤¾à¤‚à¤¤)-à¤¨à¤¿à¤°à¥à¤®à¤² à¤µà¤°à¥à¤®à¤¾",Video,96,2.7,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI  à¤…à¤­à¤¿à¤µà¥à¤¯à¤•à¥à¤¤à¤¿ à¤”à¤° à¤®à¤¾à¤§à¥à¤¯à¤®: à¤µà¤¿à¤µà¤¿à¤§ à¤®à¤¾à¤§à¥à¤¯à¤®à¥‹à¤‚ à¤•à¥‡ à¤²à¤¿à¤ à¤²à¥‡à¤–à¤¨à¥¤",Video,95,3.32,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤¸à¥à¤®à¤¿à¤°à¤¨à¥€ à¤•à¥‡ à¤®à¤¨à¤•à¥‡ (à¤²à¤˜à¥-à¤¨à¤¿à¤¬à¤‚à¤˜) à¤­à¤¾à¤— - 3 : à¤šà¤‚à¤¦à¥à¤°à¤§à¤° à¤¶à¤°à¥à¤®à¤¾ 'à¤—à¥à¤²à¥‡à¤°à¥€'",Video,92,2.27,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HISTORY CHAPTER 6 à¤­à¤•à¥à¤¤à¤¿ à¤¸à¥‚à¤«à¥€ à¤ªà¤°à¤®à¥à¤ªà¤°à¤¾à¤¯à¥‡à¤‚",Video,90,4.27,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI CHAPTER à¤¤à¥‹à¥œà¥‹ (à¤•à¤µà¤¿à¤¤à¤¾) 2 : à¤°à¤˜à¥à¤µà¥€à¤° à¤¸à¤¹à¤¾à¤¯",Video,79,3.12,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤†à¤§à¥à¤¨à¤¿à¤• à¤•à¤¾à¤² -à¤µà¤¿à¤·à¥à¤£à¥ à¤–à¤°à¥‡ : à¤à¤• à¤•à¤®,Video,103,3.16,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI  à¤•à¤µà¤¿à¤¤à¤¾  à¤¸à¤¤à¥à¤¯ - à¤µà¤¿à¤·à¥à¤£à¥ à¤–à¤°à¥‡,Video,97,3.46,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI  à¤¸à¥à¤®à¤¿à¤°à¤¨à¥€ à¤•à¥‡ à¤®à¤¨à¤•à¥‡ (à¤²à¤˜à¥-à¤¨à¤¿à¤¬à¤‚à¤˜) à¤­à¤¾à¤— - 1 : à¤šà¤‚à¤¦à¥à¤°à¤§à¤° à¤¶à¤°à¥à¤®à¤¾ 'à¤—à¥à¤²à¥‡à¤°à¥€',Video,97,1.83,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI CHAPTER 12 à¤ªà¥à¤°à¥‡à¤®à¤˜à¤¨ à¤•à¥€ à¤›à¤¾à¤¯à¤¾à¤¸à¥à¤®à¥ƒà¤¤à¤¿,Video,96,3.54,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤œà¤¹à¤¾à¤ à¤•à¥‹à¤ˆ à¤µà¤¾à¤ªà¤¸à¥€ à¤¨à¤¹à¥€à¤‚ (à¤¯à¤¾à¤¤à¥à¤°à¤¾-à¤µà¥ƒà¤¤à¤¾à¤‚à¤¤)-à¤¨à¤¿à¤°à¥à¤®à¤² à¤µà¤°à¥à¤®à¤¾,Video,96,2.7,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI  à¤…à¤­à¤¿à¤µà¥à¤¯à¤•à¥à¤¤à¤¿ à¤”à¤° à¤®à¤¾à¤§à¥à¤¯à¤®: à¤µà¤¿à¤µà¤¿à¤§ à¤®à¤¾à¤§à¥à¤¯à¤®à¥‹à¤‚ à¤•à¥‡ à¤²à¤¿à¤ à¤²à¥‡à¤–à¤¨à¥¤,Video,95,3.32,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤¸à¥à¤®à¤¿à¤°à¤¨à¥€ à¤•à¥‡ à¤®à¤¨à¤•à¥‡ (à¤²à¤˜à¥-à¤¨à¤¿à¤¬à¤‚à¤˜) à¤­à¤¾à¤— - 3 : à¤šà¤‚à¤¦à¥à¤°à¤§à¤° à¤¶à¤°à¥à¤®à¤¾ 'à¤—à¥à¤²à¥‡à¤°à¥€',Video,92,2.27,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HISTORY CHAPTER 6 à¤­à¤•à¥à¤¤à¤¿ à¤¸à¥‚à¤«à¥€ à¤ªà¤°à¤®à¥à¤ªà¤°à¤¾à¤¯à¥‡à¤‚,Video,90,4.27,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI CHAPTER à¤¤à¥‹à¥œà¥‹ (à¤•à¤µà¤¿à¤¤à¤¾) 2 : à¤°à¤˜à¥à¤µà¥€à¤° à¤¸à¤¹à¤¾à¤¯,Video,79,3.12,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XII HINDI à¤ªà¤¾à¤  à¥¬ à¤šà¤¾à¤° à¤¹à¤¾à¤¥, à¤¸à¤¾à¤à¤¾ (à¤²à¤˜à¥ à¤•à¤¥à¤¾) - à¤…à¤¸à¥šà¤° à¤µà¥›à¤¾à¤¹à¤¤",Video,79,1.8,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤—à¤¦à¥à¤¯ à¤–à¤‚à¤¡ à¤ªà¤¾à¤   à¥ª à¤¸à¤‚à¤µà¤¦à¤¿à¤¯à¤¾ à¤•à¤¹à¤¾à¤¨à¥€ - à¤²à¥‡à¤–à¤• à¤«à¤£à¥€à¤¶à¥à¤µà¤°à¤¨à¤¾à¤¥ à¤°à¥‡à¤£à¥",Video,77,1.53,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤—à¤¦à¥à¤¯ à¤–à¤‚à¤¡ à¤ªà¤¾à¤   à¥ª à¤¸à¤‚à¤µà¤¦à¤¿à¤¯à¤¾ à¤•à¤¹à¤¾à¤¨à¥€ - à¤²à¥‡à¤–à¤• à¤«à¤£à¥€à¤¶à¥à¤µà¤°à¤¨à¤¾à¤¥ à¤°à¥‡à¤£à¥,Video,77,1.53,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XII HINDI  CHAPTER 6 à¤°à¤˜à¥à¤µà¥€à¤° à¤¸à¤¹à¤¾à¤¯, à¤­à¤¾à¤— - 1, à¤¬à¤¸à¤‚à¤¤ à¤†à¤¯à¤¾ ( à¤•à¤µà¤¿à¤¤à¤¾)",Video,74,2.49,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤—à¤¦à¥à¤¯ à¤–à¤‚à¤¡ à¤ªà¤¾à¤  à¥ª à¤¸à¤‚à¤µà¤¦à¤¿à¤¯à¤¾ à¤•à¤¹à¤¾à¤¨à¥€ - à¤²à¥‡à¤–à¤• à¤«à¤£à¥€à¤¶à¥à¤µà¤°à¤¨à¤¾à¤¥ à¤°à¥‡à¤£à¥",Video,67,1.8,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤•à¤µà¤¿à¤¤à¤¾ à¤–à¤£à¥à¤¡  à¤ªà¤¾à¤  à¥® à¤®à¤²à¤¿à¤• à¤®à¥à¤¹à¤®à¥à¤®à¤¦ à¤œà¤¾à¤¯à¤¸à¥€ -  à¤¬à¤¾à¤°à¤¹à¤®à¤¾à¤¸à¤¾",Video,64,3.57,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤•à¤¾à¤µà¥à¤¯à¤–à¤‚à¤¡ à¤ªà¤¦ à¤µà¤¿à¤¦à¥à¤¯à¤¾à¤ªà¤¤à¤¿",Video,53,1.99,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤…à¤­à¤¿à¤µà¥à¤¯à¤•à¥à¤¤à¤¿ à¤”à¤° à¤®à¤¾à¤§à¥à¤¯à¤®: à¤µà¤¿à¤µà¤¿à¤§ à¤®à¤¾à¤§à¥à¤¯à¤®à¥‹à¤‚ à¤•à¥‡ à¤²à¤¿à¤ à¤²à¥‡à¤–à¤¨- à¤­à¤¾à¤— 2",Video,51,2.17,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤¦à¥‚à¤¸à¤°à¤¾ à¤¦à¥‡à¤µà¤¦à¤¾à¤¸ (à¤•à¤¹à¤¾à¤¨à¥€) -  à¤®à¤®à¤¤à¤¾ à¤•à¤¾à¤²à¤¿à¤¯à¤¾",Video,51,2.19,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤¤à¥à¤²à¤¸à¥€à¤¦à¤¾à¤¸ - à¤­à¤°à¤¤ à¤°à¤¾à¤® à¤•à¤¾ à¤ªà¥à¤°à¥‡à¤® : à¤­à¤¾à¤— 1",Video,50,3.84,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤•à¤µà¤¿à¤¤à¤¾ à¤–à¤£à¥à¤¡  à¤ªà¤¾à¤  à¥­ à¤­à¤¾à¤°à¤¤ à¤°à¤¾à¤® à¤•à¤¾ à¤ªà¥à¤°à¥‡à¤® - à¤¤à¥à¤²à¤¸à¥€à¤¦à¤¾à¤¸",Video,46,4.6,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI CHAPTER 12 à¤ªà¥à¤°à¥‡à¤®à¤˜à¤¨ à¤•à¥€ à¤›à¤¾à¤¯à¤¾ à¤¸à¥à¤®à¥ƒà¤¤à¤¿",Video,39,3,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤—à¤¦à¥à¤¯ à¤–à¤‚à¤¡ à¤ªà¤¾à¤  à¥ª à¤¸à¤‚à¤µà¤¦à¤¿à¤¯à¤¾ à¤•à¤¹à¤¾à¤¨à¥€ - à¤²à¥‡à¤–à¤• à¤«à¤£à¥€à¤¶à¥à¤µà¤°à¤¨à¤¾à¤¥ à¤°à¥‡à¤£à¥,Video,67,1.8,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤•à¤µà¤¿à¤¤à¤¾ à¤–à¤£à¥à¤¡  à¤ªà¤¾à¤  à¥® à¤®à¤²à¤¿à¤• à¤®à¥à¤¹à¤®à¥à¤®à¤¦ à¤œà¤¾à¤¯à¤¸à¥€ -  à¤¬à¤¾à¤°à¤¹à¤®à¤¾à¤¸à¤¾,Video,64,3.57,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤•à¤¾à¤µà¥à¤¯à¤–à¤‚à¤¡ à¤ªà¤¦ à¤µà¤¿à¤¦à¥à¤¯à¤¾à¤ªà¤¤à¤¿,Video,53,1.99,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤…à¤­à¤¿à¤µà¥à¤¯à¤•à¥à¤¤à¤¿ à¤”à¤° à¤®à¤¾à¤§à¥à¤¯à¤®: à¤µà¤¿à¤µà¤¿à¤§ à¤®à¤¾à¤§à¥à¤¯à¤®à¥‹à¤‚ à¤•à¥‡ à¤²à¤¿à¤ à¤²à¥‡à¤–à¤¨- à¤­à¤¾à¤— 2,Video,51,2.17,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤¦à¥‚à¤¸à¤°à¤¾ à¤¦à¥‡à¤µà¤¦à¤¾à¤¸ (à¤•à¤¹à¤¾à¤¨à¥€) -  à¤®à¤®à¤¤à¤¾ à¤•à¤¾à¤²à¤¿à¤¯à¤¾,Video,51,2.19,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤¤à¥à¤²à¤¸à¥€à¤¦à¤¾à¤¸ - à¤­à¤°à¤¤ à¤°à¤¾à¤® à¤•à¤¾ à¤ªà¥à¤°à¥‡à¤® : à¤­à¤¾à¤— 1,Video,50,3.84,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤•à¤µà¤¿à¤¤à¤¾ à¤–à¤£à¥à¤¡  à¤ªà¤¾à¤  à¥­ à¤­à¤¾à¤°à¤¤ à¤°à¤¾à¤® à¤•à¤¾ à¤ªà¥à¤°à¥‡à¤® - à¤¤à¥à¤²à¤¸à¥€à¤¦à¤¾à¤¸,Video,46,4.6,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI CHAPTER 12 à¤ªà¥à¤°à¥‡à¤®à¤˜à¤¨ à¤•à¥€ à¤›à¤¾à¤¯à¤¾ à¤¸à¥à¤®à¥ƒà¤¤à¤¿,Video,39,3,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"XII HINDI à¤ªà¤¾à¤  à¥¬ à¤²à¤˜à¥ à¤•à¤¥à¤¾à¤à¤  - à¤¶à¥‡à¤°, à¤ªà¤¹à¤šà¤¾à¤¨  (à¤²à¤˜à¥ à¤•à¤¥à¤¾) à¤…à¤¸à¥šà¤° à¤µà¥›à¤¾à¤¹à¤¤",Video,33,6.31,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤ªà¤¾à¤  à¥ª à¤­à¤¾à¤°à¤¤ -à¤°à¤¾à¤® à¤•à¤¾ à¤ªà¥à¤°à¥‡à¤® - à¤¤à¥à¤²à¤¸à¥€à¤¦à¤¾à¤¸ à¤•à¥‡ à¤ªà¤¦",Video,32,1.88,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤•à¤µà¤¿à¤¤à¤¾ à¤–à¤£à¥à¤¡ à¤ªà¤¾à¤  à¥® à¤®à¤²à¤¿à¤• à¤®à¥à¤¹à¤®à¥à¤®à¤¦ à¤œà¤¾à¤¯à¤¸à¥€ - à¤¬à¤¾à¤°à¤¹à¤®à¤¾à¤¸à¤¾",Video,29,2.3,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"XII HINDI à¤¸à¥à¤®à¤¿à¤°à¤¨à¥€ à¤•à¥‡ à¤®à¤¨à¤•à¥‡ (à¤²à¤˜à¥-à¤¨à¤¿à¤¬à¤‚à¤˜) à¤­à¤¾à¤— - 2 : à¤šà¤‚à¤¦à¥à¤°à¤§à¤° à¤¶à¤°à¥à¤®à¤¾ 'à¤—à¥à¤²à¥‡à¤°à¥€'",Video,25,2.05,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),History,"XII HISTORY CHAPTER 6 à¤­à¤•à¥à¤¤à¤¿ à¤¸à¥‚à¤«à¥€ à¤ªà¤°à¤®à¥à¤ªà¤°à¤¾à¤à¤",Video,285,4.9,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤ªà¤¾à¤  à¥ª à¤­à¤¾à¤°à¤¤ -à¤°à¤¾à¤® à¤•à¤¾ à¤ªà¥à¤°à¥‡à¤® - à¤¤à¥à¤²à¤¸à¥€à¤¦à¤¾à¤¸ à¤•à¥‡ à¤ªà¤¦,Video,32,1.88,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤•à¤µà¤¿à¤¤à¤¾ à¤–à¤£à¥à¤¡ à¤ªà¤¾à¤  à¥® à¤®à¤²à¤¿à¤• à¤®à¥à¤¹à¤®à¥à¤®à¤¦ à¤œà¤¾à¤¯à¤¸à¥€ - à¤¬à¤¾à¤°à¤¹à¤®à¤¾à¤¸à¤¾,Video,29,2.3,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,XII HINDI à¤¸à¥à¤®à¤¿à¤°à¤¨à¥€ à¤•à¥‡ à¤®à¤¨à¤•à¥‡ (à¤²à¤˜à¥-à¤¨à¤¿à¤¬à¤‚à¤˜) à¤­à¤¾à¤— - 2 : à¤šà¤‚à¤¦à¥à¤°à¤§à¤° à¤¶à¤°à¥à¤®à¤¾ 'à¤—à¥à¤²à¥‡à¤°à¥€',Video,25,2.05,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),History,XII HISTORY CHAPTER 6 à¤­à¤•à¥à¤¤à¤¿ à¤¸à¥‚à¤«à¥€ à¤ªà¤°à¤®à¥à¤ªà¤°à¤¾à¤à¤,Video,285,4.9,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),History,Class 12 History - Chapter 2 - Part 3 - Recorded Session,YouTube Content,209,4.49,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),History,"XII HISTORY CHAPTER 4 à¤µà¤¿à¤šà¤¾à¤°à¤• à¤µà¤¿à¤¶à¥à¤µà¤¾à¤¸ à¤”à¤° à¤‡à¤®à¤¾à¤°à¤¤à¥‡à¤‚",Video,91,4.04,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),History,XII HISTORY CHAPTER 4 à¤µà¤¿à¤šà¤¾à¤°à¤• à¤µà¤¿à¤¶à¥à¤µà¤¾à¤¸ à¤”à¤° à¤‡à¤®à¤¾à¤°à¤¤à¥‡à¤‚,Video,91,4.04,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),History,XII HISTORY CHAPTER 6 BHAKTI SUFI PARAMPARA,Video,84,3.7,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Political Science,XII POLITICAL SCIENCE CHAPTER 8 GLOBALIZATION,Video,256,4.59,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Political Science,XII POLITICAL SCIENCE CHAPTER 5 UNITED NATIONS AND ITS  ORGANISATION,Video,213,4.2,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Political Science,XII POLITICAL SCIENCE CHAPTER 8 GLOBALIZATION,Video,171,4.91,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Political Science,XII POLITICAL SCIENCE CHAPTER 8 GLOBALIZATION,Video,110,3.84,Class 12,Hindi,ETB
-Delhi,10,State (Delhi),Psychology,"à¤¬à¤¿à¤œà¤¼à¤¨à¤¿à¤¸ à¤¬à¥à¤²à¤¾à¤¸à¥à¤Ÿà¤° à¤•à¥à¤¯à¤¾ à¤¹à¥ˆ à¤”à¤° à¤•à¥à¤¯à¤¾ à¤¨à¤¹à¥€à¤‚ à¤¹à¥ˆà¥¤",YouTube Content,1068,5.65,Class 12,Hindi,ETB
+Delhi,10,State (Delhi),Psychology,à¤¬à¤¿à¤œà¤¼à¤¨à¤¿à¤¸ à¤¬à¥à¤²à¤¾à¤¸à¥à¤Ÿà¤° à¤•à¥à¤¯à¤¾ à¤¹à¥ˆ à¤”à¤° à¤•à¥à¤¯à¤¾ à¤¨à¤¹à¥€à¤‚ à¤¹à¥ˆà¥¤,YouTube Content,1068,5.65,Class 12,Hindi,ETB
 Delhi,10,State (Delhi),Happiness,Happiness Teacher Manual for Class II,Document,91,5.89,Class 2,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,HINDI WORKBOOK CLASS 2,Document,230,2.7,Class 2,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,"BB - Craft Cottage"" student venture within the Business Blasters Pilot of Delhi Govt.",YouTube Content,97,1.97,Class 2,Hindi,ETB
@@ -2869,7 +2869,7 @@ Delhi,10,State (Delhi),Hindi,12 April 2021 Class 4 Hindi DoE worksheet,Document,
 Delhi,10,State (Delhi),Hindi,9 August 2021 Class 4  Hindi EVS DoE worksheet,Document,17,0.34,Class 4,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,02 December 2021 Class 4 Hindi EVS DoE worksheet,Document,17,0.67,Class 4,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,NAAV BANAO NAAV BANAO,Document,16,0.29,Class 4,Hindi,ETB
-Delhi,10,State (Delhi),Hindi,"à¤œà¥ˆà¤¸à¤¾ à¤¸à¤µà¤¾à¤² à¤µà¥ˆà¤¸à¤¾ à¤œà¤µà¤¾à¤¬  (Jaisa Sawal Vaisa Jawab)",Document,15,1.25,Class 4,Hindi,ETB
+Delhi,10,State (Delhi),Hindi,à¤œà¥ˆà¤¸à¤¾ à¤¸à¤µà¤¾à¤² à¤µà¥ˆà¤¸à¤¾ à¤œà¤µà¤¾à¤¬  (Jaisa Sawal Vaisa Jawab),Document,15,1.25,Class 4,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,2 November 2020  Class 4 Hindi DoE worksheet,Document,14,1.09,Class 4,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,EXPLAINATION,Document,14,0.63,Class 4,Hindi,ETB
 Delhi,10,State (Delhi),Hindi,04 February 2021 Class 4 Hindi DoE worksheet,Document,13,0.37,Class 4,Hindi,ETB
@@ -3974,15 +3974,15 @@ Delhi,10,State (Delhi),"['Mathematics', 'Science']",23 October 2020 Class 9 Hind
 Delhi,10,State (Delhi),CPD,5 Activity 11,Document,40748,1.35,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,5 Activity 22,Document,36750,1.1,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 1: à¤à¤• à¤ªà¤°à¤°à¤ªà¥à¤°à¥‡à¤•à¥à¤·à¥à¤¯,Document,34392,1.53,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤µà¥à¤¯à¤•à¥à¤¤à¤¿à¤—à¤¤-à¤¸à¤¾à¤®à¤¾à¤œà¤¿à¤• à¤—à¥à¤£à¥‹à¤‚ à¤•à¥‹ à¤¸à¤®à¤à¤¨à¤¾",Document,33507,1.23,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤¦à¤¿à¤²à¥à¤²à¥€_à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 4: à¤šà¤¿à¤‚à¤¤à¤¨ à¤•à¤°à¤¨à¤¾",Document,32639,2.15,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤µà¥à¤¯à¤•à¥à¤¤à¤¿à¤—à¤¤-à¤¸à¤¾à¤®à¤¾à¤œà¤¿à¤• à¤—à¥à¤£à¥‹à¤‚ à¤•à¥‹ à¤¸à¤®à¤à¤¨à¤¾,Document,33507,1.23,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤¦à¤¿à¤²à¥à¤²à¥€_à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 4: à¤šà¤¿à¤‚à¤¤à¤¨ à¤•à¤°à¤¨à¤¾,Document,32639,2.15,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Activity 7.1 H,Document,32022,1.16,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 2: à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯ à¤¸à¤‚à¤¬à¤‚à¤§à¤¿à¤¤ à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿à¤¯à¤¾à¤",Document,31105,1.68,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 2: à¤¸à¥à¤µà¤¾à¤¸à¥à¤¥à¥à¤¯ à¤¸à¤‚à¤¬à¤‚à¤§à¤¿à¤¤ à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿à¤¯à¤¾à¤,Document,31105,1.68,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Activity 9.2 H,Document,31093,1.02,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 3: à¤®à¥à¤–à¥à¤¯ à¤—à¥à¤£ à¤•à¥‹à¤° à¤¸à¥à¤Ÿà¥à¤°à¥‡à¤‚à¤¥",Document,30990,1.48,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 3: à¤®à¥à¤–à¥à¤¯ à¤—à¥à¤£ à¤•à¥‹à¤° à¤¸à¥à¤Ÿà¥à¤°à¥‡à¤‚à¤¥,Document,30990,1.48,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Activity 9.1 H,Document,30153,1.24,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Activity 7.2 H,Document,28906,1.1,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤¦à¤¿à¤²à¥à¤²à¥€_à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 5: à¤¦ à¤à¤¨à¤¿à¤®à¤² à¤¸à¥à¤•à¥‚à¤² (à¤œà¤¾à¤¨à¤µà¤°à¥‹à¤‚ à¤•à¤¾ à¤µà¤¿à¤¦à¥à¤¯à¤¾à¤²à¤¯) à¤•à¤²à¥à¤ªà¤¿à¤¤ à¤•à¤¥à¤¾ à¤ªà¤° à¤šà¤¿à¤‚à¤¤à¤¨",Document,28513,1.5,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤¦à¤¿à¤²à¥à¤²à¥€_à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 5: à¤¦ à¤à¤¨à¤¿à¤®à¤² à¤¸à¥à¤•à¥‚à¤² (à¤œà¤¾à¤¨à¤µà¤°à¥‹à¤‚ à¤•à¤¾ à¤µà¤¿à¤¦à¥à¤¯à¤¾à¤²à¤¯) à¤•à¤²à¥à¤ªà¤¿à¤¤ à¤•à¤¥à¤¾ à¤ªà¤° à¤šà¤¿à¤‚à¤¤à¤¨,Document,28513,1.5,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,4 Activity 11,Document,28496,1.26,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,4 Activity 22,Document,27296,1.34,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Activity 8.1 H,Document,26539,1.07,Others,Hindi,ETB
@@ -4006,14 +4006,14 @@ Delhi,10,State (Delhi),CPD,Activity 17: 1H,Document,21842,0.91,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Activity 17: 2H,Document,21695,0.83,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,15 Activity 2_H,Document,21567,0.92,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Activity 18: 2H,Document,21551,0.77,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"1 à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 4 : à¤…à¤ªà¤¨à¥‡ à¤…à¤¨à¥à¤­à¤µ à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚",Document,15459,0.51,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 2 : à¤…à¤ªà¤¨à¥‡ à¤µà¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚",Document,14539,0.42,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"1.2 à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 5 : à¤…à¤ªà¤¨à¥€ à¤¸à¤®à¤ à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚",Document,14143,0.39,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 4 : à¤…à¤ªà¤¨à¥‡ à¤µà¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚",Document,12108,0.44,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,1 à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 4 : à¤…à¤ªà¤¨à¥‡ à¤…à¤¨à¥à¤­à¤µ à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚,Document,15459,0.51,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 2 : à¤…à¤ªà¤¨à¥‡ à¤µà¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚,Document,14539,0.42,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,1.2 à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 5 : à¤…à¤ªà¤¨à¥€ à¤¸à¤®à¤ à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚,Document,14143,0.39,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 4 : à¤…à¤ªà¤¨à¥‡ à¤µà¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚,Document,12108,0.44,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,4_13_hin_activity4_share_your_thoughts,Document,11677,0.48,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,4_21_hin_activity6_share_your_thoughts,Document,10849,0.37,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 1 : à¤…à¤ªà¤¨à¥‡ à¤µà¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚",Document,10734,0.45,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 2 : à¤…à¤ªà¤¨à¥€ à¤¸à¤®à¤ à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡",Document,10657,0.41,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 1 : à¤…à¤ªà¤¨à¥‡ à¤µà¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚,Document,10734,0.45,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 2 : à¤…à¤ªà¤¨à¥€ à¤¸à¤®à¤ à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡,Document,10657,0.41,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,5_17_hin_activity5_share_your_thoughts,Document,9641,0.41,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,5_18_hin_activity6_share_your_reflection,Document,9594,0.38,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,6_12_hin_activity2_share_your_experiences,Document,9247,0.42,Others,Hindi,ETB
@@ -4036,12 +4036,12 @@ Delhi,10,State (Delhi),CPD,Activity 7.2 H: Share Your Thoughts,Document,4194,0.4
 Delhi,10,State (Delhi),CPD,Activity 2.2: Share Your Thoughts (H),Document,4014,0.4,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Activity 8.1 H: Share Your Thoughts,Document,4000,0.44,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Activity 8.2 H: Share Your thoughts,Document,3595,0.41,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD",à¤—à¤¤à¤¿à¤¤à¤¿à¤¤à¤¿ 3.1: à¤…à¤ªà¤¨à¥‡ à¤¤à¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚",Document,3358,0.49,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤—à¤¤à¤¿à¤¤à¤¿à¤¤à¤¿ 3.2: à¤¸à¥€à¤–à¤¨à¥‡ à¤•à¤¾ à¤®à¤¾à¤¹à¥Œà¤² à¤¬à¤¨à¤¾à¤¨à¤¾ - à¤…à¤ªà¤¨à¥‡ à¤¤à¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚",Document,3325,0.43,Others,Hindi,ETB
+Delhi,10,State (Delhi),"CPD""","à¤—à¤¤à¤¿à¤¤à¤¿à¤¤à¤¿ 3.1: à¤…à¤ªà¤¨à¥‡ à¤¤à¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚""",Document,3358,0.49,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤¤à¤¿à¤¤à¤¿ 3.2: à¤¸à¥€à¤–à¤¨à¥‡ à¤•à¤¾ à¤®à¤¾à¤¹à¥Œà¤² à¤¬à¤¨à¤¾à¤¨à¤¾ - à¤…à¤ªà¤¨à¥‡ à¤¤à¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚,Document,3325,0.43,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,9.2 HIN,Document,3068,0.4,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,9.1 HIN,Document,3044,0.41,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤—à¤¤à¤¿à¤¤à¤¿à¤¤à¤¿ 4.1: à¤¸à¥à¤•à¥‚à¤²à¥€ à¤œà¥€à¤¿à¤¨ - à¤…à¤ªà¤¨à¥‡ à¤¤à¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚",Document,2882,0.51,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤—à¤¤à¤¿à¤¤à¤¿à¤¤à¤¿ 4.2: à¤¸à¤‚à¤šà¤¾à¤° à¤•à¥‡ à¤¤à¤¿à¤ à¤à¤• à¤¶à¤¤à¤¿à¤¶à¤¾à¤¿à¥€ à¤¤à¤¿à¤¤à¤¿ à¤•à¥‡ à¤°à¥‚à¤ª à¤®à¥‡à¤‚ à¤ªà¥€à¤Ÿà¥€à¤à¤® - à¤…à¤ªà¤¨à¥‡ à¤¤à¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚",Document,2824,0.58,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤¤à¤¿à¤¤à¤¿ 4.1: à¤¸à¥à¤•à¥‚à¤²à¥€ à¤œà¥€à¤¿à¤¨ - à¤…à¤ªà¤¨à¥‡ à¤¤à¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚,Document,2882,0.51,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤¤à¤¿à¤¤à¤¿ 4.2: à¤¸à¤‚à¤šà¤¾à¤° à¤•à¥‡ à¤¤à¤¿à¤ à¤à¤• à¤¶à¤¤à¤¿à¤¶à¤¾à¤¿à¥€ à¤¤à¤¿à¤¤à¤¿ à¤•à¥‡ à¤°à¥‚à¤ª à¤®à¥‡à¤‚ à¤ªà¥€à¤Ÿà¥€à¤à¤® - à¤…à¤ªà¤¨à¥‡ à¤¤à¤¿à¤šà¤¾à¤° à¤¸à¤¾à¤à¤¾ à¤•à¤°à¥‡à¤‚,Document,2824,0.58,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,11.1 HIN,Document,2778,0.41,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,10.1 HIN,Document,2777,0.42,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,10.2 HIN,Document,2612,0.38,Others,Hindi,ETB
@@ -4060,7 +4060,7 @@ Delhi,10,State (Delhi),CPD,Khel Pitara â€“Story Card- Mimi Ki Kheer,Documen
 Delhi,10,State (Delhi),CPD,Khel Pitara â€“Story Card- Bhagam Bhag,Document,24,0.28,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Khel Pitara- LLP Book- Kuch toh Gadbad Hai,Document,24,3.64,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Khel Pitara â€“Story Card- Kahrgosh Ki Chahat,Document,23,0.32,Others,Hindi,ETB
-Delhi,10,State (Delhi),CPD,"à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 2: à¤µà¥à¤¯à¤•à¥à¤¤à¤¿à¤—à¤¿-à¤¸à¤¾à¤®à¤¾à¤œà¤¿à¤• à¤—à¥à¤£à¥‹à¤‚ à¤•à¥‹ à¤¸à¤®à¤à¤¨à¤¾",Document,22,0.66,Others,Hindi,ETB
+Delhi,10,State (Delhi),CPD,à¤—à¤¤à¤¿à¤µà¤¿à¤§à¤¿ 2: à¤µà¥à¤¯à¤•à¥à¤¤à¤¿à¤—à¤¿-à¤¸à¤¾à¤®à¤¾à¤œà¤¿à¤• à¤—à¥à¤£à¥‹à¤‚ à¤•à¥‹ à¤¸à¤®à¤à¤¨à¤¾,Document,22,0.66,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Khel Pitara- LLP Book- Bada Ya Chotta,Document,22,1.14,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Khel Pitara â€“Story Card- Sarla Ka Ghar,Document,21,0.25,Others,Hindi,ETB
 Delhi,10,State (Delhi),CPD,Khel Pitara- LLP Book- Khularka Baja,Document,21,1.12,Others,Hindi,ETB
@@ -4291,28 +4291,28 @@ Delhi,10,State (Delhi),Social Science,Jal chakara,Document,6,1.71,"['Class 6', '
 Delhi,10,State (Delhi),Social Science,Life in Desert (Worksheet),Document,4,0.35,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,Three Level of Panchayat,Document,3,0.2,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,Rajya Shaasan Kaise Kaam Karta Hai (Worksheet),Document,3,0.31,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤¬à¥Œà¤¦à¥à¤§ à¤§à¤°à¥à¤® à¤”à¤° à¤œà¥ˆà¤¨ à¤§à¤°à¥à¤®",Document,3,1.23,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤•à¥€ à¤¸à¤‚à¤°à¤šà¤¨à¤¾",Document,2,0.45,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤¹à¤®à¤¾à¤°à¤¾ à¤¦à¥‡à¤¶ à¤­à¤¾à¤°à¤¤",Document,2,0.49,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤¬à¥Œà¤¦à¥à¤§ à¤§à¤°à¥à¤® à¤”à¤° à¤œà¥ˆà¤¨ à¤§à¤°à¥à¤®,Document,3,1.23,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤µà¤¾à¤¯à¥à¤®à¤‚à¤¡à¤² à¤•à¥€ à¤¸à¤‚à¤°à¤šà¤¨à¤¾,Document,2,0.45,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤¹à¤®à¤¾à¤°à¤¾ à¤¦à¥‡à¤¶ à¤­à¤¾à¤°à¤¤,Document,2,0.49,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,Natural Vegetation,Document,2,0.09,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,à¤œà¤² à¤šà¤•à¥à¤° (Worksheet),Document,1,0.18,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,Three Levels of Panchayat (Worksheet),Document,1,0.35,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,à¤ªà¤°à¤¿à¤µà¤¹à¤¨,Document,1,0.95,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,Origin of Buddhism and Jainism,Document,1,0.15,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,Difference in Budha and Jain Dharam,Document,1,0.25,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤°à¥‡à¤—à¤¿à¤¸à¥à¤¤à¤¾à¤¨ à¤®à¥‡à¤‚ à¤œà¥€à¤µà¤¨",Document,1,0.81,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤°à¥‡à¤—à¤¿à¤¸à¥à¤¤à¤¾à¤¨ à¤®à¥‡à¤‚ à¤œà¥€à¤µà¤¨,Document,1,0.81,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,Types of Maps (Worksheet),Document,1,0.11,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤° à¤•à¥‡ à¤ªà¥à¤°à¤•à¤¾à¤°",Document,1,0.85,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤…à¤•à¥à¤·à¤¾à¤‚à¤¶ à¤”à¤° à¤¦à¥‡à¤¶à¤¾à¤‚à¤¤à¤° à¤°à¥‡à¤–à¤¾à¤“à¤‚ à¤®à¥‡à¤‚ à¤…à¤‚à¤¤à¤°",Document,1,0.25,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤° à¤•à¥‡ à¤ªà¥à¤°à¤•à¤¾à¤°,Document,1,0.85,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤…à¤•à¥à¤·à¤¾à¤‚à¤¶ à¤”à¤° à¤¦à¥‡à¤¶à¤¾à¤‚à¤¤à¤° à¤°à¥‡à¤–à¤¾à¤“à¤‚ à¤®à¥‡à¤‚ à¤…à¤‚à¤¤à¤°,Document,1,0.25,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,à¤ªà¤°à¥à¤¯à¤¾à¤µà¤°à¤£,Document,1,0.15,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,à¤­à¥‚à¤•à¤‚à¤ª,Document,1,1.16,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤°à¤¾à¤œà¥à¤¯ à¤¶à¤¾à¤¸à¤¨ à¤•à¥ˆà¤¸à¥‡ à¤•à¤¾à¤® à¤•à¤°à¤¤à¤¾ à¤¹à¥ˆ",Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤¬à¤¾à¤œà¤¾à¤° à¤¶à¥à¤°à¥ƒà¤‚à¤–à¤²à¤¾",Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤°à¤¾à¤œà¥à¤¯ à¤¶à¤¾à¤¸à¤¨ à¤•à¥ˆà¤¸à¥‡ à¤•à¤¾à¤® à¤•à¤°à¤¤à¤¾ à¤¹à¥ˆ,Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤¬à¤¾à¤œà¤¾à¤° à¤¶à¥à¤°à¥ƒà¤‚à¤–à¤²à¤¾,Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,Chain of Markets (Worksheet),Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,Transportation (Worksheet),Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤…à¤®à¥‡à¤œà¤¨ à¤¬à¥‡à¤¸à¤¿à¤¨ à¤®à¥‡à¤‚ à¤œà¥€à¤µà¤¨",Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤…à¤•à¥à¤·à¤¾à¤‚à¤¶ à¤”à¤° à¤¦à¥‡à¤¶à¤¾à¤‚à¤¤à¤° à¤°à¥‡à¤–à¤¾à¤“à¤‚ à¤®à¥‡à¤‚ à¤…à¤‚à¤¤à¤° (Worksheet)",Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
-Delhi,10,State (Delhi),Social Science,"à¤—à¥à¤œà¤°à¤¾à¤¤ à¤®à¥‡à¤‚ à¤¹à¤¡à¤¼à¤ªà¥à¤ªà¤¾ à¤¸à¤­à¥à¤¯à¤¤à¤¾ à¤•à¥‡ à¤¨à¤—à¤°",Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤…à¤®à¥‡à¤œà¤¨ à¤¬à¥‡à¤¸à¤¿à¤¨ à¤®à¥‡à¤‚ à¤œà¥€à¤µà¤¨,Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤…à¤•à¥à¤·à¤¾à¤‚à¤¶ à¤”à¤° à¤¦à¥‡à¤¶à¤¾à¤‚à¤¤à¤° à¤°à¥‡à¤–à¤¾à¤“à¤‚ à¤®à¥‡à¤‚ à¤…à¤‚à¤¤à¤° (Worksheet),Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
+Delhi,10,State (Delhi),Social Science,à¤—à¥à¤œà¤°à¤¾à¤¤ à¤®à¥‡à¤‚ à¤¹à¤¡à¤¼à¤ªà¥à¤ªà¤¾ à¤¸à¤­à¥à¤¯à¤¤à¤¾ à¤•à¥‡ à¤¨à¤—à¤°,Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),Social Science,Natural Vegetation and Wild Life (Worksheet),Document,0,0,"['Class 6', 'Class 7']",Hindi,ETB
 Delhi,10,State (Delhi),"['English', 'Mathematics']","12 July, 2021, Class 7 & 8, English & Mathematics, Hindi Medium",Document,13,0.72,"['Class 7', 'Class 8']",Hindi,ETB
 Delhi,10,State (Delhi),"['English', 'Science']","29 July, 2021, Class 7 & 8, Science & English, Hindi Medium",Document,14,0.43,"['Class 7', 'Class 8']",Hindi,ETB
@@ -4329,18 +4329,18 @@ Delhi,10,State (Delhi),"['Mathematics', 'Social Science']","09 July, 2021, Class
 Delhi,10,State (Delhi),"['Mathematics', 'Social Science']","30 July, 2021, Class 7 & 8, Mathematics & Social Science, Hindi Medium",Document,27,0.29,"['Class 7', 'Class 8']",Hindi,ETB
 Delhi,10,State (Delhi),"['Mathematics', 'Social Science']","16 July, 2021, Class 7 & 8, Mathematics & Social Science, Hindi Medium",Document,19,0.3,"['Class 7', 'Class 8']",Hindi,ETB
 Delhi,10,State (Delhi),"['Science', 'Social Science']",17 Apr Class 7 Class 8 Generic Worksheet Hindi Medium,Document,63,1.1,"['Class 7', 'Class 8']",Hindi,ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤ªà¤¾à¤   - à¤¸à¤®à¤¾à¤¸à¤ƒ (à¤µà¥à¤¯à¤¾à¤•à¤°à¤£ -à¤¶à¤¿à¤•à¥à¤·à¤£à¤®à¥)",Video,120,4.55,Class 12,Sanskrit,ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤ªà¤¾à¤   - à¤¸à¤®à¤¾à¤¸à¤ƒ (à¤µà¥à¤¯à¤¾à¤•à¤°à¤£ -à¤¶à¤¿à¤•à¥à¤·à¤£à¤®à¥),Video,120,4.55,Class 12,Sanskrit,ETB
 Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤à¤•à¤¾à¤¦à¤¶: à¤ªà¤¾à¤ : - à¤•à¤¾à¤°à¥à¤¯à¤¾à¤•à¤¾à¤°à¥à¤¯à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¿à¤¤à¤¿: , à¤­à¤¾à¤— 2 à¤ªà¤¦à¥à¤¯à¤ªà¤¾à¤ :",Video,111,3.63,Class 12,Sanskrit,ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤šà¤¤à¥à¤°à¥à¤¥: à¤ªà¤¾à¤ :  à¤ªà¥à¤°à¤œà¤¾à¤¨à¥à¤°à¤žà¥à¤œà¤•à¥‹ à¤¨à¥ƒà¤ª:(à¤ªà¤¦à¥à¤¯à¤ªà¤¾à¤ :) - à¤¦à¥à¤µà¤¿à¤¤à¥€à¤¯:à¤­à¤¾à¤—:",Video,103,1.9,Class 12,Sanskrit,ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤¨à¤µà¤®: à¤ªà¤¾à¤ :-à¤®à¤¦à¤¾à¤²à¤¸à¤¾(à¤¦à¥à¤µà¤¿à¤¤à¥€à¤¯à¥‹ à¤­à¤¾à¤—:) à¤¨à¤¾à¤Ÿà¥à¤¯ à¤ªà¤¾à¤ :",Video,81,3.53,Class 12,Sanskrit,ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤à¤•à¤¾à¤¦à¤¶à¤ƒ à¤ªà¤¾à¤ à¤ƒ  à¤•à¤¾à¤°à¥à¤¯à¤¾à¤•à¤¾à¤°à¥à¤¯à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¿à¤¤à¤¿à¤ƒ",Video,74,6.02,Class 12,Sanskrit,ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤šà¤¤à¥à¤°à¥à¤¥: à¤ªà¤¾à¤ : - à¤ªà¥à¤°à¤œà¤¾à¤¨à¥à¤°à¤žà¥à¤œà¤•à¥‹ à¤¨à¥ƒà¤ª:(à¤ªà¤¦à¥à¤¯à¤ªà¤¾à¤ :)",Video,52,1.31,Class 12,Sanskrit,ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤ªà¤žà¥à¤šà¤®: à¤ªà¤¾à¤ :  à¤¦à¥Œà¤µà¤¾à¤°à¤¿à¤•à¤¸à¥à¤¯ à¤¨à¤¿à¤·à¥à¤ à¤¾ à¤—à¤¦à¥à¤¯à¤ªà¤¾à¤ :",Video,52,2.8,Class 12,Sanskrit,ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤¸à¤‚à¤¸à¥à¤•à¥ƒà¤¤ -à¤¸à¤¾à¤¹à¤¿à¤¤à¥à¤¯à¥‡à¤¤à¤¿à¤¹à¤¾à¤¸ -à¤ªà¤°à¤¿à¤šà¤¯à¤ƒ",Video,44,2.31,Class 12,Sanskrit,ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤¸à¤ªà¥à¤¤à¤®:à¤ªà¤¾à¤ :  à¤¨à¥ˆà¤•à¥‡à¤¨à¤¾à¤ªà¤¿ à¤¸à¤®à¤‚ à¤—à¤¤à¤¾ à¤µà¤¸à¥à¤®à¤¤à¥€  -  à¤—à¤¦à¥à¤¯à¤ªà¤¾à¤ :",Video,36,3.27,Class 12,Sanskrit,ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤šà¤¤à¥à¤°à¥à¤¥: à¤ªà¤¾à¤ :  à¤ªà¥à¤°à¤œà¤¾à¤¨à¥à¤°à¤žà¥à¤œà¤•à¥‹ à¤¨à¥ƒà¤ª:(à¤ªà¤¦à¥à¤¯à¤ªà¤¾à¤ :) - à¤¦à¥à¤µà¤¿à¤¤à¥€à¤¯:à¤­à¤¾à¤—:,Video,103,1.9,Class 12,Sanskrit,ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤¨à¤µà¤®: à¤ªà¤¾à¤ :-à¤®à¤¦à¤¾à¤²à¤¸à¤¾(à¤¦à¥à¤µà¤¿à¤¤à¥€à¤¯à¥‹ à¤­à¤¾à¤—:) à¤¨à¤¾à¤Ÿà¥à¤¯ à¤ªà¤¾à¤ :,Video,81,3.53,Class 12,Sanskrit,ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤à¤•à¤¾à¤¦à¤¶à¤ƒ à¤ªà¤¾à¤ à¤ƒ  à¤•à¤¾à¤°à¥à¤¯à¤¾à¤•à¤¾à¤°à¥à¤¯à¤µà¥à¤¯à¤µà¤¸à¥à¤¥à¤¿à¤¤à¤¿à¤ƒ,Video,74,6.02,Class 12,Sanskrit,ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤šà¤¤à¥à¤°à¥à¤¥: à¤ªà¤¾à¤ : - à¤ªà¥à¤°à¤œà¤¾à¤¨à¥à¤°à¤žà¥à¤œà¤•à¥‹ à¤¨à¥ƒà¤ª:(à¤ªà¤¦à¥à¤¯à¤ªà¤¾à¤ :),Video,52,1.31,Class 12,Sanskrit,ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤ªà¤žà¥à¤šà¤®: à¤ªà¤¾à¤ :  à¤¦à¥Œà¤µà¤¾à¤°à¤¿à¤•à¤¸à¥à¤¯ à¤¨à¤¿à¤·à¥à¤ à¤¾ à¤—à¤¦à¥à¤¯à¤ªà¤¾à¤ :,Video,52,2.8,Class 12,Sanskrit,ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤¸à¤‚à¤¸à¥à¤•à¥ƒà¤¤ -à¤¸à¤¾à¤¹à¤¿à¤¤à¥à¤¯à¥‡à¤¤à¤¿à¤¹à¤¾à¤¸ -à¤ªà¤°à¤¿à¤šà¤¯à¤ƒ,Video,44,2.31,Class 12,Sanskrit,ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤¸à¤ªà¥à¤¤à¤®:à¤ªà¤¾à¤ :  à¤¨à¥ˆà¤•à¥‡à¤¨à¤¾à¤ªà¤¿ à¤¸à¤®à¤‚ à¤—à¤¤à¤¾ à¤µà¤¸à¥à¤®à¤¤à¥€  -  à¤—à¤¦à¥à¤¯à¤ªà¤¾à¤ :,Video,36,3.27,Class 12,Sanskrit,ETB
 Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤¸à¤ªà¥à¤¤à¤®: à¤ªà¤¾à¤ : - à¤¨à¥ˆà¤•à¥‡à¤¨à¤¾à¤ªà¤¿ à¤¸à¤®à¤‚ à¤—à¤¤à¤¾ à¤µà¤¸à¥à¤®à¤¤à¥€,  à¤¦à¥à¤µà¤¿à¤¤à¥€à¤¯: à¤­à¤¾à¤—:  à¤—à¤¦à¥à¤¯à¤ªà¤¾à¤ :",Video,30,1.41,Class 12,Sanskrit,ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤¨à¤µà¤®: à¤ªà¤¾à¤ : - à¤®à¤¦à¤¾à¤²à¤¸à¤¾ (à¤ªà¥à¤°à¤¥à¤®à¥‹ à¤­à¤¾à¤—:)  à¤¨à¤¾à¤Ÿà¥à¤¯ à¤ªà¤¾à¤ :",Video,27,2.03,Class 12,Sanskrit,ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤¦à¥à¤µà¤¾à¤¦à¤¶: à¤ªà¤¾à¤ : - à¤µà¤¿à¤¦à¥à¤¯à¤¾à¤¸à¥à¤¥à¤¾à¤¨à¤¾à¤¨à¤¿  à¤—à¤¦à¥à¤¯à¤ªà¤¾à¤ :",Video,20,7.85,Class 12,Sanskrit,ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤¨à¤µà¤®: à¤ªà¤¾à¤ : - à¤®à¤¦à¤¾à¤²à¤¸à¤¾ (à¤ªà¥à¤°à¤¥à¤®à¥‹ à¤­à¤¾à¤—:)  à¤¨à¤¾à¤Ÿà¥à¤¯ à¤ªà¤¾à¤ :,Video,27,2.03,Class 12,Sanskrit,ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤¦à¥à¤µà¤¾à¤¦à¤¶: à¤ªà¤¾à¤ : - à¤µà¤¿à¤¦à¥à¤¯à¤¾à¤¸à¥à¤¥à¤¾à¤¨à¤¾à¤¨à¤¿  à¤—à¤¦à¥à¤¯à¤ªà¤¾à¤ :,Video,20,7.85,Class 12,Sanskrit,ETB
 Delhi,10,State (Delhi),Science,"15 Dec 2021, DoE Assessment Worksheet, Class 8, Science, Hindi Medium",Document,6,0.34,Class 8,Sanskrit,ETB
 Delhi,10,State (Delhi),Mathematics,15 September 2021 Class 9 Hindi Science Maths DoE worksheets,Document,0,0,Class 9,Sanskrit,ETB
 Delhi,10,State (Delhi),CPD,Module 11 Activity-2(U),Document,472,0.95,Others,Urdu,ETB
@@ -5427,7 +5427,7 @@ Delhi,10,State (Delhi),Home Science,XII HOME SCIENCE INTRODUCTORY CLASS,Video,29
 Delhi,10,State (Delhi),Home Science,XII HOME SCIENCE CHAPTER 6 FOOD QUALITY AND FOOD SAFETY,Video,271,3.74,Class 12,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Home Science,XII HOME SCIENCE CHAPTER 2 FOOD QUALITY AND FOOD SAFETY,Video,248,4.16,Class 12,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Home Science,XII HOME SCIENCE Practicals and Projects,Video,194,1.72,Class 12,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),Home Science,"XII HOME SCIENCE CHAPTER 5 à¤–à¤¾à¤¦à¥à¤¯ à¤ªà¥à¤°à¤¸à¤‚à¤¸à¥à¤•à¤°à¤£ à¤”à¤° à¤ªà¥à¤°à¥Œà¤¦à¥à¤¯à¥‹à¤—à¤¿à¤•à¥€/ Food Processing and Technology",Video,193,4.59,Class 12,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),Home Science,XII HOME SCIENCE CHAPTER 5 à¤–à¤¾à¤¦à¥à¤¯ à¤ªà¥à¤°à¤¸à¤‚à¤¸à¥à¤•à¤°à¤£ à¤”à¤° à¤ªà¥à¤°à¥Œà¤¦à¥à¤¯à¥‹à¤—à¤¿à¤•à¥€/ Food Processing and Technology,Video,193,4.59,Class 12,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Home Science,"XII HOME SCIENCE CHAPTER 1 WORK, LIVELIHOOD AND CARRER",Video,139,3.2,Class 12,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Home Science,XII HOME SCIENCE CHAPTER 7 EARLY CHILDHOOD  CARE AND EDUCATION,Video,127,4.25,Class 12,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Home Science,XII HOME SCIENCE CHAPTER 2 CLINICAL NUTRITION AND DIETETICS,Video,126,4.98,Class 12,"['English', 'Hindi']",ETB
@@ -6177,7 +6177,7 @@ Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",Shape
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤ªà¤¾à¤¨à¥€ à¤°à¥‡ à¤ªà¤¾à¤¨à¥€,Video,16,2.01,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Document,16,0.2,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Document,15,0.36,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Video,14,1.46,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Video,14,1.46,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Document,14,0.48,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","blow hot, blow cold",Video,13,0.61,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤ªà¤¾à¤¨à¥€ à¤°à¥‡ à¤ªà¤¾à¤¨à¥€,Video,13,1.15,Class 5,"['English', 'Hindi']",ETB
@@ -6188,7 +6188,7 @@ Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",Shape
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Document,11,0.14,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",Smart Charts,Video,10,0.95,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","bow hot , blow cold",Video,10,0.8,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Video,10,0.77,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Video,10,0.77,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","blow hot, blow cold",Video,9,0.37,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","blow hot, blow cold",Video,9,0.17,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Video,9,0.31,Class 5,"['English', 'Hindi']",ETB
@@ -6196,12 +6196,12 @@ Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","blow
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Document,9,0.39,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Document,9,0.19,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",Smart Charts,Video,8,0.84,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Video,8,0.26,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Video,8,0.26,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Video,8,1.82,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Video,8,0.78,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Video,8,1.64,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Video,8,1.64,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Document,8,0.27,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Document,8,0.59,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Document,8,0.59,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",when the earth shook,Document,8,0.77,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","blow hot , blow cold",Video,7,0.59,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Video,7,0.21,Class 5,"['English', 'Hindi']",ETB
@@ -6210,7 +6210,7 @@ Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",blow 
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",blow hot. blow  cold,Document,7,0.65,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",blow hot. blow  cold,Document,7,0.18,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Document,7,0.57,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Document,7,0.2,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Document,7,0.2,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","blow hot ,blow cold",Document,7,0.14,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Document,7,0.63,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",when the earth shook,Document,7,0.49,Class 5,"['English', 'Hindi']",ETB
@@ -6241,25 +6241,25 @@ Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",blow 
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Document,4,1.27,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Document,4,1.44,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤•à¥à¤°à¤¿à¤¯à¤¾,Document,4,0.72,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Document,4,0.46,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Document,4,0.46,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤ªà¤¾à¤¨à¥€ à¤°à¥‡ à¤ªà¤¾à¤¨à¥€,Document,4,0.35,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Document,4,0.27,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Document,4,0.27,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",when the earth shook,Document,4,0.16,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",when the earth shook,Video,3,2.14,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",when the earth shook,Video,3,1.86,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Document,3,1.13,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤¬à¤¾à¤˜ à¤†à¤¯à¤¾ à¤‰à¤¸ à¤°à¤¾à¤¤",Document,3,0.16,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤¬à¤¾à¤˜ à¤†à¤¯à¤¾ à¤‰à¤¸ à¤°à¤¾à¤¤",Document,3,0.14,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤¬à¤¾à¤˜ à¤†à¤¯à¤¾ à¤‰à¤¸ à¤°à¤¾à¤¤,Document,3,0.16,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤¬à¤¾à¤˜ à¤†à¤¯à¤¾ à¤‰à¤¸ à¤°à¤¾à¤¤,Document,3,0.14,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Document,3,0.43,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Document,2,0.29,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",seeds and seeds,Document,2,0.35,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Document,2,0.49,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Document,2,0.49,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤¬à¤¾à¤˜ à¤†à¤¯à¤¾ à¤‰à¤¸ à¤°à¤¾à¤¤,Document,2,0.24,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤ªà¤¾à¤¨à¥€ à¤°à¥‡ à¤ªà¤¾à¤¨à¥€,Document,2,0.75,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤ªà¤¾à¤¨à¥€ à¤°à¥‡ à¤ªà¤¾à¤¨à¥€,Document,2,0.5,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Document,2,0.82,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Document,2,0.33,Class 5,"['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']","à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°",Document,2,0.51,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Document,2,0.82,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Document,2,0.33,Class 5,"['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",à¤«à¤¸à¤²à¥‹à¤‚ à¤•à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Document,2,0.51,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Document,2,0.56,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Video,1,0.66,Class 5,"['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Mathematics']",experiments with water,Document,1,2.83,Class 5,"['English', 'Hindi']",ETB
@@ -6803,7 +6803,7 @@ Delhi,10,State (Delhi),Fine Arts,"Jaldi Debate Activity Overview, EMC Student Sp
 Delhi,10,State (Delhi),Fine Arts,Live Entrepreneur Interaction with Sarita Sarvria -- Parts 2 & 3,YouTube Content,48,3.19,"['Class 10', 'Class 11', 'Class 12', 'Class 9']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Fine Arts,9_Creativity : Uddhab Bharali Interview,YouTube Content,44,4.37,"['Class 10', 'Class 11', 'Class 12', 'Class 9']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Fine Arts,FP: Step 2 - Brainstorming,YouTube Content,44,1.87,"['Class 10', 'Class 11', 'Class 12', 'Class 9']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),Fine Arts,"11_Critical Thinking : à¤¸à¤¾à¤‡à¤•à¤¿à¤² à¤ªà¥‡ à¤…à¤ªà¤¨à¤¾ à¤¸à¤¾à¤®à¤¾à¤¨ à¤¬à¥‡à¤š à¤¬à¤¨à¥‡ 1.93 billion Dollar à¤•à¤‚à¤ªà¤¨à¥€ à¤•à¥‡ à¤®à¤¾à¤²à¤¿à¤• à¤•à¤°à¤¸à¤¨ à¤­à¤¾à¤ˆ à¤ªà¤Ÿà¥‡à¤²",YouTube Content,43,3.17,"['Class 10', 'Class 11', 'Class 12', 'Class 9']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),Fine Arts,11_Critical Thinking : à¤¸à¤¾à¤‡à¤•à¤¿à¤² à¤ªà¥‡ à¤…à¤ªà¤¨à¤¾ à¤¸à¤¾à¤®à¤¾à¤¨ à¤¬à¥‡à¤š à¤¬à¤¨à¥‡ 1.93 billion Dollar à¤•à¤‚à¤ªà¤¨à¥€ à¤•à¥‡ à¤®à¤¾à¤²à¤¿à¤• à¤•à¤°à¤¸à¤¨ à¤­à¤¾à¤ˆ à¤ªà¤Ÿà¥‡à¤²,YouTube Content,43,3.17,"['Class 10', 'Class 11', 'Class 12', 'Class 9']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Fine Arts,LEI With Arjun Malhotra,YouTube Content,43,8.54,"['Class 10', 'Class 11', 'Class 12', 'Class 9']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Fine Arts,FP: Step 5 - Safety Guidelines,YouTube Content,43,5.14,"['Class 10', 'Class 11', 'Class 12', 'Class 9']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Fine Arts,10_Dream Bigger : Founders Story,YouTube Content,42,5,"['Class 10', 'Class 11', 'Class 12', 'Class 9']","['English', 'Hindi']",ETB
@@ -6885,36 +6885,36 @@ Delhi,10,State (Delhi),English,"BB - Business Blasters - Students - Keeping acco
 Delhi,10,State (Delhi),Geography,"BB - ""Hebi Naturals"" student venture within the Business Blasters Pilot of Delhi Govt.",YouTube Content,14,1.64,"['Class 11', 'Class 12']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Urdu,"BB - ""Ink Family"" student venture within the Business Blasters Pilot of Delhi Govt.",YouTube Content,21,7.17,"['Class 11', 'Class 12']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¹à¤®à¤¾à¤°à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Video,61,2.16,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤¦à¤¿à¤²à¥à¤²à¥€ à¤®à¥‡à¤‚ à¤¯à¤¾à¤¤à¥à¤°à¤¾",Video,42,2.6,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤‹à¤¤à¥à¤à¤‚ (à¤­à¤¾à¤—-1)",Video,36,0.99,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤  à¤•à¥‡ à¤Šà¤à¤šà¥‡-à¤Šà¤à¤šà¥‡ à¤ªà¤¹à¤¾à¥œ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¶à¤¾à¤¨ (à¤­à¤¾à¤—-1)",Video,33,2.74,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤¹à¤®à¤¾à¤°à¥‡ à¤ªà¥à¤°à¤¾à¤°à¥à¤¥à¤¨à¤¾ à¤¸à¥à¤¥à¤²",Video,28,3.62,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¿à¤²à¥à¤²à¥€ à¤®à¥‡à¤‚ à¤¯à¤¾à¤¤à¥à¤°à¤¾,Video,42,2.6,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤‹à¤¤à¥à¤à¤‚ (à¤­à¤¾à¤—-1),Video,36,0.99,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤  à¤•à¥‡ à¤Šà¤à¤šà¥‡-à¤Šà¤à¤šà¥‡ à¤ªà¤¹à¤¾à¥œ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¶à¤¾à¤¨ (à¤­à¤¾à¤—-1),Video,33,2.74,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¹à¤®à¤¾à¤°à¥‡ à¤ªà¥à¤°à¤¾à¤°à¥à¤¥à¤¨à¤¾ à¤¸à¥à¤¥à¤²,Video,28,3.62,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Dr. Meena Sehrawat,Document,25,0.43,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¿à¤²à¥à¤²à¥€ à¤•à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°,Document,24,0.73,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤ à¤•à¥‡ à¤Šà¤à¤šà¥‡ à¤Šà¤à¤šà¥‡ à¤ªà¤¹à¤¾à¥œ : à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¶à¤¾à¤¨",Document,24,0.65,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤¬à¤šà¥à¤šà¥‹à¤‚ à¤•à¥€ à¤¦à¤¿à¤²à¥à¤²à¥€",Video,21,2.3,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤‹à¤¤à¥à¤à¤‚ (à¤­à¤¾à¤—-2)",Video,21,2.83,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤  à¤•à¥‡ à¤Šà¤à¤šà¥‡-à¤Šà¤à¤šà¥‡ à¤ªà¤¹à¤¾à¥œ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¶à¤¾à¤¨ (à¤­à¤¾à¤—-4)",Video,21,1.93,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¥‡ à¤Šà¤à¤šà¥‡ à¤Šà¤à¤šà¥‡ à¤ªà¤¹à¤¾à¥œ : à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¶à¤¾à¤¨,Document,24,0.65,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¬à¤šà¥à¤šà¥‹à¤‚ à¤•à¥€ à¤¦à¤¿à¤²à¥à¤²à¥€,Video,21,2.3,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤‹à¤¤à¥à¤à¤‚ (à¤­à¤¾à¤—-2),Video,21,2.83,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤  à¤•à¥‡ à¤Šà¤à¤šà¥‡-à¤Šà¤à¤šà¥‡ à¤ªà¤¹à¤¾à¥œ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¶à¤¾à¤¨ (à¤­à¤¾à¤—-4),Video,21,1.93,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤°à¤¾à¤œà¤˜à¤¾à¤Ÿ,Video,19,2.25,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¥‹à¤¸à¥à¤¤ à¤•à¥€ à¤ªà¥‹à¤¶à¤¾à¤•,Document,18,0.92,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¿à¤²à¥à¤²à¥€ à¤•à¤¾ à¤®à¤¾à¤¨à¤šà¤¿à¤¤à¥à¤°,Video,18,1.24,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¨à¤¦à¤¿à¤¯à¤¾à¤ à¤”à¤° à¤‰à¤¨à¤•à¥‡ à¤®à¥ˆà¤¦à¤¾à¤¨  à¤­à¤¾à¤—-1",Video,18,1.78,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤¦à¤¿à¤²à¥à¤²à¥€ à¤¸à¥‡ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤“à¤° (à¤­à¤¾à¤—-1)",Video,17,1.53,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¨à¤¦à¤¿à¤¯à¤¾à¤ à¤”à¤° à¤‰à¤¨à¤•à¥‡ à¤®à¥ˆà¤¦à¤¾à¤¨  à¤­à¤¾à¤—-1,Video,18,1.78,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¿à¤²à¥à¤²à¥€ à¤¸à¥‡ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤“à¤° (à¤­à¤¾à¤—-1),Video,17,1.53,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Experiments with water,Document,17,1.26,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¸à¤‚à¤šà¤¾à¤° à¤•à¥‡ à¤¸à¤¾à¤§à¤¨,Document,16,0.45,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¸à¤‚à¤šà¤¾à¤° à¤•à¥‡ à¤¸à¤¾à¤§à¤¨,Video,16,0.84,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¨à¤¦à¤¿à¤¯à¤¾à¤ à¤”à¤° à¤‰à¤¨à¤•à¥‡ à¤®à¥ˆà¤¦à¤¾à¤¨ à¤­à¤¾à¤—-3",Video,15,2.5,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¨à¤¦à¤¿à¤¯à¤¾à¤ à¤”à¤° à¤‰à¤¨à¤•à¥‡ à¤®à¥ˆà¤¦à¤¾à¤¨ à¤­à¤¾à¤—-3,Video,15,2.5,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¬à¤¹à¥à¤¤ à¤¸à¤®à¤¯ à¤ªà¤¹à¤²à¥‡ à¤•à¥€ à¤¦à¤¿à¤²à¥à¤²à¥€,Document,15,0.34,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¹à¤®à¤¾à¤°à¥‡ à¤ªà¥à¤°à¤¾à¤°à¥à¤¥à¤¨à¤¾ à¤¸à¥à¤¥à¤²,Document,15,0.45,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¤¾ à¤®à¤°à¥à¤¸à¥à¤¥à¤² : à¤¥à¤¾à¤° (à¤­à¤¾à¤— 1),Video,15,1.74,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤‹à¤¤à¥à¤à¤‚",Document,15,0.39,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤‹à¤¤à¥à¤à¤‚,Document,15,0.39,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¿à¤²à¥à¤²à¥€ à¤¸à¥‡ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤“à¤° (à¤­à¤¾à¤—-2 ),Video,14,0.66,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤¦à¤¿à¤²à¥à¤²à¥€ à¤®à¥‡à¤‚ à¤¯à¤¾à¤¤à¥à¤°à¤¾",Document,14,0.72,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¿à¤²à¥à¤²à¥€ à¤®à¥‡à¤‚ à¤¯à¤¾à¤¤à¥à¤°à¤¾,Document,14,0.72,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Hamare Mausam,Video,14,2.05,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¨à¤¦à¤¿à¤¯à¤¾à¤ à¤”à¤° à¤‰à¤¨à¤•à¥‡ à¤®à¥ˆà¤¦à¤¾à¤¨   à¤­à¤¾à¤—-2",Video,13,1.67,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¨à¤¦à¤¿à¤¯à¤¾à¤ à¤”à¤° à¤‰à¤¨à¤•à¥‡ à¤®à¥ˆà¤¦à¤¾à¤¨   à¤­à¤¾à¤—-2,Video,13,1.67,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Dilli Ke Mausam,Document,13,0.41,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤  à¤•à¥‡ à¤Šà¤à¤šà¥‡-à¤Šà¤à¤šà¥‡ à¤ªà¤¹à¤¾à¥œ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¶à¤¾à¤¨ (à¤­à¤¾à¤—-2 )",Video,13,2.55,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤ à¤•à¤¾ à¤®à¤°à¥à¤¸à¥à¤¥à¤² : à¤¥à¤¾à¤° (à¤­à¤¾à¤— 2)",Video,13,1.56,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤  à¤•à¥‡ à¤Šà¤à¤šà¥‡-à¤Šà¤à¤šà¥‡ à¤ªà¤¹à¤¾à¥œ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¶à¤¾à¤¨ (à¤­à¤¾à¤—-2 ),Video,13,2.55,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¤¾ à¤®à¤°à¥à¤¸à¥à¤¥à¤² : à¤¥à¤¾à¤° (à¤­à¤¾à¤— 2),Video,13,1.56,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¹à¤®à¤¾à¤°à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Document,12,0.38,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¹à¤®à¤¾à¤°à¥‡ à¤ªà¥à¤°à¤¾à¤°à¥à¤¥à¤¨à¤¾ à¤¸à¥à¤¥à¤²,Document,12,0.62,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Nandu Hathi,Video,12,0.76,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
@@ -6925,14 +6925,14 @@ Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¿à¤²à¥à¤²à¥€ à¤•à¥‡ à¤®à¥Œà¤¸à¤®,Document,10,0.55,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¤¾ à¤®à¤°à¥à¤¸à¥à¤¥à¤² : à¤¥à¤¾à¤°,Document,10,0.62,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Nandu Hathi,Document,10,0.32,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤¬à¤šà¥à¤šà¥‹à¤‚ à¤•à¥€ à¤¦à¤¿à¤²à¥à¤²à¥€",Document,9,0.48,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¬à¤šà¥à¤šà¥‹à¤‚ à¤•à¥€ à¤¦à¤¿à¤²à¥à¤²à¥€,Document,9,0.48,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤  à¤•à¥‡ à¤Šà¤à¤šà¥‡-à¤Šà¤à¤šà¥‡ à¤ªà¤¹à¤¾à¥œ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¶à¤¾à¤¨ (à¤­à¤¾à¤—-3),Video,9,2.04,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¿à¤²à¥à¤²à¥€ à¤®à¥‡à¤‚ à¤¯à¤¾à¤¤à¥à¤°à¤¾,Document,8,0.41,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¥à¤ªà¥à¤ª à¤°à¥‹à¤Ÿà¥€ à¤¥à¤ªà¥à¤ª à¤¦à¤¾à¤²,Document,8,0.51,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¾à¤¨ à¤•à¤¾ à¤¹à¤¿à¤¸à¤¾à¤¬,Document,8,0.42,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¬à¤šà¥à¤šà¥‹à¤‚ à¤•à¥€ à¤¦à¤¿à¤²à¥à¤²à¥€,Document,8,0.83,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¹à¤®à¤¾à¤°à¥‡ à¤¤à¥à¤¯à¥Œà¤¹à¤¾à¤°,Document,8,0.64,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤‹à¤¤à¥à¤à¤‚",Document,8,1.39,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤‹à¤¤à¥à¤à¤‚,Document,8,1.39,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¿à¤²à¥à¤²à¥€ à¤¸à¥‡ à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤“à¤°(à¤•à¤¾à¤°à¥à¤¯à¤ªà¤¤à¥à¤°à¤•),Document,8,0.76,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¥‡ à¤¸à¤®à¥à¤¦à¥à¤°à¥€ à¤¤à¤Ÿ,Document,8,0.8,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¬à¤¹à¥à¤¤ à¤¸à¤®à¤¯ à¤ªà¤¹à¤²à¥‡ à¤•à¥€ à¤¦à¤¿à¤²à¥à¤²à¥€,Document,7,0.6,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
@@ -6940,22 +6940,22 @@ Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¨à¤¦à¤¿à¤¯à¤¾à¤  à¤”à¤° à¤‰à¤¨à¤•à¥‡ à¤®à¥ˆà¤¦à¤¾à¤¨,Document,7,0.52,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",sink or float ?,Video,7,0.64,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¨à¤¦à¤¿à¤¯à¤¾à¤ à¤”à¤° à¤‰à¤¨à¤•à¥‡ à¤®à¥ˆà¤¦à¤¾à¤¨,Document,6,1.27,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤¬à¤šà¥à¤šà¥‹à¤‚ à¤•à¥€ à¤¦à¤¿à¤²à¥à¤²à¥€",Document,6,0.28,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤‹à¤¤à¥à¤à¤‚",Document,6,0.62,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤ à¤•à¤¾ à¤®à¤°à¥à¤¸à¥à¤¥à¤²:à¤¥à¤¾à¤° (à¤•à¤¾à¤°à¥à¤¯à¤ªà¤¤à¥à¤°à¤•)",Document,6,0.6,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¬à¤šà¥à¤šà¥‹à¤‚ à¤•à¥€ à¤¦à¤¿à¤²à¥à¤²à¥€,Document,6,0.28,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤‹à¤¤à¥à¤à¤‚,Document,6,0.62,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¤¾ à¤®à¤°à¥à¤¸à¥à¤¥à¤²:à¤¥à¤¾à¤° (à¤•à¤¾à¤°à¥à¤¯à¤ªà¤¤à¥à¤°à¤•),Document,6,0.6,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Bundo ki Race,Video,6,0.91,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤°à¤¾à¤œà¤˜à¤¾à¤Ÿ",Document,5,0.72,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤: à¤à¤• à¤ªà¤°à¤¿à¤šà¤¯ (à¤•à¤¾à¤°à¥à¤¯à¤ªà¤¤à¥à¤°à¤•)",Document,5,0.65,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤ à¤•à¤¾ à¤®à¤°à¥à¤¸à¥à¤¥à¤² : à¤¥à¤¾à¤°",Document,5,0.83,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤•à¤¬ à¤†à¤Šà¤",Document,4,0.65,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤°à¤¾à¤œà¤˜à¤¾à¤Ÿ,Document,5,0.72,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤: à¤à¤• à¤ªà¤°à¤¿à¤šà¤¯ (à¤•à¤¾à¤°à¥à¤¯à¤ªà¤¤à¥à¤°à¤•),Document,5,0.65,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¤¾ à¤®à¤°à¥à¤¸à¥à¤¥à¤² : à¤¥à¤¾à¤°,Document,5,0.83,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤•à¤¬ à¤†à¤Šà¤,Document,4,0.65,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Chakhne se Pachne tak,Document,4,0.79,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤¸à¤‚à¤šà¤¾à¤° à¤•à¥‡ à¤¸à¤¾à¤§à¤¨",Document,4,0.72,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤°à¤¾à¤œà¤˜à¤¾à¤Ÿ",Document,4,0.37,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¨à¤¦à¤¿à¤¯à¤¾à¤ à¤”à¤° à¤‰à¤¨à¤•à¥‡ à¤®à¥ˆà¤¦à¤¾à¤¨",Document,3,0.46,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¸à¤‚à¤šà¤¾à¤° à¤•à¥‡ à¤¸à¤¾à¤§à¤¨,Document,4,0.72,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤°à¤¾à¤œà¤˜à¤¾à¤Ÿ,Document,4,0.37,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤­à¤¾à¤°à¤¤ à¤•à¥€ à¤¨à¤¦à¤¿à¤¯à¤¾à¤ à¤”à¤° à¤‰à¤¨à¤•à¥‡ à¤®à¥ˆà¤¦à¤¾à¤¨,Document,3,0.46,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Storm in the garden,Document,3,2.87,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤¦à¤¿à¤²à¥à¤²à¥€ à¤®à¥‡à¤‚ à¤¯à¤¾à¤¤à¥à¤°à¤¾",Document,3,0.33,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤•à¤¬ à¤†à¤Šà¤",Document,2,0.42,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
-Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']","à¤¹à¤®à¤¾à¤°à¥‡ à¤ªà¥à¤°à¤¾à¤°à¥à¤¥à¤¨à¤¾ à¤¸à¥à¤¥à¤²",Document,2,0.14,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¦à¤¿à¤²à¥à¤²à¥€ à¤®à¥‡à¤‚ à¤¯à¤¾à¤¤à¥à¤°à¤¾,Document,3,0.33,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤•à¤¬ à¤†à¤Šà¤,Document,2,0.42,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
+Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",à¤¹à¤®à¤¾à¤°à¥‡ à¤ªà¥à¤°à¤¾à¤°à¥à¤¥à¤¨à¤¾ à¤¸à¥à¤¥à¤²,Document,2,0.14,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Work we do,Document,1,0.05,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Last Bargain,Document,0,0,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Environmental Studies', 'Hindi', 'Social Science']",Vocabulary Enhancement,Document,0,0,"['Class 3', 'Class 4', 'Class 5', 'Class 6', 'Class 7', 'Class 8']","['English', 'Hindi']",ETB
@@ -7008,15 +7008,15 @@ Delhi,10,State (Delhi),"['Hindi', 'Science']","20 July, 2021, Class 7 & 8, Hindi
 Delhi,10,State (Delhi),"['Hindi', 'Science']","13 July, 2021, Class 7 & 8, Hindi & Science, English Medium",Document,17,0.25,"['Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),"['Hindi', 'Social Science']","14 July, 2021, Class 7 & 8, Social Science & Hindi, English Medium",Document,12,0.35,"['Class 7', 'Class 8']","['English', 'Hindi']",ETB
 Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT INTRODUCTION,Video,743,2.1,Class 12,"['Hindi', 'Sanskrit']",ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤¸à¤‚à¤¸à¥à¤•à¥ƒà¤¤-à¤ªà¥à¤°à¤¥à¤®: à¤ªà¤¾à¤ :-à¤…à¤¨à¥à¤¶à¤¾à¤¸à¤¨à¤®à¥à¥¤",Video,601,3.31,Class 12,"['Hindi', 'Sanskrit']",ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT à¤·à¤·à¥à¤ : à¤ªà¤¾à¤ :  à¤¸à¥‚à¤•à¥à¤¤à¤¿- à¤¸à¥Œà¤°à¤­à¤®à¥(à¤ªà¤¦à¥à¤¯à¤ªà¤¾à¤ :)",Video,214,2.64,Class 12,"['Hindi', 'Sanskrit']",ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT  à¤¤à¥ƒà¤¤à¥€à¤¯: à¤ªà¤¾à¤ : - à¤®à¤¾à¤¤à¥à¤°à¤¾à¤œà¥à¤žà¤¾ à¤—à¤°à¥€à¤¯à¤¸à¥€(à¤¨à¤¾à¤Ÿà¥à¤¯à¤ªà¤¾à¤ :)",Video,173,3.84,Class 12,"['Hindi', 'Sanskrit']",ETB
-Delhi,10,State (Delhi),Sanskrit,"XII SANSKRIT  à¤¤à¥ƒà¤¤à¥€à¤¯: à¤ªà¤¾à¤ :  à¤®à¤¾à¤¤à¥à¤°à¤¾à¤œà¥à¤žà¤¾ à¤—à¤°à¥€à¤¯à¤¸à¥€(à¤¨à¤¾à¤Ÿà¥à¤¯à¤ªà¤¾à¤ :)",Video,131,1.66,Class 12,"['Hindi', 'Sanskrit']",ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤¸à¤‚à¤¸à¥à¤•à¥ƒà¤¤-à¤ªà¥à¤°à¤¥à¤®: à¤ªà¤¾à¤ :-à¤…à¤¨à¥à¤¶à¤¾à¤¸à¤¨à¤®à¥à¥¤,Video,601,3.31,Class 12,"['Hindi', 'Sanskrit']",ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT à¤·à¤·à¥à¤ : à¤ªà¤¾à¤ :  à¤¸à¥‚à¤•à¥à¤¤à¤¿- à¤¸à¥Œà¤°à¤­à¤®à¥(à¤ªà¤¦à¥à¤¯à¤ªà¤¾à¤ :),Video,214,2.64,Class 12,"['Hindi', 'Sanskrit']",ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT  à¤¤à¥ƒà¤¤à¥€à¤¯: à¤ªà¤¾à¤ : - à¤®à¤¾à¤¤à¥à¤°à¤¾à¤œà¥à¤žà¤¾ à¤—à¤°à¥€à¤¯à¤¸à¥€(à¤¨à¤¾à¤Ÿà¥à¤¯à¤ªà¤¾à¤ :),Video,173,3.84,Class 12,"['Hindi', 'Sanskrit']",ETB
+Delhi,10,State (Delhi),Sanskrit,XII SANSKRIT  à¤¤à¥ƒà¤¤à¥€à¤¯: à¤ªà¤¾à¤ :  à¤®à¤¾à¤¤à¥à¤°à¤¾à¤œà¥à¤žà¤¾ à¤—à¤°à¥€à¤¯à¤¸à¥€(à¤¨à¤¾à¤Ÿà¥à¤¯à¤ªà¤¾à¤ :),Video,131,1.66,Class 12,"['Hindi', 'Sanskrit']",ETB
 Delhi,10,State (Delhi),Mathematics,16 November 2021 Class 4 Maths DoE worksheet,Document,3,0.5,Class 4,"['Hindi', 'Urdu']",ETB
-Delhi,10,State (Delhi),CPD,"Ú©ÙˆØ±Ø³ 1: Ø³Ø±Ú¯Ø±Ù…ÛŒ 4 - Ø§Ù¾Ù†Û’ ØªØ¬Ø±Ø¨Ø§Øª Ø¨Ø§Ù†Ù¹ÛŒÚºÛ”",Document,99,0.76,Others,"['Hindi', 'Urdu']",ETB
-Delhi,10,State (Delhi),CPD,"Ú©ÙˆØ±Ø³ 1: Ø³Ø±Ú¯Ø±Ù…ÛŒ 5: Ø§ÛŒÙ†ÛŒÙ…Ù„ Ø³Ú©ÙˆÙ„ Ú©ÛŒ Ú©ÛØ§Ù†ÛŒ Ù¾Ø± ØºÙˆØ±",Document,70,0.47,Others,"['Hindi', 'Urdu']",ETB
-Delhi,10,State (Delhi),CPD,"Ú©ÙˆØ±Ø³ 2: Ø³Ø±Ú¯Ø±Ù…ÛŒ 2: Ø§Ù¾Ù†Û’ Ø®ÛŒØ§Ù„Ø§Øª Ø¨Ø§Ù†Ù¹ÛŒÚºÛ”",Document,62,0.56,Others,"['Hindi', 'Urdu']",ETB
-Delhi,10,State (Delhi),CPD,"Ú©ÙˆØ±Ø³ 3: Ø³Ø±Ú¯Ø±Ù…ÛŒ 1: Ø§Ù¾Ù†ÛŒ ØªÙÛÛŒÙ… Ú©Ø§ Ø§Ø´ØªØ±Ø§Ú© Ú©Ø±ÛŒÚºÛ”",Document,48,0.33,Others,"['Hindi', 'Urdu']",ETB
-Delhi,10,State (Delhi),CPD,"Ú©ÙˆØ±Ø³ 2: Ø³Ø±Ú¯Ø±Ù…ÛŒ 4: Ø§Ù¾Ù†Û’ Ø®ÛŒØ§Ù„Ø§Øª Ø¨Ø§Ù†Ù¹ÛŒÚºÛ”",Document,47,0.35,Others,"['Hindi', 'Urdu']",ETB
-Delhi,10,State (Delhi),CPD,"Ú©ÙˆØ±Ø³ 3: Ø³Ø±Ú¯Ø±Ù…ÛŒ 2: Ø¹Ú©Ø§Ø³ÛŒ Ú©Ø±ÛŒÚº - Ø³Ù…Ø¬Ú¾ÛŒÚº Ú©Û Ø°Ø§ØªÛŒ Ø³Ù…Ø§Ø¬ÛŒ Ø®ØµÙˆØµÛŒØ§Øª Ú©ÛŒØ§ ÛÛŒÚºÛ",Document,45,0.34,Others,"['Hindi', 'Urdu']",ETB
+Delhi,10,State (Delhi),CPD,Ú©ÙˆØ±Ø³ 1: Ø³Ø±Ú¯Ø±Ù…ÛŒ 4 - Ø§Ù¾Ù†Û’ ØªØ¬Ø±Ø¨Ø§Øª Ø¨Ø§Ù†Ù¹ÛŒÚºÛ”,Document,99,0.76,Others,"['Hindi', 'Urdu']",ETB
+Delhi,10,State (Delhi),CPD,Ú©ÙˆØ±Ø³ 1: Ø³Ø±Ú¯Ø±Ù…ÛŒ 5: Ø§ÛŒÙ†ÛŒÙ…Ù„ Ø³Ú©ÙˆÙ„ Ú©ÛŒ Ú©ÛØ§Ù†ÛŒ Ù¾Ø± ØºÙˆØ±,Document,70,0.47,Others,"['Hindi', 'Urdu']",ETB
+Delhi,10,State (Delhi),CPD,Ú©ÙˆØ±Ø³ 2: Ø³Ø±Ú¯Ø±Ù…ÛŒ 2: Ø§Ù¾Ù†Û’ Ø®ÛŒØ§Ù„Ø§Øª Ø¨Ø§Ù†Ù¹ÛŒÚºÛ”,Document,62,0.56,Others,"['Hindi', 'Urdu']",ETB
+Delhi,10,State (Delhi),CPD,Ú©ÙˆØ±Ø³ 3: Ø³Ø±Ú¯Ø±Ù…ÛŒ 1: Ø§Ù¾Ù†ÛŒ ØªÙÛÛŒÙ… Ú©Ø§ Ø§Ø´ØªØ±Ø§Ú© Ú©Ø±ÛŒÚºÛ”,Document,48,0.33,Others,"['Hindi', 'Urdu']",ETB
+Delhi,10,State (Delhi),CPD,Ú©ÙˆØ±Ø³ 2: Ø³Ø±Ú¯Ø±Ù…ÛŒ 4: Ø§Ù¾Ù†Û’ Ø®ÛŒØ§Ù„Ø§Øª Ø¨Ø§Ù†Ù¹ÛŒÚºÛ”,Document,47,0.35,Others,"['Hindi', 'Urdu']",ETB
+Delhi,10,State (Delhi),CPD,Ú©ÙˆØ±Ø³ 3: Ø³Ø±Ú¯Ø±Ù…ÛŒ 2: Ø¹Ú©Ø§Ø³ÛŒ Ú©Ø±ÛŒÚº - Ø³Ù…Ø¬Ú¾ÛŒÚº Ú©Û Ø°Ø§ØªÛŒ Ø³Ù…Ø§Ø¬ÛŒ Ø®ØµÙˆØµÛŒØ§Øª Ú©ÛŒØ§ ÛÛŒÚºÛ,Document,45,0.34,Others,"['Hindi', 'Urdu']",ETB
 Delhi,10,Unknown,Entrepreneurship Mindset CurriculumÂ ,JAM (Just A Minute) Session Overview,YouTube Content,223,1.5,"['Class 10', 'Class 11', 'Class 12', 'Class 9']",Unknown,ETB
