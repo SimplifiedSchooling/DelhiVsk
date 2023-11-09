@@ -38,6 +38,7 @@ router.route('/coursemedium').get(PerCourseProgressAlldashboardController.getAll
 router.route('/alldashboard').get(PerCourseProgressAlldashboardController.getAllConsumptionByDistrict);
 router.route('/dashboard').post(PerCourseProgressAlldashboardController.getDashboard);
 module.exports = router;
+
 /**
  * @swagger
  * tags:

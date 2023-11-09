@@ -54,6 +54,35 @@ const getAllPlaysPerCapita = async () => {
   return getAllPlaysPerCapitas;
 };
 
+
+const getSubjectCountByGradeAndMedium = async (grade, medium, subject) => {
+  const subjectCounts = await Coverageqr.aggregate([
+    {
+      $match: {
+        grade: grade,
+        medium: medium,
+        subject: subject,
+      },
+    },
+    {
+      $group: {
+        _id: '$qr_coverage',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  console.log(subjectCounts)
+  return subjectCounts;
+};
+
+// Usage example
+const grade = 'YourGrade'; // Replace with the desired grade
+const medium = 'YourMedium'; // Replace with the desired medium
+const subject = "English"
+const subjects = getSubjectCountByGradeAndMedium(grade, medium, subject);
+
+
+
 module.exports = {
   getAllLearningSessions,
   getAllPlaysPerCapita,
