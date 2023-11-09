@@ -671,7 +671,6 @@ const getDistrictWisePresentCount = async (date) => {
   return districtCounts;
 };
 
-
 module.exports = {
   storeAttendanceDataInMongoDB,
   getAttendanceCounts,

@@ -30,7 +30,7 @@ const getAttendanceCountsShiftWise = catchAsync(async (req, res) => {
 });
 
 const getDistrictWisePresentCount = catchAsync(async (req, res) => {
-  const { date} = req.body;
+  const { date } = req.body;
   const result = await attendanceService.getDistrictWisePresentCount(date);
   res.status(httpStatus.CREATED).send(result);
 });

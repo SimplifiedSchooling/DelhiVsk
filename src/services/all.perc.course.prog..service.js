@@ -74,59 +74,45 @@ const bulkUploadFileForConsumptionByDistrict = async (schoolArray, csvFilePath =
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllLearningSessions = async (filter, options) => {
-  const learningSessions = await Percentageenrollmentcertification.paginate(filter, options);
+const getAllLearningSessions = async () => {
+  const learningSessions = await Percentageenrollmentcertification.find();
   return learningSessions;
 };
 
 /**
- * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllPlaysPerCapita = async (filter, options) => {
-  const getAllPlaysPerCapitas = await Programstarted.paginate(filter, options);
+const getAllPlaysPerCapita = async () => {
+  const getAllPlaysPerCapitas = await Programstarted.find();
   return getAllPlaysPerCapitas;
 };
 
-/**
- * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
- * @returns {Promise<QueryResult>}
- */
-const getAllConsumptionByCourse = async (filter, options) => {
-  const getAllConsumptionByCourses = await Coursemedium.paginate(filter, options);
+const getAllConsumptionByCourse = async () => {
+  const getAllConsumptionByCourses = await Coursemedium.find();
   return getAllConsumptionByCourses;
 };
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllConsumptionByDistrict = async (filter, options) => {
-  const getAllConsumptionByCourses = await AllDashboard.paginate(filter, options);
+const getAllConsumptionByDistrict = async () => {
+  const getAllConsumptionByCourses = await AllDashboard.find();
   return getAllConsumptionByCourses;
 };
+
+/**
+ * Get all AllDashboard data by grade,subject and learning_outcome_code
+ * @param {string} query - The grade,subject,learning_outcome_code name to filter the data
+ * @returns {Promise<Object>} Get all AllDashboard data by grade,subject and learning_outcome_code
+ */
+
+async function getDashboardData(query) {
+  const dashboardData = await AllDashboard.find(query);
+  return dashboardData;
+}
 
 module.exports = {
   getAllLearningSessions,
@@ -137,4 +123,5 @@ module.exports = {
   bulkUploadFileForConsumptionByCourse,
   bulkUploadFileForConsumptionByDistrict,
   getAllConsumptionByDistrict,
+  getDashboardData,
 };

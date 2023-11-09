@@ -571,13 +571,13 @@ const getTeacherStatsByDistrict = async (districtName) => {
 const getTeacherExperienceCountByRangeZoneWise = async (zonename) => {
   try {
     const currentDate = new Date();
-    const teachers = await Teacher.find({zonename})
-    // const teacherName = "AJAY KUMAR JAISWAL"; 
+    const teachers = await Teacher.find({ zonename });
+    // const teacherName = "AJAY KUMAR JAISWAL";
     // const teachers = await Teacher.find({ Name: teacherName }).sort({ zonename: 1 });
     // const teachers = await Teacher.aggregate([
     //   {
     //     $match: {
-    //       zonename: zonename, 
+    //       zonename: zonename,
     //     },
     //   },
     //   {
@@ -598,7 +598,7 @@ const getTeacherExperienceCountByRangeZoneWise = async (zonename) => {
     //     },
     //   },
     // ]);
-    console.log(teachers)
+    console.log(teachers);
     // Initialize an object to store the count in each experience range
     const experienceCounts = {
       under5Years: 0,
@@ -897,7 +897,7 @@ const getTeacherCountByZone = async (zone) => {
 const getTeacherExperienceCountByRangeSchool = async (schname) => {
   try {
     const currentDate = new Date(); // Current date
-    const teachers = await Teacher.find({  schname });
+    const teachers = await Teacher.find({ schname });
 
     // Initialize an object to store the count in each experience range
     const experienceCounts = {
@@ -1071,9 +1071,9 @@ const getSchoolIdBySchCategoryWiseAndSchoolName = async (schname) => {
  */
 
 const getTeacherCountBySchoolName = async (schname) => {
-  console.log(schname)
-    const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndSchoolName(schname);
-    const teacherCounts = [];
+  console.log(schname);
+  const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndSchoolName(schname);
+  const teacherCounts = [];
 
   for (const category of schCategorySchoolIds) {
     const teacherCount = await Teacher.countDocuments({ schoolid: { $in: category.schoolIds } });
