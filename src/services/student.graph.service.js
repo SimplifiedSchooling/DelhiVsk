@@ -988,8 +988,6 @@ const getStudentCountByZoneName = async (zone) => {
     });
   }
   
-  // const schoolCriteria = await getSchoolIdByStreamWiseZone(zone);
-  // const streamWiseCount = await getSchoolCountsByCriteriaZone(schoolCriteria, 'stream', zone);
 
 
   const streamWiseCountIds = await getSchoolIdByStreamWiseZone(zone);
