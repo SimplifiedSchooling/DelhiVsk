@@ -202,7 +202,6 @@ const getStudentCount = async () => {
     const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
     const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
 
-
     const SchoolCatogoryStudent = await StudentCounts.aggregate([
       {
         $unwind: '$classes',
@@ -252,7 +251,7 @@ const getStudentCount = async () => {
       _id: item[0]._id,
       count: item[0].count,
     }));
-    // 
+    //
     const formattedManagementWiseCounts = ManagementWiseCounts.map((item) => ({
       _id: item[0]._id,
       count: item[0].count,
@@ -265,14 +264,13 @@ const getStudentCount = async () => {
       managementWiseCount: formattedmanagementWiseCount,
       streamWiseCount: formattedStreamWiseCount,
       SchCategoryCount: formattedSchCategoryCount,
-      ManagementWiseCounts:formattedManagementWiseCounts,
+      ManagementWiseCounts: formattedManagementWiseCounts,
       studentCount,
       averageStudentOfSchool,
       averageTeacherOfSchool,
       teacherStudentRatio,
       // SchoolCatogoryStudent,
       // teacherCounts,
-
     };
   } catch (error) {
     console.error('Error updating student statistics:', error);
@@ -327,7 +325,7 @@ const getSchoolIdBySchCategoryWiseAndDistrict = async (districtName) => {
       },
     },
   ];
-  return schCategorySchoolIds = await School.aggregate(pipeline);
+  return (schCategorySchoolIds = await School.aggregate(pipeline));
 };
 
 const getSchoolIdByTypeOfSchoolWiseDistrict = async (districtName) => {
@@ -419,7 +417,6 @@ const getSchoolCountsByCriteriaDistrict = async (criteria, field, districtName) 
   );
   return counts;
 };
-
 
 const getStudentCountByDistrictName = async (districtName) => {
   const studentShiftWiseCounts = await getSchoolIdByShiftWiseDistrict(districtName);
@@ -614,9 +611,9 @@ const getSchoolCountsByCriteriaZone = async (criteria, field, zone) => {
 };
 
 const getStudentCountByZoneName = async (zone) => {
-  const studentShiftWiseCounts = await getSchoolIdByShiftWisZone(zone);  
-  const SchCategoryCount = await getSchoolIdBySchCategoryZone(zone);    
-  const TypeOfSchoolCounts = await getSchoolIdByTypeOfSchoolWiseZone(zone);  
+  const studentShiftWiseCounts = await getSchoolIdByShiftWisZone(zone);
+  const SchCategoryCount = await getSchoolIdBySchCategoryZone(zone);
+  const TypeOfSchoolCounts = await getSchoolIdByTypeOfSchoolWiseZone(zone);
   const MinorityCounts = await getSchoolIdByMinorityWiseZone(zone);
   const ManagemenetCounts = await getSchoolIdByManagementWiseZone(zone);
   const AffilitionCounts = await getSchoolIdByAffiliationWiseZone(zone);
@@ -806,7 +803,6 @@ const getSchoolCountsByCriteriaschoolName = async (criteria, field, schoolName) 
   );
   return counts;
 };
-
 
 const getStudentCountBySchoolName = async (schoolName) => {
   const studentShiftWiseCounts = await getSchoolIdByShiftWisschoolName(schoolName);

@@ -30,7 +30,6 @@ module.exports = router;
  *   description: Udise School management
  */
 
-
 /**
  * @swagger
  * /udise-school/udise-school-stats:
@@ -46,7 +45,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
 
 /**
  * @swagger
@@ -70,5 +68,3 @@ module.exports = router;
  *       404:
  *         description: Missing file
  */
-
-
