@@ -940,7 +940,7 @@ const getStudentCountByZoneName = async (zone) => {
   }
  
   const ManagemenetCounts = await getSchoolIdByManagementWiseZone(zone);
-  const managementWiseCount = [];  
+  const ManagementWiseCounts = [];  
   for (const fieldData of ManagemenetCounts) {
     const schoolIds = Array.isArray(fieldData.Schoolid) ? fieldData.Schoolid : [fieldData.Schoolid];
     const count = await StudentCounts.aggregate([
@@ -957,7 +957,7 @@ const getStudentCountByZoneName = async (zone) => {
         },
       },
     ]);
-    managementWiseCount.push({
+    ManagementWiseCounts.push({
       minority: fieldData._id,
       count: count.length > 0 ? count[0].totalCount : 0,
     });
@@ -1045,7 +1045,7 @@ const getStudentCountByZoneName = async (zone) => {
     studentShiftWiseCounts,
     TypeOfSchoolCounts,
     MinorityCounts,
-    managementWiseCount,
+    ManagementWiseCounts,
     AffilitionCounts,
     streamWiseCount,
     SchCategoryCount,
