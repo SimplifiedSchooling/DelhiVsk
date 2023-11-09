@@ -4,215 +4,215 @@ const { toJSON, paginate } = require('./plugins');
 const udiseSchoolSchema = mongoose.Schema(
   {
     district: {
-        type: String
+      type: String,
     },
-    zone : {
-        type: Number
+    zone: {
+      type: Number,
     },
     SchoolID: {
-        type: String,
+      type: String,
     },
     SchName: {
-        type: String,
+      type: String,
     },
     SchAddress: {
-        type: String,
+      type: String,
     },
     PINCD: {
-        type: Number,
+      type: Number,
     },
     CRCSchAddress: {
-        type: String,
+      type: String,
     },
     Sch_Type: {
-        type: String,
+      type: String,
     },
     MuncipalityName: {
-        type: String,
+      type: String,
     },
     RuralUrban: {
-        type: String,
+      type: String,
     },
     Udise_Code: {
-        type: String,
+      type: String,
     },
     ESTDYEAR: {
-        type: Number,
+      type: Number,
     },
     CWSNSCH_YN: {
-        type: String,
+      type: String,
     },
     School_Deatils_STD: {
-        type: String,
+      type: String,
     },
     School_Deatils_Landline_Phone: {
-        type: String,
+      type: String,
     },
     School_Deatils_MobileNO: {
-        type: String,
+      type: String,
     },
     School_Incharge_Name: {
-        type: String,
+      type: String,
     },
     School_Incharge_Designation: {
-        type: String,
+      type: String,
     },
     School_Incharge_MobileNo: {
-        type: String,
+      type: String,
     },
     Respondent_Name: {
-        type: String,
+      type: String,
     },
     Respondent_Designation: {
-        type: String,
+      type: String,
     },
     Respondent_MobileNo: {
-        type: String,
+      type: String,
     },
     EMAIL: {
-        type: String,
+      type: String,
     },
     WEBSITE: {
-        type: String,
-    }, 
+      type: String,
+    },
     School_Gender: {
-         type: String,
+      type: String,
     },
     School_Level: {
-        type: String,
+      type: String,
     },
     School_Nomenclature: {
-        type: String,
+      type: String,
     },
     LOWCLASS: {
-        type: Number
+      type: Number,
     },
-    
+
     HIGHCLASS: {
-        type: Number
+      type: Number,
     },
     Shiftofschool: {
-        type: String
+      type: String,
     },
     typeofschool: {
-        type: String,
+      type: String,
     },
     SCHMGT_Group: {
-        type: String
+      type: String,
     },
     SCHMGT: {
-        type: String,
+      type: String,
     },
     minoritymanagedschool_YN: {
-        type: String,
+      type: String,
     },
     MEDINSTR1: {
-        type: String,
+      type: String,
     },
     MEDINSTR2: {
-        type: String,
+      type: String,
     },
     MEDINSTR3: {
-        type: String,
+      type: String,
     },
     MEDINSTR4: {
-        type: String,
+      type: String,
     },
     MTONGUE_YN: {
-        type: String,
+      type: String,
     },
     LANG1: {
-        type:String,
+      type: String,
     },
     LANG2: {
-        type: String,
+      type: String,
     },
     LANG3: {
-        type: String,
+      type: String,
     },
     LANG4: {
-        type: String,
+      type: String,
     },
     LANG5: {
-        type: String,
+      type: String,
     },
     VISITSCRC: {
-        type: Number,
+      type: Number,
     },
     workdays_pre_pri: {
-        type: Number,
+      type: Number,
     },
     workdays_pri: {
-        type: Number,
+      type: Number,
     },
     WORKSDAYS_UPR: {
-        type: Number,
+      type: Number,
     },
     WORKSDAYS_SEC: {
-        type: Number,
+      type: Number,
     },
     workdays_hsec: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_stu_pre_pri_h: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_stu_pre_pri_m: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_stu_pri_h: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_stu_pri_m: {
-        type: String,
+      type: String,
     },
     sch_hrs_stu_upr_h: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_stu_upr_m: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_stu_sec_h: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_stu_sec_m: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_stu_hsec_h: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_stu_hsec_m: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_tch_pre_pri_h: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_tch_pre_pri_m: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_tch_pri_h: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_tch_pri_m: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_tch_upr_h: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_tch_upr_m: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_tch_sec_h: {
-        type: Number
+      type: Number,
     },
     sch_hrs_tch_sec_m: {
-        type:Number,
+      type: Number,
     },
     sch_hrs_tch_hsec_h: {
-        type: Number,
+      type: Number,
     },
     sch_hrs_tch_hsec_m: {
-        type: Number,
+      type: Number,
     },
   },
   {
@@ -230,4 +230,3 @@ udiseSchoolSchema.plugin(paginate);
 const Udiseschool = mongoose.model('udiseschool', udiseSchoolSchema);
 
 module.exports = Udiseschool;
-

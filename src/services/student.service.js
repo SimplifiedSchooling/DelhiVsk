@@ -98,8 +98,6 @@ async function storeStudentDataInMongoDB() {
   }
 }
 
-
-
 // Schedule the job to run every Sunday at 3 AM
 cron.schedule('0 3 * * 0', async () => {
   try {
@@ -110,7 +108,6 @@ cron.schedule('0 3 * * 0', async () => {
     logger.info('Error running the job:', error);
   }
 });
-
 
 module.exports = {
   storeStudentDataInMongoDB,
