@@ -1,7 +1,6 @@
 const httpStatus = require('http-status');
 const { join } = require('path');
 const csv = require('csvtojson');
-const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
 const { PerCourseProgressAlldashboardService } = require('../services');
 const ApiError = require('../utils/ApiError');
@@ -74,32 +73,40 @@ const bulkUploadFileForConsumptionByDistrict = catchAsync(async (req, res) => {
 });
 
 const getAllLearningSessions = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await PerCourseProgressAlldashboardService.getAllLearningSessions(filter, options);
+  const result = await PerCourseProgressAlldashboardService.getAllLearningSessions();
   res.send(result);
 });
 
 const getAllPlaysPerCapita = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await PerCourseProgressAlldashboardService.getAllPlaysPerCapita(filter, options);
+  const result = await PerCourseProgressAlldashboardService.getAllPlaysPerCapita();
   res.send(result);
 });
 
 const getAllConsumptionByCourse = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await PerCourseProgressAlldashboardService.getAllConsumptionByCourse(filter, options);
+  const result = await PerCourseProgressAlldashboardService.getAllConsumptionByCourse();
   res.send(result);
 });
 
 const getAllConsumptionByDistrict = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await PerCourseProgressAlldashboardService.getAllConsumptionByDistrict(filter, options);
+  const result = await PerCourseProgressAlldashboardService.getAllConsumptionByDistrict();
   res.send(result);
 });
+
+async function getDashboard(req, res) {
+  const { subject, grade, learning_outcome_code } = req.body;
+
+  // Build query based on request parameters
+  const query = {};
+  if (subject) query.subject = subject;
+  if (grade) query.grade = grade;
+  if (learning_outcome_code) query.learning_outcome_code = learning_outcome_code;
+  const data = await PerCourseProgressAlldashboardService.getDashboardData(query);
+
+  res.status(200).json({
+    success: true,
+    data,
+  });
+}
 module.exports = {
   getAllLearningSessions,
   getAllPlaysPerCapita,
@@ -109,4 +116,5 @@ module.exports = {
   bulkUploadFileForConsumptionByCourse,
   bulkUploadFileForConsumptionByDistrict,
   getAllConsumptionByDistrict,
+  getDashboard,
 };

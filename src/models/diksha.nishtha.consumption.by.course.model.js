@@ -28,13 +28,13 @@ const consumptionByCourse = mongoose.Schema(
       type: String,
     },
     enrollments: {
-      type: String,
+      type: Number,
     },
     completion: {
-      type: String,
+      type: Number,
     },
     certification: {
-      type: String,
+      type: Number,
     },
   },
   {

@@ -1,7 +1,6 @@
 const httpStatus = require('http-status');
 const { join } = require('path');
 const csv = require('csvtojson');
-const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
 const { allDashboard2 } = require('../services');
 const ApiError = require('../utils/ApiError');
@@ -74,30 +73,22 @@ const bulkUploadFileForConsumptionByDistrict = catchAsync(async (req, res) => {
 });
 
 const getAllLearningSessions = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await allDashboard2.getAllLearningSessions(filter, options);
+  const result = await allDashboard2.getAllLearningSessions();
   res.send(result);
 });
 
 const getAllPlaysPerCapita = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await allDashboard2.getAllPlaysPerCapita(filter, options);
+  const result = await allDashboard2.getAllPlaysPerCapita();
   res.send(result);
 });
 
 const getAllConsumptionByCourse = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await allDashboard2.getAllConsumptionByCourse(filter, options);
+  const result = await allDashboard2.getAllConsumptionByCourse();
   res.send(result);
 });
 
 const getAllConsumptionByDistrict = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await allDashboard2.getAllConsumptionByDistrict(filter, options);
+  const result = await allDashboard2.getAllConsumptionByDistrict();
   res.send(result);
 });
 module.exports = {

@@ -357,6 +357,22 @@ const getStudentCount = async () => {
   }
 };
 
+const getSchoolIdByStreamWiseDistrict = async (districtName) => {
+  const pipeline = [
+    {
+      $match: {
+        District_name: districtName,
+      },
+    },
+    {
+      $group: {
+        _id: '$stream', // Group by stream or null for missing values
+        Schoolid: { $addToSet: '$Schoolid' },
+      },
+    },
+  ];
+  return StudentCounts.aggregate(pipeline);
+};
 
 const getSchoolIdByShiftWiseDistrict = async (districtName) => {
   const pipeline = [
@@ -857,16 +873,16 @@ const getStudentCountByZoneName = async (zone) => {
   ]);
 
   const cleanedZoneName = zone.replace(/[^0-9]/g, '');
-  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers ] = await Promise.allSettled([
+  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
     School.countDocuments({ Zone_Name: zone }).exec(),
     Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
     Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
     Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
   ]);
 
-  // const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
+  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
-  // const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
+  const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
 
   return {
     studentShiftWiseCounts,
@@ -877,9 +893,9 @@ const getStudentCountByZoneName = async (zone) => {
     streamWiseCount,
     SchCategoryCount,
     studentCount,
-    // teacherStudentRatio,
+    teacherStudentRatio,
     averageTeacherOfSchool,
-    // averageStudentOfSchool,
+    averageStudentOfSchool,
   };
 };
 const getSchoolIdByStreamWiseschoolName = async (schoolName) => {
@@ -1049,7 +1065,7 @@ const getStudentCountBySchoolName = async (schoolName) => {
       },
     },
   ]);
-  
+
   const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
     School.countDocuments({ School_Name: schoolName }).exec(),
     Teacher.countDocuments({ School_Name: schoolName }).exec(),

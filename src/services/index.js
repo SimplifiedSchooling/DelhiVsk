@@ -14,3 +14,4 @@ module.exports.learningSessionService = require('./diksha.etb.learning.session.s
 module.exports.PerCourseProgressAlldashboardService = require('./all.perc.course.prog..service');
 module.exports.allDashboard2 = require('./alldashboard2.service');
 module.exports.allDashboard3 = require('./alldashboard3.service');
+module.exports.udiseSchoolService = require('./udise.school.service');

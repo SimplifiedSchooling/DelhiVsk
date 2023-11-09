@@ -15,6 +15,7 @@ const learningSession = require('./diksha.etb.learning.session.route');
 const allDashboard = require('./all.per.course.prog.route');
 const allDashboard2 = require('./alldashboard2');
 const allDashboard3 = require('./alldashboard3.route');
+const udiseSchoolRoute = require('./udise.school.route');
 
 const router = express.Router();
 
@@ -74,6 +75,10 @@ const defaultRoutes = [
   {
     path: '/alldashboard3',
     route: allDashboard3,
+  },
+  {
+    path: '/udise-school',
+    route: udiseSchoolRoute,
   },
 ];
 
