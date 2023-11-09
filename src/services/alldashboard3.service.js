@@ -38,29 +38,19 @@ const bulkUploadFileForPlaysPerCapita = async (schoolArray, csvFilePath = null) 
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllLearningSessions = async (filter, options) => {
-  const learningSessions = await Coveragestatus.paginate(filter, options);
+const getAllLearningSessions = async () => {
+  const learningSessions = await Coveragestatus.find();
   return learningSessions;
 };
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllPlaysPerCapita = async (filter, options) => {
-  const getAllPlaysPerCapitas = await Coverageqr.paginate(filter, options);
+const getAllPlaysPerCapita = async () => {
+  const getAllPlaysPerCapitas = await Coverageqr.find();
   return getAllPlaysPerCapitas;
 };
 

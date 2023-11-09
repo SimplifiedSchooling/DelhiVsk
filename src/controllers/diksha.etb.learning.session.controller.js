@@ -1,7 +1,6 @@
 const httpStatus = require('http-status');
 const { join } = require('path');
 const csv = require('csvtojson');
-const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
 const { learningSessionService } = require('../services');
 const ApiError = require('../utils/ApiError');
@@ -74,32 +73,34 @@ const bulkUploadFileForConsumptionByDistrict = catchAsync(async (req, res) => {
 });
 
 const getAllLearningSessions = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await learningSessionService.getAllLearningSessions(filter, options);
+  const result = await learningSessionService.getAllLearningSessions();
   res.send(result);
 });
 
 const getAllPlaysPerCapita = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await learningSessionService.getAllPlaysPerCapita(filter, options);
+  const result = await learningSessionService.getAllPlaysPerCapita();
   res.send(result);
 });
 
 const getAllConsumptionByCourse = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await learningSessionService.getAllConsumptionByCourse(filter, options);
+  const result = await learningSessionService.getAllConsumptionByCourse();
   res.send(result);
 });
 
 const getAllConsumptionByDistrict = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await learningSessionService.getAllConsumptionByDistrict(filter, options);
+  const result = await learningSessionService.getAllConsumptionByDistrict();
   res.send(result);
 });
+
+async function getCounts(req, res, next) {
+  try {
+    const { program } = req.body;
+    const counts = await learningSessionService.calculateRangeWiseCounts(program);
+    return res.json(counts);
+  } catch (error) {
+    return next(error);
+  }
+}
 module.exports = {
   getAllLearningSessions,
   getAllPlaysPerCapita,
@@ -109,4 +110,5 @@ module.exports = {
   bulkUploadFileForConsumptionByCourse,
   bulkUploadFileForConsumptionByDistrict,
   getAllConsumptionByDistrict,
+  getCounts,
 };

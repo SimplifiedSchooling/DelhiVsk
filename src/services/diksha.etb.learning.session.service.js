@@ -83,57 +83,81 @@ const createLearningSession = async (learningSessionBody) => {
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllLearningSessions = async (filter, options) => {
-  const learningSessions = await Learningsession.paginate(filter, options);
+const getAllLearningSessions = async () => {
+  const learningSessions = await Learningsession.find();
   return learningSessions;
 };
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllPlaysPerCapita = async (filter, options) => {
-  const getAllPlaysPerCapitas = await Playspercapita.paginate(filter, options);
+const getAllPlaysPerCapita = async () => {
+  const getAllPlaysPerCapitas = await Playspercapita.find();
   return getAllPlaysPerCapitas;
 };
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllConsumptionByCourse = async (filter, options) => {
-  const getAllConsumptionByCourses = await Consumptionbycourse.paginate(filter, options);
+const getAllConsumptionByCourse = async () => {
+  const getAllConsumptionByCourses = await Consumptionbycourse.find();
   return getAllConsumptionByCourses;
 };
 
 /**
+ * Get range-wise count of enrollment, completion, certification data
+ * @param {string} program - The program name to filter the counts
+ * @returns {Promise<Object>} Range-wise counts for enrollment, completion, certification
+ */
+
+async function calculateRangeWiseCounts(program) {
+  const ranges = [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000]; // Define your ranges as needed
+
+  const enrollmentRanges = new Array(ranges.length - 1).fill(0);
+  const completionRanges = new Array(ranges.length - 1).fill(0);
+  const certificationRanges = new Array(ranges.length - 1).fill(0);
+
+  const schoolData = await Consumptionbycourse.find({ program });
+
+  schoolData.forEach((data) => {
+    const { enrollments, completion, certification } = data;
+
+    for (let i = 0; i < ranges.length - 1; i++) {
+      const startRange = ranges[i];
+      const endRange = ranges[i + 1];
+
+      if (enrollments >= startRange && enrollments < endRange) {
+        enrollmentRanges[i]++;
+      }
+
+      if (completion >= startRange && completion < endRange) {
+        completionRanges[i]++;
+      }
+
+      if (certification >= startRange && certification < endRange) {
+        certificationRanges[i]++;
+      }
+    }
+  });
+
+  const result = {
+    enrollmentRanges: enrollmentRanges.map((count, i) => ({ range: `${ranges[i]}-${ranges[i + 1]}`, count })),
+    completionRanges: completionRanges.map((count, i) => ({ range: `${ranges[i]}-${ranges[i + 1]}`, count })),
+    certificationRanges: certificationRanges.map((count, i) => ({ range: `${ranges[i]}-${ranges[i + 1]}`, count })),
+  };
+
+  return result;
+}
+/**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllConsumptionByDistrict = async (filter, options) => {
-  const getAllConsumptionByCourses = await Consumptionbydistrict.paginate(filter, options);
+const getAllConsumptionByDistrict = async () => {
+  const getAllConsumptionByCourses = await Consumptionbydistrict.find();
   return getAllConsumptionByCourses;
 };
 
@@ -147,4 +171,5 @@ module.exports = {
   bulkUploadFileForConsumptionByCourse,
   bulkUploadFileForConsumptionByDistrict,
   getAllConsumptionByDistrict,
+  calculateRangeWiseCounts,
 };

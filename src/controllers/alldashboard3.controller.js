@@ -1,7 +1,6 @@
 const httpStatus = require('http-status');
 const { join } = require('path');
 const csv = require('csvtojson');
-const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
 const { allDashboard3 } = require('../services');
 const ApiError = require('../utils/ApiError');
@@ -42,16 +41,12 @@ const bulkUploadFileForPlaysPerCapita = catchAsync(async (req, res) => {
 });
 
 const getAllLearningSessions = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await allDashboard3.getAllLearningSessions(filter, options);
+  const result = await allDashboard3.getAllLearningSessions();
   res.send(result);
 });
 
 const getAllPlaysPerCapita = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['state_name']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await allDashboard3.getAllPlaysPerCapita(filter, options);
+  const result = await allDashboard3.getAllPlaysPerCapita();
   res.send(result);
 });
 

@@ -74,57 +74,37 @@ const bulkUploadFileForConsumptionByDistrict = async (schoolArray, csvFilePath =
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllLearningSessions = async (filter, options) => {
-  const learningSessions = await Nasprogramstarted.paginate(filter, options);
+const getAllLearningSessions = async () => {
+  const learningSessions = await Nasprogramstarted.find();
   return learningSessions;
 };
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllPlaysPerCapita = async (filter, options) => {
-  const getAllPlaysPerCapitas = await Pgialldashboard.paginate(filter, options);
+const getAllPlaysPerCapita = async () => {
+  const getAllPlaysPerCapitas = await Pgialldashboard.find();
   return getAllPlaysPerCapitas;
 };
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllConsumptionByCourse = async (filter, options) => {
-  const getAllConsumptionByCourses = await UdiseallDashboard.paginate(filter, options);
+const getAllConsumptionByCourse = async () => {
+  const getAllConsumptionByCourses = await UdiseallDashboard.find();
   return getAllConsumptionByCourses;
 };
 
 /**
  * Query for board
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const getAllConsumptionByDistrict = async (filter, options) => {
-  const getAllConsumptionByCourses = await Udiseprogramstarted.paginate(filter, options);
+const getAllConsumptionByDistrict = async () => {
+  const getAllConsumptionByCourses = await Udiseprogramstarted.find();
   return getAllConsumptionByCourses;
 };
 

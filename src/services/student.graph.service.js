@@ -1,5 +1,4 @@
-const { School, Student, Teacher, StudentCounts } = require('../models');
-const redis = require('../utils/redis');
+const { School, StudentCounts } = require('../models');
 
 const getSchoolIdByShiftWise = async () => {
   const pipeline = [
