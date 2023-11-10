@@ -138,7 +138,7 @@ const getAllConsumptionByCourse = async () => {
  */
 
 async function calculateRangeWiseCounts(program) {
-  const ranges = [0, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000]; // Define your ranges as needed
+  const ranges = [0, 10000, 20000, 30000, 40000, 50000]; // Define your ranges as needed
 
   const enrollmentRanges = new Array(ranges.length - 1).fill(0);
   const completionRanges = new Array(ranges.length - 1).fill(0);
