@@ -171,6 +171,8 @@ async function calculateMimeTypeCounts(query) {
       $group: {
         _id: '$mime_type',
         counts: { $sum: '$total_no_of_plays_App_and_Portal' },
+        average_no_of_plays: { $avg: '$total_no_of_plays_App_and_Portal' },
+        average_play_time: { $avg: '$total_play_time_App_and_Portal' },
       },
     },
   ];
