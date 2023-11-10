@@ -41,6 +41,13 @@ module.exports = router;
 
 /**
  * @swagger
+ * tags:
+ *   name: AllDashboards
+ *   description: AllDashboards for percentageenrollmentcertification, programStarted, courseMedium, allDashboard management
+ */
+
+/**
+ * @swagger
  * /alldashboard/bulkupload-percentageenrollmentcertification:
  *   post:
  *     summary: Upload a CSV file for bulk diksha.nishtha.percentage.enrollment.certification.model
