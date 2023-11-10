@@ -52,12 +52,12 @@ const getAllPlaysPerCapita = catchAsync(async (req, res) => {
 
 const getSubjectAverageByMediumAndGrade = catchAsync(async (req, res) => {
   const { medium, grade } = req.body;
-  const result = await allDashboard3.getSubjectAverageByMediumAndGrade(medium, grade );
+  const result = await allDashboard3.getSubjectAverageByMediumAndGrade(medium, grade);
   res.send(result);
 });
 const getAveragesByMediumAndGrade = catchAsync(async (req, res) => {
   const { medium, grade } = req.body;
-  const result = await allDashboard3.getAveragesByMediumAndGrade(medium, grade );
+  const result = await allDashboard3.getAveragesByMediumAndGrade(medium, grade);
   res.send(result);
 });
 
