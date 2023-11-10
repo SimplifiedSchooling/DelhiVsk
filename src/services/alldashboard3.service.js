@@ -86,37 +86,47 @@ const getSubjectAverageByMediumAndGrade = async (medium, grade) => {
   return subjectAverages;
 };
 
-
 const getAveragesByMediumAndGrade = async (medium, grade) => {
   const documents = await Coverageqr.find({ medium, grade });
 
-  // Initialize objects to store sums and counts
-  const averageData = {
-    averageQRCodeCoverage: 0,
-    averageQRCodeLinkedToContent: 0,
-    averageTotalQRCode: 0,
-    count: 0,
-  };
+  // Initialize an object to store sums and counts for each subject
+  const subjectData = {};
 
   documents.forEach((doc) => {
+    const subject = doc.subject;
     const qrCoverage = doc.qr_coverage;
     const qrLinkedToContent = parseFloat(doc.qr_codes_linked_to_content);
     const totalQRCode = parseFloat(doc.total_qr_codes);
 
-    averageData.averageQRCodeCoverage += qrCoverage;
-    averageData.averageQRCodeLinkedToContent += qrLinkedToContent;
-    averageData.averageTotalQRCode += totalQRCode;
-    averageData.count++;
+    if (!subjectData[subject]) {
+      subjectData[subject] = {
+        sumQRCodeCoverage: 0,
+        sumQRCodeLinkedToContent: 0,
+        sumTotalQRCode: 0,
+        count: 0,
+      };
+    }
+
+    subjectData[subject].sumQRCodeCoverage += qrCoverage;
+    subjectData[subject].sumQRCodeLinkedToContent += qrLinkedToContent;
+    subjectData[subject].sumTotalQRCode += totalQRCode;
+    subjectData[subject].count++;
   });
 
-  // Calculate averages
-  const averages = {
-    averageQRCodeCoverage: averageData.averageQRCodeCoverage / averageData.count,
-    averageQRCodeLinkedToContent: averageData.averageQRCodeLinkedToContent / averageData.count,
-    averageTotalQRCode: averageData.averageTotalQRCode / averageData.count,
-  };
-  return averages;
+  // Calculate averages for each subject
+  const subjectAverages = Object.keys(subjectData).map((subject) => {
+    const data = subjectData[subject];
+    return {
+      subject,
+      averageQRCodeCoverage: data.sumQRCodeCoverage / data.count,
+      averageQRCodeLinkedToContent: data.sumQRCodeLinkedToContent / data.count,
+      averageTotalQRCode: data.sumTotalQRCode / data.count,
+    };
+  });
+
+  return subjectAverages;
 };
+
 
 module.exports = {
   getAllLearningSessions,
