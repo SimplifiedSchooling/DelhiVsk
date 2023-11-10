@@ -22,7 +22,7 @@ const coverageQr = mongoose.Schema(
       type: String,
     },
     qr_coverage: {
-      type: String,
+      type: Number,
     },
     qr_codes_linked_to_content: {
       type: String,

@@ -50,9 +50,22 @@ const getAllPlaysPerCapita = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getSubjectAverageByMediumAndGrade = catchAsync(async (req, res) => {
+  const { medium, grade } = req.body;
+  const result = await allDashboard3.getSubjectAverageByMediumAndGrade(medium, grade);
+  res.send(result);
+});
+const getAveragesByMediumAndGrade = catchAsync(async (req, res) => {
+  const { medium, grade } = req.body;
+  const result = await allDashboard3.getAveragesByMediumAndGrade(medium, grade);
+  res.send(result);
+});
+
 module.exports = {
   getAllLearningSessions,
   getAllPlaysPerCapita,
   bulkUploadFile,
   bulkUploadFileForPlaysPerCapita,
+  getSubjectAverageByMediumAndGrade,
+  getAveragesByMediumAndGrade,
 };

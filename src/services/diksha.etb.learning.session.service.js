@@ -132,7 +132,7 @@ const getAllConsumptionByCourse = async () => {
 };
 
 /**
- * Get range-wise count of enrollment, completion, certification data
+ * Get range-wise count of enrollment, completion, certification data by course
  * @param {string} program - The program name to filter the counts
  * @returns {Promise<Object>} Range-wise counts for enrollment, completion, certification
  */
