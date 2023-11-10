@@ -254,7 +254,6 @@ const getStudentCount = async () => {
     });
   }
 
-
   const studentShiftWiseCountsSchoolIds = await getSchoolIdByShiftWise();
   const studentShiftWiseCounts = [];
   for (const fieldData of studentShiftWiseCountsSchoolIds) {
@@ -276,7 +275,6 @@ const getStudentCount = async () => {
       count: count.length > 0 ? count[0].totalCount : 0,
     });
   }
-
 
   const typeOfSchoolWiseCountsSchoolIds = await getSchoolIdByTypeOfSchoolWise();
   const typeOfSchoolWiseCounts = [];
@@ -323,7 +321,6 @@ const getStudentCount = async () => {
     const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
     const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
     const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
-
 
     const SchoolCatogoryStudent = await StudentCounts.aggregate([
       {
@@ -405,7 +402,7 @@ const getSchoolIdBySchCategoryWiseAndDistrict = async (districtName) => {
       },
     },
   ];
-  return schCategorySchoolIds = await School.aggregate(pipeline);
+  return (schCategorySchoolIds = await School.aggregate(pipeline));
 };
 
 const getSchoolIdByTypeOfSchoolWiseDistrict = async (districtName) => {
@@ -424,7 +421,6 @@ const getSchoolIdByTypeOfSchoolWiseDistrict = async (districtName) => {
   ];
   return School.aggregate(pipeline);
 };
-
 
 const getSchoolIdByMinorityWiseDistrict = async (districtName) => {
   const pipeline = [
@@ -661,7 +657,6 @@ const getStudentCountByDistrictName = async (districtName) => {
     });
   }
 
-
   const studentCount = await StudentCounts.aggregate([
     {
       $match: {
@@ -713,12 +708,12 @@ const getSchoolIdByStreamWiseZone = async (zone) => {
     },
     {
       $group: {
-        _id: { $ifNull: ['$stream', null] }, 
+        _id: '$stream',
         Schoolid: { $addToSet: '$Schoolid' },
       },
     },
   ];
-  return StudentCounts.aggregate(pipeline);
+  return School.aggregate(pipeline);
 };
 
 const getSchoolIdByShiftWisZone = async (zone) => {
@@ -731,7 +726,7 @@ const getSchoolIdByShiftWisZone = async (zone) => {
     {
       $group: {
         _id: '$shift',
-        count: { $sum: 1 },
+        Schoolid: { $addToSet: '$Schoolid' },
       },
     },
   ];
@@ -748,7 +743,7 @@ const getSchoolIdByTypeOfSchoolWiseZone = async (zone) => {
     {
       $group: {
         _id: '$typeOfSchool',
-        count: { $sum: 1 },
+        Schoolid: { $addToSet: '$Schoolid' },
       },
     },
   ];
@@ -765,7 +760,7 @@ const getSchoolIdBySchCategoryZone = async (zone) => {
     {
       $group: {
         _id: '$SchCategory',
-        count: { $sum: 1 },
+        Schoolid: { $addToSet: '$Schoolid' },
       },
     },
   ];
@@ -782,7 +777,7 @@ const getSchoolIdByMinorityWiseZone = async (zone) => {
     {
       $group: {
         _id: '$minority',
-        count: { $sum: 1 },
+        Schoolid: { $addToSet: '$Schoolid' },
       },
     },
   ];
@@ -798,7 +793,7 @@ const getSchoolIdByManagementWiseZone = async (zone) => {
     {
       $group: {
         _id: '$SchManagement',
-        count: { $sum: 1 },
+        Schoolid: { $addToSet: '$Schoolid' },
       },
     },
   ];
@@ -815,7 +810,7 @@ const getSchoolIdByAffiliationWiseZone = async (zone) => {
     {
       $group: {
         _id: '$affiliation',
-        count: { $sum: 1 },
+        Schoolid: { $addToSet: '$Schoolid' },
       },
     },
   ];
@@ -835,7 +830,7 @@ const getSchoolCountsByCriteriaZone = async (criteria, field, zone) => {
         {
           $group: {
             _id: `$${field}`,
-            count: { $sum: 1 }, // Count schools
+            count: { $sum: 1 }, 
           },
         },
       ]);
@@ -846,15 +841,181 @@ const getSchoolCountsByCriteriaZone = async (criteria, field, zone) => {
 };
 
 const getStudentCountByZoneName = async (zone) => {
-  const studentShiftWiseCounts = await getSchoolIdByShiftWisZone(zone);
-  const SchCategoryCount = await getSchoolIdBySchCategoryZone(zone);
-  const TypeOfSchoolCounts = await getSchoolIdByTypeOfSchoolWiseZone(zone);
-  const MinorityCounts = await getSchoolIdByMinorityWiseZone(zone);
-  const ManagemenetCounts = await getSchoolIdByManagementWiseZone(zone);
-  const AffilitionCounts = await getSchoolIdByAffiliationWiseZone(zone);
-  const schoolCriteria = await getSchoolIdByStreamWiseZone(zone);
-  const streamWiseCount = await getSchoolCountsByCriteriaZone(schoolCriteria, 'stream', zone);
+ 
+      const ShiftwiseCountsSchoolIds = await getSchoolIdByShiftWisZone(zone);
+      const studentShiftWiseCounts = [];  
+      for (const fieldData of ShiftwiseCountsSchoolIds) {
+        const schoolIds = Array.isArray(fieldData.Schoolid) ? fieldData.Schoolid : [fieldData.Schoolid];
+        const count = await StudentCounts.aggregate([
+          {
+            $match: {
+              Schoolid: { $in: schoolIds },
+              Zone_Name: zone,
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalCount: { $sum: '$totalStudent' },
+            },
+          },
+        ]);
+  
+        studentShiftWiseCounts.push({
+          shift: fieldData._id,
+          count: count.length > 0 ? count[0].totalCount : 0,
+        });
+      }
 
+  const SchCategorySchoolIds = await getSchoolIdBySchCategoryZone(zone);
+  const SchCategoryCount = [];  
+  for (const fieldData of SchCategorySchoolIds) {
+    const schoolIds = Array.isArray(fieldData.Schoolid) ? fieldData.Schoolid : [fieldData.Schoolid];
+    const count = await StudentCounts.aggregate([
+      {
+        $match: {
+          Schoolid: { $in: schoolIds },
+          Zone_Name: zone,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalCount: { $sum: '$totalStudent' },
+        },
+      },
+    ]);
+    SchCategoryCount.push({
+      SchCategory: fieldData._id,
+      count: count.length > 0 ? count[0].totalCount : 0,
+    });
+  }
+
+  const TypeOfSchoolCountIds = await getSchoolIdByTypeOfSchoolWiseZone(zone);
+  const TypeOfSchoolCounts = [];  
+  for (const fieldData of TypeOfSchoolCountIds) {
+    const schoolIds = Array.isArray(fieldData.Schoolid) ? fieldData.Schoolid : [fieldData.Schoolid];
+    const count = await StudentCounts.aggregate([
+      {
+        $match: {
+          Schoolid: { $in: schoolIds },
+          Zone_Name: zone,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalCount: { $sum: '$totalStudent' },
+        },
+      },
+    ]);
+    TypeOfSchoolCounts.push({
+      typeOfSchool: fieldData._id,
+      count: count.length > 0 ? count[0].totalCount : 0,
+    });
+  }
+
+  const MinorityCountsIds = await getSchoolIdByMinorityWiseZone(zone);
+  const MinorityCounts = [];  
+  for (const fieldData of MinorityCountsIds) {
+    const schoolIds = Array.isArray(fieldData.Schoolid) ? fieldData.Schoolid : [fieldData.Schoolid];
+    const count = await StudentCounts.aggregate([
+      {
+        $match: {
+          Schoolid: { $in: schoolIds },
+          Zone_Name: zone,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalCount: { $sum: '$totalStudent' },
+        },
+      },
+    ]);
+    MinorityCounts.push({
+      minority: fieldData._id,
+      count: count.length > 0 ? count[0].totalCount : 0,
+    });
+  }
+ 
+  const ManagemenetCounts = await getSchoolIdByManagementWiseZone(zone);
+  const ManagementWiseCounts = [];  
+  for (const fieldData of ManagemenetCounts) {
+    const schoolIds = Array.isArray(fieldData.Schoolid) ? fieldData.Schoolid : [fieldData.Schoolid];
+    const count = await StudentCounts.aggregate([
+      {
+        $match: {
+          Schoolid: { $in: schoolIds },
+          Zone_Name: zone,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalCount: { $sum: '$totalStudent' },
+        },
+      },
+    ]);
+    ManagementWiseCounts.push({
+      minority: fieldData._id,
+      count: count.length > 0 ? count[0].totalCount : 0,
+    });
+  }
+
+
+  const AffilitionCountsIds = await getSchoolIdByAffiliationWiseZone(zone);
+  const AffilitionCounts = [];  
+  for (const fieldData of AffilitionCountsIds) {
+    const schoolIds = Array.isArray(fieldData.Schoolid) ? fieldData.Schoolid : [fieldData.Schoolid];
+    const count = await StudentCounts.aggregate([
+      {
+        $match: {
+          Schoolid: { $in: schoolIds },
+          Zone_Name: zone,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalCount: { $sum: '$totalStudent' },
+        },
+      },
+    ]);
+    AffilitionCounts.push({
+      affiliation: fieldData._id,
+      count: count.length > 0 ? count[0].totalCount : 0,
+    });
+  }
+  
+
+
+  const streamWiseCountIds = await getSchoolIdByStreamWiseZone(zone);
+  const streamWiseCount = [];
+  for (const fieldData of streamWiseCountIds) {
+    const schoolIds = Array.isArray(fieldData.Schoolid) ? fieldData.Schoolid : [fieldData.Schoolid];
+    const count = await StudentCounts.aggregate([
+      {
+        $match: {
+          Schoolid: { $in: schoolIds },
+          Zone_Name: zone,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalCount: { $sum: '$totalStudent' },
+        },
+      },
+    ]);
+    streamWiseCount.push({
+      stream: fieldData._id || 'Unknown', // Use 'Unknown' if _id is null
+      count: count.length > 0 ? count[0].totalCount : 0,
+    });
+    
+    // });
+  }
+  
   const studentCount = await StudentCounts.aggregate([
     {
       $match: {
@@ -871,31 +1032,28 @@ const getStudentCountByZoneName = async (zone) => {
       },
     },
   ]);
-
-  const cleanedZoneName = zone.replace(/[^0-9]/g, '');
-  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+  const [totalSchools, totalTeachers] = await Promise.allSettled([
     School.countDocuments({ Zone_Name: zone }).exec(),
-    Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
-    Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
-    Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
+    StudentCounts.countDocuments({ Zone_Name: zone }).exec(),
   ]);
 
   const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
 
+
   return {
     studentShiftWiseCounts,
     TypeOfSchoolCounts,
     MinorityCounts,
-    ManagemenetCounts,
+    ManagementWiseCounts,
     AffilitionCounts,
     streamWiseCount,
     SchCategoryCount,
     studentCount,
-    // teacherStudentRatio,
-    // averageTeacherOfSchool,
-    // averageStudentOfSchool,
+    teacherStudentRatio,
+    averageTeacherOfSchool,
+    averageStudentOfSchool
   };
 };
 
@@ -1017,7 +1175,6 @@ const getSchoolIdBySchCategoryWiseschoolName = async (schoolName) => {
   return School.aggregate(pipeline);
 };
 
-
 const getStudentCountBySchoolName = async (schoolName) => {
   const ShiftwiseCountsSchoolIds = await getSchoolIdByShiftWisschoolName(schoolName);
   const studentShiftWiseCounts = [];
@@ -1066,7 +1223,7 @@ const getStudentCountBySchoolName = async (schoolName) => {
       count: count.length > 0 ? count[0].totalCount : 0,
     });
   }
-  
+
   const minortyWiseCountIds = await getSchoolIdByMinorityWiseschoolName(schoolName);
   const minortyWiseCount = [];
   for (const fieldData of minortyWiseCountIds) {
@@ -1137,7 +1294,7 @@ const getStudentCountBySchoolName = async (schoolName) => {
       count: count.length > 0 ? count[0].totalCount : 0,
     });
   }
-  
+
   const SchCategoryCountIds = await getSchoolIdBySchCategoryWiseschoolName(schoolName);
   const SchCategoryCount = [];
   for (const fieldData of SchCategoryCountIds) {
