@@ -268,16 +268,16 @@ const getTeacherStats = async () => {
  */
 const getTeacherCountBySchoolManagement = async () => {
   // Check if the data is already cached in Redis
-  // const cachedData = await redis.get('getTeacherData');
+  const cachedData = await redis.get('getTeacherData');
 
-  // if (cachedData) {
-  //   return JSON.parse(cachedData);
-  // }
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
 
   const teacherStats = await getTeacherStats();
 
   // Cache the result in Redis for future use
-  // await redis.set('getTeacherData', JSON.stringify(teacherStats), 'EX', 24 * 60 * 60);
+  await redis.set('getTeacherData', JSON.stringify(teacherStats), 'EX', 24 * 60 * 60);
 
   return teacherStats;
 };
@@ -597,34 +597,6 @@ const getTeacherExperienceCountByRangeZoneWise = async (zonename) => {
   try {
     const currentDate = new Date();
     const teachers = await Teacher.find({ zonename });
-    // const teacherName = "AJAY KUMAR JAISWAL";
-    // const teachers = await Teacher.find({ Name: teacherName }).sort({ zonename: 1 });
-    // const teachers = await Teacher.aggregate([
-    //   {
-    //     $match: {
-    //       zonename: zonename,
-    //     },
-    //   },
-    //   {
-    //     $group: {
-    //       _id: "$Name", // Group by teacher's name
-    //       teachers: {
-    //         $push: {
-    //           empid: "$empid",
-    //           postdesc: "$postdesc",
-    //           dob: "$dob",
-    //           gender: "$gender",
-    //           JoiningDate: "$JoiningDate",
-    //           schoolid: "$schoolid",
-    //           schname: "$schname",
-    //           districtname: "$districtname",
-    //         },
-    //       },
-    //     },
-    //   },
-    // ]);
-    console.log(teachers);
-    // Initialize an object to store the count in each experience range
     const experienceCounts = {
       under5Years: 0,
       fiveTo10Years: 0,
@@ -1113,7 +1085,6 @@ const getSchoolIdBySchCategoryWiseAndSchoolName = async (schname) => {
  */
 
 const getTeacherCountBySchoolName = async (schname) => {
-  console.log(schname);
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndSchoolName(schname);
   const teacherCounts = [];
 
