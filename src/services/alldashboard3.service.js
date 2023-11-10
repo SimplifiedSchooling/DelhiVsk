@@ -61,7 +61,7 @@ const getSubjectAverageByMediumAndGrade = async (medium, grade) => {
   const subjectData = {};
 
   documents.forEach((doc) => {
-    const subject = doc.subject;
+    const { subject } = doc;
     const linkedQRCount = parseFloat(doc.linked_qr_count);
     const resourceCount = parseFloat(doc.resource_count);
 
@@ -93,7 +93,7 @@ const getAveragesByMediumAndGrade = async (medium, grade) => {
   const subjectData = {};
 
   documents.forEach((doc) => {
-    const subject = doc.subject;
+    const { subject } = doc;
     const qrCoverage = doc.qr_coverage;
     const qrLinkedToContent = parseFloat(doc.qr_codes_linked_to_content);
     const totalQRCode = parseFloat(doc.total_qr_codes);
@@ -126,7 +126,6 @@ const getAveragesByMediumAndGrade = async (medium, grade) => {
 
   return subjectAverages;
 };
-
 
 module.exports = {
   getAllLearningSessions,
