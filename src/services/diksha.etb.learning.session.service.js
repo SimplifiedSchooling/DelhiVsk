@@ -120,25 +120,27 @@ async function calculateRangeWiseCounts(program) {
   const enrollmentRanges = new Array(ranges.length - 1).fill(0);
   const completionRanges = new Array(ranges.length - 1).fill(0);
   const certificationRanges = new Array(ranges.length - 1).fill(0);
-
   const schoolData = await Consumptionbycourse.find({ program });
 
   schoolData.forEach((data) => {
     const { enrollments, completion, certification } = data;
-
+    /* eslint-disable-next-line no-plusplus */
     for (let i = 0; i < ranges.length - 1; i++) {
       const startRange = ranges[i];
       const endRange = ranges[i + 1];
 
       if (enrollments >= startRange && enrollments < endRange) {
+        /* eslint-disable-next-line no-plusplus */
         enrollmentRanges[i]++;
       }
 
       if (completion >= startRange && completion < endRange) {
+        /* eslint-disable-next-line no-plusplus */
         completionRanges[i]++;
       }
 
       if (certification >= startRange && certification < endRange) {
+        /* eslint-disable-next-line no-plusplus */
         certificationRanges[i]++;
       }
     }
@@ -161,6 +163,25 @@ const getAllConsumptionByDistrict = async () => {
   return getAllConsumptionByCourses;
 };
 
+async function calculateMimeTypeCounts(query) {
+  // Aggregate pipeline to group counts by mime_type
+  const pipeline = [
+    { $match: query },
+    {
+      $group: {
+        _id: '$mime_type',
+        counts: { $sum: '$total_no_of_plays_App_and_Portal' },
+      },
+    },
+  ];
+
+  // Execute the aggregation pipeline
+  const counts = await Learningsession.aggregate(pipeline);
+
+  // Return the counts
+  return counts;
+}
+
 module.exports = {
   createLearningSession,
   getAllLearningSessions,
@@ -172,4 +193,5 @@ module.exports = {
   bulkUploadFileForConsumptionByDistrict,
   getAllConsumptionByDistrict,
   calculateRangeWiseCounts,
+  calculateMimeTypeCounts,
 };
