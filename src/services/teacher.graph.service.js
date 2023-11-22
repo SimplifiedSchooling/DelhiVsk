@@ -1,5 +1,5 @@
 const { School, Teacher, StudentCounts } = require('../models');
-const redis = require('../utils/redis');
+// const redis = require('../utils/redis');
 
 ///  Get all teacher statistics ////
 // Function to calculate teacher experience based on JoiningDate and get counts by experience range
@@ -268,16 +268,16 @@ const getTeacherStats = async () => {
  */
 const getTeacherCountBySchoolManagement = async () => {
   // Check if the data is already cached in Redis
-  const cachedData = await redis.get('getTeacherData');
+  // const cachedData = await redis.get('getTeacherData');
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
 
   const teacherStats = await getTeacherStats();
 
   // Cache the result in Redis for future use
-  await redis.set('getTeacherData', JSON.stringify(teacherStats), 'EX', 24 * 60 * 60);
+  // await redis.set('getTeacherData', JSON.stringify(teacherStats), 'EX', 24 * 60 * 60);
 
   return teacherStats;
 };
