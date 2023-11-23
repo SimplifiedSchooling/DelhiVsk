@@ -5,6 +5,7 @@ const staffSchema = mongoose.Schema(
   {
     empid: {
       type: String,
+      index: true,
     },
     Name: {
       type: String,

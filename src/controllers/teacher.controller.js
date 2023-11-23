@@ -11,7 +11,14 @@ const getTeacher = catchAsync(async (req, res) => {
   const result = await teacherService.getTeacher();
   res.send(result);
 });
+
+const getTeacherBySchoolAndGender = catchAsync(async (req, res) => {
+  const {gender, schname } = req.body
+  const result = await teacherService.getTeacherBySchoolAndGender(gender, schname);
+  res.send(result);
+});
 module.exports = {
   getTeacherData,
   getTeacher,
+  getTeacherBySchoolAndGender,
 };
