@@ -22,9 +22,22 @@ const getTeacherCountBySchool = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getTeacherData = catchAsync(async (req, res) => {
+  const { postdesc, schname } = req.body;
+  const teacherData = await teacherGraphService.getTeacherCountByPostdescAndSchoolName(postdesc, schname);
+  res.status(httpStatus.CREATED).send(teacherData);
+});
+
+const getTeacherCountBySchoolName = catchAsync(async (req, res) => {
+  const teacherData = await teacherGraphService.getTeacherCountAndDataBySchoolName(req.body.schname);
+  res.status(httpStatus.CREATED).send(teacherData);
+});
+
 module.exports = {
   getTeacherCountBySchoolManagement,
   getTeacherStatsByDistrict,
   getTeacherCountByZone,
   getTeacherCountBySchool,
+  getTeacherData,
+  getTeacherCountBySchoolName,
 };

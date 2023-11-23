@@ -10,6 +10,8 @@ router.route('/school-category-wise/district').post(teacherGraphController.getTe
 router.route('/school-category-wise/zone').post(teacherGraphController.getTeacherCountByZone);
 
 router.route('/school-category-wise/school').post(teacherGraphController.getTeacherCountBySchool);
+router.route('/postwisecount').post(teacherGraphController.getTeacherData);
+router.route('/teachercount/schoolname').post(teacherGraphController.getTeacherCountBySchoolName);
 
 module.exports = router;
 
@@ -96,6 +98,63 @@ module.exports = router;
  *   post:
  *     summary: Get all teacher graph data by school name.
  *     description: Get teacher graph data by school name.
+ *     tags: [TeacherGraph]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schname:
+ *                 type: string
+ *             required:
+ *               - schname
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /teacher-graph/postwisecount:
+ *   post:
+ *     summary: Get all teacher postwise count and  data by schoolName and postName.
+ *     description: Get all teacher postwise count and  data by schoolName and postName
+ *     tags: [TeacherGraph]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               postdesc:
+ *                 type: string
+ *               schname:
+ *                 type: string
+ *             required:
+ *               - postdesc
+ *               - schname
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /teacher-graph/teachercount/schoolname:
+ *   post:
+ *     summary: Get all teacher count and  data by schoolName
+ *     description: Get all teacher count and  data by schoolName
  *     tags: [TeacherGraph]
  *     requestBody:
  *       required: true

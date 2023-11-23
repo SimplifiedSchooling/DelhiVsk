@@ -1200,7 +1200,6 @@ const getTeacherCountBySchoolName = async (schname) => {
       $sort: { _id: 1 },
     },
   ];
-
   const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
     School.countDocuments({ School_Name: schname }).exec(),
     Teacher.countDocuments({ schname }).exec(),
@@ -1245,6 +1244,40 @@ const getTeacherCountBySchoolName = async (schname) => {
     experianceOfTeachers,
   };
 };
+const getTeacherCountByPostdescAndSchoolName = async (postdesc, schname) => {
+  const pipeline = [
+    {
+      $match: {
+        postdesc,
+        schname,
+      },
+    },
+    {
+      $group: {
+        _id: '$postdesc',
+        teacherCount: { $sum: 1 },
+        teachers: { $push: '$$ROOT' },
+      },
+    },
+  ];
+
+  const result = await Teacher.aggregate(pipeline);
+
+  if (result.length === 0) {
+    return {
+      postdesc,
+      teacherCount: 0,
+      teachers: [],
+    };
+  }
+
+  return result[0];
+};
+
+const getTeacherCountAndDataBySchoolName = async (schname) => {
+  const result = await Teacher.find({ schname });
+  return result;
+};
 
 module.exports = {
   getTeacherCountBySchoolManagement,
@@ -1252,4 +1285,6 @@ module.exports = {
   getTeacherCountByZone,
   getTeacherExperienceCountByRange,
   getTeacherCountBySchoolName,
+  getTeacherCountByPostdescAndSchoolName,
+  getTeacherCountAndDataBySchoolName,
 };
