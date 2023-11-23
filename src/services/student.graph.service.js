@@ -322,8 +322,7 @@ const getStudentCount = async () => {
     const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
     const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
 
-
-    console.log(studentCount[0].totalStudents/totalTeachers.value)
+    console.log(studentCount[0].totalStudents / totalTeachers.value);
     const SchoolCatogoryStudent = await StudentCounts.aggregate([
       {
         $unwind: '$classes',

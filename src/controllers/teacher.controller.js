@@ -13,7 +13,7 @@ const getTeacher = catchAsync(async (req, res) => {
 });
 
 const getTeacherBySchoolAndGender = catchAsync(async (req, res) => {
-  const {gender, schname } = req.body
+  const { gender, schname } = req.body;
   const result = await teacherService.getTeacherBySchoolAndGender(gender, schname);
   res.send(result);
 });
