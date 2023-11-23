@@ -65,7 +65,6 @@ async function processTeacherData(teacherData) {
   }
 }
 
-
 async function storeTeacherDataInMongoDB() {
   const schools = await School.find().exec();
   const password = 'VSK@9180'; // Replace with your password
@@ -95,7 +94,13 @@ const getTeacher = async () => {
   return data;
 };
 
+const getTeacherBySchoolAndGender = async (gender, schname) => {
+  const data = await Teacher.find({ gender, schname });
+  return data;
+};
+
 module.exports = {
   storeTeacherDataInMongoDB,
   getTeacher,
+  getTeacherBySchoolAndGender,
 };
