@@ -1,7 +1,7 @@
 module.exports.Token = require('./token.model');
 module.exports.User = require('./user.model');
 module.exports.School = require('./school.model');
-module.exports.StudentCounts = require('./student.model');
+module.exports.Student = require('./student.model');
 module.exports.Teacher = require('./teacher.model');
 module.exports.Attendance = require('./attendance.model');
 module.exports.Learningsession = require('./diksha.etb.learning.session.model');
