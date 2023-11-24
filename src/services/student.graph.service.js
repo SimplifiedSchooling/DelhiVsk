@@ -1356,5 +1356,3 @@ module.exports = {
   getStudentCountByDistrictName,
   getStudentCountByZoneName,
 };
-
-

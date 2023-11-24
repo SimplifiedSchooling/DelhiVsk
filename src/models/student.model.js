@@ -83,9 +83,6 @@
 
 // module.exports = StudentCounts;
 
-
-
-
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 

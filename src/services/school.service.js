@@ -98,15 +98,15 @@ async function getDistrictSchools(districtName) {
   }
 }
 
-const getDistrictZoneNames = async(districtName)  => {
+const getDistrictZoneNames = async (districtName) => {
   const zones = await School.find({ District_name: districtName }).select('Zone_Name Z_ID').exec();
-    return zones
-}
+  return zones;
+};
 
-  const getZoneNameSchools = async (zoneName) => {
-    const schools = await School.find({ Zone_Name: zoneName }).select('School_Name Schoolid').exec();
-    return schools
-  }
+const getZoneNameSchools = async (zoneName) => {
+  const schools = await School.find({ Zone_Name: zoneName }).select('School_Name Schoolid').exec();
+  return schools;
+};
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,

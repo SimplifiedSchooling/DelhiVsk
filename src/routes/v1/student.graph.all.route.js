@@ -9,7 +9,10 @@ router
   .post(validate(studentgraphValidation.getAllStudentBySchoolName), studentGraphAllController.getStudentStatsBySchoolName);
 router
   .route('/student-graph-count-districtname')
-  .post(validate(studentgraphValidation.getAllStudentByDistrictName), studentGraphAllController.getStudentStatsByDistrictName);
+  .post(
+    validate(studentgraphValidation.getAllStudentByDistrictName),
+    studentGraphAllController.getStudentStatsByDistrictName
+  );
 router
   .route('/student-graph-count-zonename')
   .post(validate(studentgraphValidation.getAllStudentByZoneName), studentGraphAllController.getStudentStatsByZoneName);

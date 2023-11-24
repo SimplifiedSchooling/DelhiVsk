@@ -7,6 +7,10 @@ router.route('/webApi').get(studentController.getStudentData);
 
 router.route('/').get(studentController.studentData);
 
+router.route('/studentcount/schoolname').post(studentController.getStudentCountBySchoolName);
+
+router.route('/studentcount/schoolname/gender').post(studentController.getStudentCountBySchoolNameAndGender);
+
 module.exports = router;
 
 /**
@@ -114,3 +118,60 @@ module.exports = router;
 // *       "403":
 // *         $ref: '#/components/responses/Forbidden'
 // */
+
+/**
+ * @swagger
+ * /student/studentcount/schoolname:
+ *   post:
+ *     summary: Get all studentcount by school name.
+ *     description: Get all studentcount by school name.
+ *     tags: [Student]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               SCHOOL_NAME:
+ *                 type: string
+ *             required:
+ *               - SCHOOL_NAME
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /student/studentcount/schoolname/gender:
+ *   post:
+ *     summary: Get all studentcount by school name and Gender.
+ *     description: Get all studentcount by school name and Gender.
+ *     tags: [Student]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               SCHOOL_NAME:
+ *                 type: string
+ *               Gender:
+ *                 type: string
+ *             required:
+ *               - SCHOOL_NAME
+ *               - Gender
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
