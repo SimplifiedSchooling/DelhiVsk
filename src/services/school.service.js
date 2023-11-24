@@ -99,8 +99,13 @@ async function getDistrictSchools(districtName) {
 }
 
 const getDistrictZoneNames = async (districtName) => {
-  const zones = await School.find({ District_name: districtName }).select('Zone_Name Z_ID').exec();
-  return zones;
+  const zones = await School.distinct('Zone_Name', { District_name: districtName }).exec();
+  const zoneIds = await School.distinct('Z_ID', { District_name: districtName }).exec();
+
+  // Combine the unique zone names with their corresponding unique zone IDs
+  const result = zones.map((zone, index) => ({ Zone_Name: zone, Z_ID: zoneIds[index] }));
+
+  return result;
 };
 
 const getZoneNameSchools = async (zoneName) => {
