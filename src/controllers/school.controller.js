@@ -92,6 +92,7 @@ async function getDistrictZoneNames(req, res) {
 
 async function getZoneSchool(req, res) {
   try {
+    console.log('sdkbj');
     const zoneName = req.body.Zone_Name; // Get the Zone_Name from the query parameters
     if (!zoneName) {
       return res.status(400).json({ error: 'Zone_Name parameter is required' });
