@@ -536,36 +536,163 @@ const getSchoolStudentCountByDistricts = async () => {
   if (cachedData) {
     return JSON.parse(cachedData);
   }
-  const districts = await School.distinct('District_name');
-  const counts = await Promise.all(
-    districts.map(async (districtName) => {
-      const schoolCount = await School.countDocuments({ District_name: districtName });
-      const studentCount = await StudentCounts.aggregate([
-        {
-          $match: {
-            District_name: districtName,
-          },
-        },
-        {
-          $group: {
-            _id: null,
-            totalStudents: { $sum: '$totalStudent' },
-            maleStudents: { $sum: '$maleStudents' },
-            femaleStudents: { $sum: '$femaleStudents' },
-            otherStudents: { $sum: '$otherStudents' },
-          },
-        },
-      ]);
-      return {
-        districtName,
-        totalSchoolCount: schoolCount,
-        totalStudentCount: studentCount[0].totalStudents,
-      };
-    })
-  );
-  await redis.set('getSchoolStudentCountByDistricts', JSON.stringify(counts), 'EX', 24 * 60 * 60);
-  return counts;
+
+  const districtStats = await School.aggregate([
+    {
+      $group: {
+        _id: "$District_name",
+        D_ID: { $first: '$D_ID' }, // Include district ID in the result
+        totalSchools: { $sum: 1 },
+      },
+    },
+    {
+      $lookup: {
+        from: 'students', // Assuming your student collection is named 'students'
+        localField: '_id',
+        foreignField: 'District',
+        as: 'students',
+      },
+    },
+    {
+      $unwind: {
+        path: '$students',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $group: {
+        _id: '$_id',
+        D_ID: { $first: '$D_ID' },
+        totalStudents: { $sum: 1 },
+        totalSchools: { $first: '$totalSchools' },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        districtName: '$_id',
+        D_ID: 1,
+        totalStudentCount: '$totalStudents',
+        totalSchoolCount: '$totalSchools',
+      },
+    },
+  ]);
+  
+  // return districtStats;
+  await redis.set('getSchoolStudentCountByDistricts', JSON.stringify(districtStats), 'EX', 24 * 60 * 60);
+  return districtStats;
 };
+
+
+
+
+
+
+
+// const getDistrictStats = async () => {
+//   try {
+//     const districtStats = await School.aggregate([
+//       {
+//         $group: {
+//           _id: '$District_name',
+//           totalSchools: { $sum: 1 },
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: 'students', // Assuming your student collection is named 'students'
+//           localField: 'Schoolid',
+//           foreignField: 'Schoolid',
+//           as: 'students',
+//         },
+//       },
+//       {
+//         $unwind: {
+//           path: '$students',
+//           preserveNullAndEmptyArrays: true,
+//         },
+//       },
+//       {
+//         $group: {
+//           _id: '$_id',
+//           totalStudents: { $sum: { $cond: { if: { $isArray: '$students' }, then: 1, else: 0 } } },
+//           totalSchools: { $first: '$totalSchools' },
+//         },
+//       },
+//     ]);
+//     console.log(districtStats);
+//     return districtStats;
+//   } catch (error) {
+//     console.error('Error fetching district stats:', error);
+//     return null;
+//   }
+// };
+
+// // Example usage
+// getDistrictStats().then((result) => {
+//   console.log(result);
+// });
+
+
+
+
+
+// const getDistrictStats = async () => {
+
+// const districtStats = await School.aggregate([
+//   {
+//     $group: {
+//       _id: "$District_name",
+//       D_ID: { $first: '$D_ID' }, // Include district ID in the result
+//       totalSchools: { $sum: 1 },
+//     },
+//   },
+//   {
+//     $lookup: {
+//       from: 'students', // Assuming your student collection is named 'students'
+//       localField: '_id',
+//       foreignField: 'District',
+//       as: 'students',
+//     },
+//   },
+//   {
+//     $unwind: {
+//       path: '$students',
+//       preserveNullAndEmptyArrays: true,
+//     },
+//   },
+//   {
+//     $group: {
+//       _id: '$_id',
+//       D_ID: { $first: '$D_ID' },
+//       totalStudents: { $sum: 1 },
+//       totalSchools: { $first: '$totalSchools' },
+//     },
+//   },
+//   {
+//     $project: {
+//       _id: 0,
+//       districtName: '$_id',
+//       D_ID: 1,
+//       totalStudentCount: '$totalStudents',
+//       totalSchoolCount: '$totalSchools',
+//     },
+//   },
+// ]);
+
+// return districtStats;
+// };
+
+// // Example usage
+// getDistrictStats().then((result) => {
+//   console.log(result);
+// });
+
+
+
+
+
+
 module.exports = {
   getSchoolStats,
   getAggregatedSchoolData,

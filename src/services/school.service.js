@@ -98,33 +98,15 @@ async function getDistrictSchools(districtName) {
   }
 }
 
-async function getDistrictZoneNames(districtName) {
-  try {
-    const response = await axios.get(apiUrl);
-    const schools = response.data;
-    const districtSchools = schools.filter((school) => school.District_name === districtName);
-    const uniqueZoneNames = new Set();
-    districtSchools.forEach((school) => {
-      uniqueZoneNames.add(school.Zone_Name);
-    });
-    const districtZoneNames = Array.from(uniqueZoneNames);
-    return districtZoneNames;
-  } catch (error) {
-    throw new Error(`Error fetching data: ${error.message}`);
-  }
+const getDistrictZoneNames = async(districtName)  => {
+  const zones = await School.find({ District_name: districtName }).select('Zone_Name Z_ID').exec();
+    return zones
 }
 
-async function getZoneNameSchools(zoneName) {
-  try {
-    const response = await axios.get(apiUrl);
-    const schools = response.data;
-    const zoneSchools = schools.filter((school) => school.Zone_Name === zoneName).map((school) => school.School_Name);
-    return zoneSchools;
-  } catch (error) {
-    throw new Error(`Error fetching data: ${error.message}`);
+  const getZoneNameSchools = async (zoneName) => {
+    const schools = await School.find({ Zone_Name: zoneName }).select('School_Name Schoolid').exec();
+    return schools
   }
-}
-
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
