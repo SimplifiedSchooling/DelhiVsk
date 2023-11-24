@@ -1216,38 +1216,29 @@ const getTeacherCountBySchoolName = async (schname) => {
   };
 };
 const getTeacherCountByPostdescAndSchoolName = async (postdesc, schname) => {
-  const pipeline = [
-    {
-      $match: {
-        postdesc,
-        schname,
-      },
-    },
-    {
-      $group: {
-        _id: '$postdesc',
-        teacherCount: { $sum: 1 },
-        teachers: { $push: '$$ROOT' },
-      },
-    },
-  ];
+  const result = await Teacher.find({ schname, postdesc });
+  // const pipeline = [
+  //   {
+  //     $match: {
+  //       postdesc,
+  //       schname,
+  //     },
+  //   },
+  //   {
+  //     $group: {
+  //       _id: 0,
+  //       teachers: { $push: '$$ROOT' },
+  //     },
+  //   },
+  // ];
 
-  const result = await Teacher.aggregate(pipeline);
-
-  if (result.length === 0) {
-    return {
-      postdesc,
-      teacherCount: 0,
-      teachers: [],
-    };
-  }
-
-  return result[0];
+  // const result = await Teacher.aggregate(pipeline);
+  return result;
 };
 
 const getTeacherCountAndDataBySchoolName = async (schname) => {
   const result = await Teacher.find({ schname });
-  return result;
+  return result[0];
 };
 
 module.exports = {
