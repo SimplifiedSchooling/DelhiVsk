@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cron = require('node-cron');
 const { School, Student } = require('../models');
+const redis = require('../utils/redis');
 
 // async function fetchStudentDataForSchool(schoolId, password) {
 //   const apiUrl = `https://www.edudel.nic.in/mis/EduWebService_Other/vidyasamikshakendra.asmx/Student_Registstry?Schoolid=${schoolId}&password=${password}`;
@@ -152,8 +153,16 @@ cron.schedule('0 3 * * 0', async () => {
 });
 
 const getStudentCountBySchoolName = async (SCHOOL_NAME) => {
+  const cacheKey = `SCHOOL_NAME:${SCHOOL_NAME}`;
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
   const result = await Student.find({ SCHOOL_NAME });
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
+
 };
 const getStudentCountBySchoolNameAndGender = async (SCHOOL_NAME, Gender) => {
   const result = await Student.find({ SCHOOL_NAME, Gender });
