@@ -1,5 +1,5 @@
 const { School, Teacher, Student } = require('../models');
-// const redis = require('../utils/redis');
+const redis = require('../utils/redis');
 
 ///  Get all teacher statistics ////
 // Function to calculate teacher experience based on JoiningDate and get counts by experience range
@@ -139,6 +139,11 @@ const getSchoolIdBySchCategoryWise = async () => {
 };
 
 const getTeacherStats = async () => {
+  const cachedData = await redis.get('getTeacherStats');
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWise();
   const teacherCounts = [];
 
@@ -245,7 +250,7 @@ const getTeacherStats = async () => {
   const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
 
-  return {
+  const result = {
     teacherStudentRatio,
     averageTeachers,
     totalSchools: totalSchools.value,
@@ -262,6 +267,8 @@ const getTeacherStats = async () => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
+  await redis.set('getTeacherStats', JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
 };
 
 /**
@@ -463,6 +470,12 @@ const getSchoolIdBySchCategoryWiseAndDistrict = async (districtName) => {
  */
 
 const getTeacherStatsByDistrict = async (districtName) => {
+  const cacheKey = `districtName:${districtName}`;
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndDistrict(districtName);
   const teacherCounts = [];
   for (const category of schCategorySchoolIds) {
@@ -575,7 +588,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
   const averageTeachers = totalSchools.value / totalTeachers.value;
   const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
 
-  return {
+ const result =  {
     teacherStudentRatio,
     averageTeachers,
     totalSchools: totalSchools.value,
@@ -592,6 +605,8 @@ const getTeacherStatsByDistrict = async (districtName) => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
 };
 
 /// ////////////////////////////Get all teacher statistics by Zone ///////////////////////////////////////////
@@ -776,6 +791,13 @@ const getSchoolIdBySchCategoryWiseAndZone = async (zone) => {
 
 const getTeacherCountByZone = async (zone) => {
   const nameZone = zone.toLowerCase();
+  const cacheKey = `zone:${zone}`;
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndZone(zone);
   const teacherCounts = [];
 
@@ -893,7 +915,7 @@ const getTeacherCountByZone = async (zone) => {
   const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
 
-  return {
+  const result = {
     teacherStudentRatio,
     averageTeachers,
     totalSchools: totalSchools.value,
@@ -910,6 +932,8 @@ const getTeacherCountByZone = async (zone) => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
 };
 
 /// ////////////////////////////Get all teacher statistics by School ///////////////////////////////////////////
@@ -1092,6 +1116,12 @@ const getSchoolIdBySchCategoryWiseAndSchoolName = async (schname) => {
  */
 
 const getTeacherCountBySchoolName = async (schname) => {
+  const cacheKey = `schname:${schname}`;
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndSchoolName(schname);
   const teacherCounts = [];
 
@@ -1206,7 +1236,7 @@ const getTeacherCountBySchoolName = async (schname) => {
   const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
 
-  return {
+  const result = {
     teacherStudentRatio,
     averageTeachers,
     totalSchools: totalSchools.value,
@@ -1223,6 +1253,8 @@ const getTeacherCountBySchoolName = async (schname) => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
 };
 const getTeacherCountByPostdescAndSchoolName = async (postdesc, schname) => {
   const result = await Teacher.find({ schname, postdesc });
@@ -1246,8 +1278,15 @@ const getTeacherCountByPostdescAndSchoolName = async (postdesc, schname) => {
 };
 
 const getTeacherCountAndDataBySchoolName = async (schname) => {
+  const cacheKey = `SchoolName:${schname}`;
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
   const result = await Teacher.find({ schname });
-  return result[0];
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  return result;
 };
 
 module.exports = {
