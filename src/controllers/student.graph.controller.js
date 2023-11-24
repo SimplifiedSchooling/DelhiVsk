@@ -26,5 +26,5 @@ module.exports = {
   getStudentStats,
   getStudentStatsByDistrictName,
   getStudentStatsByZoneName,
-  getStudentStatsBySchoolName
+  getStudentStatsBySchoolName,
 };
