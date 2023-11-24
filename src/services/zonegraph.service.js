@@ -1,4 +1,4 @@
-const { School, Teacher, StudentCounts } = require('../models');
+const { School, Teacher, Student } = require('../models');
 const redis = require('../utils/redis');
 
 /**
@@ -23,9 +23,9 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   let lowClassCount = 0;
   let highClassCount = 0;
   const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
-  const afiliationCount = {};
-  const minorityCount = {};
-  const streamCount = {};
+  // const afiliationCount = {};
+  // const minorityCount = {};
+  // const streamCount = {};
   const typeOfSchoolCount = {};
 
   schoolData.forEach((school) => {
@@ -49,50 +49,62 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
 
-    // Afiliation Count
-    const afiliation = school.affiliation || 'Unknown';
-    afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
+    // // Afiliation Count
+    // const afiliation = school.affiliation || 'Unknown';
+    // afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
 
-    // Minority Count
-    const minority = school.minority || 'Unknown';
-    minorityCount[minority] = (minorityCount[minority] || 0) + 1;
+    // // Minority Count
+    // const minority = school.minority || 'Unknown';
+    // minorityCount[minority] = (minorityCount[minority] || 0) + 1;
 
-    // Stream Count
-    const stream = school.stream || 'Unknown';
-    streamCount[stream] = (streamCount[stream] || 0) + 1;
+    // // Stream Count
+    // const stream = school.stream || 'Unknown';
+    // streamCount[stream] = (streamCount[stream] || 0) + 1;
 
     // Stream Count
     const typeOfSchool = school.typeOfSchool || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
-  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+  const [
+    totalSchools,
+    totalTeachers,
+    totalFemaleTeachers,
+    totalMaleTeachers,
+    totalMaleStudent,
+    totalGirlsStudent,
+    totalStudent,
+    totalStudyingStudent,
+  ] = await Promise.allSettled([
     School.countDocuments({ District_name: districtName }).exec(),
     Teacher.countDocuments({ districtname: districtName }).exec(),
     Teacher.countDocuments({ gender: 'Female', districtname: districtName }).exec(),
     Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
+    Student.countDocuments({ Gender: 'M', District: districtName }).exec(),
+    Student.countDocuments({ Gender: 'F', District: districtName }).exec(),
+    Student.countDocuments({ District: districtName }).exec(),
+    Student.countDocuments({ status: 'Studying', District: districtName }).exec(),
   ]);
 
-  const studentCount = await StudentCounts.aggregate([
-    {
-      $match: {
-        District_name: districtName,
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        totalStudents: { $sum: '$totalStudent' },
-        maleStudents: { $sum: '$maleStudents' },
-        femaleStudents: { $sum: '$femaleStudents' },
-        otherStudents: { $sum: '$otherStudents' },
-      },
-    },
-  ]);
-
-  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
+  // const studentCount = await Student.aggregate([
+  //   {
+  //     $match: {
+  //       District_name: districtName,
+  //     },
+  //   },
+  //   {
+  //     $group: {
+  //       _id: null,
+  //       totalStudents: { $sum: '$totalStudent' },
+  //       maleStudents: { $sum: '$maleStudents' },
+  //       femaleStudents: { $sum: '$femaleStudents' },
+  //       otherStudents: { $sum: '$otherStudents' },
+  //     },
+  //   },
+  // ]);
+  const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
-  const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
+  const averageStudentOfSchool = totalStudent.value / totalSchools.value;
   const zoneWiseCounts = [];
   Object.keys(zoneWiseCount).forEach((zone) => {
     zoneWiseCounts.push({
@@ -101,29 +113,29 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     });
   });
 
-  const afiliationCounts = [];
-  Object.keys(afiliationCount).forEach((afiliation) => {
-    afiliationCounts.push({
-      afiliation,
-      count: afiliationCount[afiliation],
-    });
-  });
+  // const afiliationCounts = [];
+  // Object.keys(afiliationCount).forEach((afiliation) => {
+  //   afiliationCounts.push({
+  //     afiliation,
+  //     count: afiliationCount[afiliation],
+  //   });
+  // });
 
-  const minorityCounts = [];
-  Object.keys(minorityCount).forEach((minority) => {
-    minorityCounts.push({
-      minority,
-      count: minorityCount[minority],
-    });
-  });
+  // const minorityCounts = [];
+  // Object.keys(minorityCount).forEach((minority) => {
+  //   minorityCounts.push({
+  //     minority,
+  //     count: minorityCount[minority],
+  //   });
+  // });
 
-  const streamCounts = [];
-  Object.keys(streamCount).forEach((stream) => {
-    streamCounts.push({
-      stream,
-      count: streamCount[stream],
-    });
-  });
+  // const streamCounts = [];
+  // Object.keys(streamCount).forEach((stream) => {
+  //   streamCounts.push({
+  //     stream,
+  //     count: streamCount[stream],
+  //   });
+  // });
 
   const typeOfSchoolCounts = [];
   Object.keys(typeOfSchoolCount).forEach((typeOfSchool) => {
@@ -135,12 +147,12 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
 
   const result = {
     totalSchools: totalSchools.value,
-    totalStudents: studentCount[0].totalStudents,
+    totalStudents: totalStudent,
     totalTeachers: totalTeachers.value,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
-    totalGirls: studentCount[0].femaleStudents,
-    totalBoys: studentCount[0].maleStudents,
+    totalGirls: totalGirlsStudent,
+    totalBoys: totalMaleStudent,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
@@ -150,9 +162,9 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     lowClassCount,
     highClassCount,
     shiftWiseCount,
-    afiliationCounts,
-    minorityCounts,
-    streamCounts,
+    // afiliationCounts,
+    // minorityCounts,
+    // streamCounts,
     typeOfSchoolCounts,
   };
 
@@ -168,7 +180,8 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
  */
 const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
   const cleanedZoneName = zoneName.replace(/[^0-9]/g, '');
-  const cacheKey = `zoneName:${cleanedZoneName}`;
+  const nameZone = zoneName.toLowerCase();
+  const cacheKey = `zoneName:${zoneName}`;
   const cachedData = await redis.get(cacheKey);
 
   if (cachedData) {
@@ -183,9 +196,9 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
   let lowClassCount = 0;
   let highClassCount = 0;
   const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
-  const afiliationCount = {};
-  const minorityCount = {};
-  const streamCount = {};
+  // const afiliationCount = {};
+  // const minorityCount = {};
+  // const streamCount = {};
   const typeOfSchoolCount = {};
 
   schoolData.forEach((school) => {
@@ -209,48 +222,61 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
 
-    // Afiliation Count
-    const afiliation = school.affiliation || 'Unknown';
-    afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
+    // // Afiliation Count
+    // const afiliation = school.affiliation || 'Unknown';
+    // afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
 
-    // Minority Count
-    const minority = school.minority || 'Unknown';
-    minorityCount[minority] = (minorityCount[minority] || 0) + 1;
+    // // Minority Count
+    // const minority = school.minority || 'Unknown';
+    // minorityCount[minority] = (minorityCount[minority] || 0) + 1;
 
-    // Stream Count
-    const stream = school.stream || 'Unknown';
-    streamCount[stream] = (streamCount[stream] || 0) + 1;
+    // // Stream Count
+    // const stream = school.stream || 'Unknown';
+    // streamCount[stream] = (streamCount[stream] || 0) + 1;
 
     // Stream Count
     const typeOfSchool = school.typeOfSchool || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
-  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+  const [
+    totalSchools,
+    totalTeachers,
+    totalFemaleTeachers,
+    totalMaleTeachers,
+    totalMaleStudent,
+    totalGirlsStudent,
+    totalStudent,
+    totalStydyingStudent,
+  ] = await Promise.allSettled([
     School.countDocuments({ Zone_Name: zoneName }).exec(),
     Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
     Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
     Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
+    Student.countDocuments({ Gender: 'M', z_name: nameZone }).exec(),
+    Student.countDocuments({ Gender: 'F', z_name: nameZone }).exec(),
+    Student.countDocuments({ z_name: nameZone }).exec(),
+    Student.countDocuments({ status: 'Studying', z_name: nameZone }).exec(),
   ]);
-  const studentCount = await StudentCounts.aggregate([
-    {
-      $match: {
-        Zone_Name: zoneName,
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        totalStudents: { $sum: '$totalStudent' },
-        maleStudents: { $sum: '$maleStudents' },
-        femaleStudents: { $sum: '$femaleStudents' },
-        otherStudents: { $sum: '$otherStudents' },
-      },
-    },
-  ]);
-  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
+  // const studentCount = await StudentCounts.aggregate([
+  //   {
+  //     $match: {
+  //       Zone_Name: zoneName,
+  //     },
+  //   },
+  //   {
+  //     $group: {
+  //       _id: null,
+  //       totalStudents: { $sum: '$totalStudent' },
+  //       maleStudents: { $sum: '$maleStudents' },
+  //       femaleStudents: { $sum: '$femaleStudents' },
+  //       otherStudents: { $sum: '$otherStudents' },
+  //     },
+  //   },
+  // ]);
+  const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
-  const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
+  const averageStudentOfSchool = totalStudent.value / totalSchools.value;
 
   const zoneWiseCounts = [];
   Object.keys(zoneWiseCount).forEach((zone) => {
@@ -260,29 +286,29 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     });
   });
 
-  const afiliationCounts = [];
-  Object.keys(afiliationCount).forEach((afiliation) => {
-    afiliationCounts.push({
-      afiliation,
-      count: afiliationCount[afiliation],
-    });
-  });
+  // const afiliationCounts = [];
+  // Object.keys(afiliationCount).forEach((afiliation) => {
+  //   afiliationCounts.push({
+  //     afiliation,
+  //     count: afiliationCount[afiliation],
+  //   });
+  // });
 
-  const minorityCounts = [];
-  Object.keys(minorityCount).forEach((minority) => {
-    minorityCounts.push({
-      minority,
-      count: minorityCount[minority],
-    });
-  });
+  // const minorityCounts = [];
+  // Object.keys(minorityCount).forEach((minority) => {
+  //   minorityCounts.push({
+  //     minority,
+  //     count: minorityCount[minority],
+  //   });
+  // });
 
-  const streamCounts = [];
-  Object.keys(streamCount).forEach((stream) => {
-    streamCounts.push({
-      stream,
-      count: streamCount[stream],
-    });
-  });
+  // const streamCounts = [];
+  // Object.keys(streamCount).forEach((stream) => {
+  //   streamCounts.push({
+  //     stream,
+  //     count: streamCount[stream],
+  //   });
+  // });
 
   const typeOfSchoolCounts = [];
   Object.keys(typeOfSchoolCount).forEach((typeOfSchool) => {
@@ -294,12 +320,12 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
 
   const result = {
     totalSchools: totalSchools.value,
-    totalStudents: studentCount[0].totalStudents,
+    totalStudents: totalStudent,
     totalTeachers: totalTeachers.value,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
-    totalGirls: studentCount[0].femaleStudents,
-    totalBoys: studentCount[0].maleStudents,
+    totalGirls: totalGirlsStudent,
+    totalBoys: totalMaleStudent,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
@@ -309,9 +335,9 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     lowClassCount,
     highClassCount,
     shiftWiseCount,
-    afiliationCounts,
-    minorityCounts,
-    streamCounts,
+    // afiliationCounts,
+    // minorityCounts,
+    // streamCounts,
     typeOfSchoolCounts,
   };
 
@@ -472,9 +498,9 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
   let lowClassCount = 0;
   let highClassCount = 0;
   const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
-  const afiliationCount = {};
-  const minorityCount = {};
-  const streamCount = {};
+  // const afiliationCount = {};
+  // const minorityCount = {};
+  // const streamCount = {};
   const typeOfSchoolCount = {};
 
   schoolData.forEach((school) => {
@@ -499,49 +525,62 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
 
     // Afiliation Count
-    const afiliation = school.affiliation || 'Unknown';
-    afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
+    // const afiliation = school.affiliation || 'Unknown';
+    // afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
 
-    // Minority Count
-    const minority = school.minority || 'Unknown';
-    minorityCount[minority] = (minorityCount[minority] || 0) + 1;
+    // // Minority Count
+    // const minority = school.minority || 'Unknown';
+    // minorityCount[minority] = (minorityCount[minority] || 0) + 1;
 
-    // Stream Count
-    const stream = school.stream || 'Unknown';
-    streamCount[stream] = (streamCount[stream] || 0) + 1;
+    // // Stream Count
+    // const stream = school.stream || 'Unknown';
+    // streamCount[stream] = (streamCount[stream] || 0) + 1;
 
     // Stream Count
     const typeOfSchool = school.typeOfSchool || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
-  const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers] = await Promise.allSettled([
+  const [
+    totalSchools,
+    totalTeachers,
+    totalFemaleTeachers,
+    totalMaleTeachers,
+    totalMaleStudent,
+    totalGirlsStudent,
+    totalStudent,
+    totalStudyingStudent,
+  ] = await Promise.allSettled([
     School.countDocuments({ School_Name: schoolName }).exec(),
     Teacher.countDocuments({ schname: schoolName }).exec(),
     Teacher.countDocuments({ gender: 'Female', schname: schoolName }).exec(),
     Teacher.countDocuments({ gender: 'Male', schname: schoolName }).exec(),
+    Student.countDocuments({ Gender: 'M', SCHOOL_NAME: schoolName }).exec(),
+    Student.countDocuments({ Gender: 'F', SCHOOL_NAME: schoolName }).exec(),
+    Student.countDocuments({ SCHOOL_NAME: schoolName }).exec(),
+    Student.countDocuments({ status: 'Studying', SCHOOL_NAME: schoolName }).exec(),
   ]);
   // for studentCounts
-  const studentCount = await StudentCounts.aggregate([
-    {
-      $match: {
-        School_Name: schoolName,
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        totalStudents: { $sum: '$totalStudent' },
-        maleStudents: { $sum: '$maleStudents' },
-        femaleStudents: { $sum: '$femaleStudents' },
-        otherStudents: { $sum: '$otherStudents' },
-      },
-    },
-  ]);
+  // const studentCount = await Student.aggregate([
+  //   {
+  //     $match: {
+  //       SCHOOL_NAME: schoolName,
+  //     },
+  //   },
+  //   {
+  //     $group: {
+  //       _id: null,
+  //       totalStudents: { $sum: '$totalStudent' },
+  //       maleStudents: { $sum: '$maleStudents' },
+  //       femaleStudents: { $sum: '$femaleStudents' },
+  //       otherStudents: { $sum: '$otherStudents' },
+  //     },
+  //   },
+  // ]);
 
-  const teacherStudentRatio = studentCount[0].totalStudents / totalTeachers.value;
+  const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
-  const averageStudentOfSchool = studentCount[0].totalStudents / totalSchools.value;
+  const averageStudentOfSchool = totalStudent.value / totalSchools.value;
   const zoneWiseCounts = [];
   Object.keys(zoneWiseCount).forEach((zone) => {
     zoneWiseCounts.push({
@@ -550,29 +589,29 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
     });
   });
 
-  const afiliationCounts = [];
-  Object.keys(afiliationCount).forEach((afiliation) => {
-    afiliationCounts.push({
-      afiliation,
-      count: afiliationCount[afiliation],
-    });
-  });
+  // const afiliationCounts = [];
+  // Object.keys(afiliationCount).forEach((afiliation) => {
+  //   afiliationCounts.push({
+  //     afiliation,
+  //     count: afiliationCount[afiliation],
+  //   });
+  // });
 
-  const minorityCounts = [];
-  Object.keys(minorityCount).forEach((minority) => {
-    minorityCounts.push({
-      minority,
-      count: minorityCount[minority],
-    });
-  });
+  // const minorityCounts = [];
+  // Object.keys(minorityCount).forEach((minority) => {
+  //   minorityCounts.push({
+  //     minority,
+  //     count: minorityCount[minority],
+  //   });
+  // });
 
-  const streamCounts = [];
-  Object.keys(streamCount).forEach((stream) => {
-    streamCounts.push({
-      stream,
-      count: streamCount[stream],
-    });
-  });
+  // const streamCounts = [];
+  // Object.keys(streamCount).forEach((stream) => {
+  //   streamCounts.push({
+  //     stream,
+  //     count: streamCount[stream],
+  //   });
+  // });
 
   const typeOfSchoolCounts = [];
   Object.keys(typeOfSchoolCount).forEach((typeOfSchool) => {
@@ -584,12 +623,12 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
 
   const result = {
     totalSchools: totalSchools.value,
-    totalStudents: studentCount[0].totalStudents,
+    totalStudents: totalStudent,
     totalTeachers: totalTeachers.value,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
-    totalGirls: studentCount[0].femaleStudents,
-    totalBoys: studentCount[0].maleStudents,
+    totalGirls: totalGirlsStudent,
+    totalBoys: totalMaleStudent,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
@@ -599,9 +638,9 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
     lowClassCount,
     highClassCount,
     shiftWiseCount,
-    afiliationCounts,
-    minorityCounts,
-    streamCounts,
+    // afiliationCounts,
+    // minorityCounts,
+    // streamCounts,
     typeOfSchoolCounts,
   };
 

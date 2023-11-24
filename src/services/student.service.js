@@ -120,13 +120,12 @@ async function processStudentData(studentData) {
 
     // Use findOneAndUpdate to update or create a document based on the filter
     const updatedStudent = await Student.findOneAndUpdate(filter, update, options).exec();
-    
+
     return updatedStudent;
   });
 
   return Promise.all(promises);
 }
-
 
 async function storeStudentDataInMongoDB() {
   const schools = await School.find().exec();
@@ -141,7 +140,6 @@ async function storeStudentDataInMongoDB() {
   }
 }
 
-
 // Schedule the job to run every Sunday at 3 AM
 cron.schedule('0 3 * * 0', async () => {
   try {
@@ -153,6 +151,16 @@ cron.schedule('0 3 * * 0', async () => {
   }
 });
 
+const getStudentCountBySchoolName = async (SCHOOL_NAME) => {
+  const result = await Student.find({ SCHOOL_NAME });
+  return result;
+};
+const getStudentCountBySchoolNameAndGender = async (SCHOOL_NAME, Gender) => {
+  const result = await Student.find({ SCHOOL_NAME, Gender });
+  return result;
+};
 module.exports = {
   storeStudentDataInMongoDB,
+  getStudentCountBySchoolName,
+  getStudentCountBySchoolNameAndGender,
 };
