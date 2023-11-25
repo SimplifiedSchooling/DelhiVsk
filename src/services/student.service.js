@@ -152,24 +152,29 @@ cron.schedule('0 3 * * 0', async () => {
   }
 });
 
-const getStudentCountBySchoolName = async (SCHOOL_NAME) => {
-  const cacheKey = `SCHOOL_NAME:${SCHOOL_NAME}`;
+const getStudentCountBySchoolName = async (Schoolid) => {
+  const cacheKey = `SCHOOL_NAME:${Schoolid}`;
   const cachedData = await redis.get(cacheKey);
 
   if (cachedData) {
     return JSON.parse(cachedData);
   }
-  const result = await Student.find({ SCHOOL_NAME });
+  const result = await Student.find({ Schoolid });
   await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
-
 };
-const getStudentCountBySchoolNameAndGender = async (SCHOOL_NAME, Gender) => {
-  const result = await Student.find({ SCHOOL_NAME, Gender });
+const getStudentCountBySchoolNameAndGender = async (Schoolid, Gender) => {
+  const result = await Student.find({ Schoolid, Gender });
+  return result;
+};
+
+const getStudentCountBySchoolNameAndStatus = async (Schoolid, status) => {
+  const result = await Student.find({ Schoolid, status });
   return result;
 };
 module.exports = {
   storeStudentDataInMongoDB,
   getStudentCountBySchoolName,
   getStudentCountBySchoolNameAndGender,
+  getStudentCountBySchoolNameAndStatus,
 };

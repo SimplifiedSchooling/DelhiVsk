@@ -327,27 +327,130 @@ const getStudentCountsByFieldAndZone = async (schoolIds, field, zone) => {
 /////////////////////////////////////SChool////////////////////////
 
     // Function to get gender counts of students by schoolName
-    const getGenderCountsStudentsBySchoolName = async (schoolName) => {
-        const pipeline = [
-          {
-            $match: { SCHOOL_NAME: schoolName },
-          },
-          {
-            $group: {
-              _id: '$Gender',
-              count: { $sum: 1 },
-            },
-          },
-        ];
+//     const getGenderCountsStudentsBySchoolName = async (schoolId) => {
+//         const pipeline = [
+//           {
+//             $match: { Schoolid: Number(schoolId) },
+//           },
+//           {
+//             $group: {
+//               _id: '$Gender',
+//               count: { $sum: 1 },
+//             },
+//           },
+//         ];
       
-        return Student.aggregate(pipeline);
-      };
+//         return Student.aggregate(pipeline);
+//       };
 
-        // Function to get student status counts by district
-  const getStudentStatusCountsBySchoolName = async (schoolNAme) => {
+//         // Function to get student status counts by district
+//   const getStudentStatusCountsBySchoolName = async (schoolId) => {
+//     const pipeline = [
+//       {
+//         $match: { Schoolid: Number(schoolId) },
+//       },
+//       {
+//         $group: {
+//           _id: '$status',
+//           count: { $sum: 1 },
+//         },
+//       },
+//     ];
+  
+//     return Student.aggregate(pipeline);
+//   };
+//     // Function to get student counts by a specific field and schoolName
+//     const getStudentCountsByFieldAndSchoolName = async (schoolIds, field, schoolId) => {
+//         // const counts = await Promise.all(
+//         //   schoolIds.map(async (item) => {
+//             const count = await Student.countDocuments({
+//               Schoolid: schoolId,
+//             //   School_Name: schoolName,
+//             });
+//             return { [field]: item._id, count };
+//         //   })
+//         // );
+      
+//         // return counts;
+//       };
+// //        // Function to get gender counts of teachers by schoolName
+// //   const getGenderCountsTeachersBySchoolName = async (schoolName) => {
+// //     const pipeline = [
+// //       {
+// //         $match: { schname: schoolName },
+// //       },
+// //       {
+// //         $group: {
+// //           _id: '$gender',
+// //           count: { $sum: 1 },
+// //         },
+// //       },
+// //     ];
+  
+// //     return Teacher.aggregate(pipeline);
+// //   };
+// // 'stream', 'minority', 'affiliation',
+//   const getStudentCountBySchoolName = async (schoolId) => {
+//     const fields = ['SchCategory',  'typeOfSchool', 'shift', 'SchManagement'];
+//     const fieldPromises = fields.map(async (field) => {
+//       const schoolIds = await getSchoolIdsByField(field);
+//       const counts = await getStudentCountsByFieldAndSchoolName(schoolId, field, schoolId);
+//       return { [field]: counts };
+//     });
+//     const statusCounts = await getStudentStatusCountsBySchoolName(schoolId);
+//     const genderCountsStudents = await getGenderCountsStudentsBySchoolName(schoolId);
+//     // const genderCountsTeachers = await getGenderCountsTeachersBySchoolName(schoolName);
+//     const fieldResults = await Promise.all(fieldPromises);
+  
+//     // Fetch other statistics
+//     const [totalSchools, totalStudent, studyingStudents, totalTeachers] = await Promise.allSettled([
+//       School.countDocuments({ Schoolid: Number(schoolId) }).exec(),
+//       Student.countDocuments({ Schoolid: Number(schoolId) }).exec(),
+//       Student.countDocuments({ Schoolid: Number(schoolId), status: 'Studying'}).exec(),
+//       Teacher.countDocuments({ schoolid: schoolId }).exec(),
+//     ]);
+//     console.log(schoolName,totalTeachers.value)
+  
+//     const teacherStudentRatio = studyingStudents.value / totalTeachers.value;
+//     // const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
+//     const averageStudentOfSchool = totalStudent.value / totalSchools.value;
+  
+//     const totalStudents = totalStudent.value;
+  
+//     return {
+//       studentStats: fieldResults,
+//       studentStatusCounts: statusCounts,
+//       studentGenderCounts: genderCountsStudents,
+//     //   teacherGenderCounts: genderCountsTeachers,
+//       teacherStudentRatio,
+//     //   averageTeacherOfSchool,
+//       averageStudentOfSchool,
+//       totalStudents,
+//     };
+//   };
+
+
+const getGenderCountsStudentsBySchoolId = async (schoolId) => {
     const pipeline = [
       {
-        $match: { SCHOOL_NAME: schoolNAme },
+        $match: { Schoolid: Number(schoolId) },
+      },
+      {
+        $group: {
+          _id: '$Gender',
+          count: { $sum: 1 },
+        },
+      },
+    ];
+  
+    return Student.aggregate(pipeline);
+};
+  
+// Function to get student status counts by schoolId
+const getStudentStatusCountsBySchoolId = async (schoolId) => {
+    const pipeline = [
+      {
+        $match: { Schoolid: Number(schoolId) },
       },
       {
         $group: {
@@ -358,104 +461,82 @@ const getStudentCountsByFieldAndZone = async (schoolIds, field, zone) => {
     ];
   
     return Student.aggregate(pipeline);
-  };
-    // Function to get student counts by a specific field and schoolName
-    // const getStudentCountsByFieldAndSchoolName = async (schoolIds, field, schoolName) => {
-    //     const counts = await Promise.all(
-    //       schoolIds.map(async (item) => {
-    //         const count = await Student.countDocuments({
-    //           Schoolid: { $in: item.Schoolid },
-    //           SCHOOL_NAME: schoolName,
-    //           [field]: item._id, // Include the specific field in the query
-    //         });
-    //         return { [field]: item._id, count };
-    //       })
-    //     );
-      
-    //     return counts;
-    //   };
-      
-//        // Function to get gender counts of teachers by schoolName
-//   const getGenderCountsTeachersBySchoolName = async (schoolName) => {
-//     const pipeline = [
-//       {
-//         $match: { schname: schoolName },
-//       },
-//       {
-//         $group: {
-//           _id: '$gender',
-//           count: { $sum: 1 },
-//         },
-//       },
-//     ];
+};
   
-//     return Teacher.aggregate(pipeline);
-//   };
-// 'stream', 'minority', 'affiliation',
-  const getStudentCountBySchoolName = async (schoolName) => {
-    // const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
-    // const fieldPromises = fields.map(async (field) => {
-    //   const schoolIds = await getSchoolIdsByField(field);
-    //   const counts = await getStudentCountsByFieldAndSchoolName(schoolIds, field, schoolName);
-    //   return { [field]: counts };
-    // });
-    const statusCounts = await getStudentStatusCountsBySchoolName(schoolName);
-    const genderCountsStudents = await getGenderCountsStudentsBySchoolName(schoolName);
-    // const genderCountsTeachers = await getGenderCountsTeachersBySchoolName(schoolName);
-    // const fieldResults = await Promise.all(fieldPromises);
-  
-   const schoolData = await School.findOne({School_Name: schoolName})
-   const data = [{
-    SchCategory: [{
-        SchCategory: schoolData.SchCategory,
-        count: 1
-    }],
-   },
-{
-    typeOfSchool: [{
-        typeOfSchool: schoolData.typeOfSchool,
-        count: 1
-    }]
-},{
-    shift: [{
-        shift: schoolData.shift,
-        count: 1
-    }]
-},
-{
-    SchManagement:[{
-        SchManagement: schoolData.SchManagement,
-        count: 1
-    }]
-}]
+// Function to get student counts by a specific field and schoolId
+const getStudentCountsByFieldAndSchoolId = async (schoolId, field) => {
+    const pipeline = [
+        {
+            $match: { Schoolid: Number(schoolId) },
+        },
+        {
+            $lookup: {
+                from: 'schools', // Assuming the name of your school collection is 'schools'
+                localField: 'Schoolid',
+                foreignField: 'Schoolid',
+                as: 'schoolData',
+            },
+        },
+        {
+            $unwind: '$schoolData',
+        },
+        {
+            $group: {
+                _id: `$schoolData.${field}`, // Use schoolData to access fields from the school collection
+                count: { $sum: 1 },
+            },
+        },
+    ];
+
+    return Student.aggregate(pipeline);
+};
+
+const getStudentCountBySchoolName = async (schoolId) => {
+    const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
+    const fieldPromises = fields.map(async (field) => {
+        const counts = await getStudentCountsByFieldAndSchoolId(schoolId, field);
+        const formattedCounts = counts.map((item) => {
+            return {
+                [field]: [
+                    {
+                        [field]: item._id,
+                        count: item.count,
+                    },
+                ],
+            };
+        });
+        return formattedCounts;
+    });
+
+    const statusCounts = await getStudentStatusCountsBySchoolId(schoolId);
+    const genderCountsStudents = await getGenderCountsStudentsBySchoolId(schoolId);
 
     // Fetch other statistics
     const [totalSchools, totalStudent, studyingStudents, totalTeachers] = await Promise.allSettled([
-      School.countDocuments({ School_Name: schoolName }).exec(),
-      Student.countDocuments({ SCHOOL_NAME: schoolName }).exec(),
-      Student.countDocuments({SCHOOL_NAME: schoolName, status: 'Studying'}).exec(),
-      Teacher.countDocuments({ schname: schoolName }).exec(),
+        School.countDocuments({ Schoolid: Number(schoolId) }).exec(),
+        Student.countDocuments({ Schoolid: Number(schoolId) }).exec(),
+        Student.countDocuments({ Schoolid: Number(schoolId), status: 'Studying' }).exec(),
+        Teacher.countDocuments({ schoolid: schoolId }).exec(),
     ]);
 
     const teacherStudentRatio = studyingStudents.value / totalTeachers.value;
-    // const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
     const averageStudentOfSchool = totalStudent.value / totalSchools.value;
-  
     const totalStudents = totalStudent.value;
-  
-    return {
-    //   studentStats: fieldResults,
-      studentStats: data,
-      studentStatusCounts: statusCounts,
-      studentGenderCounts: genderCountsStudents,
-    //   teacherGenderCounts: genderCountsTeachers,
-      teacherStudentRatio,
-    //   averageTeacherOfSchool,
-      averageStudentOfSchool,
-      totalStudents,
-    };
-  };
 
+    const fieldResults = await Promise.all(fieldPromises);
+
+    return {
+        studentStats: fieldResults.flat(),
+        studentStatusCounts: statusCounts,
+        studentGenderCounts: genderCountsStudents,
+        teacherStudentRatio,
+        averageStudentOfSchool,
+        totalStudents,
+    };
+};
+
+
+  
 
 module.exports = {
   getStudentCount,
