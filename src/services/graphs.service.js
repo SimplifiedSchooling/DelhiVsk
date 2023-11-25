@@ -336,12 +336,12 @@ const getAllSchoolStudentTeacherData = async () => {
 
   const result = {
     totalSchools: totalSchools.value,
-    totalStudents: totalStudent,
+    totalStudents: totalStudent.value,
     totalTeachers: totalTeachers.value,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
-    totalGirls: totalGirlsStudent,
-    totalBoys: totalMaleStudent,
+    totalGirls: totalGirlsStudent.value,
+    totalBoys: totalMaleStudent.value,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
