@@ -470,12 +470,12 @@ const getSchoolIdBySchCategoryWiseAndDistrict = async (districtName) => {
  */
 
 const getTeacherStatsByDistrict = async (districtName) => {
-  const cacheKey = `districtNameForTeachersGraph:${districtName}`;
-  const cachedData = await redis.get(cacheKey);
+  // const cacheKey = `districtNameForTeachersGraph:${districtName}`;
+  // const cachedData = await redis.get(cacheKey);
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndDistrict(districtName);
   const teacherCounts = [];
   for (const category of schCategorySchoolIds) {
@@ -582,7 +582,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
   //     },
   //   },
   // ]);
-
+console.log(totalSchools.value, totalTeachers.value)
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeDistrictWise(districtName);
   const averageTeachers = totalSchools.value / totalTeachers.value;
@@ -605,7 +605,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
-  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
@@ -791,12 +791,12 @@ const getSchoolIdBySchCategoryWiseAndZone = async (zone) => {
 
 const getTeacherCountByZone = async (zone) => {
   const nameZone = zone.toLowerCase();
-  const cacheKey = `zoneForGraphsOfTeachers:${zone}`;
-  const cachedData = await redis.get(cacheKey);
+  // const cacheKey = `zoneForGraphsOfTeachers:${zone}`;
+  // const cachedData = await redis.get(cacheKey);
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
 
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndZone(zone);
   const teacherCounts = [];
@@ -932,7 +932,7 @@ const getTeacherCountByZone = async (zone) => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
-  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
