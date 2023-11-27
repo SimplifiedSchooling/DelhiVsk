@@ -81,6 +81,19 @@ const  fetchSchoolData = async() =>  {
   return duplicates;
 }
 
+const  fetchSchoolZone = async() =>  {
+
+  const uniqueZones = await School.aggregate([
+    { $group: { _id: { Zone_Name: "$Zone_Name", Z_ID: "$Z_ID" } } }
+  ]);
+
+  const formattedZones = uniqueZones.map(zone => ({
+    Zone_Name: zone._id.Zone_Name,
+    Z_ID: zone._id.Z_ID
+  }));
+
+  return { ZoneInfo: formattedZones };
+}
 // async function getDistrictSchools() {
 //   try {
 //     const response = await axios.get(apiUrl);
@@ -128,4 +141,5 @@ module.exports = {
   getDistrictZoneNames,
   getDistrictSchools,
   getZoneNameSchools,
+  fetchSchoolZone,
 };
