@@ -932,7 +932,7 @@ const getTeacherCountByZone = async (zone) => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
-  // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
