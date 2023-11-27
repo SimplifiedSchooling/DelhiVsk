@@ -178,6 +178,12 @@ const getStudentCountsByFieldAndDistrict = async (schoolIds, field, district) =>
   // Function to get statistics about students by district
 //   'stream', 'minority', 'affiliation',
   const getStudentCountByDistrictName = async (district) => {
+    const cacheKey = `districtName:${district}`;
+    const cachedData = await redis.get(cacheKey);
+  
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
     const fields = ['SchCategory',  'typeOfSchool', 'shift', 'SchManagement'];
     const fieldPromises = fields.map(async (field) => {
       const schoolIds = await getSchoolIdsByField(field);
@@ -203,7 +209,7 @@ const getStudentCountsByFieldAndDistrict = async (schoolIds, field, district) =>
   
     const totalStudents = totalStudent.value;
   
-    return {
+     const data =  {
         studentStats: fieldResults,
         studentStatusCounts: statusCounts,
         studentGenderCounts: genderCountsStudents,
@@ -213,6 +219,8 @@ const getStudentCountsByFieldAndDistrict = async (schoolIds, field, district) =>
         averageStudentOfSchool,
         totalStudents,
       };
+      await redis.set(cacheKey, JSON.stringify(data), 'EX', 24 * 60 * 60);
+      return data;
   };
 
 //////////////////////////////Zone//////////////////////
@@ -286,6 +294,12 @@ const getStudentCountsByFieldAndZone = async (schoolIds, field, zone) => {
   // Function to get statistics about students by zone
   const getStudentCountByZoneName = async (zone) => {
     const cleanedZoneName = zone.replace(/[^0-9]/g, '');
+    const cacheKey = `zone:${cleanedZoneName}`;
+    const cachedData = await redis.get(cacheKey);
+  
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
     const fields = ['SchCategory',  'typeOfSchool', 'shift', 'SchManagement'];
     const fieldPromises = fields.map(async (field) => {
       const schoolIds = await getSchoolIdsByField(field);
@@ -311,7 +325,7 @@ const getStudentCountsByFieldAndZone = async (schoolIds, field, zone) => {
     const averageStudentOfSchool = totalStudent.value / totalSchools.value;
   
     const totalStudents = totalStudent.value;
-    return {
+    const data = {
       studentStats: fieldResults,
       studentStatusCounts: statusCounts,
       studentGenderCounts: genderCountsStudents,
@@ -321,6 +335,9 @@ const getStudentCountsByFieldAndZone = async (schoolIds, field, zone) => {
       averageStudentOfSchool,
       totalStudents,
     };
+
+    await redis.set(cacheKey, JSON.stringify(data), 'EX', 24 * 60 * 60);
+    return data
   };
   
   
