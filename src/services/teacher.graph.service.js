@@ -470,12 +470,12 @@ const getSchoolIdBySchCategoryWiseAndDistrict = async (districtName) => {
  */
 
 const getTeacherStatsByDistrict = async (districtName) => {
-  const cacheKey = `districtName:${districtName}`;
-  const cachedData = await redis.get(cacheKey);
+  // const cacheKey = `districtName:${districtName}`;
+  // const cachedData = await redis.get(cacheKey);
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndDistrict(districtName);
   const teacherCounts = [];
   for (const category of schCategorySchoolIds) {
@@ -605,7 +605,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
-  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
@@ -791,12 +791,12 @@ const getSchoolIdBySchCategoryWiseAndZone = async (zone) => {
 
 const getTeacherCountByZone = async (zone) => {
   const nameZone = zone.toLowerCase();
-  const cacheKey = `zone:${zone}`;
-  const cachedData = await redis.get(cacheKey);
+  // const cacheKey = `zone:${zone}`;
+  // const cachedData = await redis.get(cacheKey);
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
 
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndZone(zone);
   const teacherCounts = [];
@@ -932,7 +932,7 @@ const getTeacherCountByZone = async (zone) => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
-  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
@@ -1060,12 +1060,12 @@ const getSchoolIdBySchCategoryWiseAndSchoolName = async (schoolId) => {
  */
 
 const getTeacherCountBySchoolName = async (schoolId) => {
-  const cacheKey = `schname:${schoolId}`;
-  const cachedData = await redis.get(cacheKey);
+  // const cacheKey = `schname:${schoolId}`;
+  // const cachedData = await redis.get(cacheKey);
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseAndSchoolName(schoolId);
   const teacherCounts = [];
 
@@ -1154,7 +1154,7 @@ const getTeacherCountBySchoolName = async (schoolId) => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
-  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
