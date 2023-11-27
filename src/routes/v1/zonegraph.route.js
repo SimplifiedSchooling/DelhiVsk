@@ -13,7 +13,7 @@ router
   );
 
 router.route('/school-student-teacher-graph-district').post(zonegraph.getAllSchoolStudentTeacherDataByDistrict);
-router.route('/school-student-teacher-graph-schoolname').post(zonegraph.getAllSchoolStudentTeacherDataBySchoolName);
+router.route('/school-student-teacher-graph-schoolid').post(zonegraph.getAllSchoolStudentTeacherDataBySchoolName);
 
 module.exports = router;
 
@@ -78,10 +78,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /zonegraph/school-student-teacher-graph-schoolname:
+ * /zonegraph/school-student-teacher-graph-schoolid:
  *   post:
- *     summary: Get all schools, students, teachers graph  data by schoolName.
- *     description: Get graph data for schools, students, teachers by schoolName.
+ *     summary: Get all schools, students, teachers graph  data by schoolId.
+ *     description: Get graph data for schools, students, teachers by schoolId.
  *     tags: [Zonegraph]
  *     requestBody:
  *       content:
@@ -89,10 +89,10 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               schoolName:
+ *               schoolId:
  *                 type: string
  *             example:
- *               schoolName: "Bhola Nath Nagar-SBV (Babu Ram)"
+ *               schoolId: "1001001"
  *     responses:
  *       "200":
  *         description: OK
