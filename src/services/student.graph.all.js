@@ -286,7 +286,7 @@ const getStudentCountsByFieldAndZone = async (schoolIds, field, zone) => {
   // Function to get statistics about students by zone
   const getStudentCountByZoneName = async (zone) => {
     const cleanedZoneName = zone.replace(/[^0-9]/g, '');
-    const fields = ['SchCategory', 'stream', 'minority', 'affiliation', 'typeOfSchool', 'shift', 'SchManagement'];
+    const fields = ['SchCategory',  'typeOfSchool', 'shift', 'SchManagement'];
     const fieldPromises = fields.map(async (field) => {
       const schoolIds = await getSchoolIdsByField(field);
       const counts = await getStudentCountsByFieldAndZone(schoolIds, field, zone);
