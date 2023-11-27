@@ -111,14 +111,14 @@ const getSchoolIdsByField = async (field) => {
   // Function to get student counts
   const getStudentCount = async () => {
     // Check if the data is already cached in Redis
-    const cachedData = await redis.get('getStudentCount');
+    const cachedData = await redis.get('getStudentCountStudentGraph');
   
     if (cachedData) {
       return JSON.parse(cachedData);
     }
     const studentStats = await getStudentStats();
     // Cache the result in Redis for future use
-    await redis.set('getStudentCount', JSON.stringify(studentStats), 'EX', 24 * 60 * 60);
+    await redis.set('getStudentCountStudentGraph', JSON.stringify(studentStats), 'EX', 24 * 60 * 60);
 
     return studentStats;
   };
@@ -178,7 +178,7 @@ const getStudentCountsByFieldAndDistrict = async (schoolIds, field, district) =>
   // Function to get statistics about students by district
 //   'stream', 'minority', 'affiliation',
   const getStudentCountByDistrictName = async (district) => {
-    const cacheKey = `districtName:${district}`;
+    const cacheKey = `districtNameForStudents:${district}`;
     const cachedData = await redis.get(cacheKey);
   
     if (cachedData) {
@@ -294,7 +294,7 @@ const getStudentCountsByFieldAndZone = async (schoolIds, field, zone) => {
   // Function to get statistics about students by zone
   const getStudentCountByZoneName = async (zone) => {
     const cleanedZoneName = zone.replace(/[^0-9]/g, '');
-    const cacheKey = `zone:${cleanedZoneName}`;
+    const cacheKey = `zoneStudentGraphs:${cleanedZoneName}`;
     const cachedData = await redis.get(cacheKey);
   
     if (cachedData) {
