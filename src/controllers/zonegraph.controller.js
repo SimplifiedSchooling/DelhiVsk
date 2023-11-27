@@ -14,8 +14,8 @@ const getAllSchoolStudentTeacherDataByDistrict = catchAsync(async (req, res) => 
   res.status(httpStatus.CREATED).send(result);
 });
 const getAllSchoolStudentTeacherDataBySchoolName = catchAsync(async (req, res) => {
-  const { schoolName } = req.body;
-  const result = await zonegraph.getAllSchoolStudentTeacherDataBySchoolName(schoolName);
+  const { schoolId } = req.body;
+  const result = await zonegraph.getAllSchoolStudentTeacherDataBySchoolName(schoolId);
   res.status(httpStatus.CREATED).send(result);
 });
 

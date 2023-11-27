@@ -48,7 +48,6 @@ async function getDistrictName(req, res) {
 async function getZoneName(req, res) {
   try {
     const schoolData = await schoolService.fetchSchoolData();
-    
     const zoneInfo = schoolData.map((school) => ({
       Z_ID: school.Z_ID,
       Zone_Name: school.Zone_Name,

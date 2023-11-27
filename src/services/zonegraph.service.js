@@ -478,19 +478,19 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
 // };
 /**
  * Get all school, student, teacher graph data by schoolName
- * @param {string} schoolName - The schoolName name to filter the data
+ * @param {string} schoolId - The schoolName name to filter the data
  * @returns {Promise<Object>} School, teacher, student graph data
  */
-const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
+const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
   // Create a cache key based on the district name
-  const cacheKey = `schoolName:${schoolName}`;
+  const cacheKey = `schoolId:${schoolId}`;
   const cachedData = await redis.get(cacheKey);
 
   if (cachedData) {
     return JSON.parse(cachedData);
   }
 
-  const schoolData = await School.find({ School_Name: schoolName });
+  const schoolData = await School.find({ Schoolid: Number(schoolId) });
 
   const schoolManagementWise = {};
   const zoneWiseCount = {};
@@ -551,14 +551,14 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolName) => {
     totalStudent,
     totalStudyingStudent,
   ] = await Promise.allSettled([
-    School.countDocuments({ School_Name: schoolName }).exec(),
-    Teacher.countDocuments({ schname: schoolName }).exec(),
-    Teacher.countDocuments({ gender: 'Female', schname: schoolName }).exec(),
-    Teacher.countDocuments({ gender: 'Male', schname: schoolName }).exec(),
-    Student.countDocuments({ Gender: 'M', SCHOOL_NAME: schoolName }).exec(),
-    Student.countDocuments({ Gender: 'F', SCHOOL_NAME: schoolName }).exec(),
-    Student.countDocuments({ SCHOOL_NAME: schoolName }).exec(),
-    Student.countDocuments({ status: 'Studying', SCHOOL_NAME: schoolName }).exec(),
+    School.countDocuments({ Schoolid: Number(schoolId) }).exec(),
+    Teacher.countDocuments({ schoolid: schoolId }).exec(),
+    Teacher.countDocuments({ gender: 'Female', schoolid: schoolId }).exec(),
+    Teacher.countDocuments({ gender: 'Male', schoolid: schoolId }).exec(),
+    Student.countDocuments({ Gender: 'M', Schoolid: Number(schoolId) }).exec(),
+    Student.countDocuments({ Gender: 'F', Schoolid: Number(schoolId) }).exec(),
+    Student.countDocuments({ Schoolid: Number(schoolId) }).exec(),
+    Student.countDocuments({ status: 'Studying', Schoolid: Number(schoolId) }).exec(),
   ]);
   // for studentCounts
   // const studentCount = await Student.aggregate([
