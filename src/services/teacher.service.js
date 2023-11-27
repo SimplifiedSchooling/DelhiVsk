@@ -95,7 +95,7 @@ const getTeacher = async () => {
 };
 
 const getTeacherBySchoolAndGender = async (gender, schname) => {
-  const data = await Teacher.find({ gender, schname });
+  const data = await Teacher.find({ gender, schoolid: schname });
   return data;
 };
 

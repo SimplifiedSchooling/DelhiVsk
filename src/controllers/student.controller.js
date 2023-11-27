@@ -13,14 +13,20 @@ const studentData = catchAsync(async (req, res) => {
 });
 
 const getStudentCountBySchoolName = catchAsync(async (req, res) => {
-  const { SCHOOL_NAME } = req.body;
-  const result = await studentService.getStudentCountBySchoolName(SCHOOL_NAME);
+  const { Schoolid } = req.body;
+  const result = await studentService.getStudentCountBySchoolName(Schoolid);
   res.send(result);
 });
 
 const getStudentCountBySchoolNameAndGender = catchAsync(async (req, res) => {
-  const { SCHOOL_NAME, Gender } = req.body;
-  const result = await studentService.getStudentCountBySchoolNameAndGender(SCHOOL_NAME, Gender);
+  const { Schoolid, Gender } = req.body;
+  const result = await studentService.getStudentCountBySchoolNameAndGender(Schoolid, Gender);
+  res.send(result);
+});
+
+const getStudentCountBySchoolNameAndStatus = catchAsync(async (req, res) => {
+  const { Schoolid, status } = req.body;
+  const result = await studentService.getStudentCountBySchoolNameAndStatus(Schoolid, status);
   res.send(result);
 });
 module.exports = {
@@ -28,4 +34,5 @@ module.exports = {
   studentData,
   getStudentCountBySchoolName,
   getStudentCountBySchoolNameAndGender,
+  getStudentCountBySchoolNameAndStatus,
 };

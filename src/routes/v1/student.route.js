@@ -11,6 +11,8 @@ router.route('/studentcount/schoolname').post(studentController.getStudentCountB
 
 router.route('/studentcount/schoolname/gender').post(studentController.getStudentCountBySchoolNameAndGender);
 
+router.route('/studentcount/schoolId/status').post(studentController.getStudentCountBySchoolNameAndStatus);
+
 module.exports = router;
 
 /**
@@ -133,10 +135,10 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               SCHOOL_NAME:
+ *               Schoolid:
  *                 type: string
  *             required:
- *               - SCHOOL_NAME
+ *               - Schoolid
  *     responses:
  *       "200":
  *         description: OK
@@ -160,13 +162,44 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               SCHOOL_NAME:
+ *               Schoolid:
  *                 type: string
  *               Gender:
  *                 type: string
  *             required:
- *               - SCHOOL_NAME
+ *               - Schoolid
  *               - Gender
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+
+/**
+ * @swagger
+ * /student/studentcount/schoolId/status:
+ *   post:
+ *     summary: Get all studentcount by school name and Gender.
+ *     description: Get all studentcount by school name and Gender.
+ *     tags: [Student]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Schoolid:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *             required:
+ *               - Schoolid
+ *               - status
  *     responses:
  *       "200":
  *         description: OK

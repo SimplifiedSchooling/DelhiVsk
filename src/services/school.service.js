@@ -85,22 +85,19 @@ async function fetchSchoolData() {
 //   }
 // }
 
-async function getDistrictSchools(districtName) {
-  try {
-    const response = await axios.get(apiUrl);
-    const schools = response.data;
-    const districtSchools = schools
-      .filter((school) => school.District_name === districtName)
-      .map((school) => school.School_Name);
-    return districtSchools;
-  } catch (error) {
-    throw new Error(`Error fetching data: ${error.message}`);
-  }
+const getDistrictSchools = async(districtName) => {
+  const schools = await School.find({ District_name: districtName }, 'Schoolid School_Name').exec();
+  return schools;
 }
 
 const getDistrictZoneNames = async (districtName) => {
-  const zones = await School.find({ District_name: districtName }).select('Zone_Name Z_ID').exec();
-  return zones;
+  const zones = await School.distinct('Zone_Name', { District_name: districtName }).exec();
+  const zoneIds = await School.distinct('Z_ID', { District_name: districtName }).exec();
+
+  // Combine the unique zone names with their corresponding unique zone IDs
+  const result = zones.map((zone, index) => ({ Zone_Name: zone, Z_ID: zoneIds[index] }));
+
+  return result;
 };
 
 const getZoneNameSchools = async (zoneName) => {
