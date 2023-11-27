@@ -54,15 +54,31 @@ const bulkUpload = async (schoolArray, csvFilePath = null) => {
   return Promise.all(savePromises);
 };
 
-const apiUrl = 'http://165.22.216.223:3000/v1/school';
 
-async function fetchSchoolData() {
-  try {
-    const response = await axios.get(apiUrl);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+
+const  fetchSchoolData = async() =>  {
+  const duplicates = await School.aggregate([
+    {
+      $group: {
+        _id: { District_name: '$District_name', D_ID: '$D_ID' },
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $match: {
+        count: { $gt: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        districtName: '$_id.District_name',
+        D_ID: '$_id.D_ID',
+        // count: 1,
+      },
+    },
+  ]);
+  return duplicates;
 }
 
 // async function getDistrictSchools() {
