@@ -8,12 +8,12 @@ const redis = require('../utils/redis');
  */
 const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   // Create a cache key based on the district name
-  const cacheKey = `districtName:${districtName}`;
-  const cachedData = await redis.get(cacheKey);
+  // const cacheKey = `districtName:${districtName}`;
+  // const cachedData = await redis.get(cacheKey);
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
 
   const schoolData = await School.find({ District_name: districtName });
 
@@ -169,7 +169,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   };
 
   // Cache the result in Redis for future use
-  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
