@@ -139,11 +139,11 @@ const getSchoolIdBySchCategoryWise = async () => {
 };
 
 const getTeacherStats = async () => {
-  const cachedData = await redis.get('getTeacherStats');
+  // const cachedData = await redis.get('getTeacherStatsTeacherGraphical');
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWise();
   const teacherCounts = [];
 
@@ -267,7 +267,7 @@ const getTeacherStats = async () => {
     teacherManagmentWiseCounts,
     experianceOfTeachers,
   };
-  await redis.set('getTeacherStats', JSON.stringify(result), 'EX', 24 * 60 * 60);
+  // await redis.set('getTeacherStatsTeacherGraphical', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
@@ -277,7 +277,7 @@ const getTeacherStats = async () => {
  */
 const getTeacherCountBySchoolManagement = async () => {
   // Check if the data is already cached in Redis
-  const cachedData = await redis.get('getTeacherData');
+  const cachedData = await redis.get('getTeacherDataForGraphs');
 
   if (cachedData) {
     return JSON.parse(cachedData);
@@ -286,7 +286,7 @@ const getTeacherCountBySchoolManagement = async () => {
   const teacherStats = await getTeacherStats();
 
   // Cache the result in Redis for future use
-  await redis.set('getTeacherData', JSON.stringify(teacherStats), 'EX', 24 * 60 * 60);
+  await redis.set('getTeacherDataForGraphs', JSON.stringify(teacherStats), 'EX', 24 * 60 * 60);
 
   return teacherStats;
 };
@@ -470,7 +470,7 @@ const getSchoolIdBySchCategoryWiseAndDistrict = async (districtName) => {
  */
 
 const getTeacherStatsByDistrict = async (districtName) => {
-  const cacheKey = `districtName:${districtName}`;
+  const cacheKey = `districtNameForTeachersGraph:${districtName}`;
   const cachedData = await redis.get(cacheKey);
 
   if (cachedData) {
@@ -791,7 +791,7 @@ const getSchoolIdBySchCategoryWiseAndZone = async (zone) => {
 
 const getTeacherCountByZone = async (zone) => {
   const nameZone = zone.toLowerCase();
-  const cacheKey = `zone:${zone}`;
+  const cacheKey = `zoneForGraphsOfTeachers:${zone}`;
   const cachedData = await redis.get(cacheKey);
 
   if (cachedData) {
@@ -1166,7 +1166,7 @@ const getTeacherCountByPostdescAndSchoolName = async (postdesc, schname) => {
 };
 
 const getTeacherCountAndDataBySchoolName = async (schname) => {
-  const cacheKey = `SchoolName:${schname}`;
+  const cacheKey = `SchoolNameData:${schname}`;
   const cachedData = await redis.get(cacheKey);
 
   if (cachedData) {
