@@ -26,7 +26,36 @@ const getUdiseSchoolStats = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getUdiseSchoolStatsDistrict = catchAsync(async (req, res) => {
+  const result = await udiseSchoolService.districtWiseCount(req.body.district);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getUdiseSchoolStatsZone = catchAsync(async (req, res) => {
+  const result = await udiseSchoolService.ZoneWiseCount(req.body.zone);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getUdiseSchoolDistrict = catchAsync(async (req, res) => {
+  const result = await udiseSchoolService.fetchSchoolDataDistrict();
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getUdiseSchoolZone = catchAsync(async (req, res) => {
+  const result = await udiseSchoolService.fetchSchoolZone();
+  res.status(httpStatus.CREATED).send(result);
+});
+const getUdiseSchoolZoneByDistrict = catchAsync(async (req, res) => {
+  const result = await udiseSchoolService.getDistrictZoneNames(req.body.districtName);
+  res.status(httpStatus.CREATED).send(result);
+});
+
 module.exports = {
   bulkUploadFile,
   getUdiseSchoolStats,
+  getUdiseSchoolStatsDistrict,
+  getUdiseSchoolStatsZone,
+  getUdiseSchoolDistrict,
+  getUdiseSchoolZone,
+  getUdiseSchoolZoneByDistrict,
 };

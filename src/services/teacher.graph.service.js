@@ -582,7 +582,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
   //     },
   //   },
   // ]);
-console.log(totalSchools.value, totalTeachers.value)
+
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeDistrictWise(districtName);
   const averageTeachers =  totalTeachers.value / totalSchools.value ;
