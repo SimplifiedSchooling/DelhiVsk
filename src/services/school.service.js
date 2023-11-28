@@ -85,10 +85,10 @@ async function fetchSchoolData() {
 //   }
 // }
 
-const getDistrictSchools = async(districtName) => {
+const getDistrictSchools = async (districtName) => {
   const schools = await School.find({ District_name: districtName }, 'Schoolid School_Name').exec();
   return schools;
-}
+};
 
 const getDistrictZoneNames = async (districtName) => {
   const zones = await School.distinct('Zone_Name', { District_name: districtName }).exec();

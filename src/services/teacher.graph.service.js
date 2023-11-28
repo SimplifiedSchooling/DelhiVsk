@@ -588,7 +588,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
   const averageTeachers = totalSchools.value / totalTeachers.value;
   const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
 
- const result =  {
+  const result = {
     teacherStudentRatio,
     averageTeachers,
     totalSchools: totalSchools.value,
@@ -942,7 +942,7 @@ const getTeacherCountByZone = async (zone) => {
 const getTeacherExperienceCountByRangeSchool = async (schoolId) => {
   try {
     const currentDate = new Date(); // Current date
-    const teachers = await Teacher.find({ schoolid: schoolId  });
+    const teachers = await Teacher.find({ schoolid: schoolId });
 
     // Initialize an object to store the count in each experience range
     const experienceCounts = {
@@ -1015,7 +1015,6 @@ const getSchoolIdByTypeOfSchoolWiseAndSchoolName = async (schoolId) => {
   return schCategorySchoolIds;
 };
 
-
 const getSchoolIdByManagmentWiseAndSchoolName = async (schoolId) => {
   const pipeline = [
     {
@@ -1085,7 +1084,6 @@ const getTeacherCountBySchoolName = async (schoolId) => {
       teacherShiftWiseCount,
     });
   }
-
 
   const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWiseAndSchoolName(schoolId);
   const teacherTypeOfSchoolWiseCounts = [];
@@ -1158,8 +1156,7 @@ const getTeacherCountBySchoolName = async (schoolId) => {
   return result;
 };
 
-
-////////////////////////////////////////////////////////////////////////////
+/// /////////////////////////////////////////////////////////////////////////
 const getTeacherCountByPostdescAndSchoolName = async (postdesc, schname) => {
   const result = await Teacher.find({ schoolid: schname, postdesc });
   return result;

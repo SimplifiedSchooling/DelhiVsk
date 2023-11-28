@@ -55,12 +55,11 @@ async function getZoneName(req, res) {
 
     // Remove duplicate entries based on Zone_Name
     const uniqueZoneInfo = zoneInfo.reduce((acc, current) => {
-      const x = acc.find(item => item.Zone_Name === current.Zone_Name);
+      const x = acc.find((item) => item.Zone_Name === current.Zone_Name);
       if (!x) {
         return acc.concat([current]);
-      } else {
-        return acc;
       }
+      return acc;
     }, []);
 
     res.json({ ZoneInfo: uniqueZoneInfo });
