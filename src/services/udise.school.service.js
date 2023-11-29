@@ -160,7 +160,7 @@ const getTypeofschoolCounts = async (district) => {
     typeofschoolCounts,
   };
 };
-
+////////////////////////////////  Zone udise school/////////////////
 const ZoneWiseCount = async(zone) => {
   // Count based on RuralUrban
   const getRuralUrbanCounts = async (zone) => {
@@ -234,6 +234,80 @@ const ZoneWiseCount = async(zone) => {
   };
 
 
+//////////////////// udise School //////////////////
+const ScholWiseCount = async(SchoolID) => {
+  // Count based on RuralUrban
+  const getRuralUrbanCounts = async (SchoolID) => {
+    const counts = await Udiseschool.aggregate([
+      {$match: {SchoolID} },
+      {
+        $group: {
+          _id: '$RuralUrban',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    return counts;
+  };
+  
+  // Count based on School_Gender
+  const getSchoolGenderCounts = async (SchoolID) => {
+    const counts = await Udiseschool.aggregate([
+      
+      {$match: {SchoolID}},
+      {
+        
+        $group: {
+          _id: '$School_Gender',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    return counts;
+  };
+  
+  // Count based on Shiftofschool
+  const getShiftofschoolCounts = async (SchoolID) => {
+    const counts = await Udiseschool.aggregate([
+      {$match: {SchoolID}},
+      {
+        $group: {
+          _id: '$Shiftofschool',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    return counts;
+  };
+  
+  // Count based on typeofschool
+  const getTypeofschoolCounts = async (SchoolID) => {
+    const counts = await Udiseschool.aggregate([
+      {$match: {SchoolID} },
+      {
+        $group: {
+          _id: '$typeofschool',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
+    return counts;
+  };
+    const totalSchoolCount = await Udiseschool.countDocuments({SchoolID});
+    const ruralUrbanCounts = await getRuralUrbanCounts(SchoolID);
+    const schoolGenderCounts = await getSchoolGenderCounts(SchoolID);
+    const shiftofschoolCounts = await getShiftofschoolCounts(SchoolID);
+    const typeofschoolCounts = await getTypeofschoolCounts(SchoolID);
+    return {
+      totalSchoolCount,
+      ruralUrbanCounts,
+      schoolGenderCounts,
+      shiftofschoolCounts,
+      typeofschoolCounts,
+    };
+  };
+/////////////////end/////////////
+
 
   const  fetchSchoolDataDistrict = async() =>  {
     const duplicates = await Udiseschool.aggregate([
@@ -280,12 +354,27 @@ const ZoneWiseCount = async(zone) => {
     return result;
   };
 
+
+const getDistrictSchools = async(district) => {
+  const schools = await Udiseschool.find({ district }, 'SchoolID SchName').exec();
+  return schools;
+}
+
+const getZoneWiseSchools = async (zoneName) => {
+  const schools = await Udiseschool.find({ zone: zoneName }).select('SchoolID SchName').exec();
+  return schools;
+};
+
+
 module.exports = {
   bulkUpload,
   udiseSchoolStats,
   ZoneWiseCount,
   districtWiseCount,
+  ScholWiseCount,
   fetchSchoolDataDistrict,
   fetchSchoolZone,
   getDistrictZoneNames,
+  getDistrictSchools,
+  getZoneWiseSchools,
 };
