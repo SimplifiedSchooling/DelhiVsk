@@ -72,7 +72,8 @@ async function getDistrictZoneNames(req, res) {
       new ApiError(httpStatus.NOT_FOUND, 'District_name is required');
     }
     const ZoneSchool = await schoolService.getDistrictZoneNames(districtName);
-    res.send({ ZoneSchool });
+    
+    res.status(httpStatus.CREATED).send({ ZoneSchool });
   } catch (error) {
     new ApiError(httpStatus.NOT_FOUND, 'Zone school not found');
   }
@@ -86,7 +87,7 @@ async function getZoneSchool(req, res) {
     }
 
     const ZoneSchool = await schoolService.getZoneNameSchools(zoneName);
-    res.send({ ZoneSchool });
+    res.status(httpStatus.CREATED).send({ ZoneSchool });
   } catch (error) {
     new ApiError(httpStatus.NOT_FOUND, 'School not found');
   }
