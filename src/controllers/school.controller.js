@@ -35,8 +35,8 @@ const schoolData = catchAsync(async (req, res) => {
 });
 
 async function getDistrictName(req, res) {
-    const result = await schoolService.fetchSchoolData();
-    res.status(httpStatus.CREATED).send(result);
+  const result = await schoolService.fetchSchoolData();
+  res.status(httpStatus.CREATED).send(result);
 }
 
 async function getZoneName(req, res) {
@@ -60,8 +60,8 @@ async function getZoneName(req, res) {
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
   }
-    const result = await schoolService.fetchSchoolZone();
-    res.status(httpStatus.CREATED).send(result);
+  const result = await schoolService.fetchSchoolZone();
+  res.status(httpStatus.CREATED).send(result);
 }
 // async function getDistrictSchool(req, res) {
 //   try {

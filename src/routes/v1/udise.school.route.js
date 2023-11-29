@@ -24,12 +24,16 @@ router.route('/udise-school-stats').get(udiseSchooolController.getUdiseSchoolSta
 
 router.route('/udise-school-stats-by/district').post(udiseSchooolController.getUdiseSchoolStatsDistrict);
 router.route('/udise-school-stats-by/zone').post(udiseSchooolController.getUdiseSchoolStatsZone);
-router.route('/getalldata').get(udiseSchooolController.getAllUdiseSchool);
+
+router.route('/udise-school-stats-by/school').post(udiseSchooolController.getUdiseSchoolCountSchooolWise);
 
 router.route('/district').get(udiseSchooolController.getUdiseSchoolDistrict);
 router.route('/zone').get(udiseSchooolController.getUdiseSchoolZone);
 
 router.route('/district-zones').post(udiseSchooolController.getUdiseSchoolZoneByDistrict);
+
+router.route('/district-wise/schools').post(udiseSchooolController.getUdiseSchoolByDistrict);
+router.route('/zone-wise/school').post(udiseSchooolController.getZoneWiseSchools);
 
 module.exports = router;
 
@@ -130,6 +134,60 @@ module.exports = router;
 
 /**
  * @swagger
+ * /udise-school/district-wise/schools:
+ *   post:
+ *     summary: Get all udise graph data by district name.
+ *     description: Get udise graph data by district name.
+ *     tags: [UdiseSchool]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               district:
+ *                 type: string
+ *             required:
+ *               - district
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /udise-school/zone-wise/school:
+ *   post:
+ *     summary: Get all udise school by zone .
+ *     description: Get udise graph data by zone.
+ *     tags: [UdiseSchool]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               zone:
+ *                 type: number
+ *             required:
+ *               - zone
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
  * /udise-school/bulkupload:
  *   post:
  *     summary: Upload a CSV file for bulk school upload
@@ -196,6 +254,33 @@ module.exports = router;
  *                 type: number
  *             required:
  *               - zone
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /udise-school/udise-school-stats-by/school:
+ *   post:
+ *     summary: Get all udise graph data by SchoolID.
+ *     description: Get udise graph data by SchoolID.
+ *     tags: [UdiseSchool]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               SchoolID:
+ *                 type: string
+ *             required:
+ *               - SchoolID
  *     responses:
  *       "200":
  *         description: OK

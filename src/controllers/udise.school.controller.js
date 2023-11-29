@@ -49,8 +49,24 @@ const getUdiseSchoolZone = catchAsync(async (req, res) => {
   const result = await udiseSchoolService.fetchSchoolZone();
   res.status(httpStatus.CREATED).send(result);
 });
+
+const getUdiseSchoolCountSchooolWise = catchAsync(async (req, res) => {
+  const result = await udiseSchoolService.ScholWiseCount(req.body.SchoolID);
+  res.status(httpStatus.CREATED).send(result);
+});
+
 const getUdiseSchoolZoneByDistrict = catchAsync(async (req, res) => {
   const result = await udiseSchoolService.getDistrictZoneNames(req.body.districtName);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getUdiseSchoolByDistrict = catchAsync(async (req, res) => {
+  const result = await udiseSchoolService.getDistrictSchools(req.body.district);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getZoneWiseSchools = catchAsync(async (req, res) => {
+  const result = await udiseSchoolService.getZoneWiseSchools(req.body.zone);
   res.status(httpStatus.CREATED).send(result);
 });
 
@@ -59,8 +75,10 @@ module.exports = {
   getUdiseSchoolStats,
   getUdiseSchoolStatsDistrict,
   getUdiseSchoolStatsZone,
+  getUdiseSchoolCountSchooolWise,
   getUdiseSchoolDistrict,
   getUdiseSchoolZone,
   getUdiseSchoolZoneByDistrict,
-  getAllUdiseSchool,
+  getUdiseSchoolByDistrict,
+  getZoneWiseSchools,
 };

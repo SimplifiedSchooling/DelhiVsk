@@ -296,17 +296,16 @@ const storeAttendanceDataInMongoDB = async () => {
         attendanceStatus = 'attendanceNotTaken';
       }
 
-      const countByGenderAndAttendance = (gender, attendanceType) => studentData.filter(
-        (student) => student.Gender === gender && student.attendance === attendanceType
-      ).length;
+      const countByGenderAndAttendance = (gender, attendanceType) =>
+        studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
 
-      const countByClass = (className, attendanceType) => studentData.filter(
-        (student) => student.CLASS === className && student.attendance === attendanceType
-      ).length;
+      const countByClass = (className, attendanceType) =>
+        studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
 
-      const countByClassAndGender = (className, attendanceType, gender) => studentData.filter(
-        (student) => student.CLASS === className && student.attendance === attendanceType && student.Gender === gender
-      ).length;
+      const countByClassAndGender = (className, attendanceType, gender) =>
+        studentData.filter(
+          (student) => student.CLASS === className && student.attendance === attendanceType && student.Gender === gender
+        ).length;
 
       const malePresentCount = countByGenderAndAttendance('M', 'Present');
       const femalePresentCount = countByGenderAndAttendance('F', 'Present');
@@ -333,29 +332,29 @@ const storeAttendanceDataInMongoDB = async () => {
       // Include class-wise counts in the array
       const classes = Array.from(new Set(studentData.map((student) => student.CLASS)));
       for (const className of classes) {
-  
         const classPresentCount = countByClass(className, 'Present');
         const classAbsentCount = countByClass(className, 'Absent');
         const classLeaveCount = countByClass(className, 'Leave');
 
-        const classMalePresentCount = countByClassAndGender(className, 'Present', "M");
-        const classFemalePresentCount = countByClassAndGender(className, 'Present', "F");
-        const classOtherPresentCount = countByClassAndGender(className, 'Present', "T");
+        const classMalePresentCount = countByClassAndGender(className, 'Present', 'M');
+        const classFemalePresentCount = countByClassAndGender(className, 'Present', 'F');
+        const classOtherPresentCount = countByClassAndGender(className, 'Present', 'T');
 
-        const classMaleAbsentCount = countByClassAndGender(className, 'Absent', "M");
-        const classFemaleAbsentCount = countByClassAndGender(className, 'Absent', "F");
-        const classOtherAbsentCount = countByClassAndGender(className, 'Absent', "T");
+        const classMaleAbsentCount = countByClassAndGender(className, 'Absent', 'M');
+        const classFemaleAbsentCount = countByClassAndGender(className, 'Absent', 'F');
+        const classOtherAbsentCount = countByClassAndGender(className, 'Absent', 'T');
 
-        const classMaleLeaveCount = countByClassAndGender(className, 'Leave', "M");
-        const classFemaleLeaveCount = countByClassAndGender(className, 'Leave', "F");
-        const classOtherLeaveCount = countByClassAndGender(className, 'Leave', "T");
+        const classMaleLeaveCount = countByClassAndGender(className, 'Leave', 'M');
+        const classFemaleLeaveCount = countByClassAndGender(className, 'Leave', 'F');
+        const classOtherLeaveCount = countByClassAndGender(className, 'Leave', 'T');
 
-        const classMaleAttendanceNotMarkedCount = countByClassAndGender(className, '', "M");
-        const classFemaleAttendanceNotMarkedCount = countByClassAndGender(className, '', "F");
-        const classOtherAttendanceNotMarkedCount = countByClassAndGender(className, '', "T");
+        const classMaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'M');
+        const classFemaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'F');
+        const classOtherAttendanceNotMarkedCount = countByClassAndGender(className, '', 'T');
 
         const classNotMarkedAttendanceCount = countByClass(className, '');
-        const classTotalStudentCount =  classPresentCount + classAbsentCount + classLeaveCount + classNotMarkedAttendanceCount;
+        const classTotalStudentCount =
+          classPresentCount + classAbsentCount + classLeaveCount + classNotMarkedAttendanceCount;
         classCount.push({
           className,
           classTotalStudentCount,
@@ -444,7 +443,6 @@ const storeAttendanceDataInMongoDB = async () => {
     }
   }
 };
-
 
 // Schedule the job to run every day at 9 PM
 cron.schedule('0 21 * * *', async () => {
