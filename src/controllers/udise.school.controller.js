@@ -70,6 +70,11 @@ const getZoneWiseSchools = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getSchoolsTypeWise = catchAsync(async (req, res) => {
+  const result = await udiseSchoolService.getSchoolsTypeWise(req.body.schoolType);
+  res.status(httpStatus.CREATED).send(result);
+});
+
 module.exports = {
   bulkUploadFile,
   getUdiseSchoolStats,
@@ -81,4 +86,5 @@ module.exports = {
   getUdiseSchoolZoneByDistrict,
   getUdiseSchoolByDistrict,
   getZoneWiseSchools,
+  getSchoolsTypeWise,
 };

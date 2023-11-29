@@ -30,6 +30,8 @@ router.route('/udise-school-stats-by/school').post(udiseSchooolController.getUdi
 router.route('/district').get(udiseSchooolController.getUdiseSchoolDistrict);
 router.route('/zone').get(udiseSchooolController.getUdiseSchoolZone);
 
+router.route('/school/school-type-wise').post(udiseSchooolController.getSchoolsTypeWise);
+
 router.route('/district-zones').post(udiseSchooolController.getUdiseSchoolZoneByDistrict);
 
 router.route('/district-wise/schools').post(udiseSchooolController.getUdiseSchoolByDistrict);
@@ -104,6 +106,41 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
+
+
+/**
+ * @swagger
+ * /udise-school/school/school-type-wise:
+ *   post:
+ *     summary: Get udise school school-type-wise
+ *     description: Get udise school school-type-wise
+ *     tags: [UdiseSchool]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schoolType:
+ *                 type: string
+ *             required:
+ *               - schoolType
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+
+
+
+
+
+
 
 /**
  * @swagger
