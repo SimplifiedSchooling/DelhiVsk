@@ -54,17 +54,46 @@ const bulkUpload = async (schoolArray, csvFilePath = null) => {
   return Promise.all(savePromises);
 };
 
-const apiUrl = 'http://165.22.216.223:3000/v1/school';
 
-async function fetchSchoolData() {
-  try {
-    const response = await axios.get(apiUrl);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+
+const  fetchSchoolData = async() =>  {
+  const duplicates = await School.aggregate([
+    {
+      $group: {
+        _id: { District_name: '$District_name', D_ID: '$D_ID' },
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $match: {
+        count: { $gt: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        districtName: '$_id.District_name',
+        D_ID: '$_id.D_ID',
+        // count: 1,
+      },
+    },
+  ]);
+  return duplicates;
 }
 
+const  fetchSchoolZone = async() =>  {
+
+  const uniqueZones = await School.aggregate([
+    { $group: { _id: { Zone_Name: "$Zone_Name", Z_ID: "$Z_ID" } } }
+  ]);
+
+  const formattedZones = uniqueZones.map(zone => ({
+    Zone_Name: zone._id.Zone_Name,
+    Z_ID: zone._id.Z_ID
+  }));
+
+  return { ZoneInfo: formattedZones };
+}
 // async function getDistrictSchools() {
 //   try {
 //     const response = await axios.get(apiUrl);
@@ -112,4 +141,5 @@ module.exports = {
   getDistrictZoneNames,
   getDistrictSchools,
   getZoneNameSchools,
+  fetchSchoolZone,
 };

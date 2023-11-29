@@ -8,12 +8,12 @@ const redis = require('../utils/redis');
  */
 const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   // Create a cache key based on the district name
-  const cacheKey = `districtName:${districtName}`;
-  const cachedData = await redis.get(cacheKey);
+  // const cacheKey = `districtName:${districtName}`;
+  // const cachedData = await redis.get(cacheKey);
 
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
 
   const schoolData = await School.find({ District_name: districtName });
 
@@ -73,6 +73,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     totalMaleTeachers,
     totalMaleStudent,
     totalGirlsStudent,
+    Other,
     totalStudent,
     totalStudyingStudent,
   ] = await Promise.allSettled([
@@ -82,6 +83,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
     Student.countDocuments({ Gender: 'M', District: districtName }).exec(),
     Student.countDocuments({ Gender: 'F', District: districtName }).exec(),
+    Student.countDocuments({ Gender: 'T', District: districtName }).exec(),
     Student.countDocuments({ District: districtName }).exec(),
     Student.countDocuments({ status: 'Studying', District: districtName }).exec(),
   ]);
@@ -153,6 +155,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
     totalBoys: totalMaleStudent.value,
+    Other: Other.value,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
@@ -169,7 +172,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   };
 
   // Cache the result in Redis for future use
-  await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
+  // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
@@ -246,6 +249,7 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     totalMaleTeachers,
     totalMaleStudent,
     totalGirlsStudent,
+    Other,
     totalStudent,
     totalStydyingStudent,
   ] = await Promise.allSettled([
@@ -255,6 +259,7 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
     Student.countDocuments({ Gender: 'M', z_name: nameZone }).exec(),
     Student.countDocuments({ Gender: 'F', z_name: nameZone }).exec(),
+    Student.countDocuments({ Gender: 'T', z_name: nameZone }).exec(),
     Student.countDocuments({ z_name: nameZone }).exec(),
     Student.countDocuments({ status: 'Studying', z_name: nameZone }).exec(),
   ]);
@@ -326,6 +331,7 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
     totalBoys: totalMaleStudent.value,
+    Other: Other.value,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
@@ -548,6 +554,7 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
     totalMaleTeachers,
     totalMaleStudent,
     totalGirlsStudent,
+    Other,
     totalStudent,
     totalStudyingStudent,
   ] = await Promise.allSettled([
@@ -557,6 +564,7 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
     Teacher.countDocuments({ gender: 'Male', schoolid: schoolId }).exec(),
     Student.countDocuments({ Gender: 'M', Schoolid: Number(schoolId) }).exec(),
     Student.countDocuments({ Gender: 'F', Schoolid: Number(schoolId) }).exec(),
+    Student.countDocuments({ Gender: 'T', Schoolid: Number(schoolId) }).exec(),
     Student.countDocuments({ Schoolid: Number(schoolId) }).exec(),
     Student.countDocuments({ status: 'Studying', Schoolid: Number(schoolId) }).exec(),
   ]);
@@ -629,6 +637,7 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
     totalBoys: totalMaleStudent.value,
+    Other: Other.value,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,

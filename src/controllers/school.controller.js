@@ -35,14 +35,8 @@ const schoolData = catchAsync(async (req, res) => {
 });
 
 async function getDistrictName(req, res) {
-  try {
-    const schoolData1 = await schoolService.fetchSchoolData();
-    const districtNames = schoolData1.map((school) => school.District_name);
-    const uniqueDistrictNames = [...new Set(districtNames)];
-    res.json({ districtNames: uniqueDistrictNames });
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred' });
-  }
+    const result = await schoolService.fetchSchoolData();
+    res.status(httpStatus.CREATED).send(result);
 }
 
 async function getZoneName(req, res) {
@@ -66,6 +60,8 @@ async function getZoneName(req, res) {
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
   }
+    const result = await schoolService.fetchSchoolZone();
+    res.status(httpStatus.CREATED).send(result);
 }
 // async function getDistrictSchool(req, res) {
 //   try {

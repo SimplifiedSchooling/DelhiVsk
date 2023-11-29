@@ -267,6 +267,7 @@ const getAllSchoolStudentTeacherData = async () => {
     totalMaleTeachers,
     totalMaleStudent,
     totalGirlsStudent,
+    Other,
     totalStudent,
     totalStydyingStudent,
   ] = await Promise.allSettled([
@@ -276,6 +277,7 @@ const getAllSchoolStudentTeacherData = async () => {
     Teacher.countDocuments({ gender: 'Male' }).exec(),
     Student.countDocuments({ Gender: 'M' }).exec(),
     Student.countDocuments({ Gender: 'F' }).exec(),
+    Student.countDocuments({ Gender: 'T' }).exec(),
     Student.countDocuments().exec(),
     Student.countDocuments({ status: 'Studying' }).exec(),
   ]);
@@ -342,6 +344,7 @@ const getAllSchoolStudentTeacherData = async () => {
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
     totalBoys: totalMaleStudent.value,
+    Other: Other.value,
     teacherStudentRatio,
     averageTeacherOfSchool,
     averageStudentOfSchool,
