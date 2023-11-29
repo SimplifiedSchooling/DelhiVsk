@@ -46,6 +46,21 @@ module.exports = router;
 
 /**
  * @swagger
+ * /udise-school/getalldata:
+ *   get:
+ *     summary: Get all UdiseSchool
+ *     description: Get a list of all UdiseSchool.
+ *     tags: [UdiseSchool]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+/**
+ * @swagger
  * /udise-school/udise-school-stats:
  *   get:
  *     summary: Get all udise school stats
@@ -144,7 +159,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /udise-school/zone-wise/school:
@@ -172,14 +186,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
-
-
-
-
-
-
-
 /**
  * @swagger
  * /udise-school/bulkupload:
@@ -202,7 +208,6 @@ module.exports = router;
  *       404:
  *         description: Missing file
  */
-
 
 /**
  * @swagger
@@ -231,7 +236,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /udise-school/udise-school-stats-by/zone:
@@ -259,7 +263,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /udise-school/udise-school-stats-by/school:
@@ -286,5 +289,3 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
-

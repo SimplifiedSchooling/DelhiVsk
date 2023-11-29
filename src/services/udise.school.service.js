@@ -1,7 +1,18 @@
 const { Udiseschool } = require('../models');
 
+/**
+ * Query for board
+ * @returns {Promise<QueryResult>}
+ */
+
+const getAllUdiseschool = async () => {
+  const learningSessions = await Udiseschool.find();
+  return learningSessions;
+};
+
 const bulkUpload = async (schoolArray, csvFilePath = null, maxRecordsToUpload = Infinity) => {
   let modifiedSchoolArray = schoolArray;
+
   if (csvFilePath) {
     modifiedSchoolArray = csvFilePath;
   }
@@ -11,7 +22,6 @@ const bulkUpload = async (schoolArray, csvFilePath = null, maxRecordsToUpload = 
   }
 
   const recordsToUpload = modifiedSchoolArray.slice(0, maxRecordsToUpload);
-
   for (const school of recordsToUpload) {
     const record = new Udiseschool(school);
     await record.save();
@@ -88,65 +98,63 @@ const udiseSchoolStats = async () => {
   };
 };
 
-const districtWiseCount = async(district) => {
-// Count based on RuralUrban
-const getRuralUrbanCounts = async (district) => {
-  const counts = await Udiseschool.aggregate([
-    {$match: {district} },
-    {
-      $group: {
-        _id: '$RuralUrban',
-        count: { $sum: 1 },
+const districtWiseCount = async (district) => {
+  // Count based on RuralUrban
+  const getRuralUrbanCounts = async (district) => {
+    const counts = await Udiseschool.aggregate([
+      { $match: { district } },
+      {
+        $group: {
+          _id: '$RuralUrban',
+          count: { $sum: 1 },
+        },
       },
-    },
-  ]);
-  return counts;
-};
+    ]);
+    return counts;
+  };
 
-// Count based on School_Gender
-const getSchoolGenderCounts = async (district) => {
-  const counts = await Udiseschool.aggregate([
-    
-    {$match: {district}},
-    {
-      
-      $group: {
-        _id: '$School_Gender',
-        count: { $sum: 1 },
+  // Count based on School_Gender
+  const getSchoolGenderCounts = async (district) => {
+    const counts = await Udiseschool.aggregate([
+      { $match: { district } },
+      {
+        $group: {
+          _id: '$School_Gender',
+          count: { $sum: 1 },
+        },
       },
-    },
-  ]);
-  return counts;
-};
+    ]);
+    return counts;
+  };
 
-// Count based on Shiftofschool
-const getShiftofschoolCounts = async (district) => {
-  const counts = await Udiseschool.aggregate([
-    {$match: {district}},
-    {
-      $group: {
-        _id: '$Shiftofschool',
-        count: { $sum: 1 },
+  // Count based on Shiftofschool
+  const getShiftofschoolCounts = async (district) => {
+    const counts = await Udiseschool.aggregate([
+      { $match: { district } },
+      {
+        $group: {
+          _id: '$Shiftofschool',
+          count: { $sum: 1 },
+        },
       },
-    },
-  ]);
-  return counts;
-};
+    ]);
+    return counts;
+  };
 
-// Count based on typeofschool
-const getTypeofschoolCounts = async (district) => {
-  const counts = await Udiseschool.aggregate([
-    {$match: {district} },
-    {
-      $group: {
-        _id: '$typeofschool',
-        count: { $sum: 1 },
+  // Count based on typeofschool
+  const getTypeofschoolCounts = async (district) => {
+    const counts = await Udiseschool.aggregate([
+      { $match: { district } },
+      {
+        $group: {
+          _id: '$typeofschool',
+          count: { $sum: 1 },
+        },
       },
-    },
-  ]);
-  return counts;
-};
-  const totalSchoolCount = await Udiseschool.countDocuments({district});
+    ]);
+    return counts;
+  };
+  const totalSchoolCount = await Udiseschool.countDocuments({ district });
   const ruralUrbanCounts = await getRuralUrbanCounts(district);
   const schoolGenderCounts = await getSchoolGenderCounts(district);
   const shiftofschoolCounts = await getShiftofschoolCounts(district);
@@ -160,12 +168,12 @@ const getTypeofschoolCounts = async (district) => {
     typeofschoolCounts,
   };
 };
-////////////////////////////////  Zone udise school/////////////////
-const ZoneWiseCount = async(zone) => {
+/// /////////////////////////////  Zone udise school/////////////////
+const ZoneWiseCount = async (zone) => {
   // Count based on RuralUrban
   const getRuralUrbanCounts = async (zone) => {
     const counts = await Udiseschool.aggregate([
-      {$match: {zone} },
+      { $match: { zone } },
       {
         $group: {
           _id: '$RuralUrban',
@@ -175,14 +183,12 @@ const ZoneWiseCount = async(zone) => {
     ]);
     return counts;
   };
-  
+
   // Count based on School_Gender
   const getSchoolGenderCounts = async (zone) => {
     const counts = await Udiseschool.aggregate([
-      
-      {$match: {zone}},
+      { $match: { zone } },
       {
-        
         $group: {
           _id: '$School_Gender',
           count: { $sum: 1 },
@@ -191,11 +197,11 @@ const ZoneWiseCount = async(zone) => {
     ]);
     return counts;
   };
-  
+
   // Count based on Shiftofschool
   const getShiftofschoolCounts = async (zone) => {
     const counts = await Udiseschool.aggregate([
-      {$match: {zone}},
+      { $match: { zone } },
       {
         $group: {
           _id: '$Shiftofschool',
@@ -205,11 +211,11 @@ const ZoneWiseCount = async(zone) => {
     ]);
     return counts;
   };
-  
+
   // Count based on typeofschool
   const getTypeofschoolCounts = async (zone) => {
     const counts = await Udiseschool.aggregate([
-      {$match: {zone} },
+      { $match: { zone } },
       {
         $group: {
           _id: '$typeofschool',
@@ -219,27 +225,26 @@ const ZoneWiseCount = async(zone) => {
     ]);
     return counts;
   };
-    const totalSchoolCount = await Udiseschool.countDocuments({zone});
-    const ruralUrbanCounts = await getRuralUrbanCounts(zone);
-    const schoolGenderCounts = await getSchoolGenderCounts(zone);
-    const shiftofschoolCounts = await getShiftofschoolCounts(zone);
-    const typeofschoolCounts = await getTypeofschoolCounts(zone);
-    return {
-      totalSchoolCount,
-      ruralUrbanCounts,
-      schoolGenderCounts,
-      shiftofschoolCounts,
-      typeofschoolCounts,
-    };
+  const totalSchoolCount = await Udiseschool.countDocuments({ zone });
+  const ruralUrbanCounts = await getRuralUrbanCounts(zone);
+  const schoolGenderCounts = await getSchoolGenderCounts(zone);
+  const shiftofschoolCounts = await getShiftofschoolCounts(zone);
+  const typeofschoolCounts = await getTypeofschoolCounts(zone);
+  return {
+    totalSchoolCount,
+    ruralUrbanCounts,
+    schoolGenderCounts,
+    shiftofschoolCounts,
+    typeofschoolCounts,
   };
+};
 
-
-//////////////////// udise School //////////////////
-const ScholWiseCount = async(SchoolID) => {
+/// ///////////////// udise School //////////////////
+const ScholWiseCount = async (SchoolID) => {
   // Count based on RuralUrban
   const getRuralUrbanCounts = async (SchoolID) => {
     const counts = await Udiseschool.aggregate([
-      {$match: {SchoolID} },
+      { $match: { SchoolID } },
       {
         $group: {
           _id: '$RuralUrban',
@@ -249,14 +254,12 @@ const ScholWiseCount = async(SchoolID) => {
     ]);
     return counts;
   };
-  
+
   // Count based on School_Gender
   const getSchoolGenderCounts = async (SchoolID) => {
     const counts = await Udiseschool.aggregate([
-      
-      {$match: {SchoolID}},
+      { $match: { SchoolID } },
       {
-        
         $group: {
           _id: '$School_Gender',
           count: { $sum: 1 },
@@ -265,11 +268,11 @@ const ScholWiseCount = async(SchoolID) => {
     ]);
     return counts;
   };
-  
+
   // Count based on Shiftofschool
   const getShiftofschoolCounts = async (SchoolID) => {
     const counts = await Udiseschool.aggregate([
-      {$match: {SchoolID}},
+      { $match: { SchoolID } },
       {
         $group: {
           _id: '$Shiftofschool',
@@ -279,11 +282,11 @@ const ScholWiseCount = async(SchoolID) => {
     ]);
     return counts;
   };
-  
+
   // Count based on typeofschool
   const getTypeofschoolCounts = async (SchoolID) => {
     const counts = await Udiseschool.aggregate([
-      {$match: {SchoolID} },
+      { $match: { SchoolID } },
       {
         $group: {
           _id: '$typeofschool',
@@ -293,78 +296,71 @@ const ScholWiseCount = async(SchoolID) => {
     ]);
     return counts;
   };
-    const totalSchoolCount = await Udiseschool.countDocuments({SchoolID});
-    const ruralUrbanCounts = await getRuralUrbanCounts(SchoolID);
-    const schoolGenderCounts = await getSchoolGenderCounts(SchoolID);
-    const shiftofschoolCounts = await getShiftofschoolCounts(SchoolID);
-    const typeofschoolCounts = await getTypeofschoolCounts(SchoolID);
-    return {
-      totalSchoolCount,
-      ruralUrbanCounts,
-      schoolGenderCounts,
-      shiftofschoolCounts,
-      typeofschoolCounts,
-    };
+  const totalSchoolCount = await Udiseschool.countDocuments({ SchoolID });
+  const ruralUrbanCounts = await getRuralUrbanCounts(SchoolID);
+  const schoolGenderCounts = await getSchoolGenderCounts(SchoolID);
+  const shiftofschoolCounts = await getShiftofschoolCounts(SchoolID);
+  const typeofschoolCounts = await getTypeofschoolCounts(SchoolID);
+  return {
+    totalSchoolCount,
+    ruralUrbanCounts,
+    schoolGenderCounts,
+    shiftofschoolCounts,
+    typeofschoolCounts,
   };
-/////////////////end/////////////
+};
+/// //////////////end/////////////
 
-
-  const  fetchSchoolDataDistrict = async() =>  {
-    const duplicates = await Udiseschool.aggregate([
-      {
-        $group: {
-          _id: { district: '$district', },
-          count: { $sum: 1 },
-        },
+const fetchSchoolDataDistrict = async () => {
+  const duplicates = await Udiseschool.aggregate([
+    {
+      $group: {
+        _id: { district: '$district' },
+        count: { $sum: 1 },
       },
-      {
-        $match: {
-          count: { $gt: 1 },
-        },
+    },
+    {
+      $match: {
+        count: { $gt: 1 },
       },
-      {
-        $project: {
-          _id: 0,
-          districtName: '$_id.district',
-          // count: 1,
-        },
+    },
+    {
+      $project: {
+        _id: 0,
+        districtName: '$_id.district',
+        // count: 1,
       },
-    ]);
-    return duplicates;
-  }
-  
-  const  fetchSchoolZone = async() =>  {
-  
-    const uniqueZones = await Udiseschool.aggregate([
-      { $group: { _id: { zone: "$zone", } } }
-    ]);
-  
-    const formattedZones = uniqueZones.map(zone => ({
-      Zone_Name: zone._id.zone,
-      // Z_ID: zone._id.Z_ID
-    }));
-  
-    return { ZoneInfo: formattedZones };
-  }
+    },
+  ]);
+  return duplicates;
+};
 
+const fetchSchoolZone = async () => {
+  const uniqueZones = await Udiseschool.aggregate([{ $group: { _id: { zone: '$zone' } } }]);
 
-  const getDistrictZoneNames = async (districtName) => {
-    const zones = await Udiseschool.distinct('zone', { district: districtName }).exec();
-    const result = zones.map((zone, index) => ({ Zone_Name: zone }));
-    return result;
-  };
+  const formattedZones = uniqueZones.map((zone) => ({
+    Zone_Name: zone._id.zone,
+    // Z_ID: zone._id.Z_ID
+  }));
 
+  return { ZoneInfo: formattedZones };
+};
 
-const getDistrictSchools = async(district) => {
+const getDistrictZoneNames = async (districtName) => {
+  const zones = await Udiseschool.distinct('zone', { district: districtName }).exec();
+  const result = zones.map((zone, index) => ({ Zone_Name: zone }));
+  return result;
+};
+
+const getDistrictSchools = async (district) => {
   const schools = await Udiseschool.find({ district }, 'SchoolID SchName').exec();
   return schools;
-}
+};
 
 const getZoneWiseSchools = async (zoneName) => {
   const schools = await Udiseschool.find({ zone: zoneName }).select('SchoolID SchName').exec();
   return schools;
 };
-
 
 module.exports = {
   bulkUpload,

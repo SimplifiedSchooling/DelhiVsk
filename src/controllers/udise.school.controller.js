@@ -36,6 +36,10 @@ const getUdiseSchoolStatsZone = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getAllUdiseSchool = catchAsync(async (req, res) => {
+  const result = await udiseSchoolService.getAllUdiseschool();
+  res.status(httpStatus.CREATED).send(result);
+});
 const getUdiseSchoolDistrict = catchAsync(async (req, res) => {
   const result = await udiseSchoolService.fetchSchoolDataDistrict();
   res.status(httpStatus.CREATED).send(result);
@@ -45,7 +49,6 @@ const getUdiseSchoolZone = catchAsync(async (req, res) => {
   const result = await udiseSchoolService.fetchSchoolZone();
   res.status(httpStatus.CREATED).send(result);
 });
-
 
 const getUdiseSchoolCountSchooolWise = catchAsync(async (req, res) => {
   const result = await udiseSchoolService.ScholWiseCount(req.body.SchoolID);

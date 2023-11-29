@@ -54,9 +54,7 @@ const bulkUpload = async (schoolArray, csvFilePath = null) => {
   return Promise.all(savePromises);
 };
 
-
-
-const  fetchSchoolData = async() =>  {
+const fetchSchoolData = async () => {
   const duplicates = await School.aggregate([
     {
       $group: {
@@ -79,21 +77,18 @@ const  fetchSchoolData = async() =>  {
     },
   ]);
   return duplicates;
-}
+};
 
-const  fetchSchoolZone = async() =>  {
+const fetchSchoolZone = async () => {
+  const uniqueZones = await School.aggregate([{ $group: { _id: { Zone_Name: '$Zone_Name', Z_ID: '$Z_ID' } } }]);
 
-  const uniqueZones = await School.aggregate([
-    { $group: { _id: { Zone_Name: "$Zone_Name", Z_ID: "$Z_ID" } } }
-  ]);
-
-  const formattedZones = uniqueZones.map(zone => ({
+  const formattedZones = uniqueZones.map((zone) => ({
     Zone_Name: zone._id.Zone_Name,
-    Z_ID: zone._id.Z_ID
+    Z_ID: zone._id.Z_ID,
   }));
 
   return { ZoneInfo: formattedZones };
-}
+};
 // async function getDistrictSchools() {
 //   try {
 //     const response = await axios.get(apiUrl);
@@ -114,10 +109,10 @@ const  fetchSchoolZone = async() =>  {
 //   }
 // }
 
-const getDistrictSchools = async(districtName) => {
+const getDistrictSchools = async (districtName) => {
   const schools = await School.find({ District_name: districtName }, 'Schoolid School_Name').exec();
   return schools;
-}
+};
 
 const getDistrictZoneNames = async (districtName) => {
   const zones = await School.distinct('Zone_Name', { District_name: districtName }).exec();
