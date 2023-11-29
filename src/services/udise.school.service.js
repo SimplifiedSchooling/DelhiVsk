@@ -1,7 +1,19 @@
 const { Udiseschool } = require('../models');
 
+
+/**
+ * Query for board
+ * @returns {Promise<QueryResult>}
+ */
+
+const getAllUdiseschool = async () => {
+  const learningSessions = await Udiseschool.find();
+  return learningSessions;
+};
+
 const bulkUpload = async (schoolArray, csvFilePath = null, maxRecordsToUpload = Infinity) => {
   let modifiedSchoolArray = schoolArray;
+
   if (csvFilePath) {
     modifiedSchoolArray = csvFilePath;
   }
@@ -11,7 +23,6 @@ const bulkUpload = async (schoolArray, csvFilePath = null, maxRecordsToUpload = 
   }
 
   const recordsToUpload = modifiedSchoolArray.slice(0, maxRecordsToUpload);
-
   for (const school of recordsToUpload) {
     const record = new Udiseschool(school);
     await record.save();
@@ -288,4 +299,5 @@ module.exports = {
   fetchSchoolDataDistrict,
   fetchSchoolZone,
   getDistrictZoneNames,
+  getAllUdiseschool,
 };

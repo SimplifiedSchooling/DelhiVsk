@@ -40,6 +40,26 @@ async function getDistrictName(req, res) {
 }
 
 async function getZoneName(req, res) {
+  try {
+    const schoolData = await schoolService.fetchSchoolData();
+    const zoneInfo = schoolData.map((school) => ({
+      Z_ID: school.Z_ID,
+      Zone_Name: school.Zone_Name,
+    }));
+
+    // Remove duplicate entries based on Zone_Name
+    const uniqueZoneInfo = zoneInfo.reduce((acc, current) => {
+      const x = acc.find((item) => item.Zone_Name === current.Zone_Name);
+      if (!x) {
+        return acc.concat([current]);
+      }
+      return acc;
+    }, []);
+
+    res.json({ ZoneInfo: uniqueZoneInfo });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
     const result = await schoolService.fetchSchoolZone();
     res.status(httpStatus.CREATED).send(result);
 }

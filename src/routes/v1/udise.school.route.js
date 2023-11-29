@@ -24,6 +24,7 @@ router.route('/udise-school-stats').get(udiseSchooolController.getUdiseSchoolSta
 
 router.route('/udise-school-stats-by/district').post(udiseSchooolController.getUdiseSchoolStatsDistrict);
 router.route('/udise-school-stats-by/zone').post(udiseSchooolController.getUdiseSchoolStatsZone);
+router.route('/getalldata').get(udiseSchooolController.getAllUdiseSchool);
 
 router.route('/district').get(udiseSchooolController.getUdiseSchoolDistrict);
 router.route('/zone').get(udiseSchooolController.getUdiseSchoolZone);
@@ -39,6 +40,21 @@ module.exports = router;
  *   description: Udise School management
  */
 
+/**
+ * @swagger
+ * /udise-school/getalldata:
+ *   get:
+ *     summary: Get all UdiseSchool
+ *     description: Get a list of all UdiseSchool.
+ *     tags: [UdiseSchool]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
 /**
  * @swagger
  * /udise-school/udise-school-stats:
@@ -135,7 +151,6 @@ module.exports = router;
  *         description: Missing file
  */
 
-
 /**
  * @swagger
  * /udise-school/udise-school-stats-by/district:
@@ -163,7 +178,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /udise-school/udise-school-stats-by/zone:
@@ -190,5 +204,3 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
-

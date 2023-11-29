@@ -178,7 +178,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /student/studentcount/schoolId/status:
