@@ -23,7 +23,7 @@ const bulkUploadFile = catchAsync(async (req, res) => {
 
 const getUdiseSchoolStats = catchAsync(async (req, res) => {
   const result = await udiseSchoolService.udiseSchoolStats();
-  res.status(httpStatus).send(result);
+  res.status(httpStatus.CREATED).send(result);
 });
 
 const getUdiseSchoolStatsDistrict = catchAsync(async (req, res) => {
