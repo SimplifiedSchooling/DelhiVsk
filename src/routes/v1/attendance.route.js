@@ -18,7 +18,7 @@ router.route('/district/present-student/per').post(attendanceController.getDistr
 router.post('/genderandrangewise/count', attendanceController.getGenderRangeWiseCountCount);
 router.post('/attendancepercentage/range/parameter', attendanceController.getAttendancePercentageByGenderAndRangeWise);
 router.get('/top-performing-districts', attendanceController.getTopPerformingDistrictsController);
-
+router.post('/top-performing-zones/bydistrictname', attendanceController.getTopPerformingZonesByDistrict);
 module.exports = router;
 
 /**
@@ -26,6 +26,32 @@ module.exports = router;
  * tags:
  *   name: Attendance
  *   description: Attendance management
+ */
+
+/**
+ * @swagger
+ * /attendance/top-performing-zones/bydistrictname:
+ *   post:
+ *     summary: Get top 5 performing zones based on present counts for a specific district
+ *     description:  Get top 5 performing zones based on present counts for a specific district
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               districtName:
+ *                 type: string
+ *             example:
+ *               districtName: 'East'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
  */
 
 /**

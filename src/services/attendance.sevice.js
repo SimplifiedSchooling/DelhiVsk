@@ -1442,6 +1442,42 @@ const getTopPerformingDistricts = async () => {
   return result;
 };
 
+/**
+ * Get top 5 performing zones based on present counts for a specific district
+ * @param {string} districtName - Name of the district
+ * @returns {Promise<Array<Object>>} - Array of top 5 performing zones with present counts
+ */
+
+const getTopPerformingZonesByDistrict = async (districtName) => {
+  console.log(districtName);
+  const result = await Attendance.aggregate([
+    {
+      $match: { district_name: districtName },
+    },
+    {
+      $group: {
+        _id: '$Z_name',
+        totalPresentCount: { $sum: '$PresentCount' },
+      },
+    },
+    {
+      $sort: { totalPresentCount: -1 },
+    },
+    {
+      $limit: 5,
+    },
+    {
+      $project: {
+        zone_name: '$_id',
+        totalPresentCount: 1,
+        _id: 0,
+      },
+    },
+  ]);
+
+  return result;
+};
+
 module.exports = {
   storeAttendanceDataInMongoDB,
   getAttendanceCounts,
@@ -1454,4 +1490,5 @@ module.exports = {
   getAttendancePercentageGenderAndRangeWise,
   storeAttendanceDataByDate,
   getTopPerformingDistricts,
+  getTopPerformingZonesByDistrict,
 };
