@@ -1407,9 +1407,39 @@ const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zon
   ]);
 
   return {
-    overallPercentage: overallResult[0]?.overallPercentage || {},
+    overallPercentage: overallResult[0] ? overallResult[0].overallPercentage || {} : {},
     dateWisePercentage: dateWiseResult || [],
   };
+};
+
+/**
+ * Get top 5 performing districts based on present counts
+ * @returns {Promise<Array<Object>>} - Array of top 5 performing districts with present counts
+ */
+const getTopPerformingDistricts = async () => {
+  const result = await Attendance.aggregate([
+    {
+      $group: {
+        _id: '$district_name',
+        totalPresentCount: { $sum: '$PresentCount' },
+      },
+    },
+    {
+      $sort: { totalPresentCount: -1 },
+    },
+    {
+      $limit: 5,
+    },
+    {
+      $project: {
+        district_name: '$_id',
+        totalPresentCount: 1,
+        _id: 0,
+      },
+    },
+  ]);
+
+  return result;
 };
 
 module.exports = {
@@ -1423,4 +1453,5 @@ module.exports = {
   getGenderRangeWiseCount,
   getAttendancePercentageGenderAndRangeWise,
   storeAttendanceDataByDate,
+  getTopPerformingDistricts,
 };

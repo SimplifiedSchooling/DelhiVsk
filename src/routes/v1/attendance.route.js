@@ -17,6 +17,7 @@ router.route('/district/present-student/per').post(attendanceController.getDistr
 //----------------------------------------------------------------
 router.post('/genderandrangewise/count', attendanceController.getGenderRangeWiseCountCount);
 router.post('/attendancepercentage/range/parameter', attendanceController.getAttendancePercentageByGenderAndRangeWise);
+router.get('/top-performing-districts', attendanceController.getTopPerformingDistrictsController);
 
 module.exports = router;
 
@@ -51,6 +52,30 @@ module.exports = router;
  *         description: Unauthorized
  *       "403":
  *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/top-performing-districts:
+ *   get:
+ *     summary: Get top 5 performing districts based on present counts
+ *     tags: [Attendance]
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             example:
+ *               - district_name: "District 1"
+ *                 totalPresentCount: 500
+ *               - district_name: "District 2"
+ *                 totalPresentCount: 450
+ *               - district_name: "District 3"
+ *                 totalPresentCount: 400
+ *               - district_name: "District 4"
+ *                 totalPresentCount: 350
+ *               - district_name: "District 5"
+ *                 totalPresentCount: 300
  */
 
 /**
