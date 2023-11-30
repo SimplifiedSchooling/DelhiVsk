@@ -14,6 +14,9 @@ router.route('/zone/date-wise').post(attendanceController.getZoneAttendanceCount
 router.route('/zone/shift/wise').post(attendanceController.getAttendanceCountsShiftWise);
 
 router.route('/district/present-student/per').post(attendanceController.getDistrictWisePresentCount);
+//----------------------------------------------------------------
+router.post('/genderandrangewise/count', attendanceController.getGenderRangeWiseCountCount);
+router.post('/attendancepercentage/range/parameter', attendanceController.getAttendancePercentageByGenderAndRangeWise);
 
 module.exports = router;
 
@@ -39,6 +42,77 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
+
+/**
+ * @swagger
+ * /attendance/genderandrangewise/count:
+ *   post:
+ *     summary: Get attendance gender and range wise count graph data .
+ *     description:  Get attendance gender and range wise count graph data .
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schoolId:
+ *                 type: string
+ *               startDate:
+ *                 type: string
+ *               endDate:
+ *                 type: string
+ *             example:
+ *               schoolId: "1001004"
+ *               startDate: '24/11/2023'
+ *               endDate: '28/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/attendancepercentage/range/parameter:
+ *   post:
+ *     summary: Get attendance by zoneName or districtName or schoolId  and range wise count graph data .
+ *     description:  Get attendance gender and range wise count graph data .
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schoolId:
+ *                 type: string
+ *               startDate:
+ *                 type: string
+ *               endDate:
+ *                 type: string
+ *               zoneName:
+ *                 type: string
+ *               districtName:
+ *                 type: string
+ *             example:
+ *               schoolId: "1001004"
+ *               startDate: '24/11/2023'
+ *               endDate: '28/11/2023'
+ *               zoneName: 'Zone-01'
+ *               districtName: 'East'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
 /**
  * @swagger
  * /attendance/date-wise:
