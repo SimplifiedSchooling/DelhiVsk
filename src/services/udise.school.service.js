@@ -426,6 +426,16 @@ const getSchoolsTypeWise = async (schoolType) => {
   const schools = await Udiseschool.find({ Sch_Type: schoolType });
   return schools;
 };
+
+const getSchoolsTypeWiseDistrict = async (schoolType, district) => {
+  const schools = await Udiseschool.find({ Sch_Type: schoolType, district });
+  return schools;
+};
+
+const getSchoolsTypeWiseZone = async (schoolType, zone) => {
+  const schools = await Udiseschool.find({ Sch_Type: schoolType, zone });
+  return schools;
+};
 module.exports = {
   bulkUpload,
   udiseSchoolStats,
@@ -438,4 +448,6 @@ module.exports = {
   getDistrictSchools,
   getZoneWiseSchools,
   getSchoolsTypeWise,
+  getSchoolsTypeWiseDistrict,
+  getSchoolsTypeWiseZone,
 };
