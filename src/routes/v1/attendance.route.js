@@ -3,7 +3,7 @@ const { attendanceController } = require('../../controllers');
 
 const router = express.Router();
 
-router.route('/').get(attendanceController.getAttedanceData);
+router.route('/').post(attendanceController.getAttedanceData);
 
 router.route('/date-wise').post(attendanceController.getAttendanceCounts);
 
@@ -30,10 +30,20 @@ module.exports = router;
 /**
  * @swagger
  * /attendance:
- *   get:
- *     summary: Get all Attendance
- *     description: Get a list of all Attendance.
+ *   post:
+ *     summary: Store Date wise  Attendance count graph  data .
+ *     description:  Store Date wise  Attendance count graph  data
  *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               date:
+ *                 type: string
+ *             example:
+ *               date: '25/11/2023'
  *     responses:
  *       "200":
  *         description: OK

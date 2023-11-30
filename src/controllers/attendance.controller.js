@@ -3,7 +3,8 @@ const catchAsync = require('../utils/catchAsync');
 const { attendanceService } = require('../services');
 
 const getAttedanceData = catchAsync(async (req, res) => {
-  const result = await attendanceService.storeAttendanceDataInMongoDB();
+  const { date } = req.body;
+  const result = await attendanceService.storeAttendanceDataByDate(date);
   res.status(httpStatus.CREATED).send(result);
 });
 
