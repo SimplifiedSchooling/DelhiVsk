@@ -77,13 +77,13 @@ const getSchoolsTypeWise = catchAsync(async (req, res) => {
 
 const getSchoolsTypeWiseDistrict = catchAsync(async (req, res) => {
   const { schoolType, district } = req.body;
-  const result = await udiseSchoolService.getSchoolsTypeWiseDistrict(schoolType, district );
+  const result = await udiseSchoolService.getSchoolsTypeWiseDistrict(schoolType, district);
   res.status(httpStatus.CREATED).send(result);
 });
 
 const getSchoolsTypeWiseZone = catchAsync(async (req, res) => {
   const { schoolType, zone } = req.body;
-  const result = await udiseSchoolService.getSchoolsTypeWiseZone(schoolType, zone );
+  const result = await udiseSchoolService.getSchoolsTypeWiseZone(schoolType, zone);
   res.status(httpStatus.CREATED).send(result);
 });
 

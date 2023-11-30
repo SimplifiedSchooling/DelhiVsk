@@ -194,7 +194,7 @@ const districtWiseCount = async (district) => {
     schoolGenderCounts,
     shiftofschoolCounts,
     typeofschoolCounts,
-    schoolTypeCounts
+    schoolTypeCounts,
   };
 };
 /// /////////////////////////////  Zone udise school/////////////////
@@ -422,19 +422,18 @@ const getZoneWiseSchools = async (zoneName) => {
   return schools;
 };
 
-
 const getSchoolsTypeWise = async (schoolType) => {
   const schools = await Udiseschool.find({ Sch_Type: schoolType });
   return schools;
 };
 
 const getSchoolsTypeWiseDistrict = async (schoolType, district) => {
-  const schools = await Udiseschool.find({ Sch_Type: schoolType ,district});
+  const schools = await Udiseschool.find({ Sch_Type: schoolType, district });
   return schools;
 };
 
 const getSchoolsTypeWiseZone = async (schoolType, zone) => {
-  const schools = await Udiseschool.find({ Sch_Type: schoolType ,zone});
+  const schools = await Udiseschool.find({ Sch_Type: schoolType, zone });
   return schools;
 };
 module.exports = {

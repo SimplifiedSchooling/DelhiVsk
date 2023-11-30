@@ -30,11 +30,10 @@ router.route('/udise-school-stats-by/school').post(udiseSchooolController.getUdi
 router.route('/district').get(udiseSchooolController.getUdiseSchoolDistrict);
 router.route('/zone').get(udiseSchooolController.getUdiseSchoolZone);
 
-//////school type wise ///////
+/// ///school type wise ///////
 router.route('/school/school-type-wise').post(udiseSchooolController.getSchoolsTypeWise);
 router.route('/school/school-type-wise/district').post(udiseSchooolController.getSchoolsTypeWiseDistrict);
 router.route('/school/school-type-wise/zone').post(udiseSchooolController.getSchoolsTypeWiseZone);
-
 
 router.route('/district-zones').post(udiseSchooolController.getUdiseSchoolZoneByDistrict);
 
@@ -110,7 +109,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
 
 /**
  * @swagger
@@ -198,12 +196,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
-
-
-
-
-
 
 /**
  * @swagger
