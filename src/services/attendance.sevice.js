@@ -445,6 +445,189 @@ const storeAttendanceDataInMongoDB = async () => {
   }
 };
 
+const storeAttendanceDataByDate = async (date) => {
+  // const now = new Date();
+  // const day = String(now.getDate()).padStart(2, '0');
+  // const month = String(now.getMonth() + 1).padStart(2, '0');
+  // const year = now.getFullYear();
+
+  // const date = `${day}/${month}/${year}`;
+  // const date = "28/11/2023";
+  const password = 'VSK@9180';
+
+  const schools = await School.find().exec();
+  for (const school of schools) {
+    const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
+    if (studentData) {
+      // Create a unique identifier based on school and date
+      const identifier = `${school.Schoolid}-${date}`;
+
+      // Check if an entry with the same identifier exists
+      const existingAttendance = await Attendance.findOne({ identifier });
+
+      const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid) }).exec();
+      const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid) }).exec();
+      const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid) }).exec();
+
+      const totalStudentCount = maleStudents + femaleStudents + otherStudents;
+
+      let attendanceStatus = 'done';
+
+      // Check if attendance data is not found
+      if (studentData.length === 0) {
+        attendanceStatus = 'data not found';
+      } else if (studentData.some((student) => student.attendance === '')) {
+        attendanceStatus = 'attendanceNotTaken';
+      }
+
+      const countByGenderAndAttendance = (gender, attendanceType) =>
+        studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
+
+      const countByClass = (className, attendanceType) =>
+        studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
+
+      const countByClassAndGender = (className, attendanceType, gender) =>
+        studentData.filter(
+          (student) => student.CLASS === className && student.attendance === attendanceType && student.Gender === gender
+        ).length;
+
+      const malePresentCount = countByGenderAndAttendance('M', 'Present');
+      const femalePresentCount = countByGenderAndAttendance('F', 'Present');
+      const otherPresentCount = countByGenderAndAttendance('T', 'Present');
+
+      const maleAbsentCount = countByGenderAndAttendance('M', 'Absent');
+      const femaleAbsentCount = countByGenderAndAttendance('F', 'Absent');
+      const otherAbsentCount = countByGenderAndAttendance('T', 'Absent');
+
+      const maleLeaveCount = countByGenderAndAttendance('M', 'Leave');
+      const femaleLeaveCount = countByGenderAndAttendance('F', 'Leave');
+      const otherLeaveCount = countByGenderAndAttendance('T', 'Leave');
+
+      const maleAttendanceNotMarked = countByGenderAndAttendance('M', '');
+      const femaleAttendanceNotMarked = countByGenderAndAttendance('F', '');
+      const otherAttendanceNotMarked = countByGenderAndAttendance('T', '');
+
+      const presentCountData = malePresentCount + femalePresentCount + otherPresentCount;
+      const AbsentCount = maleAbsentCount + femaleAbsentCount + otherAbsentCount;
+      const totalNotMarkedAttendanceCount = maleAttendanceNotMarked + femaleAttendanceNotMarked + otherAttendanceNotMarked;
+      const totalLeaveCount = maleLeaveCount + femaleLeaveCount + otherLeaveCount;
+
+      const classCount = [];
+      // Include class-wise counts in the array
+      const classes = Array.from(new Set(studentData.map((student) => student.CLASS)));
+      for (const className of classes) {
+        const classPresentCount = countByClass(className, 'Present');
+        const classAbsentCount = countByClass(className, 'Absent');
+        const classLeaveCount = countByClass(className, 'Leave');
+
+        const classMalePresentCount = countByClassAndGender(className, 'Present', 'M');
+        const classFemalePresentCount = countByClassAndGender(className, 'Present', 'F');
+        const classOtherPresentCount = countByClassAndGender(className, 'Present', 'T');
+
+        const classMaleAbsentCount = countByClassAndGender(className, 'Absent', 'M');
+        const classFemaleAbsentCount = countByClassAndGender(className, 'Absent', 'F');
+        const classOtherAbsentCount = countByClassAndGender(className, 'Absent', 'T');
+
+        const classMaleLeaveCount = countByClassAndGender(className, 'Leave', 'M');
+        const classFemaleLeaveCount = countByClassAndGender(className, 'Leave', 'F');
+        const classOtherLeaveCount = countByClassAndGender(className, 'Leave', 'T');
+
+        const classMaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'M');
+        const classFemaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'F');
+        const classOtherAttendanceNotMarkedCount = countByClassAndGender(className, '', 'T');
+
+        const classNotMarkedAttendanceCount = countByClass(className, '');
+        const classTotalStudentCount =
+          classPresentCount + classAbsentCount + classLeaveCount + classNotMarkedAttendanceCount;
+        classCount.push({
+          className,
+          classTotalStudentCount,
+          classPresentCount,
+          classAbsentCount,
+          classLeaveCount,
+          classNotMarkedAttendanceCount,
+          classMalePresentCount,
+          classFemalePresentCount,
+          classOtherPresentCount,
+          classMaleAbsentCount,
+          classFemaleAbsentCount,
+          classOtherAbsentCount,
+          classMaleLeaveCount,
+          classFemaleLeaveCount,
+          classOtherLeaveCount,
+          classMaleAttendanceNotMarkedCount,
+          classFemaleAttendanceNotMarkedCount,
+          classOtherAttendanceNotMarkedCount,
+        });
+      }
+
+      if (existingAttendance) {
+        // If an entry with the same identifier exists, update it
+        await Attendance.updateOne(
+          { identifier },
+          {
+            district_name: school.District_name,
+            Z_name: school.Zone_Name,
+            School_ID: school.Schoolid,
+            school_name: school.School_Name,
+            shift: school.shift,
+            attendance_DATE: date,
+            totalStudentCount,
+            PresentCount: presentCountData,
+            AbsentCount,
+            totalNotMarkedAttendanceCount,
+            totalLeaveCount,
+            malePresentCount,
+            feMalePresentCount: femalePresentCount,
+            otherPresentCount,
+            maleAbsentCount,
+            feMaleAbsentCount: femaleAbsentCount,
+            otherAbsentCount,
+            maleLeaveCount,
+            femaleLeaveCount,
+            otherLeaveCount,
+            maleAttendanceNotMarked,
+            femaleAttendanceNotMarked,
+            otherAttendanceNotMarked,
+            attendanceStatus,
+            classCount,
+          }
+        );
+      } else {
+        // If no entry with the same identifier exists, create a new one
+        await Attendance.create({
+          identifier,
+          district_name: school.District_name,
+          Z_name: school.Zone_Name,
+          School_ID: school.Schoolid,
+          school_name: school.School_Name,
+          shift: school.shift,
+          attendance_DATE: date,
+          totalStudentCount,
+          PresentCount: presentCountData,
+          AbsentCount,
+          totalNotMarkedAttendanceCount,
+          totalLeaveCount,
+          malePresentCount,
+          feMalePresentCount: femalePresentCount,
+          otherPresentCount,
+          maleAbsentCount,
+          feMaleAbsentCount: femaleAbsentCount,
+          otherAbsentCount,
+          maleLeaveCount,
+          femaleLeaveCount,
+          otherLeaveCount,
+          maleAttendanceNotMarked,
+          femaleAttendanceNotMarked,
+          otherAttendanceNotMarked,
+          attendanceStatus,
+          classCount,
+        });
+      }
+    }
+  }
+};
+
 // Schedule the job to run every day at 9 PM
 cron.schedule('0 21 * * *', async () => {
   try {
@@ -1239,4 +1422,5 @@ module.exports = {
   //------------------------------------------------------------------
   getGenderRangeWiseCount,
   getAttendancePercentageGenderAndRangeWise,
+  storeAttendanceDataByDate,
 };
