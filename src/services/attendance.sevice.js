@@ -1449,7 +1449,6 @@ const getTopPerformingDistricts = async () => {
  */
 
 const getTopPerformingZonesByDistrict = async (districtName) => {
-  console.log(districtName);
   const result = await Attendance.aggregate([
     {
       $match: { district_name: districtName },
