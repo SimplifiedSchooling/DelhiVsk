@@ -200,25 +200,6 @@ module.exports = router;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * @swagger
  * /udise-school/district-zones:

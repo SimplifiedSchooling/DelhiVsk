@@ -638,101 +638,43 @@ cron.schedule('0 21 * * *', async () => {
     logger.info('Error running the job:', error);
   }
 });
-
+//////////////////////////Attendance graph by single date /////////////
 const getAttendanceCounts = async (date) => {
   const match = {
     attendance_DATE: date,
   };
-  const totalStudentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$totalStudentCount' },
-      },
-    },
-  ]);
 
-  const presentStudentCount = await Attendance.aggregate([
+  const Counts = await Attendance.aggregate([
     { $match: match },
     {
       $group: {
         _id: null,
-        count: { $sum: '$PreasentCount' },
-      },
-    },
-  ]);
+        PresentCount: { $sum: '$PresentCount' },
+        AbsentCount: { $sum: '$AbsentCount' },
+        totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
+        totalLeaveCount: { $sum: '$totalLeaveCount' },
 
-  const malePresentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$malePresentCount' },
-      },
-    },
-  ]);
-
-  const femalePresentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMalePresentCount' },
-      },
-    },
-  ]);
-
-  const otherPresentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$otherPresentCount' },
-      },
-    },
-  ]);
-
-  const maleAbsentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$maleAbsentCount' },
-      },
-    },
-  ]);
-
-  const femaleAbsentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMaleAbsentCount' },
-      },
-    },
-  ]);
-
-  const otherAbsentCount = await Attendance.aggregate([
-    { $match: match },
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$othersAbsentCount' },
+        malePresentCount: { $sum: '$malePresentCount' },
+        feMalePresentCount: { $sum: '$feMalePresentCount' },
+        otherPresentCount: { $sum: '$otherPresentCount' },
+        maleAbsentCount: { $sum: '$maleAbsentCount' },
+        feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
+        othersAbsentCount: { $sum: '$othersAbsentCount' },
+        maleLeaveCount: {$sum: '$maleLeaveCount'},
+        femaleLeaveCount: {$sum: '$femaleLeaveCount'},
+        otherLeaveCount: {$sum: '$otherLeaveCount'},
+        maleAttendanceNotMarked: {$sum: '$maleAttendanceNotMarked'},
+        femaleAttendanceNotMarked: {$sum: '$femaleAttendanceNotMarked'},
+        otherAttendanceNotMarked: {$sum: '$otherAttendanceNotMarked'},
       },
     },
   ]);
   const countofSchoool = await School.countDocuments().exec();
+  const totalStudentCount = await Student.countDocuments().exec();
   return {
     countofSchoool,
-    totalStudentCount: totalStudentCount[0] ? totalStudentCount[0].count : 0,
-    presentStudentCount: presentStudentCount[0] ? presentStudentCount[0].count : 0,
-    malePresentCount: malePresentCount[0] ? malePresentCount[0].count : 0,
-    femalePresentCount: femalePresentCount[0] ? femalePresentCount[0].count : 0,
-    otherPresentCount: otherPresentCount[0] ? otherPresentCount[0].count : 0,
-    maleAbsentCount: maleAbsentCount[0] ? maleAbsentCount[0].count : 0,
-    femaleAbsentCount: femaleAbsentCount[0] ? femaleAbsentCount[0].count : 0,
-    otherAbsentCount: otherAbsentCount[0] ? otherAbsentCount[0].count : 0,
+    totalStudentCount: totalStudentCount,
+    Counts:Counts
   };
 };
 
@@ -744,197 +686,79 @@ const getAttendanceCountsDistrictWise = async (body) => {
       district_name: districtName,
     },
   };
-  const totalStudentCount = await Attendance.aggregate([
-    dateMatch,
+  const Counts = await Attendance.aggregate([
+     dateMatch ,
     {
       $group: {
         _id: null,
-        count: { $sum: '$totalStudentCount' },
-      },
-    },
-  ]);
+        PresentCount: { $sum: '$PresentCount' },
+        AbsentCount: { $sum: '$AbsentCount' },
+        totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
+        totalLeaveCount: { $sum: '$totalLeaveCount' },
 
-  const presentStudentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$PreasentCount' },
+        malePresentCount: { $sum: '$malePresentCount' },
+        feMalePresentCount: { $sum: '$feMalePresentCount' },
+        otherPresentCount: { $sum: '$otherPresentCount' },
+        maleAbsentCount: { $sum: '$maleAbsentCount' },
+        feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
+        othersAbsentCount: { $sum: '$othersAbsentCount' },
+        maleLeaveCount: {$sum: '$maleLeaveCount'},
+        femaleLeaveCount: {$sum: '$femaleLeaveCount'},
+        otherLeaveCount: {$sum: '$otherLeaveCount'},
+        maleAttendanceNotMarked: {$sum: '$maleAttendanceNotMarked'},
+        femaleAttendanceNotMarked: {$sum: '$femaleAttendanceNotMarked'},
+        otherAttendanceNotMarked: {$sum: '$otherAttendanceNotMarked'},
       },
     },
   ]);
-
-  const malePresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$malePresentCount' },
-      },
-    },
-  ]);
-
-  const femalePresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMalePresentCount' },
-      },
-    },
-  ]);
-
-  const otherPresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$otherPresentCount' },
-      },
-    },
-  ]);
-
-  const maleAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$maleAbsentCount' },
-      },
-    },
-  ]);
-
-  const femaleAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMaleAbsentCount' },
-      },
-    },
-  ]);
-
-  const otherAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$othersAbsentCount' },
-      },
-    },
-  ]);
-  const countofSchoool = await School.countDocuments({ District_name: districtName }).exec();
+  const countofSchoool = await School.countDocuments({District_name: districtName}).exec();
+  const totalStudentCount = await Student.countDocuments({District: districtName}).exec();
   return {
     countofSchoool,
-    totalStudentCount: totalStudentCount[0].count,
-    presentStudentCount: presentStudentCount[0].count,
-    malePresentCount: malePresentCount[0].count,
-    femalePresentCount: femalePresentCount[0].count,
-    otherPresentCount: otherPresentCount[0].count,
-    maleAbsentCount: maleAbsentCount[0].count,
-    femaleAbsentCount: femaleAbsentCount[0].count,
-    otherAbsentCount: otherAbsentCount[0].count,
+    totalStudentCount: totalStudentCount,
+    Counts:Counts
   };
 };
 
 const getAttendanceCountsZoneWise = async (date, Z_name) => {
-  const dateMatch = {
+  const match = {
     $match: {
       attendance_DATE: date,
       Z_name,
     },
   };
 
-  const totalStudentCount = await Attendance.aggregate([
-    dateMatch,
+  const Counts = await Attendance.aggregate([
+     match,
     {
       $group: {
         _id: null,
-        count: { $sum: '$totalStudentCount' },
-      },
-    },
-  ]);
+        PresentCount: { $sum: '$PresentCount' },
+        AbsentCount: { $sum: '$AbsentCount' },
+        totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
+        totalLeaveCount: { $sum: '$totalLeaveCount' },
 
-  const presentStudentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$PreasentCount' },
+        malePresentCount: { $sum: '$malePresentCount' },
+        feMalePresentCount: { $sum: '$feMalePresentCount' },
+        otherPresentCount: { $sum: '$otherPresentCount' },
+        maleAbsentCount: { $sum: '$maleAbsentCount' },
+        feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
+        othersAbsentCount: { $sum: '$othersAbsentCount' },
+        maleLeaveCount: {$sum: '$maleLeaveCount'},
+        femaleLeaveCount: {$sum: '$femaleLeaveCount'},
+        otherLeaveCount: {$sum: '$otherLeaveCount'},
+        maleAttendanceNotMarked: {$sum: '$maleAttendanceNotMarked'},
+        femaleAttendanceNotMarked: {$sum: '$femaleAttendanceNotMarked'},
+        otherAttendanceNotMarked: {$sum: '$otherAttendanceNotMarked'},
       },
     },
   ]);
-
-  const malePresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$malePresentCount' },
-      },
-    },
-  ]);
-
-  const femalePresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMalePresentCount' },
-      },
-    },
-  ]);
-
-  const otherPresentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$otherPresentCount' },
-      },
-    },
-  ]);
-
-  const maleAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$maleAbsentCount' },
-      },
-    },
-  ]);
-
-  const femaleAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$feMaleAbsentCount' },
-      },
-    },
-  ]);
-
-  const otherAbsentCount = await Attendance.aggregate([
-    dateMatch,
-    {
-      $group: {
-        _id: null,
-        count: { $sum: '$othersAbsentCount' },
-      },
-    },
-  ]);
-  const countofSchoool = await School.countDocuments({ Zone_Name: Z_name }).exec();
+  const countofSchoool = await School.countDocuments({Zone_Name: Z_name}).exec();
+  const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
   return {
     countofSchoool,
-    totalStudentCount: totalStudentCount[0].count,
-    presentStudentCount: presentStudentCount[0].count,
-    malePresentCount: malePresentCount[0].count,
-    femalePresentCount: femalePresentCount[0].count,
-    otherPresentCount: otherPresentCount[0].count,
-    maleAbsentCount: maleAbsentCount[0].count,
-    femaleAbsentCount: femaleAbsentCount[0].count,
-    otherAbsentCount: otherAbsentCount[0].count,
+    totalStudentCount: totalStudentCount,
+    Counts:Counts
   };
 };
 
