@@ -1412,7 +1412,6 @@ const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zon
   };
 };
 
-
 /**
  * Get top 5 performing districts based on present counts
  * @returns {Promise<Array<Object>>} - Array of top 5 performing districts with present counts
