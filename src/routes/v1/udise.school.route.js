@@ -139,6 +139,88 @@ module.exports = router;
 
 /**
  * @swagger
+ * /udise-school/school/school-type-wise/district:
+ *   post:
+ *     summary: Get udise school school-type-wise
+ *     description: Get udise school school-type-wise
+ *     tags: [UdiseSchool]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schoolType:
+ *                 type: string
+ *               district:
+ *                 type: string
+ *             required:
+ *               - schoolType
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+
+/**
+ * @swagger
+ * /udise-school/school/school-type-wise/zone:
+ *   post:
+ *     summary: Get udise school school-type-wise zone
+ *     description: Get udise school school-type-wise zone
+ *     tags: [UdiseSchool]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schoolType:
+ *                 type: string
+ *               zone:
+ *                 type: number
+ *             required:
+ *               - schoolType
+ *               - zone
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @swagger
  * /udise-school/district-zones:
  *   post:
  *     summary: Get all udise graph data by district name.
