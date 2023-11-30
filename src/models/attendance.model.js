@@ -174,7 +174,7 @@ const attendanceSchema = mongoose.Schema(
         classFemaleLeaveCount: {
           type: Number,
         },
-        classOtherLeaveCounts: {
+        classOtherLeaveCount: {
           type: Number,
         },
         classMaleAttendanceNotMarkedCount: {
