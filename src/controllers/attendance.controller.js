@@ -44,7 +44,7 @@ const getGenderRangeWiseCountCount = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
-const getAttendancePercentageByGenderAndRangeWise = async (req, res) => {
+const getAttendancePercentageByGenderAndRangeWise = catchAsync(async (req, res) => {
   const { startDate, endDate, zoneName, districtName, schoolId } = req.body;
 
   const result = await attendanceService.getAttendancePercentageGenderAndRangeWise(
@@ -56,7 +56,12 @@ const getAttendancePercentageByGenderAndRangeWise = async (req, res) => {
   );
 
   res.status(httpStatus.CREATED).send(result);
-};
+});
+
+const getTopPerformingDistrictsController = catchAsync(async (req, res) => {
+  const topPerformingDistricts = await attendanceService.getTopPerformingDistricts();
+  res.status(httpStatus.CREATED).send(topPerformingDistricts);
+});
 
 module.exports = {
   getAttedanceData,
@@ -68,4 +73,5 @@ module.exports = {
   //----------------------------------------------------------------
   getGenderRangeWiseCountCount,
   getAttendancePercentageByGenderAndRangeWise,
+  getTopPerformingDistrictsController,
 };
