@@ -314,7 +314,7 @@ const storeAttendanceDataInMongoDB = async () => {
 
       const maleAbsentCount = countByGenderAndAttendance('M', 'Absent');
       const femaleAbsentCount = countByGenderAndAttendance('F', 'Absent');
-      const otherAbsentCount = countByGenderAndAttendance('T', 'Absent');
+      const othersAbsentCount = countByGenderAndAttendance('T', 'Absent');
 
       const maleLeaveCount = countByGenderAndAttendance('M', 'Leave');
       const femaleLeaveCount = countByGenderAndAttendance('F', 'Leave');
@@ -399,7 +399,7 @@ const storeAttendanceDataInMongoDB = async () => {
             otherPresentCount,
             maleAbsentCount,
             feMaleAbsentCount: femaleAbsentCount,
-            otherAbsentCount,
+            othersAbsentCount,
             maleLeaveCount,
             femaleLeaveCount,
             otherLeaveCount,
@@ -430,7 +430,7 @@ const storeAttendanceDataInMongoDB = async () => {
           otherPresentCount,
           maleAbsentCount,
           feMaleAbsentCount: femaleAbsentCount,
-          otherAbsentCount,
+          othersAbsentCount,
           maleLeaveCount,
           femaleLeaveCount,
           otherLeaveCount,
