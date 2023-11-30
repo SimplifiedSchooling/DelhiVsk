@@ -68,7 +68,11 @@ const getTopPerformingZonesByDistrict = catchAsync(async (req, res) => {
   const topPerformingZonesByDistricts = await attendanceService.getTopPerformingZonesByDistrict(districtName);
   res.status(httpStatus.CREATED).send(topPerformingZonesByDistricts);
 });
-
+const getTopPerformingSchoolsByZoneName = catchAsync(async (req, res) => {
+  const { zoneName } = req.body;
+  const topPerformingSchoolsByZoneName = await attendanceService.getTopPerformingSchoolsByZoneName(zoneName);
+  res.status(httpStatus.CREATED).send(topPerformingSchoolsByZoneName);
+});
 module.exports = {
   getAttedanceData,
   getAttendanceCounts,
@@ -81,4 +85,5 @@ module.exports = {
   getAttendancePercentageByGenderAndRangeWise,
   getTopPerformingDistrictsController,
   getTopPerformingZonesByDistrict,
+  getTopPerformingSchoolsByZoneName,
 };

@@ -1477,6 +1477,41 @@ const getTopPerformingZonesByDistrict = async (districtName) => {
   return result;
 };
 
+/**
+ * Get top 5 performing schools based on present counts for a specific zoneName
+ * @param {string} zoneName - Name of the district
+ * @returns {Promise<Array<Object>>} - Array of top 5 performing schools with present counts
+ */
+const getTopPerformingSchoolsByZoneName = async (zoneName) => {
+  const result = await Attendance.aggregate([
+    {
+      $match: { Z_name: zoneName },
+    },
+    {
+      $group: {
+        _id: '$School_ID',
+        totalPresentCount: { $sum: '$PresentCount' },
+        schoolName: { $first: '$school_name' }, // Include school name
+      },
+    },
+    {
+      $sort: { totalPresentCount: -1 },
+    },
+    {
+      $limit: 5,
+    },
+    {
+      $project: {
+        schoolName: 1,
+        totalPresentCount: 1,
+        _id: 0,
+      },
+    },
+  ]);
+
+  return result;
+};
+
 module.exports = {
   storeAttendanceDataInMongoDB,
   getAttendanceCounts,
@@ -1490,4 +1525,5 @@ module.exports = {
   storeAttendanceDataByDate,
   getTopPerformingDistricts,
   getTopPerformingZonesByDistrict,
+  getTopPerformingSchoolsByZoneName,
 };
