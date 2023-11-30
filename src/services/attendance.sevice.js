@@ -315,7 +315,7 @@ const storeAttendanceDataInMongoDB = async () => {
       const maleAbsentCount = countByGenderAndAttendance('M', 'Absent');
       const femaleAbsentCount = countByGenderAndAttendance('F', 'Absent');
       const otherAbsentCount = countByGenderAndAttendance('T', 'Absent');
-
+          console.log(otherAbsentCount);
       const maleLeaveCount = countByGenderAndAttendance('M', 'Leave');
       const femaleLeaveCount = countByGenderAndAttendance('F', 'Leave');
       const otherLeaveCount = countByGenderAndAttendance('T', 'Leave');
@@ -399,7 +399,7 @@ const storeAttendanceDataInMongoDB = async () => {
             otherPresentCount,
             maleAbsentCount,
             feMaleAbsentCount: femaleAbsentCount,
-            otherAbsentCount,
+            othersAbsentCount :otherAbsentCount ,
             maleLeaveCount,
             femaleLeaveCount,
             otherLeaveCount,
@@ -430,7 +430,7 @@ const storeAttendanceDataInMongoDB = async () => {
           otherPresentCount,
           maleAbsentCount,
           feMaleAbsentCount: femaleAbsentCount,
-          otherAbsentCount,
+          othersAbsentCount : otherAbsentCount ,
           maleLeaveCount,
           femaleLeaveCount,
           otherLeaveCount,
@@ -497,7 +497,7 @@ const storeAttendanceDataByDate = async (date) => {
 
       const maleAbsentCount = countByGenderAndAttendance('M', 'Absent');
       const femaleAbsentCount = countByGenderAndAttendance('F', 'Absent');
-      const otherAbsentCount = countByGenderAndAttendance('T', 'Absent');
+      const othersAbsentCount = countByGenderAndAttendance('T', 'Absent');
 
       const maleLeaveCount = countByGenderAndAttendance('M', 'Leave');
       const femaleLeaveCount = countByGenderAndAttendance('F', 'Leave');
@@ -508,7 +508,7 @@ const storeAttendanceDataByDate = async (date) => {
       const otherAttendanceNotMarked = countByGenderAndAttendance('T', '');
 
       const presentCountData = malePresentCount + femalePresentCount + otherPresentCount;
-      const AbsentCount = maleAbsentCount + femaleAbsentCount + otherAbsentCount;
+      const AbsentCount = maleAbsentCount + femaleAbsentCount + othersAbsentCount;
       const totalNotMarkedAttendanceCount = maleAttendanceNotMarked + femaleAttendanceNotMarked + otherAttendanceNotMarked;
       const totalLeaveCount = maleLeaveCount + femaleLeaveCount + otherLeaveCount;
 
@@ -582,7 +582,7 @@ const storeAttendanceDataByDate = async (date) => {
             otherPresentCount,
             maleAbsentCount,
             feMaleAbsentCount: femaleAbsentCount,
-            otherAbsentCount,
+            othersAbsentCount,
             maleLeaveCount,
             femaleLeaveCount,
             otherLeaveCount,
@@ -613,7 +613,7 @@ const storeAttendanceDataByDate = async (date) => {
           otherPresentCount,
           maleAbsentCount,
           feMaleAbsentCount: femaleAbsentCount,
-          otherAbsentCount,
+          othersAbsentCount,
           maleLeaveCount,
           femaleLeaveCount,
           otherLeaveCount,
@@ -916,7 +916,7 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
         otherPresentCount: { $sum: '$otherPresentCount' },
         maleAbsentCount: { $sum: '$maleAbsentCount' },
         feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
-        otherAbsentCount: { $sum: '$otherAbsentCount' },
+        otherAbsentCount: { $sum: '$othersAbsentCount' },
         maleLeaveCount: { $sum: '$maleLeaveCount' },
         femaleLeaveCount: { $sum: '$femaleLeaveCount' },
         otherLeaveCount: { $sum: '$otherLeaveCount' },
@@ -1152,7 +1152,7 @@ const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zon
         otherPresentCount: { $sum: '$otherPresentCount' },
         maleAbsentCount: { $sum: '$maleAbsentCount' },
         feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
-        otherAbsentCount: { $sum: '$otherAbsentCount' },
+        otherAbsentCount: { $sum: '$othersAbsentCount' },
         maleLeaveCount: { $sum: '$maleLeaveCount' },
         femaleLeaveCount: { $sum: '$femaleLeaveCount' },
         otherLeaveCount: { $sum: '$otherLeaveCount' },
@@ -1197,7 +1197,7 @@ const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zon
         otherPresentCount: { $sum: '$otherPresentCount' },
         maleAbsentCount: { $sum: '$maleAbsentCount' },
         feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
-        otherAbsentCount: { $sum: '$otherAbsentCount' },
+        otherAbsentCount: { $sum: '$othersAbsentCount' },
         maleLeaveCount: { $sum: '$maleLeaveCount' },
         femaleLeaveCount: { $sum: '$femaleLeaveCount' },
         otherLeaveCount: { $sum: '$otherLeaveCount' },
