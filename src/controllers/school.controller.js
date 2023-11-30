@@ -35,33 +35,13 @@ const schoolData = catchAsync(async (req, res) => {
 });
 
 async function getDistrictName(req, res) {
-    const result = await schoolService.fetchSchoolData();
-    res.status(httpStatus.CREATED).send(result);
+  const result = await schoolService.fetchSchoolData();
+  res.status(httpStatus.CREATED).send(result);
 }
 
 async function getZoneName(req, res) {
-  try {
-    const schoolData = await schoolService.fetchSchoolData();
-    const zoneInfo = schoolData.map((school) => ({
-      Z_ID: school.Z_ID,
-      Zone_Name: school.Zone_Name,
-    }));
-
-    // Remove duplicate entries based on Zone_Name
-    const uniqueZoneInfo = zoneInfo.reduce((acc, current) => {
-      const x = acc.find((item) => item.Zone_Name === current.Zone_Name);
-      if (!x) {
-        return acc.concat([current]);
-      }
-      return acc;
-    }, []);
-
-    res.json({ ZoneInfo: uniqueZoneInfo });
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred' });
-  }
-    const result = await schoolService.fetchSchoolZone();
-    res.status(httpStatus.CREATED).send(result);
+  const result = await schoolService.fetchSchoolZone();
+  res.status(httpStatus.CREATED).send(result);
 }
 // async function getDistrictSchool(req, res) {
 //   try {
@@ -75,12 +55,13 @@ async function getDistrictSchool(req, res) {
   try {
     const districtName = req.body.District_name;
     if (!districtName) {
-      return res.status(400).json({ error: 'District_name is required' });
+    new ApiError(httpStatus.NOT_FOUND, 'DistrictName not found');
     }
     const districtSchools = await schoolService.getDistrictSchools(districtName);
-    res.json({ districtSchools });
+    res.send({districtSchools});
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred' });
+    throw new ApiError(httpStatus.NOT_FOUND, 'Schools not found');
+
   }
 }
 
@@ -88,12 +69,13 @@ async function getDistrictZoneNames(req, res) {
   try {
     const districtName = req.body.District_name;
     if (!districtName) {
-      return res.status(400).json({ error: 'District_name is required' });
+      new ApiError(httpStatus.NOT_FOUND, 'District_name is required');
     }
     const ZoneSchool = await schoolService.getDistrictZoneNames(districtName);
-    res.json({ ZoneSchool });
+    
+    res.status(httpStatus.CREATED).send({ ZoneSchool });
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred' });
+    new ApiError(httpStatus.NOT_FOUND, 'Zone school not found');
   }
 }
 
@@ -101,13 +83,13 @@ async function getZoneSchool(req, res) {
   try {
     const zoneName = req.body.Zone_Name; // Get the Zone_Name from the query parameters
     if (!zoneName) {
-      return res.status(400).json({ error: 'Zone_Name parameter is required' });
+      new ApiError(httpStatus.NOT_FOUND, 'Zone_Name parameter is required');
     }
 
     const ZoneSchool = await schoolService.getZoneNameSchools(zoneName);
-    res.json({ ZoneSchool });
+    res.status(httpStatus.CREATED).send({ ZoneSchool });
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred' });
+    new ApiError(httpStatus.NOT_FOUND, 'School not found');
   }
 }
 

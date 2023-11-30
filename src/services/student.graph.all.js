@@ -107,7 +107,7 @@ const getStudentStats = async () => {
     totalStudents,
   };
 };
-  
+
 // Function to get student counts
 const getStudentCount = async () => {
   // Check if the data is already cached in Redis
@@ -189,11 +189,11 @@ const getStudentCountByDistrictName = async (district) => {
   const getStudentCountByDistrictName = async (district) => {
     const cacheKey = `districtNameForStudents:${district}`;
     const cachedData = await redis.get(cacheKey);
-  
+
     if (cachedData) {
       return JSON.parse(cachedData);
     }
-    const fields = ['SchCategory',  'typeOfSchool', 'shift', 'SchManagement'];
+    const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
     const fieldPromises = fields.map(async (field) => {
       const schoolIds = await getSchoolIdsByField(field);
       const counts = await getStudentCountsByFieldAndDistrict(schoolIds, field, district);
@@ -203,33 +203,33 @@ const getStudentCountByDistrictName = async (district) => {
     const genderCountsStudents = await getGenderCountsStudentsByDistrict(district);
     // const genderCountsTeachers = await getGenderCountsTeachersByDistrict(district);
     const fieldResults = await Promise.all(fieldPromises);
-  
+
     // Fetch other statistics
     const [totalSchools, totalStudent, studyingStudents, totalTeachers] = await Promise.allSettled([
       School.countDocuments({ District_name: district }).exec(),
       Student.countDocuments({ District: district }).exec(),
-      Student.countDocuments({District: district, status: 'Studying'}).exec(),
+      Student.countDocuments({ District: district, status: 'Studying' }).exec(),
       Teacher.countDocuments({ districtname: district }).exec(),
     ]);
-  
+
     const teacherStudentRatio = studyingStudents.value / totalTeachers.value;
     // const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
     const averageStudentOfSchool = totalStudent.value / totalSchools.value;
-  
+
     const totalStudents = totalStudent.value;
-  
-     const data =  {
-        studentStats: fieldResults,
-        studentStatusCounts: statusCounts,
-        studentGenderCounts: genderCountsStudents,
+
+    const data = {
+      studentStats: fieldResults,
+      studentStatusCounts: statusCounts,
+      studentGenderCounts: genderCountsStudents,
       //   teacherGenderCounts: genderCountsTeachers,
-        teacherStudentRatio,
-        // averageTeacherOfSchool,
-        averageStudentOfSchool,
-        totalStudents,
-      };
-      await redis.set(cacheKey, JSON.stringify(data), 'EX', 24 * 60 * 60);
-      return data;
+      teacherStudentRatio,
+      // averageTeacherOfSchool,
+      averageStudentOfSchool,
+      totalStudents,
+    };
+    await redis.set(cacheKey, JSON.stringify(data), 'EX', 24 * 60 * 60);
+    return data;
   };
 
   // Fetch other statistics
@@ -325,58 +325,56 @@ const getGenderCountsStudentsByZone = async (zone) => {
 
 //     return Teacher.aggregate(pipeline);
 //   };
-  
-  // Function to get statistics about students by zone
-  const getStudentCountByZoneName = async (zone) => {
-    const cleanedZoneName = zone.replace(/[^0-9]/g, '');
-    const cacheKey = `zoneStudentGraphs:${cleanedZoneName}`;
-    const cachedData = await redis.get(cacheKey);
-  
-    if (cachedData) {
-      return JSON.parse(cachedData);
-    }
-    const fields = ['SchCategory',  'typeOfSchool', 'shift', 'SchManagement'];
-    const fieldPromises = fields.map(async (field) => {
-      const schoolIds = await getSchoolIdsByField(field);
-      const counts = await getStudentCountsByFieldAndZone(schoolIds, field, zone);
-      return { [field]: counts };
-    });
-    const statusCounts = await getStudentStatusCountsByZone(zone);
-    const genderCountsStudents = await getGenderCountsStudentsByZone(zone);
-    // const genderCountsTeachers = await getGenderCountsTeachersByZone(zone);
-    const fieldResults = await Promise.all(fieldPromises);
-  
-    // Fetch other statistics
-    const [totalSchools, totalStudent, studyingStudents, totalTeachers, ] =
-      await Promise.allSettled([
-        School.countDocuments({ Zone_Name: zone }).exec(),
-        Student.countDocuments({ z_name: zone.toLowerCase() }).exec(),
-        Student.countDocuments({z_name: zone.toLowerCase(), status: 'Studying'}).exec(),
-        Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
-      ]);
-  
-    const teacherStudentRatio = studyingStudents.value / totalTeachers.value;
-    // const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
-    const averageStudentOfSchool = totalStudent.value / totalSchools.value;
-  
-    const totalStudents = totalStudent.value;
-    const data = {
-      studentStats: fieldResults,
-      studentStatusCounts: statusCounts,
-      studentGenderCounts: genderCountsStudents,
-    //   teacherGenderCounts: genderCountsTeachers,
-      teacherStudentRatio,
-    //   averageTeacherOfSchool,
-      averageStudentOfSchool,
-      totalStudents,
-    };
 
-    await redis.set(cacheKey, JSON.stringify(data), 'EX', 24 * 60 * 60);
-    return data
+// Function to get statistics about students by zone
+const getStudentCountByZoneName = async (zone) => {
+  const cleanedZoneName = zone.replace(/[^0-9]/g, '');
+  const cacheKey = `zoneStudentGraphs:${cleanedZoneName}`;
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+  const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
+  const fieldPromises = fields.map(async (field) => {
+    const schoolIds = await getSchoolIdsByField(field);
+    const counts = await getStudentCountsByFieldAndZone(schoolIds, field, zone);
+    return { [field]: counts };
+  });
+  const statusCounts = await getStudentStatusCountsByZone(zone);
+  const genderCountsStudents = await getGenderCountsStudentsByZone(zone);
+  // const genderCountsTeachers = await getGenderCountsTeachersByZone(zone);
+  const fieldResults = await Promise.all(fieldPromises);
+
+  // Fetch other statistics
+  const [totalSchools, totalStudent, studyingStudents, totalTeachers] = await Promise.allSettled([
+    School.countDocuments({ Zone_Name: zone }).exec(),
+    Student.countDocuments({ z_name: zone.toLowerCase() }).exec(),
+    Student.countDocuments({ z_name: zone.toLowerCase(), status: 'Studying' }).exec(),
+    Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
+  ]);
+
+  const teacherStudentRatio = studyingStudents.value / totalTeachers.value;
+  // const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
+  const averageStudentOfSchool = totalStudent.value / totalSchools.value;
+
+  const totalStudents = totalStudent.value;
+  const data = {
+    studentStats: fieldResults,
+    studentStatusCounts: statusCounts,
+    studentGenderCounts: genderCountsStudents,
+    //   teacherGenderCounts: genderCountsTeachers,
+    teacherStudentRatio,
+    //   averageTeacherOfSchool,
+    averageStudentOfSchool,
+    totalStudents,
   };
-  
-  
-/////////////////////////////////////SChool////////////////////////
+
+  await redis.set(cacheKey, JSON.stringify(data), 'EX', 24 * 60 * 60);
+  return data;
+};
+
+/// //////////////////////////////////SChool////////////////////////
 
 // Function to get statistics about students by zone
 // const getStudentCountByZoneName = async (zone) => {
