@@ -75,7 +75,7 @@ const attendanceSchema = mongoose.Schema(
     otherAttendanceNotMarked: {
       type: Number,
     },
- 
+
     classCount: [
       {
         className: {
