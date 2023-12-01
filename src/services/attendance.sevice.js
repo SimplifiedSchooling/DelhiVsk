@@ -668,6 +668,11 @@ const getAttendanceCounts = async (date) => {
         attendanceNotFoundCount: {
           $sum: { $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, 1, 0] },
         },
+        schoolData: {
+          $addToSet: {
+            $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, { school_name: '$school_name', School_ID: '$School_ID' }, null],
+          },
+        },
       },
     },
   ]);
@@ -847,7 +852,7 @@ const getDistrictWisePresentCount = async (date) => {
       $group: {
         _id: '$district_name',
         totalStudentCount: { $sum: '$totalStudentCount' },
-        totalPreasentCount: { $sum: '$PreasentCount' },
+        totalPreasentCount: { $sum: '$PresentCount' },
       },
     },
     {
