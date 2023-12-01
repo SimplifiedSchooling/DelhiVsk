@@ -81,6 +81,24 @@ const getBottomPerformingDistricts = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(bottomPerformingDistricts);
 });
 
+const getBottomPerformingZonesByDistrict = catchAsync(async (req, res) => {
+  const { districtName, date } = req.body;
+  const topPerformingZonesByDistricts = await attendanceService.getBottomPerformingZonesByDistrict(districtName, date);
+  res.status(httpStatus.CREATED).send(topPerformingZonesByDistricts);
+});
+
+const getBottomPerformingSchoolsByZoneName = catchAsync(async (req, res) => {
+  const { zoneName, date } = req.body;
+  const topPerformingSchoolsByZoneName = await attendanceService.getBottomPerformingSchoolsByZoneName(zoneName, date);
+  res.status(httpStatus.CREATED).send(topPerformingSchoolsByZoneName);
+});
+
+const getSchoolsDataNotFoundCount = catchAsync(async (req, res) => {
+  const { date } = req.body;
+  const count = await attendanceService.getSchoolsDataNotFoundCount(date);
+  res.status(httpStatus.OK).json({ count });
+});
+
 module.exports = {
   getAttedanceData,
   getAttendanceCounts,
@@ -95,4 +113,7 @@ module.exports = {
   getTopPerformingZonesByDistrict,
   getTopPerformingSchoolsByZoneName,
   getBottomPerformingDistricts,
+  getBottomPerformingZonesByDistrict,
+  getBottomPerformingSchoolsByZoneName,
+  getSchoolsDataNotFoundCount,
 };

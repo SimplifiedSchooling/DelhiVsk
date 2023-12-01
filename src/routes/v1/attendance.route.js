@@ -38,9 +38,19 @@ router.post(
   attendanceController.getTopPerformingZonesByDistrict
 );
 router.post(
+  '/bottom-performing-zones/bydistrictname',
+  validate(attendanceValidation.getBottomPerformingZonesByDistrict),
+  attendanceController.getBottomPerformingZonesByDistrict
+);
+router.post(
   '/top-performing-schools/byzonename',
   validate(attendanceValidation.getTopPerformingSchoolsByZoneName),
   attendanceController.getTopPerformingSchoolsByZoneName
+);
+router.post(
+  '/bottom-performing-schools/byzonename',
+  validate(attendanceValidation.getBottomPerformingSchoolsByZoneName),
+  attendanceController.getBottomPerformingSchoolsByZoneName
 );
 router.post(
   '/bottom-performing-districts',
@@ -48,6 +58,11 @@ router.post(
   attendanceController.getBottomPerformingDistricts
 );
 
+router.post(
+  '/schools-data-not-found-count',
+  validate(attendanceValidation.getTopPerformingDistricts),
+  attendanceController.getSchoolsDataNotFoundCount
+);
 module.exports = router;
 
 /**
@@ -88,6 +103,60 @@ module.exports = router;
 
 /**
  * @swagger
+ * /attendance/schools-data-not-found-count:
+ *   post:
+ *     summary: Get counts of schools of attendance data not found
+ *     description:  Get counts of schools of attendance data not found
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               date:
+ *                 type: string
+ *             example:
+ *               date: '25/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/bottom-performing-zones/bydistrictname:
+ *   post:
+ *     summary: Get bottom 5 performing zones based on present counts for a specific district and date
+ *     description:  Get bottom 5 performing zones based on present counts for a specific district and date
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               districtName:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               districtName: 'East'
+ *               date: '25/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+/**
+ * @swagger
  * /attendance/top-performing-schools/byzonename:
  *   post:
  *     summary: Get top 5 performing schools based on present counts for a specific zone and date
@@ -114,6 +183,36 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
+
+/**
+ * @swagger
+ * /attendance/bottom-performing-schools/byzonename:
+ *   post:
+ *     summary: Get bottom 5 performing schools based on present counts for a specific zone and date
+ *     description:  Get bottom 5 performing schools based on present counts for a specific zone and date
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               zoneName:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               zoneName: 'Zone-01'
+ *               date: '25/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
 /**
  * @swagger
  * /attendance:

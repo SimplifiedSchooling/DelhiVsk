@@ -33,8 +33,19 @@ const getTopPerformingZonesByDistrict = {
     date: Joi.string().required(),
   }),
 };
-
+const getBottomPerformingZonesByDistrict = {
+  body: Joi.object().keys({
+    districtName: Joi.string().required(),
+    date: Joi.string().required(),
+  }),
+};
 const getTopPerformingSchoolsByZoneName = {
+  body: Joi.object().keys({
+    zoneName: Joi.string().required(),
+    date: Joi.string().required(),
+  }),
+};
+const getBottomPerformingSchoolsByZoneName = {
   body: Joi.object().keys({
     zoneName: Joi.string().required(),
     date: Joi.string().required(),
@@ -47,4 +58,6 @@ module.exports = {
   getBottomPerformingDistricts,
   getTopPerformingZonesByDistrict,
   getTopPerformingSchoolsByZoneName,
+  getBottomPerformingZonesByDistrict,
+  getBottomPerformingSchoolsByZoneName,
 };

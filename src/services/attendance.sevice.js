@@ -10,6 +10,7 @@ const { School, Attendance, Student } = require('../models');
  * @param {string} date
  * @returns {Promise<Attendance>}
  */
+
 async function fetchStudentDataForSchool(schoolId, password, date) {
   try {
     const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/Student_Attendence_School?password=${password}&School_ID=${schoolId}&Date=${date}`;
@@ -877,7 +878,16 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
     {
       $match: {
         School_ID: schoolId,
-        attendance_DATE: { $gte: startDate, $lte: endDate },
+        $expr: {
+          $and: [
+            {
+              $gte: [{ $regexMatch: { input: '$attendance_DATE', regex: startDate } }, true],
+            },
+            {
+              $lte: [{ $regexMatch: { input: '$attendance_DATE', regex: endDate } }, true],
+            },
+          ],
+        },
       },
     },
     {
@@ -1095,7 +1105,16 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
 const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zoneName, districtName, schoolId) => {
   // Match stage to filter based on parameters
   const matchStage = {
-    attendance_DATE: { $gte: startDate, $lte: endDate },
+    $expr: {
+      $and: [
+        {
+          $gte: [{ $regexMatch: { input: '$attendance_DATE', regex: startDate } }, true],
+        },
+        {
+          $lte: [{ $regexMatch: { input: '$attendance_DATE', regex: endDate } }, true],
+        },
+      ],
+    },
   };
 
   if (schoolId) {
@@ -1208,12 +1227,41 @@ const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zon
   };
 };
 
-/**
- * Get top 5 performing districts based on present counts
- * @param {string} date - Date for filtering records
- * @returns {Promise<Array<Object>>} - Array of top 5 performing districts with present counts
- */
+// /**
+//  * Get top 5 performing districts based on present counts
+//  * @param {string} date - Date for filtering records
+//  * @returns {Promise<Array<Object>>} - Array of top 5 performing districts with present counts
+//  */
+// const getTopPerformingDistricts = async (date) => {
+//   const result = await Attendance.aggregate([
+//     {
+//       $match: { attendance_DATE: date }, // Filter records based on the provided date
+//     },
+//     {
+//       $group: {
+//         _id: '$district_name',
+//         totalPresentCount: { $sum: '$PresentCount' },
+//       },
+//     },
+//     {
+//       $sort: { totalPresentCount: -1 },
+//     },
+//     {
+//       $limit: 5,
+//     },
+//     {
+//       $project: {
+//         district_name: '$_id',
+//         totalPresentCount: 1,
+//         _id: 0,
+//       },
+//     },
+//   ]);
+
+//   return result;
+// };
 const getTopPerformingDistricts = async (date) => {
+  // Get top 5 performing districts based on present counts
   const result = await Attendance.aggregate([
     {
       $match: { attendance_DATE: date }, // Filter records based on the provided date
@@ -1239,9 +1287,25 @@ const getTopPerformingDistricts = async (date) => {
     },
   ]);
 
-  return result;
-};
+  // Fetch count of schools with attendanceStatus = "data not found" for each district
+  const resultWithSchoolsDataNotFoundCount = await Promise.all(
+    result.map(async (district) => {
+      const schoolsDataNotFoundCount = await Attendance.countDocuments({
+        attendanceStatus: 'data not found',
+        attendance_DATE: date,
+        district_name: district.district_name,
+      });
 
+      return {
+        district_name: district.district_name,
+        totalPresentCount: district.totalPresentCount,
+        schoolsDataNotFoundCount,
+      };
+    })
+  );
+
+  return resultWithSchoolsDataNotFoundCount;
+};
 /**
  * Get top 5 performing zones based on present counts for a specific district and Date
  * @param {string} districtName - Name of the district
@@ -1274,8 +1338,24 @@ const getTopPerformingZonesByDistrict = async (districtName, date) => {
       },
     },
   ]);
+  const resultWithSchoolDataNotFoundCount = await Promise.all(
+    result.map(async (zone) => {
+      const schoolDataNotFoundCount = await Attendance.countDocuments({
+        attendanceStatus: 'data not found',
+        attendance_DATE: date,
+        district_name: districtName,
+        Z_name: zone.zone_name,
+      });
 
-  return result;
+      return {
+        zone_name: zone.zone_name,
+        totalPresentCount: zone.totalPresentCount,
+        schoolDataNotFoundCount,
+      };
+    })
+  );
+
+  return resultWithSchoolDataNotFoundCount;
 };
 
 /**
@@ -1311,43 +1391,25 @@ const getTopPerformingSchoolsByZoneName = async (zoneName, date) => {
     },
   ]);
 
-  return result;
+  const resultWithSchoolDataNotFoundCount = await Promise.all(
+    result.map(async (school) => {
+      const schoolDataNotFoundCount = await Attendance.countDocuments({
+        attendanceStatus: 'data not found',
+        attendance_DATE: date,
+        Z_name: zoneName,
+        School_ID: school.schoolName,
+      });
+
+      return {
+        schoolName: school.schoolName,
+        totalPresentCount: school.totalPresentCount,
+        schoolDataNotFoundCount,
+      };
+    })
+  );
+
+  return resultWithSchoolDataNotFoundCount;
 };
-
-// /**
-//  * Get bottom 5 performing zones based on present counts for a specific district
-//  * @param {string} districtName - Name of the district
-//  * @returns {Promise<Array<Object>>} - Array of bottom 5 performing zones with present counts
-//  */
-
-// const getBottomPerformingZonesByDistrict = async (districtName) => {
-//   const result = await Attendance.aggregate([
-//     {
-//       $match: { district_name: districtName },
-//     },
-//     {
-//       $group: {
-//         _id: '$Z_name',
-//         totalPresentCount: { $sum: '$PresentCount' },
-//       },
-//     },
-//     {
-//       $sort: { totalPresentCount: 1 }, // Sort in ascending order for bottom performance
-//     },
-//     {
-//       $limit: 5,
-//     },
-//     {
-//       $project: {
-//         zone_name: '$_id',
-//         totalPresentCount: 1,
-//         _id: 0,
-//       },
-//     },
-//   ]);
-
-//   return result;
-// };
 
 /**
  * Get bottom 5 performing districts based on present counts
@@ -1380,7 +1442,136 @@ const getBottomPerformingDistricts = async (date) => {
     },
   ]);
 
-  return result;
+  // Fetch count of schools with attendanceStatus = "data not found" for each district
+  const resultWithSchoolsDataNotFoundCount = await Promise.all(
+    result.map(async (district) => {
+      const schoolsDataNotFoundCount = await Attendance.countDocuments({
+        attendanceStatus: 'data not found',
+        attendance_DATE: date,
+        district_name: district.district_name,
+      });
+
+      return {
+        district_name: district.district_name,
+        totalPresentCount: district.totalPresentCount,
+        schoolsDataNotFoundCount,
+      };
+    })
+  );
+
+  return resultWithSchoolsDataNotFoundCount;
+};
+/**
+ * Get top 5 performing zones based on present counts for a specific district and Date
+ * @param {string} districtName - Name of the district
+ * @param {string} date - date of the attendance
+ * @returns {Promise<Array<Object>>} - Array of top 5 performing zones with present counts
+ */
+
+const getBottomPerformingZonesByDistrict = async (districtName, date) => {
+  const result = await Attendance.aggregate([
+    {
+      $match: { district_name: districtName, attendance_DATE: date },
+    },
+    {
+      $group: {
+        _id: '$Z_name',
+        totalPresentCount: { $sum: '$PresentCount' },
+      },
+    },
+    {
+      $sort: { totalPresentCount: 1 },
+    },
+    {
+      $limit: 5,
+    },
+    {
+      $project: {
+        zone_name: '$_id',
+        totalPresentCount: 1,
+        _id: 0,
+      },
+    },
+  ]);
+  const resultWithSchoolDataNotFoundCount = await Promise.all(
+    result.map(async (zone) => {
+      const schoolDataNotFoundCount = await Attendance.countDocuments({
+        attendanceStatus: 'data not found',
+        attendance_DATE: date,
+        district_name: districtName,
+        Z_name: zone.zone_name,
+      });
+
+      return {
+        zone_name: zone.zone_name,
+        totalPresentCount: zone.totalPresentCount,
+        schoolDataNotFoundCount,
+      };
+    })
+  );
+
+  return resultWithSchoolDataNotFoundCount;
+};
+
+/**
+ * Get bottom 5 performing schools based on present counts for a specific zoneName and Date
+ * @param {string} zoneName - Name of the district
+ * @param {string} date - date of the attendance
+ * @returns {Promise<Array<Object>>} - Array of top 5 performing schools with present counts
+ */
+const getBottomPerformingSchoolsByZoneName = async (zoneName, date) => {
+  const result = await Attendance.aggregate([
+    {
+      $match: { Z_name: zoneName, attendance_DATE: date },
+    },
+    {
+      $group: {
+        _id: '$School_ID',
+        totalPresentCount: { $sum: '$PresentCount' },
+        schoolName: { $first: '$school_name' }, // Include school name
+      },
+    },
+    {
+      $sort: { totalPresentCount: 1 },
+    },
+    {
+      $limit: 5,
+    },
+    {
+      $project: {
+        schoolName: 1,
+        totalPresentCount: 1,
+        _id: 0,
+      },
+    },
+  ]);
+  const resultWithSchoolDataNotFoundCount = await Promise.all(
+    result.map(async (school) => {
+      const schoolDataNotFoundCount = await Attendance.countDocuments({
+        attendanceStatus: 'data not found',
+        attendance_DATE: date,
+        Z_name: zoneName,
+        School_ID: school.schoolName,
+      });
+
+      return {
+        schoolName: school.schoolName,
+        totalPresentCount: school.totalPresentCount,
+        schoolDataNotFoundCount,
+      };
+    })
+  );
+
+  return resultWithSchoolDataNotFoundCount;
+};
+
+/**
+ * Get count of schools with attendanceStatus = "data not found"
+ * @returns {Promise<number>} - Count of schools with attendanceStatus = "data not found"
+ */
+const getSchoolsDataNotFoundCount = async (date) => {
+  const count = await Attendance.countDocuments({ attendanceStatus: 'data not found', attendance_DATE: date });
+  return count;
 };
 
 module.exports = {
@@ -1398,4 +1589,7 @@ module.exports = {
   getTopPerformingZonesByDistrict,
   getTopPerformingSchoolsByZoneName,
   getBottomPerformingDistricts,
+  getBottomPerformingZonesByDistrict,
+  getBottomPerformingSchoolsByZoneName,
+  getSchoolsDataNotFoundCount,
 };
