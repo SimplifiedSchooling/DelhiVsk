@@ -668,22 +668,36 @@ const getAttendanceCounts = async (date) => {
         attendanceNotFoundCount: {
           $sum: { $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, 1, 0] },
         },
-        schoolData: {
-          $addToSet: {
-            $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, { school_name: '$school_name', School_ID: '$School_ID' }, null],
-          },
-        },
+        // schoolData: {
+        //   $push: {
+        //     $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, { school_name: '$school_name', School_ID: '$School_ID' }, null],
+        //   },
+        // },
       },
     },
+    // {
+    //   $addFields: {
+    //     schoolData: {
+    //       $filter: {
+    //         input: '$schoolData',
+    //         as: 'school',
+    //         cond: { $ne: ['$$school', null] },
+    //       },
+    //     },
+    //   },
+    // },
   ]);
-  const countofSchoool = await School.countDocuments().exec();
+
+  const countofSchool = await School.countDocuments().exec();
   const totalStudentCount = await Student.countDocuments().exec();
+
   return {
-    countofSchoool,
+    countofSchool,
     totalStudentCount,
     Counts,
   };
 };
+
 
 const getAttendanceCountsDistrictWise = async (body) => {
   const { date, districtName } = body;
@@ -774,6 +788,52 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
   };
 };
 
+
+const getAttendanceCountsSchoolWise = async (date, School_ID) => {
+  const match = {
+    $match: {
+      attendance_DATE: date,
+      School_ID:School_ID,
+    },
+  };
+
+  const Counts = await Attendance.aggregate([
+    match,
+    {
+      $group: {
+        _id: null,
+        PresentCount: { $sum: '$PresentCount' },
+        AbsentCount: { $sum: '$AbsentCount' },
+        totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
+        totalLeaveCount: { $sum: '$totalLeaveCount' },
+        malePresentCount: { $sum: '$malePresentCount' },
+        feMalePresentCount: { $sum: '$feMalePresentCount' },
+        otherPresentCount: { $sum: '$otherPresentCount' },
+        maleAbsentCount: { $sum: '$maleAbsentCount' },
+        feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
+        othersAbsentCount: { $sum: '$othersAbsentCount' },
+        maleLeaveCount: { $sum: '$maleLeaveCount' },
+        femaleLeaveCount: { $sum: '$femaleLeaveCount' },
+        otherLeaveCount: { $sum: '$otherLeaveCount' },
+        maleAttendanceNotMarked: { $sum: '$maleAttendanceNotMarked' },
+        femaleAttendanceNotMarked: { $sum: '$femaleAttendanceNotMarked' },
+        otherAttendanceNotMarked: { $sum: '$otherAttendanceNotMarked' },
+        attendanceNotFoundCountSchoolCount: {
+          $sum: { $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, 1, 0] },
+        },
+      },
+    },
+  ]);
+  const countofSchoool = await School.countDocuments(Number(School_ID)).exec();
+  const totalStudentCount = await Student.countDocuments(Number(School_ID)).exec();
+  return {
+    countofSchoool,
+    totalStudentCount,
+    Counts,
+  };
+};
+
+
 const getAttendanceCountsShiftWise = async (date, shift) => {
   const dateMatch = {
     $match: {
@@ -829,7 +889,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
     },
   ]);
 
-  console.log(result[0].studentCount);
+
 
   // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
   return {
@@ -1393,8 +1453,10 @@ module.exports = {
   getAttendanceCounts,
   getAttendanceCountsDistrictWise,
   getAttendanceCountsZoneWise,
+  getAttendanceCountsSchoolWise,
   getAttendanceCountsShiftWise,
   getDistrictWisePresentCount,
+
   //------------------------------------------------------------------
   getGenderRangeWiseCount,
   getAttendancePercentageGenderAndRangeWise,
