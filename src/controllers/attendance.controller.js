@@ -59,20 +59,28 @@ const getAttendancePercentageByGenderAndRangeWise = catchAsync(async (req, res) 
 });
 
 const getTopPerformingDistrictsController = catchAsync(async (req, res) => {
-  const topPerformingDistricts = await attendanceService.getTopPerformingDistricts();
+  const { date } = req.body;
+  const topPerformingDistricts = await attendanceService.getTopPerformingDistricts(date);
   res.status(httpStatus.CREATED).send(topPerformingDistricts);
 });
 
 const getTopPerformingZonesByDistrict = catchAsync(async (req, res) => {
-  const { districtName } = req.body;
-  const topPerformingZonesByDistricts = await attendanceService.getTopPerformingZonesByDistrict(districtName);
+  const { districtName, date } = req.body;
+  const topPerformingZonesByDistricts = await attendanceService.getTopPerformingZonesByDistrict(districtName, date);
   res.status(httpStatus.CREATED).send(topPerformingZonesByDistricts);
 });
 const getTopPerformingSchoolsByZoneName = catchAsync(async (req, res) => {
-  const { zoneName } = req.body;
-  const topPerformingSchoolsByZoneName = await attendanceService.getTopPerformingSchoolsByZoneName(zoneName);
+  const { zoneName, date } = req.body;
+  const topPerformingSchoolsByZoneName = await attendanceService.getTopPerformingSchoolsByZoneName(zoneName, date);
   res.status(httpStatus.CREATED).send(topPerformingSchoolsByZoneName);
 });
+
+const getBottomPerformingDistricts = catchAsync(async (req, res) => {
+  const { date } = req.body;
+  const bottomPerformingDistricts = await attendanceService.getBottomPerformingDistricts(date);
+  res.status(httpStatus.CREATED).send(bottomPerformingDistricts);
+});
+
 module.exports = {
   getAttedanceData,
   getAttendanceCounts,
@@ -86,4 +94,5 @@ module.exports = {
   getTopPerformingDistrictsController,
   getTopPerformingZonesByDistrict,
   getTopPerformingSchoolsByZoneName,
+  getBottomPerformingDistricts,
 };
