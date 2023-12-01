@@ -295,43 +295,39 @@ const getTeacherCountBySchoolManagement = async () => {
 
 // Function to calculate teacher experience based on JoiningDate and get counts by experience range
 const getTeacherExperienceCountByRangeDistrictWise = async (districtname) => {
-  try {
-    const currentDate = new Date(); // Current date
-    const teachers = await Teacher.find({ districtname });
-    // Initialize an object to store the count in each experience range
-    const experienceCounts = {
-      under5Years: 0,
-      fiveTo10Years: 0,
-      tenTo15Years: 0,
-      fifteenTo20Years: 0,
-      twentyTo25Years: 0,
-      over25Years: 0,
-    };
+  const currentDate = new Date(); // Current date
+  const teachers = await Teacher.find({ districtname });
+  // Initialize an object to store the count in each experience range
+  const experienceCounts = {
+    under5Years: 0,
+    fiveTo10Years: 0,
+    tenTo15Years: 0,
+    fifteenTo20Years: 0,
+    twentyTo25Years: 0,
+    over25Years: 0,
+  };
 
-    teachers.forEach((teacher) => {
-      const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
-      const experienceInMilliseconds = currentDate - joiningDate;
-      const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+  teachers.forEach((teacher) => {
+    const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
+    const experienceInMilliseconds = currentDate - joiningDate;
+    const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
 
-      if (yearsOfExperience < 5) {
-        experienceCounts.under5Years += 1;
-      } else if (yearsOfExperience >= 5 && yearsOfExperience < 10) {
-        experienceCounts.fiveTo10Years += 1;
-      } else if (yearsOfExperience >= 10 && yearsOfExperience < 15) {
-        experienceCounts.tenTo15Years += 1;
-      } else if (yearsOfExperience >= 15 && yearsOfExperience < 20) {
-        experienceCounts.fifteenTo20Years += 1;
-      } else if (yearsOfExperience >= 20 && yearsOfExperience < 25) {
-        experienceCounts.twentyTo25Years += 1;
-      } else {
-        experienceCounts.over25Years += 1;
-      }
-    });
+    if (yearsOfExperience < 5) {
+      experienceCounts.under5Years += 1;
+    } else if (yearsOfExperience >= 5 && yearsOfExperience < 10) {
+      experienceCounts.fiveTo10Years += 1;
+    } else if (yearsOfExperience >= 10 && yearsOfExperience < 15) {
+      experienceCounts.tenTo15Years += 1;
+    } else if (yearsOfExperience >= 15 && yearsOfExperience < 20) {
+      experienceCounts.fifteenTo20Years += 1;
+    } else if (yearsOfExperience >= 20 && yearsOfExperience < 25) {
+      experienceCounts.twentyTo25Years += 1;
+    } else {
+      experienceCounts.over25Years += 1;
+    }
+  });
 
-    return experienceCounts;
-  } catch (error) {
-    throw error;
-  }
+  return experienceCounts;
 };
 
 const getSchoolIdByShiftWiseAndDistrict = async (districtName) => {
@@ -568,20 +564,6 @@ const getTeacherStatsByDistrict = async (districtName) => {
       Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
       Student.countDocuments({ status: 'Studying', District: districtName }).exec(),
     ]);
-
-  // const studentCount = await StudentCounts.aggregate([
-  //   {
-  //     $match: {
-  //       District_name: districtName,
-  //     },
-  //   },
-  //   {
-  //     $group: {
-  //       _id: null,
-  //       totalStudents: { $sum: '$totalStudent' },
-  //     },
-  //   },
-  // ]);
 
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeDistrictWise(districtName);
@@ -940,41 +922,37 @@ const getTeacherCountByZone = async (zone) => {
 
 // Function to calculate teacher experience based on JoiningDate and get counts by experience range
 const getTeacherExperienceCountByRangeSchool = async (schoolId) => {
-  try {
-    const currentDate = new Date(); // Current date
-    const teachers = await Teacher.find({ schoolid: schoolId });
+  const currentDate = new Date(); // Current date
+  const teachers = await Teacher.find({ schoolid: schoolId });
 
-    // Initialize an object to store the count in each experience range
-    const experienceCounts = {
-      under5Years: 0,
-      fiveTo10Years: 0,
-      tenTo15Years: 0,
-      fifteenTo20Years: 0,
-      twentyTo25Years: 0,
-      over25Years: 0,
-    };
-    teachers.forEach((teacher) => {
-      const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
-      const experienceInMilliseconds = currentDate - joiningDate;
-      const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
-      if (yearsOfExperience < 5) {
-        experienceCounts.under5Years += 1;
-      } else if (yearsOfExperience >= 5 && yearsOfExperience < 10) {
-        experienceCounts.fiveTo10Years += 1;
-      } else if (yearsOfExperience >= 10 && yearsOfExperience < 15) {
-        experienceCounts.tenTo15Years += 1;
-      } else if (yearsOfExperience >= 15 && yearsOfExperience < 20) {
-        experienceCounts.fifteenTo20Years += 1;
-      } else if (yearsOfExperience >= 20 && yearsOfExperience < 25) {
-        experienceCounts.twentyTo25Years += 1;
-      } else {
-        experienceCounts.over25Years += 1;
-      }
-    });
-    return experienceCounts;
-  } catch (error) {
-    throw error;
-  }
+  // Initialize an object to store the count in each experience range
+  const experienceCounts = {
+    under5Years: 0,
+    fiveTo10Years: 0,
+    tenTo15Years: 0,
+    fifteenTo20Years: 0,
+    twentyTo25Years: 0,
+    over25Years: 0,
+  };
+  teachers.forEach((teacher) => {
+    const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
+    const experienceInMilliseconds = currentDate - joiningDate;
+    const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+    if (yearsOfExperience < 5) {
+      experienceCounts.under5Years += 1;
+    } else if (yearsOfExperience >= 5 && yearsOfExperience < 10) {
+      experienceCounts.fiveTo10Years += 1;
+    } else if (yearsOfExperience >= 10 && yearsOfExperience < 15) {
+      experienceCounts.tenTo15Years += 1;
+    } else if (yearsOfExperience >= 15 && yearsOfExperience < 20) {
+      experienceCounts.fifteenTo20Years += 1;
+    } else if (yearsOfExperience >= 20 && yearsOfExperience < 25) {
+      experienceCounts.twentyTo25Years += 1;
+    } else {
+      experienceCounts.over25Years += 1;
+    }
+  });
+  return experienceCounts;
 };
 
 const getSchoolIdByShiftWiseAndSchoolName = async (schoolId) => {

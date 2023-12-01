@@ -363,7 +363,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /attendance/school/date-wise:
