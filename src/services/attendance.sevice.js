@@ -1202,7 +1202,7 @@ const getTopPerformingZonesByDistrict = async (districtName, date) => {
   ]);
   const resultWithSchoolDataNotFoundCount = await Promise.all(
     result.map(async (zone) => {
-      const schoolDataNotFoundCount = await Attendance.countDocuments({
+      const schoolsDataNotFoundCount = await Attendance.countDocuments({
         attendanceStatus: 'data not found',
         attendance_DATE: date,
         district_name: districtName,
@@ -1212,7 +1212,7 @@ const getTopPerformingZonesByDistrict = async (districtName, date) => {
       return {
         zone_name: zone.zone_name,
         totalPresentCount: zone.totalPresentCount,
-        schoolDataNotFoundCount,
+        schoolsDataNotFoundCount,
       };
     })
   );
@@ -1255,7 +1255,7 @@ const getTopPerformingSchoolsByZoneName = async (zoneName, date) => {
 
   const resultWithSchoolDataNotFoundCount = await Promise.all(
     result.map(async (school) => {
-      const schoolDataNotFoundCount = await Attendance.countDocuments({
+      const schoolsDataNotFoundCount = await Attendance.countDocuments({
         attendanceStatus: 'data not found',
         attendance_DATE: date,
         Z_name: zoneName,
@@ -1265,7 +1265,7 @@ const getTopPerformingSchoolsByZoneName = async (zoneName, date) => {
       return {
         schoolName: school.schoolName,
         totalPresentCount: school.totalPresentCount,
-        schoolDataNotFoundCount,
+        schoolsDataNotFoundCount,
       };
     })
   );
@@ -1357,7 +1357,7 @@ const getBottomPerformingZonesByDistrict = async (districtName, date) => {
   ]);
   const resultWithSchoolDataNotFoundCount = await Promise.all(
     result.map(async (zone) => {
-      const schoolDataNotFoundCount = await Attendance.countDocuments({
+      const schoolsDataNotFoundCount = await Attendance.countDocuments({
         attendanceStatus: 'data not found',
         attendance_DATE: date,
         district_name: districtName,
@@ -1367,7 +1367,7 @@ const getBottomPerformingZonesByDistrict = async (districtName, date) => {
       return {
         zone_name: zone.zone_name,
         totalPresentCount: zone.totalPresentCount,
-        schoolDataNotFoundCount,
+        schoolsDataNotFoundCount,
       };
     })
   );
@@ -1409,7 +1409,7 @@ const getBottomPerformingSchoolsByZoneName = async (zoneName, date) => {
   ]);
   const resultWithSchoolDataNotFoundCount = await Promise.all(
     result.map(async (school) => {
-      const schoolDataNotFoundCount = await Attendance.countDocuments({
+      const schoolsDataNotFoundCount = await Attendance.countDocuments({
         attendanceStatus: 'data not found',
         attendance_DATE: date,
         Z_name: zoneName,
@@ -1419,7 +1419,7 @@ const getBottomPerformingSchoolsByZoneName = async (zoneName, date) => {
       return {
         schoolName: school.schoolName,
         totalPresentCount: school.totalPresentCount,
-        schoolDataNotFoundCount,
+        schoolsDataNotFoundCount,
       };
     })
   );
