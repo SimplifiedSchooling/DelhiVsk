@@ -26,242 +26,6 @@ async function fetchStudentDataForSchool(schoolId, password, date) {
   }
 }
 
-// /**
-//  * Get Attendance data from server and store in databae
-//  * @returns {Promise<Attendance>}
-//  */
-
-// const storeAttendanceDataInMongoDB = async () => {
-//   const now = new Date();
-//   const day = String(now.getDate()).padStart(2, '0');
-//   const month = String(now.getMonth() + 1).padStart(2, '0');
-//   const year = now.getFullYear();
-
-//   const date = `${day}/${month}/${year}`;
-//   const password = 'VSK@9180';
-
-//   const schools = await School.find().exec();
-//   for (const school of schools) {
-//     const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
-
-//     if (studentData) {
-//       // Create a unique identifier based on school and date
-//       const identifier = `${school.Schoolid}-${date}`;
-
-//       // Check if an entry with the same identifier exists
-//       const existingAttendance = await Attendance.findOne({ identifier });
-
-//       const genderCounts = studentData.reduce(
-//         (count, student) => {
-//           count[student.Gender] = (count[student.Gender] || 0) + 1;
-//           return count;
-//         },
-//         { M: 0, F: 0, T: 0 }
-//       );
-
-//       const studentgenderWiseCount = await StudentCounts.findOne({ Schoolid: school.Schoolid });
-
-//       const genderAbsentCount = {
-//         male: studentgenderWiseCount.maleStudents - genderCounts.M,
-//         female: studentgenderWiseCount.femaleStudents - genderCounts.F,
-//         others: studentgenderWiseCount.otherStudents - genderCounts.T,
-//       };
-
-//       const totalStudentCount =
-//         studentgenderWiseCount.maleStudents + studentgenderWiseCount.femaleStudents + studentgenderWiseCount.otherStudents;
-
-//       if (existingAttendance) {
-//         // If an entry with the same identifier exists, update it
-//         await Attendance.updateOne(
-//           { identifier },
-//           {
-//             district_name: school.District_name,
-//             Z_name: school.Zone_Name,
-//             School_ID: school.Schoolid,
-//             school_name: school.School_Name,
-//             shift: school.shift,
-//             attendance_DATE: date,
-//             totalStudentCount,
-//             PreasentCount: studentData.length,
-//             malePresentCount: genderCounts.M,
-//             feMalePresentCount: genderCounts.F,
-//             otherPresentCount: genderCounts.T,
-//             maleAbsentCount: genderAbsentCount.male,
-//             feMaleAbsentCount: genderAbsentCount.female,
-//             othersAbsentCount: genderAbsentCount.others,
-//           }
-//         );
-//       } else {
-//         // If no entry with the same identifier exists, create a new one
-//         await Attendance.create({
-//           identifier, // Add the identifier to the entry
-//           district_name: school.District_name,
-//           Z_name: school.Zone_Name,
-//           School_ID: school.Schoolid,
-//           school_name: school.School_Name,
-//           shift: school.shift,
-//           attendance_DATE: date,
-//           totalStudentCount,
-//           PreasentCount: studentData.length,
-//           malePresentCount: genderCounts.M,
-//           feMalePresentCount: genderCounts.F,
-//           otherPresentCount: genderCounts.T,
-//           maleAbsentCount: genderAbsentCount.male,
-//           feMaleAbsentCount: genderAbsentCount.female,
-//           othersAbsentCount: genderAbsentCount.others,
-//         });
-//       }
-//     }
-//   }
-// };
-
-// const storeAttendanceDataInMongoDB = async () => {
-//   const now = new Date();
-//   const day = String(now.getDate()).padStart(2, '0');
-//   const month = String(now.getMonth() + 1).padStart(2, '0');
-//   const year = now.getFullYear();
-
-//   const date = `${day}/${month}/${year}`;
-//   const password = 'VSK@9180';
-
-//   const schools = await School.find().exec();
-//   for (const school of schools) {
-//     const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
-
-//     if (studentData) {
-//       // Create a unique identifier based on school and date
-//       const identifier = `${school.Schoolid}-${date}`;
-
-//       // Check if an entry with the same identifier exists
-//       const existingAttendance = await Attendance.findOne({ identifier });
-
-//       // const studentgenderWiseCount = await StudentCounts.findOne({ Schoolid: school.Schoolid });
-
-//       const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid) }).exec();
-//       const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid) }).exec();
-//       const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid) }).exec();
-
-//       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
-
-//       let attendanceStatus = 'done';
-
-//       // Check if attendance data is not found
-//       if (studentData.length === 0) {
-//         attendanceStatus = 'data not found';
-//       } else if (studentData.some((student) => student.attendance === '')) {
-//         attendanceStatus = 'attendanceNotTaken';
-//       }
-
-//       const malePresentCount = studentData.filter(
-//         (student) => student.Gender === 'M' && student.attendance === 'Present'
-//       ).length;
-//       const femalePresentCount = studentData.filter(
-//         (student) => student.Gender === 'F' && student.attendance === 'Present'
-//       ).length;
-//       const otherPresentCount = studentData.filter(
-//         (student) => student.Gender === 'T' && student.attendance === 'Present'
-//       ).length;
-
-//       const maleAbsentCount = studentData.filter(
-//         (student) => student.Gender === 'M' && student.attendance === 'Absent'
-//       ).length;
-//       const femaleAbsentCount = studentData.filter(
-//         (student) => student.Gender === 'F' && student.attendance === 'Absent'
-//       ).length;
-//       const otherAbsentCount = studentData.filter(
-//         (student) => student.Gender === 'T' && student.attendance === 'Absent'
-//       ).length;
-
-//       const maleLeaveCount = studentData.filter(
-//         (student) => student.Gender === 'M' && student.attendance === 'Leave'
-//       ).length;
-//       const femaleLeaveCount = studentData.filter(
-//         (student) => student.Gender === 'F' && student.attendance === 'Leave'
-//       ).length;
-//       const otherLeaveCount = studentData.filter(
-//         (student) => student.Gender === 'T' && student.attendance === 'Leave'
-//       ).length;
-
-//       const maleAttendanceNotMarked = studentData.filter(
-//         (student) => student.Gender === 'M' && student.attendance === ''
-//       ).length;
-//       const femaleAttendanceNotMarked = studentData.filter(
-//         (student) => student.Gender === 'F' && student.attendance === ''
-//       ).length;
-//       const otherAttendanceNotMarked = studentData.filter(
-//         (student) => student.Gender === 'T' && student.attendance === ''
-//       ).length;
-
-//       const presentCountData = (await malePresentCount) + femalePresentCount + otherPresentCount;
-//       const AbsentCount = (await maleAbsentCount) + femaleAbsentCount + otherAbsentCount;
-//       const totalNotMarkedAttendanceCount =
-//         (await maleAttendanceNotMarked) + femaleAttendanceNotMarked + otherAttendanceNotMarked;
-//       const totalLeaveCount = (await maleLeaveCount) + femaleLeaveCount + otherLeaveCount;
-//       if (existingAttendance) {
-//         // If an entry with the same identifier exists, update it
-//         await Attendance.updateOne(
-//           { identifier },
-//           {
-//             district_name: school.District_name,
-//             Z_name: school.Zone_Name,
-//             School_ID: school.Schoolid,
-//             school_name: school.School_Name,
-//             shift: school.shift,
-//             attendance_DATE: date,
-//             totalStudentCount,
-//             PresentCount: presentCountData,
-//             AbsentCount,
-//             totalNotMarkedAttendanceCount,
-//             totalLeaveCount,
-//             malePresentCount,
-//             feMalePresentCount: femalePresentCount,
-//             otherPresentCount,
-//             maleAbsentCount,
-//             feMaleAbsentCount: femaleAbsentCount,
-//             otherAbsentCount,
-//             maleLeaveCount,
-//             femaleLeaveCount,
-//             otherLeaveCount,
-//             maleAttendanceNotMarked,
-//             femaleAttendanceNotMarked,
-//             otherAttendanceNotMarked,
-//             attendanceStatus,
-//           }
-//         );
-//       } else {
-//         // If no entry with the same identifier exists, create a new one
-//         await Attendance.create({
-//           identifier, // Add the identifier to the entry
-//           district_name: school.District_name,
-//           Z_name: school.Zone_Name,
-//           School_ID: school.Schoolid,
-//           school_name: school.School_Name,
-//           shift: school.shift,
-//           attendance_DATE: date,
-//           totalStudentCount,
-//           PresentCount: presentCountData,
-//           AbsentCount,
-//           totalNotMarkedAttendanceCount,
-//           totalLeaveCount,
-//           malePresentCount,
-//           feMalePresentCount: femalePresentCount,
-//           otherPresentCount,
-//           maleAbsentCount,
-//           feMaleAbsentCount: femaleAbsentCount,
-//           otherAbsentCount,
-//           maleLeaveCount,
-//           femaleLeaveCount,
-//           otherLeaveCount,
-//           maleAttendanceNotMarked,
-//           femaleAttendanceNotMarked,
-//           otherAttendanceNotMarked,
-//           attendanceStatus,
-//         });
-//       }
-//     }
-//   }
-// };
-
 const storeAttendanceDataInMongoDB = async () => {
   const now = new Date();
   const day = String(now.getDate()).padStart(2, '0');
@@ -640,6 +404,12 @@ cron.schedule('0 21 * * *', async () => {
   }
 });
 /// ///////////////////////Attendance graph by single date /////////////
+/**
+ * Get attendance counts for a specific date
+ * @param {string} date - The date for which attendance is requested
+ * @returns {Promise<Object>} - Object containing school and student counts
+ */
+
 const getAttendanceCounts = async (date) => {
   const match = {
     attendance_DATE: date,
@@ -669,17 +439,40 @@ const getAttendanceCounts = async (date) => {
         attendanceNotFoundCount: {
           $sum: { $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, 1, 0] },
         },
+        // schoolData: {
+        //   $push: {
+        //     $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, { school_name: '$school_name', School_ID: '$School_ID' }, null],
+        //   },
+        // },
       },
     },
+    // {
+    //   $addFields: {
+    //     schoolData: {
+    //       $filter: {
+    //         input: '$schoolData',
+    //         as: 'school',
+    //         cond: { $ne: ['$$school', null] },
+    //       },
+    //     },
+    //   },
+    // },
   ]);
-  const countofSchoool = await School.countDocuments().exec();
+
+  const countofSchool = await School.countDocuments().exec();
   const totalStudentCount = await Student.countDocuments().exec();
+
   return {
-    countofSchoool,
+    countofSchool,
     totalStudentCount,
     Counts,
   };
 };
+/**
+ * Get attendance counts for a specific date and district
+ * @param {Object} body - Request body containing date and districtName
+ * @returns {Promise<Object>} - Object containing school and student counts for the district
+ */
 
 const getAttendanceCountsDistrictWise = async (body) => {
   const { date, districtName } = body;
@@ -726,6 +519,13 @@ const getAttendanceCountsDistrictWise = async (body) => {
   };
 };
 
+/**
+ * Get attendance counts for a specific date and education zone
+ * @param {string} date - The date for which attendance is requested
+ * @param {string} Z_name - The education zone name
+ * @returns {Promise<Object>} - Object containing school and student counts for the zone
+ */
+
 const getAttendanceCountsZoneWise = async (date, Z_name) => {
   const match = {
     $match: {
@@ -769,6 +569,64 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
     Counts,
   };
 };
+
+/**
+ * Get attendance counts for a specific date and school
+ * @param {string} date - The date for which attendance is requested
+ * @param {string} School_ID - The school ID
+ * @returns {Promise<Object>} - Object containing attendance counts for the school
+ */
+
+const getAttendanceCountsSchoolWise = async (date, School_ID) => {
+  const match = {
+    $match: {
+      attendance_DATE: date,
+      School_ID,
+    },
+  };
+
+  const Counts = await Attendance.aggregate([
+    match,
+    {
+      $group: {
+        _id: null,
+        PresentCount: { $sum: '$PresentCount' },
+        AbsentCount: { $sum: '$AbsentCount' },
+        totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
+        totalLeaveCount: { $sum: '$totalLeaveCount' },
+        malePresentCount: { $sum: '$malePresentCount' },
+        feMalePresentCount: { $sum: '$feMalePresentCount' },
+        otherPresentCount: { $sum: '$otherPresentCount' },
+        maleAbsentCount: { $sum: '$maleAbsentCount' },
+        feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
+        othersAbsentCount: { $sum: '$othersAbsentCount' },
+        maleLeaveCount: { $sum: '$maleLeaveCount' },
+        femaleLeaveCount: { $sum: '$femaleLeaveCount' },
+        otherLeaveCount: { $sum: '$otherLeaveCount' },
+        maleAttendanceNotMarked: { $sum: '$maleAttendanceNotMarked' },
+        femaleAttendanceNotMarked: { $sum: '$femaleAttendanceNotMarked' },
+        otherAttendanceNotMarked: { $sum: '$otherAttendanceNotMarked' },
+        attendanceNotFoundCountSchoolCount: {
+          $sum: { $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, 1, 0] },
+        },
+      },
+    },
+  ]);
+  const countofSchoool = await School.countDocuments(Number(School_ID)).exec();
+  const totalStudentCount = await Student.countDocuments(Number(School_ID)).exec();
+  return {
+    countofSchoool,
+    totalStudentCount,
+    Counts,
+  };
+};
+
+/**
+ * Get attendance counts for a specific date and shift
+ * @param {string} date - The date for which attendance is requested
+ * @param {string} shift - The shift for which attendance is requested
+ * @returns {Promise<Object>} - Object containing attendance counts for the shift
+ */
 
 const getAttendanceCountsShiftWise = async (date, shift) => {
   const dateMatch = {
@@ -825,8 +683,6 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
     },
   ]);
 
-  console.log(result[0].studentCount);
-
   // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
   return {
     countofSchoool,
@@ -834,6 +690,11 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
     Counts,
   };
 };
+/**
+ * Get district-wise attendance present counts for a specific date
+ * @param {string} date - The date for which attendance is requested
+ * @returns {Promise<Array>} - Array containing district-wise attendance present counts
+ */
 
 const getDistrictWisePresentCount = async (date) => {
   const match = {
@@ -848,7 +709,7 @@ const getDistrictWisePresentCount = async (date) => {
       $group: {
         _id: '$district_name',
         totalStudentCount: { $sum: '$totalStudentCount' },
-        totalPreasentCount: { $sum: '$PreasentCount' },
+        totalPreasentCount: { $sum: '$PresentCount' },
       },
     },
     {
@@ -867,12 +728,13 @@ const getDistrictWisePresentCount = async (date) => {
 //-----------------------------------------------------------------------------------------------
 
 /**
- * Get Attendance data from server
- * @param {string} schoolId
- * @param {string} startDate
- * @param {string} endDate
- * @returns {Promise<Attendance>}
+ * Get gender range-wise attendance counts for a specific school and date range
+ * @param {string} schoolId - The school ID
+ * @param {string} startDate - The start date of the attendance range
+ * @param {string} endDate - The end date of the attendance range
+ * @returns {Promise<Object>} - Object containing gender range-wise attendance counts
  */
+
 const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
   const result = await Attendance.aggregate([
     {
@@ -1579,9 +1441,9 @@ module.exports = {
   getAttendanceCounts,
   getAttendanceCountsDistrictWise,
   getAttendanceCountsZoneWise,
+  getAttendanceCountsSchoolWise,
   getAttendanceCountsShiftWise,
   getDistrictWisePresentCount,
-  //------------------------------------------------------------------
   getGenderRangeWiseCount,
   getAttendancePercentageGenderAndRangeWise,
   storeAttendanceDataByDate,

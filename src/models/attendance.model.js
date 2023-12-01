@@ -75,61 +75,7 @@ const attendanceSchema = mongoose.Schema(
     otherAttendanceNotMarked: {
       type: Number,
     },
-    // classCount: [
-    //   {
-    //     totalStudentCount: {
-    //       type: Number,
-    //     },
-    //     PresentCount: {
-    //       type: Number,
-    //     },
-    //     AbsentCount: {
-    //       type: Number,
-    //     },
-    //     totalNotMarkedAttendanceCount: {
-    //       type: Number,
-    //     },
-    //     totalLeaveCount: {
-    //       type: Number,
-    //     },
-    //     malePresentCount: {
-    //       type: Number,
-    //     },
-    //     feMalePresentCount: {
-    //       type: Number,
-    //     },
-    //     otherPresentCount: {
-    //       type: Number,
-    //     },
-    //     maleAbsentCount: {
-    //       type: Number,
-    //     },
-    //     feMaleAbsentCount: {
-    //       type: Number,
-    //     },
-    //     othersAbsentCount: {
-    //       type: Number,
-    //     },
-    //     maleLeaveCount: {
-    //       type: Number,
-    //     },
-    //     femaleLeaveCount: {
-    //       type: Number,
-    //     },
-    //     otherLeaveCount: {
-    //       type: Number,
-    //     },
-    //     maleAttendanceNotMarked: {
-    //       type: Number,
-    //     },
-    //     femaleAttendanceNotMarked: {
-    //       type: Number,
-    //     },
-    //     otherAttendanceNotMarked: {
-    //       type: Number,
-    //     },
-    //   },
-    // ],
+
     classCount: [
       {
         className: {
