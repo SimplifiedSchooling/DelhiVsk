@@ -166,7 +166,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /udise-school/school/school-type-wise/zone:
@@ -196,28 +195,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * @swagger

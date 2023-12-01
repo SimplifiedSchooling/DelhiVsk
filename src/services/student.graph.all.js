@@ -595,7 +595,7 @@ const getStudentCountBySchoolName = async (schoolId) => {
         ],
       };
     });
-    console.log(formattedCounts)
+    console.log(formattedCounts);
     return formattedCounts;
   });
 

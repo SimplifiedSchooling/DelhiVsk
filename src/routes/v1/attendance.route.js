@@ -1,5 +1,7 @@
 const express = require('express');
+const validate = require('../../middlewares/validate');
 const { attendanceController } = require('../../controllers');
+const { attendanceValidation } = require('../../validations');
 
 const router = express.Router();
 
@@ -15,11 +17,37 @@ router.route('/zone/shift/wise').post(attendanceController.getAttendanceCountsSh
 
 router.route('/district/present-student/per').post(attendanceController.getDistrictWisePresentCount);
 //----------------------------------------------------------------
-router.post('/genderandrangewise/count', attendanceController.getGenderRangeWiseCountCount);
-router.post('/attendancepercentage/range/parameter', attendanceController.getAttendancePercentageByGenderAndRangeWise);
-router.get('/top-performing-districts', attendanceController.getTopPerformingDistrictsController);
-router.post('/top-performing-zones/bydistrictname', attendanceController.getTopPerformingZonesByDistrict);
-router.post('/top-performing-schools/byzonename', attendanceController.getTopPerformingSchoolsByZoneName);
+router.post(
+  '/genderandrangewise/count',
+  validate(attendanceValidation.getGenderRangeWiseCount),
+  attendanceController.getGenderRangeWiseCountCount
+);
+router.post(
+  '/attendancepercentage/range/parameter',
+  validate(attendanceValidation.getAttendancePercentageGenderAndRangeWise),
+  attendanceController.getAttendancePercentageByGenderAndRangeWise
+);
+router.post(
+  '/top-performing-districts',
+  validate(attendanceValidation.getTopPerformingDistricts),
+  attendanceController.getTopPerformingDistrictsController
+);
+router.post(
+  '/top-performing-zones/bydistrictname',
+  validate(attendanceValidation.getTopPerformingZonesByDistrict),
+  attendanceController.getTopPerformingZonesByDistrict
+);
+router.post(
+  '/top-performing-schools/byzonename',
+  validate(attendanceValidation.getTopPerformingSchoolsByZoneName),
+  attendanceController.getTopPerformingSchoolsByZoneName
+);
+router.post(
+  '/bottom-performing-districts',
+  validate(attendanceValidation.getBottomPerformingDistricts),
+  attendanceController.getBottomPerformingDistricts
+);
+
 module.exports = router;
 
 /**
@@ -33,8 +61,8 @@ module.exports = router;
  * @swagger
  * /attendance/top-performing-zones/bydistrictname:
  *   post:
- *     summary: Get top 5 performing zones based on present counts for a specific district
- *     description:  Get top 5 performing zones based on present counts for a specific district
+ *     summary: Get top 5 performing zones based on present counts for a specific district and date
+ *     description:  Get top 5 performing zones based on present counts for a specific district and date
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -44,8 +72,11 @@ module.exports = router;
  *             properties:
  *               districtName:
  *                 type: string
+ *               date:
+ *                 type: string
  *             example:
  *               districtName: 'East'
+ *               date: '25/11/2023'
  *     responses:
  *       "200":
  *         description: OK
@@ -59,8 +90,8 @@ module.exports = router;
  * @swagger
  * /attendance/top-performing-schools/byzonename:
  *   post:
- *     summary: Get top 5 performing schools based on present counts for a specific zone
- *     description:  Get top 5 performing schools based on present counts for a specific zone
+ *     summary: Get top 5 performing schools based on present counts for a specific zone and date
+ *     description:  Get top 5 performing schools based on present counts for a specific zone and date
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -70,8 +101,11 @@ module.exports = router;
  *             properties:
  *               zoneName:
  *                 type: string
+ *               date:
+ *                 type: string
  *             example:
  *               zoneName: 'Zone-01'
+ *               date: '25/11/2023'
  *     responses:
  *       "200":
  *         description: OK
@@ -109,9 +143,53 @@ module.exports = router;
 /**
  * @swagger
  * /attendance/top-performing-districts:
- *   get:
- *     summary: Get top 5 performing districts based on present counts
+ *   post:
+ *     summary: Get top 5 performing districts based on present counts by date
  *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               date:
+ *                 type: string
+ *             example:
+ *               date: '25/11/2023'
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             example:
+ *               - district_name: "District 1"
+ *                 totalPresentCount: 500
+ *               - district_name: "District 2"
+ *                 totalPresentCount: 450
+ *               - district_name: "District 3"
+ *                 totalPresentCount: 400
+ *               - district_name: "District 4"
+ *                 totalPresentCount: 350
+ *               - district_name: "District 5"
+ *                 totalPresentCount: 300
+ */
+
+/**
+ * @swagger
+ * /attendance/bottom-performing-districts:
+ *   post:
+ *     summary: Get bottom 5 performing districts based on present counts by date
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               date:
+ *                 type: string
+ *             example:
+ *               date: '25/11/2023'
  *     responses:
  *       200:
  *         description: Successful operation
