@@ -15,6 +15,8 @@ router.route('/zone/date-wise').post(attendanceController.getZoneAttendanceCount
 router.route('/school/date-wise').post(attendanceController.getAttendanceCountsSchoolWise);
 
 router.route('/zone/shift/wise').post(attendanceController.getAttendanceCountsShiftWise);
+router.route('/attendance-status-wise').post(attendanceController.attendanceStatus);
+
 
 router.route('/district/present-student/per').post(attendanceController.getDistrictWisePresentCount);
 //----------------------------------------------------------------
@@ -511,6 +513,35 @@ module.exports = router;
  *             example:
  *               shift: 'morning'
  *               date: '04/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/attendance-status-wise:
+ *   post:
+ *     summary: Get all  Attendance School data by attendanceStatus.
+ *     description: Get all  Attendance School  data by attendanceStatus.
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               attendanceStatus:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               attendanceStatus: 'done'
+ *               date: '25/11/2023'
  *     responses:
  *       "200":
  *         description: OK
