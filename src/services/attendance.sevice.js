@@ -172,7 +172,7 @@ const storeAttendanceDataInMongoDB = async () => {
             maleAttendanceNotMarked,
             femaleAttendanceNotMarked,
             otherAttendanceNotMarked,
-            attendanceStatus: attendanceStatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
+            attendanceStatus: Astatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
             classCount,
           }
         );
@@ -204,7 +204,7 @@ const storeAttendanceDataInMongoDB = async () => {
           maleAttendanceNotMarked,
           femaleAttendanceNotMarked,
           otherAttendanceNotMarked,
-          attendanceStatus: attendanceStatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
+          attendanceStatus: Astatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
           classCount,
         });
       }
@@ -357,7 +357,7 @@ const storeAttendanceDataByDate = async (date) => {
             maleAttendanceNotMarked,
             femaleAttendanceNotMarked,
             otherAttendanceNotMarked,
-            attendanceStatus: attendanceStatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
+            attendanceStatus: Astatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
             classCount,
           }
         );
@@ -389,7 +389,7 @@ const storeAttendanceDataByDate = async (date) => {
           maleAttendanceNotMarked,
           femaleAttendanceNotMarked,
           otherAttendanceNotMarked,
-          attendanceStatus: attendanceStatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
+          attendanceStatus: Astatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
           classCount,
         });
       }
@@ -613,6 +613,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
  */
 
 const getAttendanceCountsSchoolWise = async (date, School_ID) => {
+  console.log(date, School_ID)
   const match = {
     $match: {
       attendance_DATE: date,
