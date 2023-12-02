@@ -36,6 +36,13 @@ const getAttendanceCountsShiftWise = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const attendanceStatus = catchAsync(async (req, res) => {
+  const { date, attendanceStatus } = req.body;
+  const result = await attendanceService.attendanceStatus(date, attendanceStatus);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+
 const getDistrictWisePresentCount = catchAsync(async (req, res) => {
   const { date } = req.body;
   const result = await attendanceService.getDistrictWisePresentCount(date);
@@ -112,6 +119,7 @@ module.exports = {
   getZoneAttendanceCount,
   getAttendanceCountsSchoolWise,
   getAttendanceCountsShiftWise,
+  attendanceStatus,
   getDistrictWisePresentCount,
   //----------------------------------------------------------------
   getGenderRangeWiseCountCount,
