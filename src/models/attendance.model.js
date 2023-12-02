@@ -21,6 +21,9 @@ const attendanceSchema = mongoose.Schema(
     shift: {
       type: String,
     },
+    SchManagement: {
+      type: String,
+    },
     totalStudentCount: {
       type: Number,
     },
