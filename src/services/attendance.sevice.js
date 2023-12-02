@@ -760,7 +760,37 @@ const attendanceStatus = async(attendance_DATE,  attendanceStatus) => {
   .exec();
 return data;
 };
+const attendanceStatusDistrictWise = async(district_name ,attendance_DATE,  attendanceStatus) => {
+  // console.log(attendance_DATE,  attendanceStatus)
+  const data = await Attendance.find({district_name, attendance_DATE, attendanceStatus })
+  .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
+  .exec();
+return data;
+};
 
+const attendanceStatusZoneWise = async(Z_name ,attendance_DATE,  attendanceStatus) => {
+  // console.log(attendance_DATE,  attendanceStatus)
+  const data = await Attendance.find({Z_name, attendance_DATE, attendanceStatus })
+  .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
+  .exec();
+return data;
+};
+
+const attendanceStatusSchoolWise = async(School_ID ,attendance_DATE,  attendanceStatus) => {
+  // console.log(attendance_DATE,  attendanceStatus)
+  const data = await Attendance.find({School_ID, attendance_DATE, attendanceStatus })
+  .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
+  .exec();
+return data;
+};
+
+const attendanceStatusShiftWise = async(shift ,attendance_DATE,  attendanceStatus) => {
+  // console.log(attendance_DATE,  attendanceStatus)
+  const data = await Attendance.find({shift, attendance_DATE, attendanceStatus })
+  .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
+  .exec();
+return data;
+};
 
 /**
  * Get district-wise attendance present counts for a specific date
@@ -1516,6 +1546,10 @@ module.exports = {
   getAttendanceCountsSchoolWise,
   getAttendanceCountsShiftWise,
   attendanceStatus,
+  attendanceStatusDistrictWise,
+  attendanceStatusZoneWise,
+  attendanceStatusSchoolWise,
+  attendanceStatusShiftWise,
   getDistrictWisePresentCount,
   getGenderRangeWiseCount,
   getAttendancePercentageGenderAndRangeWise,
