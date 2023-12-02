@@ -16,7 +16,10 @@ router.route('/school/date-wise').post(attendanceController.getAttendanceCountsS
 
 router.route('/zone/shift/wise').post(attendanceController.getAttendanceCountsShiftWise);
 router.route('/attendance-status-wise').post(attendanceController.attendanceStatus);
-
+router.route('/attendance-status-district-wise').post(attendanceController.attendanceStatusDistrictWise);
+router.route('/attendance-status-zone-wise').post(attendanceController.attendanceStatusZoneWise);
+router.route('/attendance-status-school-wise').post(attendanceController.attendanceStatusSchoolWise);
+router.route('/attendance-status-shift-wise').post(attendanceController.attendanceStatusShiftWise);
 
 router.route('/district/present-student/per').post(attendanceController.getDistrictWisePresentCount);
 //----------------------------------------------------------------
@@ -540,6 +543,135 @@ module.exports = router;
  *               date:
  *                 type: string
  *             example:
+ *               attendanceStatus: 'done'
+ *               date: '25/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+
+/**
+ * @swagger
+ * /attendance/attendance-status-district-wise:
+ *   post:
+ *     summary: Get all  Attendance School data by attendanceStatus.
+ *     description: Get all  Attendance School  data by attendanceStatus.
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               district_name:
+ *                 type: string
+ *               attendanceStatus:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               district_name: "East"
+ *               attendanceStatus: 'done'
+ *               date: '25/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/attendance-status-zone-wise:
+ *   post:
+ *     summary: Get all  Attendance School data by attendanceStatus.
+ *     description: Get all  Attendance School  data by attendanceStatus.
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Z_name:
+ *                 type: string
+ *               attendanceStatus:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               Z_name: "Zone-01"
+ *               attendanceStatus: 'done'
+ *               date: '25/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/attendance-status-school-wise:
+ *   post:
+ *     summary: Get all  Attendance School data by attendanceStatus.
+ *     description: Get all  Attendance School  data by attendanceStatus.
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               School_ID:
+ *                 type: string
+ *               attendanceStatus:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               School_ID: "1001145"
+ *               attendanceStatus: 'done'
+ *               date: '25/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/attendance-status-shift-wise:
+ *   post:
+ *     summary: Get all  Attendance School data by attendanceStatus.
+ *     description: Get all  Attendance School  data by attendanceStatus.
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               shift:
+ *                 type: string
+ *               attendanceStatus:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               shift: "Morning"
  *               attendanceStatus: 'done'
  *               date: '25/11/2023'
  *     responses:
