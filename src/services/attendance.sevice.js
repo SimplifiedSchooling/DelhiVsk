@@ -53,14 +53,14 @@ const storeAttendanceDataInMongoDB = async () => {
 
       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
 
-      let attendanceStatus = 'done';
+      // let attendanceStatus = 'done';
 
-      // Check if attendance data is not found
-      if (studentData.length === 0) {
-        attendanceStatus = 'data not found';
-      } else if (studentData.some((student) => student.attendance === '')) {
-        attendanceStatus = 'attendanceNotTaken';
-      }
+      // // Check if attendance data is not found
+      // if (studentData.length === 0) {
+      //   attendanceStatus = 'data not found';
+      // } else if (studentData.some((student) => student.attendance === '')) {
+      //   attendanceStatus = 'attendanceNotTaken';
+      // }
 
       const countByGenderAndAttendance = (gender, attendanceType) =>
         studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
@@ -154,6 +154,7 @@ const storeAttendanceDataInMongoDB = async () => {
             school_name: school.School_Name,
             shift: school.shift,
             attendance_DATE: date,
+            SchManagement: school.SchManagement,
             totalStudentCount,
             PresentCount: presentCountData,
             AbsentCount,
@@ -171,7 +172,7 @@ const storeAttendanceDataInMongoDB = async () => {
             maleAttendanceNotMarked,
             femaleAttendanceNotMarked,
             otherAttendanceNotMarked,
-            attendanceStatus,
+            attendanceStatus: attendanceStatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
             classCount,
           }
         );
@@ -184,6 +185,7 @@ const storeAttendanceDataInMongoDB = async () => {
           School_ID: school.Schoolid,
           school_name: school.School_Name,
           shift: school.shift,
+          SchManagement: school.SchManagement,
           attendance_DATE: date,
           totalStudentCount,
           PresentCount: presentCountData,
@@ -202,7 +204,7 @@ const storeAttendanceDataInMongoDB = async () => {
           maleAttendanceNotMarked,
           femaleAttendanceNotMarked,
           otherAttendanceNotMarked,
-          attendanceStatus,
+          attendanceStatus: attendanceStatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
           classCount,
         });
       }
@@ -236,14 +238,14 @@ const storeAttendanceDataByDate = async (date) => {
 
       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
 
-      let attendanceStatus = 'done';
+      // let attendanceStatus = 'done';
 
-      // Check if attendance data is not found
-      if (studentData.length === 0) {
-        attendanceStatus = 'data not found';
-      } else if (studentData.some((student) => student.attendance === '')) {
-        attendanceStatus = 'attendanceNotTaken';
-      }
+      // // Check if attendance data is not found
+      // if (studentData.length === 0) {
+      //   attendanceStatus = 'data not found';
+      // } else if (studentData.some((student) => student.attendance === '')) {
+      //   attendanceStatus = 'attendanceNotTaken';
+      // }
 
       const countByGenderAndAttendance = (gender, attendanceType) =>
         studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
@@ -336,6 +338,7 @@ const storeAttendanceDataByDate = async (date) => {
             School_ID: school.Schoolid,
             school_name: school.School_Name,
             shift: school.shift,
+            SchManagement: school.SchManagement,
             attendance_DATE: date,
             totalStudentCount,
             PresentCount: presentCountData,
@@ -354,7 +357,7 @@ const storeAttendanceDataByDate = async (date) => {
             maleAttendanceNotMarked,
             femaleAttendanceNotMarked,
             otherAttendanceNotMarked,
-            attendanceStatus,
+            attendanceStatus: attendanceStatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
             classCount,
           }
         );
@@ -367,6 +370,7 @@ const storeAttendanceDataByDate = async (date) => {
           School_ID: school.Schoolid,
           school_name: school.School_Name,
           shift: school.shift,
+          SchManagement: school.SchManagement,
           attendance_DATE: date,
           totalStudentCount,
           PresentCount: presentCountData,
@@ -385,7 +389,7 @@ const storeAttendanceDataByDate = async (date) => {
           maleAttendanceNotMarked,
           femaleAttendanceNotMarked,
           otherAttendanceNotMarked,
-          attendanceStatus,
+          attendanceStatus: attendanceStatus = studentData.length === 0 ? 'data not found' : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0 ? 'attendance not marked': 'done',
           classCount,
         });
       }
@@ -436,9 +440,6 @@ const getAttendanceCounts = async (date) => {
         maleAttendanceNotMarked: { $sum: '$maleAttendanceNotMarked' },
         femaleAttendanceNotMarked: { $sum: '$femaleAttendanceNotMarked' },
         otherAttendanceNotMarked: { $sum: '$otherAttendanceNotMarked' },
-        attendanceNotFoundCount: {
-          $sum: { $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, 1, 0] },
-        },
         // schoolData: {
         //   $push: {
         //     $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, { school_name: '$school_name', School_ID: '$School_ID' }, null],
@@ -459,10 +460,21 @@ const getAttendanceCounts = async (date) => {
     // },
   ]);
 
+  const statusCounts = await Attendance.aggregate([
+    { $match: match },
+    {
+      $group: {
+        _id: '$attendanceStatus',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
   const countofSchool = await School.countDocuments().exec();
   const totalStudentCount = await Student.countDocuments().exec();
 
   return {
+    statusCounts,
     countofSchool,
     totalStudentCount,
     Counts,
@@ -510,9 +522,21 @@ const getAttendanceCountsDistrictWise = async (body) => {
       },
     },
   ]);
+
+  const statusCounts = await Attendance.aggregate([
+     dateMatch ,
+    {
+      $group: {
+        _id: '$attendanceStatus',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
   const countofSchoool = await School.countDocuments({ District_name: districtName }).exec();
   const totalStudentCount = await Student.countDocuments({ District: districtName }).exec();
   return {
+    statusCounts,
     countofSchoool,
     totalStudentCount,
     Counts,
@@ -561,9 +585,20 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
       },
     },
   ]);
+  const statusCounts = await Attendance.aggregate([
+     match,
+    {
+      $group: {
+        _id: '$attendanceStatus',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
   const countofSchoool = await School.countDocuments({ Zone_Name: Z_name }).exec();
   const totalStudentCount = await Student.countDocuments({ z_name: Z_name.toLowerCase() }).exec();
   return {
+    statusCounts,
     countofSchoool,
     totalStudentCount,
     Counts,
