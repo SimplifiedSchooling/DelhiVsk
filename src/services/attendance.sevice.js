@@ -471,7 +471,7 @@ const getAttendanceCounts = async (date) => {
   ]);
 
   const countofSchool = await School.countDocuments().exec();
-  const totalStudentCount = await Student.countDocuments().exec();
+  const totalStudentCount = await Student.countDocuments({status: "Studying"}).exec();
 
   return {
     statusCounts,
@@ -534,7 +534,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
   ]);
 
   const countofSchoool = await School.countDocuments({ District_name: districtName }).exec();
-  const totalStudentCount = await Student.countDocuments({ District: districtName }).exec();
+  const totalStudentCount = await Student.countDocuments({ District: districtName, status: "Studying"}).exec();
   return {
     statusCounts,
     countofSchoool,
@@ -596,7 +596,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
   ]);
 
   const countofSchoool = await School.countDocuments({ Zone_Name: Z_name }).exec();
-  const totalStudentCount = await Student.countDocuments({ z_name: Z_name.toLowerCase() }).exec();
+  const totalStudentCount = await Student.countDocuments({ z_name: Z_name.toLowerCase(), status: "Studying" }).exec();
   return {
     statusCounts,
     countofSchoool,
@@ -659,7 +659,7 @@ const getAttendanceCountsSchoolWise = async (date, School_ID) => {
    },
  ]);
   const countofSchoool = await School.countDocuments(Number(School_ID)).exec();
-  const totalStudentCount = await Student.countDocuments(Number(School_ID)).exec();
+  const totalStudentCount = await Student.countDocuments(Number(School_ID), {status: "Studying"}).exec();
   return {
     statusCounts,
     countofSchoool,
@@ -729,6 +729,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
     {
       $match: {
         Schoolid: { $in: schoolIds },
+        status: 'Studying', // Add this condition to filter by status
       },
     },
     {
@@ -738,6 +739,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
       },
     },
   ]);
+  
 
   // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
   return {
@@ -842,15 +844,8 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
     {
       $match: {
         School_ID: schoolId,
-        $expr: {
-          $and: [
-            {
-              $gte: [{ $regexMatch: { input: '$attendance_DATE', regex: startDate } }, true],
-            },
-            {
-              $lte: [{ $regexMatch: { input: '$attendance_DATE', regex: endDate } }, true],
-            },
-          ],
+        attendance_DATE: {
+          $regex: `^(${startDate}|${endDate})`,
         },
       },
     },
@@ -880,6 +875,7 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
 
   return result[0]; // Return the first element as we used $group
 };
+
 
 /**
  * Get Attendance data from database with proper percentage calculations
@@ -1069,15 +1065,8 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
 const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zoneName, districtName, schoolId) => {
   // Match stage to filter based on parameters
   const matchStage = {
-    $expr: {
-      $and: [
-        {
-          $gte: [{ $regexMatch: { input: '$attendance_DATE', regex: startDate } }, true],
-        },
-        {
-          $lte: [{ $regexMatch: { input: '$attendance_DATE', regex: endDate } }, true],
-        },
-      ],
+    attendance_DATE: {
+      $regex: `^(${startDate}|${endDate})`,
     },
   };
 
@@ -1190,6 +1179,7 @@ const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zon
     dateWisePercentage: dateWiseResult || [],
   };
 };
+
 
 // /**
 //  * Get top 5 performing districts based on present counts
