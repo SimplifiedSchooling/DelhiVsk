@@ -844,15 +844,8 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
     {
       $match: {
         School_ID: schoolId,
-        $expr: {
-          $and: [
-            {
-              $gte: [{ $regexMatch: { input: '$attendance_DATE', regex: startDate } }, true],
-            },
-            {
-              $lte: [{ $regexMatch: { input: '$attendance_DATE', regex: endDate } }, true],
-            },
-          ],
+        attendance_DATE: {
+          $regex: `^(${startDate}|${endDate})`,
         },
       },
     },
@@ -882,6 +875,7 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
 
   return result[0]; // Return the first element as we used $group
 };
+
 
 /**
  * Get Attendance data from database with proper percentage calculations
@@ -1071,15 +1065,8 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
 const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zoneName, districtName, schoolId) => {
   // Match stage to filter based on parameters
   const matchStage = {
-    $expr: {
-      $and: [
-        {
-          $gte: [{ $regexMatch: { input: '$attendance_DATE', regex: startDate } }, true],
-        },
-        {
-          $lte: [{ $regexMatch: { input: '$attendance_DATE', regex: endDate } }, true],
-        },
-      ],
+    attendance_DATE: {
+      $regex: `^(${startDate}|${endDate})`,
     },
   };
 
@@ -1192,6 +1179,7 @@ const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zon
     dateWisePercentage: dateWiseResult || [],
   };
 };
+
 
 // /**
 //  * Get top 5 performing districts based on present counts
