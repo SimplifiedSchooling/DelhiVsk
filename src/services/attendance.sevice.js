@@ -471,7 +471,7 @@ const getAttendanceCounts = async (date) => {
   ]);
 
   const countofSchool = await School.countDocuments().exec();
-  const totalStudentCount = await Student.countDocuments().exec();
+  const totalStudentCount = await Student.countDocuments({status: "Studying"}).exec();
 
   return {
     statusCounts,
@@ -534,7 +534,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
   ]);
 
   const countofSchoool = await School.countDocuments({ District_name: districtName }).exec();
-  const totalStudentCount = await Student.countDocuments({ District: districtName }).exec();
+  const totalStudentCount = await Student.countDocuments({ District: districtName, status: "Studying"}).exec();
   return {
     statusCounts,
     countofSchoool,
@@ -596,7 +596,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
   ]);
 
   const countofSchoool = await School.countDocuments({ Zone_Name: Z_name }).exec();
-  const totalStudentCount = await Student.countDocuments({ z_name: Z_name.toLowerCase() }).exec();
+  const totalStudentCount = await Student.countDocuments({ z_name: Z_name.toLowerCase(), status: "Studying" }).exec();
   return {
     statusCounts,
     countofSchoool,
@@ -659,7 +659,7 @@ const getAttendanceCountsSchoolWise = async (date, School_ID) => {
    },
  ]);
   const countofSchoool = await School.countDocuments(Number(School_ID)).exec();
-  const totalStudentCount = await Student.countDocuments(Number(School_ID)).exec();
+  const totalStudentCount = await Student.countDocuments(Number(School_ID), {status: "Studying"}).exec();
   return {
     statusCounts,
     countofSchoool,
@@ -729,6 +729,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
     {
       $match: {
         Schoolid: { $in: schoolIds },
+        status: 'Studying', // Add this condition to filter by status
       },
     },
     {
@@ -738,6 +739,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
       },
     },
   ]);
+  
 
   // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
   return {
