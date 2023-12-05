@@ -64,6 +64,21 @@ const getAttendancePercentageByGenderAndRangeWise = catchAsync(async (req, res) 
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getAttendancePercentageByGenderAndRangeAndShiftWise = catchAsync(async (req, res) => {
+  const { startDate, endDate, zoneName, districtName, schoolId, shift } = req.body;
+
+  const result = await attendanceService.getAttendancePercentageGenderAndRangeAndShiftWise(
+    startDate,
+    endDate,
+    zoneName,
+    districtName,
+    schoolId,
+    shift
+  );
+
+  res.status(httpStatus.CREATED).send(result);
+});
+
 const getTopPerformingDistrictsController = catchAsync(async (req, res) => {
   const { date } = req.body;
   const topPerformingDistricts = await attendanceService.getTopPerformingDistricts(date);
@@ -105,6 +120,18 @@ const getSchoolsDataNotFoundCount = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ count });
 });
 
+const getTopPerformingClassesBySchoolId = catchAsync(async (req, res) => {
+  const { schoolId, date } = req.body;
+  const topPerformingClasses = await attendanceService.getTopPerformingClassesBySchoolId(schoolId, date);
+  res.json(topPerformingClasses);
+});
+
+const getBottomPerformingClassesBySchoolId = catchAsync(async (req, res) => {
+  const { schoolId, date } = req.body;
+  const bottomPerformingClasses = await attendanceService.getBottomPerformingClassesBySchoolId(schoolId, date);
+  res.json(bottomPerformingClasses);
+});
+
 module.exports = {
   getAttedanceData,
   getAttendanceCounts,
@@ -123,4 +150,7 @@ module.exports = {
   getBottomPerformingZonesByDistrict,
   getBottomPerformingSchoolsByZoneName,
   getSchoolsDataNotFoundCount,
+  getTopPerformingClassesBySchoolId,
+  getBottomPerformingClassesBySchoolId,
+  getAttendancePercentageByGenderAndRangeAndShiftWise,
 };
