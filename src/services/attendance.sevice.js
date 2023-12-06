@@ -657,9 +657,9 @@ const getAttendanceCountsSchoolWise = async (date, School_ID) => {
      },
    },
  ]);
-  const SchoolID = Number(School_ID);
+  const Schoolid = Number(School_ID);
   const countofSchoool = await School.countDocuments(Number(School_ID)).exec();
-  const totalStudentCount = await Student.countDocuments({School_ID: SchoolID , status: "Studying"}).exec();
+  const totalStudentCount = await Student.countDocuments({Schoolid, status: "Studying"}).exec();
   return {
     statusCounts,
     countofSchoool,
