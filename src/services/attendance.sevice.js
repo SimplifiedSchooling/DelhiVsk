@@ -80,7 +80,7 @@ const storeAttendanceDataInMongoDB = async () => {
       const maleAbsentCount = countByGenderAndAttendance('M', 'Absent');
       const femaleAbsentCount = countByGenderAndAttendance('F', 'Absent');
       const otherAbsentCount = countByGenderAndAttendance('T', 'Absent');
-      console.log(otherAbsentCount);
+
       const maleLeaveCount = countByGenderAndAttendance('M', 'Leave');
       const femaleLeaveCount = countByGenderAndAttendance('F', 'Leave');
       const otherLeaveCount = countByGenderAndAttendance('T', 'Leave');
@@ -613,7 +613,6 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
  */
 
 const getAttendanceCountsSchoolWise = async (date, School_ID) => {
-  console.log(date, School_ID)
   const match = {
     $match: {
       attendance_DATE: date,
@@ -658,8 +657,9 @@ const getAttendanceCountsSchoolWise = async (date, School_ID) => {
      },
    },
  ]);
+  const SchoolID = Number(School_ID);
   const countofSchoool = await School.countDocuments(Number(School_ID)).exec();
-  const totalStudentCount = await Student.countDocuments(Number(School_ID), {status: "Studying"}).exec();
+  const totalStudentCount = await Student.countDocuments({School_ID: SchoolID , status: "Studying"}).exec();
   return {
     statusCounts,
     countofSchoool,
@@ -840,6 +840,9 @@ const getDistrictWisePresentCount = async (date) => {
  */
 
 const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
+  // const parsedStartDate = new Date(startDate);
+  // const parsedEndDate = new Date(endDate);
+
   const result = await Attendance.aggregate([
     {
       $match: {
@@ -847,6 +850,11 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
         attendance_DATE: {
           $regex: `^(${startDate}|${endDate})`,
         },
+        // createdAt: {
+        //   // Ensure the dates are compared correctly with MongoDB date objects
+        //   $gte: parsedStartDate,
+        //   $lte: parsedEndDate,
+        // },
       },
     },
     {
@@ -1064,7 +1072,34 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
 // };
 const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zoneName, districtName, schoolId) => {
   // Match stage to filter based on parameters
+  // const startDateObject = new Date(startDate);
+  // const endDateObject = new Date(endDate);
+
+  const parsedStartDate = new Date(startDate);
+  const parsedEndDate = new Date(endDate);
   const matchStage = {
+    
+    // createdAt: {
+    //   // Ensure the dates are compared correctly with MongoDB date objects
+    //   $gte: parsedStartDate,
+    //   $lte: parsedEndDate,
+    // },
+
+    // createdAt: {
+    //   $gte: startDateObject,
+    //   $lt: endDateObject,
+    // },
+    // createdAt: {
+    //   $gte: new Date(startDate),
+    //   $lte: new Date(endDate),
+    // },
+  
+
+  //  createdAt:{$gte:ISODate(startDate),$lt:ISODate(endDate)}
+    // attendance_DATE: {
+    //   $gte: startDate,
+    //   $lte: endDate,
+    // },
     attendance_DATE: {
       $regex: `^(${startDate}|${endDate})`,
     },
