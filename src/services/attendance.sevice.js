@@ -26,196 +26,7 @@ async function fetchStudentDataForSchool(schoolId, password, date) {
   }
 }
 
-// const storeAttendanceDataInMongoDB = async () => {
-//   const now = new Date();
-//   const day = String(now.getDate()).padStart(2, '0');
-//   const month = String(now.getMonth() + 1).padStart(2, '0');
-//   const year = now.getFullYear();
-
-//   const date = `${day}/${month}/${year}`;
-//   // const date = "28/11/2023";
-//   const password = 'VSK@9180';
-
-//   const schools = await School.find().exec();
-//   for (const school of schools) {
-//     const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
-
-//     if (studentData) {
-//       // Create a unique identifier based on school and date
-//       const identifier = `${school.Schoolid}-${date}`;
-//       const existingAttendance = await Attendance.findOne({ School_ID: school.Schoolid, attendance_DATE: date });
-
-//       const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid) }).exec();
-//       const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid) }).exec();
-//       const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid) }).exec();
-
-//       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
-
-//       let attendanceStatus = 'done';
-
-//       // Check if attendance data is not found
-//       if (studentData.length === 0) {
-//         attendanceStatus = 'data not found';
-//       } else if (studentData.some((student) => student.attendance === '')) {
-//         attendanceStatus = 'attendanceNotTaken';
-//       }
-
-//       const countByGenderAndAttendance = (gender, attendanceType) =>
-//         studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
-
-//       const countByClass = (className, attendanceType) =>
-//         studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
-
-//       const countByClassAndGender = (className, attendanceType, gender) =>
-//         studentData.filter(
-//           (student) => student.CLASS === className && student.attendance === attendanceType && student.Gender === gender
-//         ).length;
-
-//       const malePresentCount = countByGenderAndAttendance('M', 'Present');
-//       const femalePresentCount = countByGenderAndAttendance('F', 'Present');
-//       const otherPresentCount = countByGenderAndAttendance('T', 'Present');
-
-//       const maleAbsentCount = countByGenderAndAttendance('M', 'Absent');
-//       const femaleAbsentCount = countByGenderAndAttendance('F', 'Absent');
-//       const otherAbsentCount = countByGenderAndAttendance('T', 'Absent');
-//       console.log(otherAbsentCount);
-//       const maleLeaveCount = countByGenderAndAttendance('M', 'Leave');
-//       const femaleLeaveCount = countByGenderAndAttendance('F', 'Leave');
-//       const otherLeaveCount = countByGenderAndAttendance('T', 'Leave');
-
-//       const maleAttendanceNotMarked = countByGenderAndAttendance('M', '');
-//       const femaleAttendanceNotMarked = countByGenderAndAttendance('F', '');
-//       const otherAttendanceNotMarked = countByGenderAndAttendance('T', '');
-
-//       const presentCountData = malePresentCount + femalePresentCount + otherPresentCount;
-//       const AbsentCount = maleAbsentCount + femaleAbsentCount + otherAbsentCount;
-//       const totalNotMarkedAttendanceCount = maleAttendanceNotMarked + femaleAttendanceNotMarked + otherAttendanceNotMarked;
-//       const totalLeaveCount = maleLeaveCount + femaleLeaveCount + otherLeaveCount;
-
-//       const classCount = [];
-//       // Include class-wise counts in the array
-//       const classes = Array.from(new Set(studentData.map((student) => student.CLASS)));
-//       for (const className of classes) {
-//         const classPresentCount = countByClass(className, 'Present');
-//         const classAbsentCount = countByClass(className, 'Absent');
-//         const classLeaveCount = countByClass(className, 'Leave');
-
-//         const classMalePresentCount = countByClassAndGender(className, 'Present', 'M');
-//         const classFemalePresentCount = countByClassAndGender(className, 'Present', 'F');
-//         const classOtherPresentCount = countByClassAndGender(className, 'Present', 'T');
-
-//         const classMaleAbsentCount = countByClassAndGender(className, 'Absent', 'M');
-//         const classFemaleAbsentCount = countByClassAndGender(className, 'Absent', 'F');
-//         const classOtherAbsentCount = countByClassAndGender(className, 'Absent', 'T');
-
-//         const classMaleLeaveCount = countByClassAndGender(className, 'Leave', 'M');
-//         const classFemaleLeaveCount = countByClassAndGender(className, 'Leave', 'F');
-//         const classOtherLeaveCount = countByClassAndGender(className, 'Leave', 'T');
-
-//         const classMaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'M');
-//         const classFemaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'F');
-//         const classOtherAttendanceNotMarkedCount = countByClassAndGender(className, '', 'T');
-
-//         const classNotMarkedAttendanceCount = countByClass(className, '');
-//         const classTotalStudentCount =
-//           classPresentCount + classAbsentCount + classLeaveCount + classNotMarkedAttendanceCount;
-//         classCount.push({
-//           className,
-//           classTotalStudentCount,
-//           classPresentCount,
-//           classAbsentCount,
-//           classLeaveCount,
-//           classNotMarkedAttendanceCount,
-//           classMalePresentCount,
-//           classFemalePresentCount,
-//           classOtherPresentCount,
-//           classMaleAbsentCount,
-//           classFemaleAbsentCount,
-//           classOtherAbsentCount,
-//           classMaleLeaveCount,
-//           classFemaleLeaveCount,
-//           classOtherLeaveCount,
-//           classMaleAttendanceNotMarkedCount,
-//           classFemaleAttendanceNotMarkedCount,
-//           classOtherAttendanceNotMarkedCount,
-//         });
-//       }
-
-//       if (existingAttendance) {
-//         console.log("update data");
-//         // If an entry with the same identifier exists, update it
-//         await Attendance.updateOne(
-//           { School_ID: school.Schoolid, attendance_DATE: date },
-//           {
-//             district_name: school.District_name,
-//             Z_name: school.Zone_Name,
-//             School_ID: school.Schoolid,
-//             school_name: school.School_Name,
-//             shift: school.shift,
-//             attendance_DATE: date,
-//             totalStudentCount,
-//             PresentCount: presentCountData,
-//             AbsentCount,
-//             totalNotMarkedAttendanceCount,
-//             totalLeaveCount,
-//             malePresentCount,
-//             feMalePresentCount: femalePresentCount,
-//             otherPresentCount,
-//             maleAbsentCount,
-//             feMaleAbsentCount: femaleAbsentCount,
-//             othersAbsentCount: otherAbsentCount,
-//             maleLeaveCount,
-//             femaleLeaveCount,
-//             otherLeaveCount,
-//             maleAttendanceNotMarked,
-//             femaleAttendanceNotMarked,
-//             otherAttendanceNotMarked,
-//             attendanceStatus,
-//             classCount,
-//           }
-//         );
-//       } else {
-//         console.log("new data created");
-//         // If no entry with the same identifier exists, create a new one
-//         await Attendance.create({
-//           identifier,
-//           district_name: school.District_name,
-//           Z_name: school.Zone_Name,
-//           School_ID: school.Schoolid,
-//           school_name: school.School_Name,
-//           shift: school.shift,
-//           attendance_DATE: date,
-//           totalStudentCount,
-//           PresentCount: presentCountData,
-//           AbsentCount,
-//           totalNotMarkedAttendanceCount,
-//           totalLeaveCount,
-//           malePresentCount,
-//           feMalePresentCount: femalePresentCount,
-//           otherPresentCount,
-//           maleAbsentCount,
-//           feMaleAbsentCount: femaleAbsentCount,
-//           othersAbsentCount: otherAbsentCount,
-//           maleLeaveCount,
-//           femaleLeaveCount,
-//           otherLeaveCount,
-//           maleAttendanceNotMarked,
-//           femaleAttendanceNotMarked,
-//           otherAttendanceNotMarked,
-//           attendanceStatus,
-//           classCount,
-//         });
-//       }
-//     }
-//   }
-// };
 const storeAttendanceDataInMongoDB = async () => {
-  // const now = new Date();
-  // const day = String(now.getDate()).padStart(2, '0');
-  // const month = String(now.getMonth() + 1).padStart(2, '0');
-  // const year = now.getFullYear();
-
-  // const date = `${day}/${month}/${year}`;
   const now = new Date();
   const day = String(now.getDate()).padStart(2, '0');
   const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -223,16 +34,7 @@ const storeAttendanceDataInMongoDB = async () => {
 
   const date = new Date(`${year}-${month}-${day}`);
   const parsedDate = new Date(`${year}-${month}-${day}T00:00:00.000Z`);
-  // const now = new Date();
-  // const day = String(now.getDate()).padStart(2, '0');
-  // const month = String(now.getMonth() + 1).padStart(2, '0');
-  // const year = now.getFullYear();
-
-  // const numericDate = Number(`${year}${month}${day}`);
-  // console.log(numericDate);
-
   const password = 'VSK@9180';
-
   const schools = await School.find().exec();
   for (const school of schools) {
     const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
@@ -247,16 +49,6 @@ const storeAttendanceDataInMongoDB = async () => {
       const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid) }).exec();
 
       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
-
-      // let attendanceStatus = 'done';
-
-      // // Check if attendance data is not found
-      // if (studentData.length === 0) {
-      //   attendanceStatus = 'data not found';
-      // } else if (studentData.some((student) => student.attendance === '')) {
-      //   attendanceStatus = 'attendanceNotTaken';
-      // }
-
       const countByGenderAndAttendance = (gender, attendanceType) =>
         studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
 
@@ -445,20 +237,9 @@ const storeAttendanceDataInMongoDB = async () => {
 };
 
 const storeAttendanceDataByDate = async (date) => {
-  // const now = new Date();
-  // const day = String(now.getDate()).padStart(2, '0');
-  // const month = String(now.getMonth() + 1).padStart(2, '0');
-  // const year = now.getFullYear();
-
-  // const date = `${day}/${month}/${year}`;
-  // const date = "28/11/2023";
-  // const formattedDate = new Date(date);
-  // console.log(formattedDate);
   const [day, month, year] = date.split('/');
   const parsedDate = new Date(`${year}-${month}-${day}T00:00:00.000Z`);
   const password = 'VSK@9180';
-  // const formattedDateForApi = (new Date(date)).toLocaleDateString('en-GB');
-  // console.log(formattedDateForApi);
   const schools = await School.find().exec();
   for (const school of schools) {
     const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
@@ -474,21 +255,8 @@ const storeAttendanceDataByDate = async (date) => {
 
       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
 
-      // let attendanceStatus = 'done';
-
-      // // Check if attendance data is not found
-      // if (studentData.length === 0) {
-      //   attendanceStatus = 'data not found';
-      // } else if (studentData.some((student) => student.attendance === '')) {
-      //   attendanceStatus = 'attendanceNotTaken';
-      // }
       const countByGenderAndAttendance = (gender, attendanceType) =>
         studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
-
-      // const countByGenderAndAttendance = (gender, attendanceType) =>
-      // studentData.filter(
-      //   (student) => student.Gender && student.Gender === gender && student.attendance === attendanceType
-      // ).length;
 
       const countByClass = (className, attendanceType) =>
         studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
@@ -520,7 +288,6 @@ const storeAttendanceDataByDate = async (date) => {
       const totalLeaveCount = maleLeaveCount + femaleLeaveCount + otherLeaveCount;
 
       const classCount = [];
-      // Include class-wise counts in the array
       const classes = Array.from(new Set(studentData.map((student) => student.CLASS)));
       for (const className of classes) {
         const classPresentCount = countByClass(className, 'Present');
@@ -569,7 +336,6 @@ const storeAttendanceDataByDate = async (date) => {
       }
 
       if (existingAttendance) {
-        // If an entry with the same identifier exists, update it
         await Attendance.updateOne(
           { identifier },
           {
@@ -607,7 +373,6 @@ const storeAttendanceDataByDate = async (date) => {
           }
         );
       } else {
-        // If no entry with the same identifier exists, create a new one
         await Attendance.create({
           identifier,
           district_name: school.District_name,
@@ -690,24 +455,8 @@ const getAttendanceCounts = async (date) => {
         maleAttendanceNotMarked: { $sum: '$maleAttendanceNotMarked' },
         femaleAttendanceNotMarked: { $sum: '$femaleAttendanceNotMarked' },
         otherAttendanceNotMarked: { $sum: '$otherAttendanceNotMarked' },
-        // schoolData: {
-        //   $push: {
-        //     $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, { school_name: '$school_name', School_ID: '$School_ID' }, null],
-        //   },
-        // },
       },
     },
-    // {
-    //   $addFields: {
-    //     schoolData: {
-    //       $filter: {
-    //         input: '$schoolData',
-    //         as: 'school',
-    //         cond: { $ne: ['$$school', null] },
-    //       },
-    //     },
-    //   },
-    // },
   ]);
 
   const statusCounts = await Attendance.aggregate([
@@ -1005,14 +754,12 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
  * @returns {Promise<Array>} - Array containing district-wise attendance present counts
  */
 const attendanceStatus = async (attendance_DATE, attendanceStatus) => {
-  // console.log(attendance_DATE,  attendanceStatus)
   const data = await Attendance.find({ attendance_DATE, attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
   return data;
 };
 const attendanceStatusDistrictWise = async (district_name, attendance_DATE, attendanceStatus) => {
-  // console.log(attendance_DATE,  attendanceStatus)
   const data = await Attendance.find({ district_name, attendance_DATE, attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
@@ -1020,7 +767,6 @@ const attendanceStatusDistrictWise = async (district_name, attendance_DATE, atte
 };
 
 const attendanceStatusZoneWise = async (Z_name, attendance_DATE, attendanceStatus) => {
-  // console.log(attendance_DATE,  attendanceStatus)
   const data = await Attendance.find({ Z_name, attendance_DATE, attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
@@ -1028,7 +774,6 @@ const attendanceStatusZoneWise = async (Z_name, attendance_DATE, attendanceStatu
 };
 
 const attendanceStatusSchoolWise = async (School_ID, attendance_DATE, attendanceStatus) => {
-  // console.log(attendance_DATE,  attendanceStatus)
   const data = await Attendance.find({ School_ID, attendance_DATE, attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
@@ -1036,7 +781,6 @@ const attendanceStatusSchoolWise = async (School_ID, attendance_DATE, attendance
 };
 
 const attendanceStatusShiftWise = async (shift, attendance_DATE, attendanceStatus) => {
-  // console.log(attendance_DATE,  attendanceStatus)
   const data = await Attendance.find({ shift, attendance_DATE, attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
@@ -1099,11 +843,6 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
         attendance_DATE: {
           $regex: `^(${startDate}|${endDate})`,
         },
-        // createdAt: {
-        //   // Ensure the dates are compared correctly with MongoDB date objects
-        //   $gte: parsedStartDate,
-        //   $lte: parsedEndDate,
-        // },
       },
     },
     {
@@ -1139,477 +878,8 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
  * @returns {Promise<Object>} - Attendance percentages
  */
 
-// const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zoneName, districtName, schoolId) => {
-//   // Match stage to filter based on parameters
-//   const matchStage = {
-//     attendance_DATE: { $gte: startDate, $lte: endDate },
-//   };
-
-//   if (schoolId) {
-//     matchStage.School_ID = schoolId;
-//   }
-
-//   if (districtName) {
-//     matchStage.district_name = districtName;
-//   }
-
-//   if (zoneName) {
-//     matchStage.Z_name = zoneName;
-//   }
-
-//   // Aggregation pipeline
-//   const result = await Attendance.aggregate([
-//     {
-//       $match: matchStage,
-//     },
-//     {
-//       $group: {
-//         _id: null,
-//         totalEntries: { $sum: '$totalStudentCount' }, // Count total entries
-//         malePresentCount: { $sum: '$malePresentCount' },
-//         feMalePresentCount: { $sum: '$feMalePresentCount' },
-//         otherPresentCount: { $sum: '$otherPresentCount' },
-//         maleAbsentCount: { $sum: '$maleAbsentCount' },
-//         feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
-//         otherAbsentCount: { $sum: '$otherAbsentCount' },
-//         maleLeaveCount: { $sum: '$maleLeaveCount' },
-//         femaleLeaveCount: { $sum: '$femaleLeaveCount' },
-//         otherLeaveCount: { $sum: '$otherLeaveCount' },
-//         maleNotMarkedCount: { $sum: '$maleAttendanceNotMarked' },
-//         femaleNotMarkedCount: { $sum: '$femaleAttendanceNotMarked' },
-//         otherNotMarkedCount: { $sum: '$otherAttendanceNotMarked' },
-//       },
-//     },
-//     {
-//       $project: {
-//         _id: 0, // Exclude _id field
-//         totalEntries: 1,
-//         malePresentPercentage: { $multiply: [{ $divide: ['$malePresentCount', '$totalEntries'] }, 100] },
-//         feMalePresentPercentage: { $multiply: [{ $divide: ['$feMalePresentCount', '$totalEntries'] }, 100] },
-//         otherPresentPercentage: { $multiply: [{ $divide: ['$otherPresentCount', '$totalEntries'] }, 100] },
-//         maleAbsentPercentage: { $multiply: [{ $divide: ['$maleAbsentCount', '$totalEntries'] }, 100] },
-//         feMaleAbsentPercentage: { $multiply: [{ $divide: ['$feMaleAbsentCount', '$totalEntries'] }, 100] },
-//         otherAbsentPercentage: { $multiply: [{ $divide: ['$otherAbsentCount', '$totalEntries'] }, 100] },
-//         maleLeavePercentage: { $multiply: [{ $divide: ['$maleLeaveCount', '$totalEntries'] }, 100] },
-//         femaleLeavePercentage: { $multiply: [{ $divide: ['$femaleLeaveCount', '$totalEntries'] }, 100] },
-//         otherLeavePercentage: { $multiply: [{ $divide: ['$otherLeaveCount', '$totalEntries'] }, 100] },
-//         maleNotMarkedPercentage: { $multiply: [{ $divide: ['$maleNotMarkedCount', '$totalEntries'] }, 100] },
-//         femaleNotMarkedPercentage: { $multiply: [{ $divide: ['$femaleNotMarkedCount', '$totalEntries'] }, 100] },
-//         otherNotMarkedPercentage: { $multiply: [{ $divide: ['$otherNotMarkedCount', '$totalEntries'] }, 100] },
-//       },
-//     },
-//   ]);
-
-//   return result[0] || {}; // Return the first element or an empty object if no data found
-// };
-
-// const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zoneName, districtName, schoolId) => {
-//   // Match stage to filter based on parameters
-//   const matchStage = {
-//     attendance_DATE: { $gte: startDate, $lte: endDate },
-//   };
-
-//   if (schoolId) {
-//     matchStage.School_ID = schoolId;
-//   }
-
-//   if (districtName) {
-//     matchStage.district_name = districtName;
-//   }
-
-//   if (zoneName) {
-//     matchStage.Z_name = zoneName;
-//   }
-
-//   // Aggregation pipeline for overall percentage
-//   const overallResult = await Attendance.aggregate([
-//     {
-//       $match: matchStage,
-//     },
-//     {
-//       $group: {
-//         _id: null,
-//         totalEntries: { $sum: '$totalStudentCount' }, // Count total entries
-//         malePresentCount: { $sum: '$malePresentCount' },
-//         feMalePresentCount: { $sum: '$feMalePresentCount' },
-//         otherPresentCount: { $sum: '$otherPresentCount' },
-//         maleAbsentCount: { $sum: '$maleAbsentCount' },
-//         feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
-//         otherAbsentCount: { $sum: '$otherAbsentCount' },
-//         maleLeaveCount: { $sum: '$maleLeaveCount' },
-//         femaleLeaveCount: { $sum: '$femaleLeaveCount' },
-//         otherLeaveCount: { $sum: '$otherLeaveCount' },
-//         maleNotMarkedCount: { $sum: '$maleAttendanceNotMarked' },
-//         femaleNotMarkedCount: { $sum: '$femaleAttendanceNotMarked' },
-//         otherNotMarkedCount: { $sum: '$otherAttendanceNotMarked' },
-//       },
-//     },
-//     {
-//       $project: {
-//         _id: 0,
-//         overallPercentage: {
-//           totalEntries: 1,
-//           malePresentPercentage: { $multiply: [{ $divide: ['$malePresentCount', '$totalEntries'] }, 100] },
-//           feMalePresentPercentage: { $multiply: [{ $divide: ['$feMalePresentCount', '$totalEntries'] }, 100] },
-//           otherPresentPercentage: { $multiply: [{ $divide: ['$otherPresentCount', '$totalEntries'] }, 100] },
-//           maleAbsentPercentage: { $multiply: [{ $divide: ['$maleAbsentCount', '$totalEntries'] }, 100] },
-//           feMaleAbsentPercentage: { $multiply: [{ $divide: ['$feMaleAbsentCount', '$totalEntries'] }, 100] },
-//           otherAbsentPercentage: { $multiply: [{ $divide: ['$otherAbsentCount', '$totalEntries'] }, 100] },
-//           maleLeavePercentage: { $multiply: [{ $divide: ['$maleLeaveCount', '$totalEntries'] }, 100] },
-//           femaleLeavePercentage: { $multiply: [{ $divide: ['$femaleLeaveCount', '$totalEntries'] }, 100] },
-//           otherLeavePercentage: { $multiply: [{ $divide: ['$otherLeaveCount', '$totalEntries'] }, 100] },
-//           maleNotMarkedPercentage: { $multiply: [{ $divide: ['$maleNotMarkedCount', '$totalEntries'] }, 100] },
-//           femaleNotMarkedPercentage: { $multiply: [{ $divide: ['$femaleNotMarkedCount', '$totalEntries'] }, 100] },
-//           otherNotMarkedPercentage: { $multiply: [{ $divide: ['$otherNotMarkedCount', '$totalEntries'] }, 100] },
-//         },
-//       },
-//     },
-//   ]);
-
-//   // Aggregation pipeline for date-wise percentage
-//   const dateWiseResult = await Attendance.aggregate([
-//     {
-//       $match: matchStage,
-//     },
-//     {
-//       $group: {
-//         _id: '$attendance_DATE',
-//         totalEntries: { $sum: '$totalStudentCount' }, // Count total entries
-//         malePresentCount: { $sum: '$malePresentCount' },
-//         feMalePresentCount: { $sum: '$feMalePresentCount' },
-//         otherPresentCount: { $sum: '$otherPresentCount' },
-//         maleAbsentCount: { $sum: '$maleAbsentCount' },
-//         feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
-//         otherAbsentCount: { $sum: '$otherAbsentCount' },
-//         maleLeaveCount: { $sum: '$maleLeaveCount' },
-//         femaleLeaveCount: { $sum: '$femaleLeaveCount' },
-//         otherLeaveCount: { $sum: '$otherLeaveCount' },
-//         maleNotMarkedCount: { $sum: '$maleAttendanceNotMarked' },
-//         femaleNotMarkedCount: { $sum: '$femaleAttendanceNotMarked' },
-//         otherNotMarkedCount: { $sum: '$otherAttendanceNotMarked' },
-//       },
-//     },
-//     {
-//       $project: {
-//         _id: 0,
-//         attendance_DATE: '$_id',
-//         totalEntries: 1,
-//         malePresentPercentage: { $multiply: [{ $divide: ['$malePresentCount', '$totalEntries'] }, 100] },
-//         feMalePresentPercentage: { $multiply: [{ $divide: ['$feMalePresentCount', '$totalEntries'] }, 100] },
-//         otherPresentPercentage: { $multiply: [{ $divide: ['$otherPresentCount', '$totalEntries'] }, 100] },
-//         maleAbsentPercentage: { $multiply: [{ $divide: ['$maleAbsentCount', '$totalEntries'] }, 100] },
-//         feMaleAbsentPercentage: { $multiply: [{ $divide: ['$feMaleAbsentCount', '$totalEntries'] }, 100] },
-//         otherAbsentPercentage: { $multiply: [{ $divide: ['$otherAbsentCount', '$totalEntries'] }, 100] },
-//         maleLeavePercentage: { $multiply: [{ $divide: ['$maleLeaveCount', '$totalEntries'] }, 100] },
-//         femaleLeavePercentage: { $multiply: [{ $divide: ['$femaleLeaveCount', '$totalEntries'] }, 100] },
-//         otherLeavePercentage: { $multiply: [{ $divide: ['$otherLeaveCount', '$totalEntries'] }, 100] },
-//         maleNotMarkedPercentage: { $multiply: [{ $divide: ['$maleNotMarkedCount', '$totalEntries'] }, 100] },
-//         femaleNotMarkedPercentage: { $multiply: [{ $divide: ['$femaleNotMarkedCount', '$totalEntries'] }, 100] },
-//         otherNotMarkedPercentage: { $multiply: [{ $divide: ['$otherNotMarkedCount', '$totalEntries'] }, 100] },
-//       },
-//     },
-//     {
-//       $sort: { attendance_DATE: 1 }, // Sort by date ascending
-//     },
-//   ]);
-
-//   return {
-//     overallPercentage: overallResult[0]?.overallPercentage || {},
-//     dateWisePercentage: dateWiseResult || [],
-//   };
-// };
-
-// const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zoneName, districtName, schoolId) => {
-//   const matchStage = {
-//     attendance_DATE: {
-//       $gte: startDate,
-//       $lte: endDate,
-//     },
-//   };
-
-//   if (schoolId) {
-//     matchStage.School_ID = schoolId;
-//   }
-
-//   if (districtName) {
-//     matchStage.district_name = districtName;
-//   }
-
-//   if (zoneName) {
-//     matchStage.Z_name = zoneName;
-//   }
-
-//   // Aggregation pipeline for overall percentage
-//   const overallResult = await Attendance.aggregate([
-//     {
-//       $match: matchStage,
-//     },
-//     {
-//       $group: {
-//         _id: null,
-//         totalEntries: { $sum: '$totalStudentCount' }, // Count total entries
-//         malePresentCount: { $sum: '$malePresentCount' },
-//         feMalePresentCount: { $sum: '$feMalePresentCount' },
-//         otherPresentCount: { $sum: '$otherPresentCount' },
-//         maleAbsentCount: { $sum: '$maleAbsentCount' },
-//         feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
-//         otherAbsentCount: { $sum: '$othersAbsentCount' },
-//         maleLeaveCount: { $sum: '$maleLeaveCount' },
-//         femaleLeaveCount: { $sum: '$femaleLeaveCount' },
-//         otherLeaveCount: { $sum: '$otherLeaveCount' },
-//         maleNotMarkedCount: { $sum: '$maleAttendanceNotMarked' },
-//         femaleNotMarkedCount: { $sum: '$femaleAttendanceNotMarked' },
-//         otherNotMarkedCount: { $sum: '$otherAttendanceNotMarked' },
-//       },
-//     },
-//     {
-//       $project: {
-//         _id: 0,
-//         overallPercentage: {
-//           totalEntries: 1,
-//           malePresentPercentage: { $multiply: [{ $divide: ['$malePresentCount', '$totalEntries'] }, 100] },
-//           feMalePresentPercentage: { $multiply: [{ $divide: ['$feMalePresentCount', '$totalEntries'] }, 100] },
-//           otherPresentPercentage: { $multiply: [{ $divide: ['$otherPresentCount', '$totalEntries'] }, 100] },
-//           maleAbsentPercentage: { $multiply: [{ $divide: ['$maleAbsentCount', '$totalEntries'] }, 100] },
-//           feMaleAbsentPercentage: { $multiply: [{ $divide: ['$feMaleAbsentCount', '$totalEntries'] }, 100] },
-//           otherAbsentPercentage: { $multiply: [{ $divide: ['$otherAbsentCount', '$totalEntries'] }, 100] },
-//           maleLeavePercentage: { $multiply: [{ $divide: ['$maleLeaveCount', '$totalEntries'] }, 100] },
-//           femaleLeavePercentage: { $multiply: [{ $divide: ['$femaleLeaveCount', '$totalEntries'] }, 100] },
-//           otherLeavePercentage: { $multiply: [{ $divide: ['$otherLeaveCount', '$totalEntries'] }, 100] },
-//           maleNotMarkedPercentage: { $multiply: [{ $divide: ['$maleNotMarkedCount', '$totalEntries'] }, 100] },
-//           femaleNotMarkedPercentage: { $multiply: [{ $divide: ['$femaleNotMarkedCount', '$totalEntries'] }, 100] },
-//           otherNotMarkedPercentage: { $multiply: [{ $divide: ['$otherNotMarkedCount', '$totalEntries'] }, 100] },
-//         },
-//       },
-//     },
-//   ]);
-
-//   // Aggregation pipeline for date-wise percentage
-//   const dateWiseResult = await Attendance.aggregate([
-//     {
-//       $match: matchStage,
-//     },
-//     {
-//       $group: {
-//         _id: '$attendance_DATE',
-//         totalEntries: { $sum: '$totalStudentCount' }, // Count total entries
-//         malePresentCount: { $sum: '$malePresentCount' },
-//         feMalePresentCount: { $sum: '$feMalePresentCount' },
-//         otherPresentCount: { $sum: '$otherPresentCount' },
-//         maleAbsentCount: { $sum: '$maleAbsentCount' },
-//         feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
-//         otherAbsentCount: { $sum: '$othersAbsentCount' },
-//         maleLeaveCount: { $sum: '$maleLeaveCount' },
-//         femaleLeaveCount: { $sum: '$femaleLeaveCount' },
-//         otherLeaveCount: { $sum: '$otherLeaveCount' },
-//         maleNotMarkedCount: { $sum: '$maleAttendanceNotMarked' },
-//         femaleNotMarkedCount: { $sum: '$femaleAttendanceNotMarked' },
-//         otherNotMarkedCount: { $sum: '$otherAttendanceNotMarked' },
-//       },
-//     },
-//     {
-//       $project: {
-//         _id: 0,
-//         attendance_DATE: '$_id',
-//         totalEntries: 1,
-//         malePresentPercentage: { $multiply: [{ $divide: ['$malePresentCount', '$totalEntries'] }, 100] },
-//         feMalePresentPercentage: { $multiply: [{ $divide: ['$feMalePresentCount', '$totalEntries'] }, 100] },
-//         otherPresentPercentage: { $multiply: [{ $divide: ['$otherPresentCount', '$totalEntries'] }, 100] },
-//         maleAbsentPercentage: { $multiply: [{ $divide: ['$maleAbsentCount', '$totalEntries'] }, 100] },
-//         feMaleAbsentPercentage: { $multiply: [{ $divide: ['$feMaleAbsentCount', '$totalEntries'] }, 100] },
-//         otherAbsentPercentage: { $multiply: [{ $divide: ['$otherAbsentCount', '$totalEntries'] }, 100] },
-//         maleLeavePercentage: { $multiply: [{ $divide: ['$maleLeaveCount', '$totalEntries'] }, 100] },
-//         femaleLeavePercentage: { $multiply: [{ $divide: ['$femaleLeaveCount', '$totalEntries'] }, 100] },
-//         otherLeavePercentage: { $multiply: [{ $divide: ['$otherLeaveCount', '$totalEntries'] }, 100] },
-//         maleNotMarkedPercentage: { $multiply: [{ $divide: ['$maleNotMarkedCount', '$totalEntries'] }, 100] },
-//         femaleNotMarkedPercentage: { $multiply: [{ $divide: ['$femaleNotMarkedCount', '$totalEntries'] }, 100] },
-//         otherNotMarkedPercentage: { $multiply: [{ $divide: ['$otherNotMarkedCount', '$totalEntries'] }, 100] },
-//       },
-//     },
-//     {
-//       $sort: { attendance_DATE: 1 }, // Sort by date ascending
-//     },
-//   ]);
-
-//   return {
-//     overallPercentage: overallResult[0] ? overallResult[0].overallPercentage || {} : {},
-//     dateWisePercentage: dateWiseResult || [],
-//   };
-// };
-
-//   const startDateObject = new Date(startDate.split('/').reverse().join('-') + 'T00:00:00.000Z');
-// const endDateObject = new Date(endDate.split('/').reverse().join('-') + 'T23:59:59.999Z');
-
-// const matchStage = {
-//   attendance_DATE: {
-//     $gte: startDateObject.toISOString(),
-//     $lte: endDateObject.toISOString(),
-//   },
-// };
-
-// const startDateObject = new Date(startDate.split('/').reverse().join('-') + 'T00:00:00.000Z');
-// const endDateObject = new Date(endDate.split('/').reverse().join('-') + 'T23:59:59.999Z');
-
-// const matchStage = {
-//   attendance_DATE: {
-//     $gte: startDateObject.toLocaleDateString('en-GB'),
-//     $lte: endDateObject.toLocaleDateString('en-GB'),
-//   },
-// };
-
-// console.log(startDateObject, endDateObject);
-
-// const startDateObject = new Date(startDate.split('/').reverse().join('-') + 'T00:00:00.000Z');
-// const endDateObject = new Date(endDate.split('/').reverse().join('-') + 'T23:59:59.999Z');
-
-// const matchStage = {
-//   attendance_DATE: {
-//     $gte: startDateObject.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-//     $lte: endDateObject.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-//   },
-// };
-
-// console.log(startDateObject, endDateObject);
-// const startDateObject = new Date(startDate.split('/').reverse().join('-') + 'T00:00:00.000Z');
-// const endDateObject = new Date(endDate.split('/').reverse().join('-') + 'T23:59:59.999Z');
-
-// const matchStage = {
-//   attendance_DATE: {
-//     $gte: startDateObject.toISOString(),
-//     $lte: endDateObject.toISOString(),
-//   },
-// };
-
-// console.log(startDateObject, endDateObject);
-// const startDateObject = new Date(startDate.split('/').reverse().join('-') + 'T00:00:00.000Z');
-// const endDateObject = new Date(endDate.split('/').reverse().join('-') + 'T23:59:59.999Z');
-
-// const formatDate = (date) => {
-//   return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-// };
-
-// const matchStage = {
-//   attendance_DATE: {
-//     $gte: formatDate(startDateObject),
-//     $lte: formatDate(endDateObject),
-//   },
-// };
-
-// console.log(formatDate(startDateObject), formatDate(endDateObject));
-
-// const parseDateString = (dateString) => {
-//   const [day, month, year] = dateString.split('/');
-//   return new Date(`${year}-${month}-${day}T00:00:00.000Z`);
-// };
-
-// const startDateObject = parseDateString(startDate);
-// const endDateObject = parseDateString(endDate);
-
-// const formatDate = (date) => {
-//   return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-// };
-
-// const matchStage = {
-//   attendance_DATE: {
-//     $gte: formatDate(startDateObject),
-//     $lte: formatDate(endDateObject),
-//   },
-// };
-
-// const parseDateString = (dateString) => {
-//   const [day, month, year] = dateString.split('/');
-//   return new Date(`${year}-${month}-${day}T00:00:00.000Z`);
-// };
-
-// const startDateObject = parseDateString(startDate);
-// const endDateObject = parseDateString(endDate);
-
-// const formatDate = (date) => {
-//   return date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-// };
-
-// const matchStage = {
-//   attendance_DATE: {
-//     $gte: formatDate(startDateObject),
-//     $lte: formatDate(endDateObject),
-//   },
-// };
-
-// console.log(formatDate(startDateObject), formatDate(endDateObject));
-
-// const startDateObject = new Date(startDate.split('/').reverse().join('-'));
-// const endDateObject = new Date(endDate.split('/').reverse().join('-') + 'T23:59:59.999Z');
-
-// const matchStage = {
-//   $expr: {
-//     $and: [
-//       {
-//         $gte: [
-//           {
-//             $dateFromString: {
-//               dateString: '$attendance_DATE',
-//             },
-//           },
-//           startDateObject,
-//         ],
-//       },
-//       {
-//         $lte: [
-//           {
-//             $dateFromString: {
-//               dateString: '$attendance_DATE',
-//             },
-//           },
-//           endDateObject,
-//         ],
-//       },
-//       {
-//         $gte: [
-//           {
-//             $dateFromString: {
-//               dateString: '$timestamps.createdAt',
-//             },
-//           },
-//           startDateObject,
-//         ],
-//       },
-//       {
-//         $lte: [
-//           {
-//             $dateFromString: {
-//               dateString: '$timestamps.createdAt',
-//             },
-//           },
-//           endDateObject,
-//         ],
-//       },
-//     ],
-//   },
-// };
-
-// console.log(endDateObject, startDateObject);
-
 const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zoneName, districtName, schoolId) => {
   const matchStage = {
-    // createdAt: {
-    //   // Ensure the dates are compared correctly with MongoDB date objects
-    //   $gte: parsedStartDate,
-    //   $lte: parsedEndDate,
-    // },
-
-    // createdAt: {
-    //   $gte: startDateObject,
-    //   $lt: endDateObject,
-    // },
-    // createdAt: {
-    //   $gte: new Date(startDate),
-    //   $lte: new Date(endDate),
-    // },
-    //  createdAt:{$gte:ISODate(startDate),$lt:ISODate(endDate)}
-    // attendance_DATE: {
-    //   $gte: startDate,
-    //   $lte: endDate,
-    // },
     attendance_DATE: {
       $gte: new Date(startDate),
       $lt: new Date(new Date(endDate).getTime() + 24 * 60 * 60 * 1000), // Add one day to include the end date
@@ -1740,8 +1010,8 @@ const getAttendancePercentageGenderAndRangeAndShiftWise = async (
 ) => {
   const matchStage = {
     attendance_DATE: {
-      $gte: startDate,
-      $lte: endDate,
+      $gte: new Date(startDate),
+      $lt: new Date(new Date(endDate).getTime() + 24 * 60 * 60 * 1000), // Add one day to include the end date
     },
     shift,
   };
@@ -1802,8 +1072,6 @@ const getAttendancePercentageGenderAndRangeAndShiftWise = async (
       },
     },
   ]);
-
-  // Aggregation pipeline for date-wise percentage
   const dateWiseResult = await Attendance.aggregate([
     {
       $match: matchStage,
@@ -1860,39 +1128,6 @@ const getAttendancePercentageGenderAndRangeAndShiftWise = async (
   };
 };
 
-// /**
-//  * Get top 5 performing districts based on present counts
-//  * @param {string} date - Date for filtering records
-//  * @returns {Promise<Array<Object>>} - Array of top 5 performing districts with present counts
-//  */
-// const getTopPerformingDistricts = async (date) => {
-//   const result = await Attendance.aggregate([
-//     {
-//       $match: { attendance_DATE: date }, // Filter records based on the provided date
-//     },
-//     {
-//       $group: {
-//         _id: '$district_name',
-//         totalPresentCount: { $sum: '$PresentCount' },
-//       },
-//     },
-//     {
-//       $sort: { totalPresentCount: -1 },
-//     },
-//     {
-//       $limit: 5,
-//     },
-//     {
-//       $project: {
-//         district_name: '$_id',
-//         totalPresentCount: 1,
-//         _id: 0,
-//       },
-//     },
-//   ]);
-
-//   return result;
-// };
 const getTopPerformingDistricts = async (date) => {
   // Get top 5 performing districts based on present counts
   const result = await Attendance.aggregate([
