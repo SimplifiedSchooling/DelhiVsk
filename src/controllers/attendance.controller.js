@@ -36,6 +36,36 @@ const getAttendanceCountsShiftWise = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const attendanceStatus = catchAsync(async (req, res) => {
+  const { date, attendanceStatus } = req.body;
+  const result = await attendanceService.attendanceStatus(date, attendanceStatus);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const attendanceStatusDistrictWise = catchAsync(async (req, res) => {
+  const { district_name, date, attendanceStatus } = req.body;
+  const result = await attendanceService.attendanceStatusDistrictWise(district_name, date, attendanceStatus);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const attendanceStatusZoneWise = catchAsync(async (req, res) => {
+  const { Z_name, date, attendanceStatus } = req.body;
+  const result = await attendanceService.attendanceStatusZoneWise(Z_name, date, attendanceStatus);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const attendanceStatusSchoolWise = catchAsync(async (req, res) => {
+  const { School_ID, date, attendanceStatus } = req.body;
+  const result = await attendanceService.attendanceStatusSchoolWise(School_ID, date, attendanceStatus);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const attendanceStatusShiftWise = catchAsync(async (req, res) => {
+  const { shift, date, attendanceStatus } = req.body;
+  const result = await attendanceService.attendanceStatusShiftWise(shift, date, attendanceStatus);
+  res.status(httpStatus.CREATED).send(result);
+});
+
 const getDistrictWisePresentCount = catchAsync(async (req, res) => {
   const { date } = req.body;
   const result = await attendanceService.getDistrictWisePresentCount(date);
@@ -139,6 +169,11 @@ module.exports = {
   getZoneAttendanceCount,
   getAttendanceCountsSchoolWise,
   getAttendanceCountsShiftWise,
+  attendanceStatus,
+  attendanceStatusDistrictWise,
+  attendanceStatusZoneWise,
+  attendanceStatusSchoolWise,
+  attendanceStatusShiftWise,
   getDistrictWisePresentCount,
   //----------------------------------------------------------------
   getGenderRangeWiseCountCount,
