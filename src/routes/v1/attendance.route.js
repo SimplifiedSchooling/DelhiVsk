@@ -427,8 +427,8 @@ module.exports = router;
  *                 type: string
  *             example:
  *               schoolId: "1001004"
- *               startDate: '24/11/2023'
- *               endDate: '28/11/2023'
+ *               startDate: '2023-12-01'
+ *               endDate: '2023-12-04'
  *               zoneName: 'Zone-01'
  *               districtName: 'East'
  *               shift: 'Evening'
