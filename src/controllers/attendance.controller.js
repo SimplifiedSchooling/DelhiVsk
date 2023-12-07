@@ -43,25 +43,25 @@ const attendanceStatus = catchAsync(async (req, res) => {
 });
 
 const attendanceStatusDistrictWise = catchAsync(async (req, res) => {
-  const {district_name, date, attendanceStatus } = req.body;
+  const { district_name, date, attendanceStatus } = req.body;
   const result = await attendanceService.attendanceStatusDistrictWise(district_name, date, attendanceStatus);
   res.status(httpStatus.CREATED).send(result);
 });
 
 const attendanceStatusZoneWise = catchAsync(async (req, res) => {
-  const {Z_name, date, attendanceStatus } = req.body;
+  const { Z_name, date, attendanceStatus } = req.body;
   const result = await attendanceService.attendanceStatusZoneWise(Z_name, date, attendanceStatus);
   res.status(httpStatus.CREATED).send(result);
 });
 
 const attendanceStatusSchoolWise = catchAsync(async (req, res) => {
-  const {School_ID, date, attendanceStatus } = req.body;
+  const { School_ID, date, attendanceStatus } = req.body;
   const result = await attendanceService.attendanceStatusSchoolWise(School_ID, date, attendanceStatus);
   res.status(httpStatus.CREATED).send(result);
 });
 
 const attendanceStatusShiftWise = catchAsync(async (req, res) => {
-  const {shift, date, attendanceStatus } = req.body;
+  const { shift, date, attendanceStatus } = req.body;
   const result = await attendanceService.attendanceStatusShiftWise(shift, date, attendanceStatus);
   res.status(httpStatus.CREATED).send(result);
 });
@@ -89,6 +89,21 @@ const getAttendancePercentageByGenderAndRangeWise = catchAsync(async (req, res) 
     zoneName,
     districtName,
     schoolId
+  );
+
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getAttendancePercentageByGenderAndRangeAndShiftWise = catchAsync(async (req, res) => {
+  const { startDate, endDate, zoneName, districtName, schoolId, shift } = req.body;
+
+  const result = await attendanceService.getAttendancePercentageGenderAndRangeAndShiftWise(
+    startDate,
+    endDate,
+    zoneName,
+    districtName,
+    schoolId,
+    shift
   );
 
   res.status(httpStatus.CREATED).send(result);
@@ -135,6 +150,18 @@ const getSchoolsDataNotFoundCount = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json({ count });
 });
 
+const getTopPerformingClassesBySchoolId = catchAsync(async (req, res) => {
+  const { schoolId, date } = req.body;
+  const topPerformingClasses = await attendanceService.getTopPerformingClassesBySchoolId(schoolId, date);
+  res.json(topPerformingClasses);
+});
+
+const getBottomPerformingClassesBySchoolId = catchAsync(async (req, res) => {
+  const { schoolId, date } = req.body;
+  const bottomPerformingClasses = await attendanceService.getBottomPerformingClassesBySchoolId(schoolId, date);
+  res.json(bottomPerformingClasses);
+});
+
 module.exports = {
   getAttedanceData,
   getAttendanceCounts,
@@ -158,4 +185,7 @@ module.exports = {
   getBottomPerformingZonesByDistrict,
   getBottomPerformingSchoolsByZoneName,
   getSchoolsDataNotFoundCount,
+  getTopPerformingClassesBySchoolId,
+  getBottomPerformingClassesBySchoolId,
+  getAttendancePercentageByGenderAndRangeAndShiftWise,
 };

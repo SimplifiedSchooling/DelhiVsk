@@ -34,6 +34,11 @@ router.post(
   attendanceController.getAttendancePercentageByGenderAndRangeWise
 );
 router.post(
+  '/attendancepercentage/range/parameter/shift',
+  validate(attendanceValidation.getAttendancePercentageGenderAndRangeAndShiftWise),
+  attendanceController.getAttendancePercentageByGenderAndRangeAndShiftWise
+);
+router.post(
   '/top-performing-districts',
   validate(attendanceValidation.getTopPerformingDistricts),
   attendanceController.getTopPerformingDistrictsController
@@ -59,6 +64,16 @@ router.post(
   attendanceController.getBottomPerformingSchoolsByZoneName
 );
 router.post(
+  '/top-performing-classes/byschoolid',
+  validate(attendanceValidation.getTopPerformingClassesBySchoolId),
+  attendanceController.getTopPerformingClassesBySchoolId
+);
+router.post(
+  '/bottom-performing-classes/byschoolid',
+  validate(attendanceValidation.getBottomPerformingClassesBySchoolId),
+  attendanceController.getBottomPerformingClassesBySchoolId
+);
+router.post(
   '/bottom-performing-districts',
   validate(attendanceValidation.getBottomPerformingDistricts),
   attendanceController.getBottomPerformingDistricts
@@ -69,6 +84,7 @@ router.post(
   validate(attendanceValidation.getTopPerformingDistricts),
   attendanceController.getSchoolsDataNotFoundCount
 );
+
 module.exports = router;
 
 /**
@@ -161,6 +177,7 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
+
 /**
  * @swagger
  * /attendance/top-performing-schools/byzonename:
@@ -235,7 +252,7 @@ module.exports = router;
  *               date:
  *                 type: string
  *             example:
- *               date: '25/11/2023'
+ *               date: "01/12/2023"
  *     responses:
  *       "200":
  *         description: OK
@@ -370,10 +387,51 @@ module.exports = router;
  *                 type: string
  *             example:
  *               schoolId: "1001004"
+ *               startDate: '2023-12-01'
+ *               endDate: '2023-12-01'
+ *               zoneName: 'Zone-01'
+ *               districtName: 'East'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/attendancepercentage/range/parameter/shift:
+ *   post:
+ *     summary: Get attendance by zoneName or districtName or schoolId  and range wise count graph data .
+ *     description:  Get attendance gender and range wise count graph data .
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schoolId:
+ *                 type: string
+ *               startDate:
+ *                 type: string
+ *               endDate:
+ *                 type: string
+ *               zoneName:
+ *                 type: string
+ *               districtName:
+ *                 type: string
+ *               shift:
+ *                 type: string
+ *             example:
+ *               schoolId: "1001004"
  *               startDate: '24/11/2023'
  *               endDate: '28/11/2023'
  *               zoneName: 'Zone-01'
  *               districtName: 'East'
+ *               shift: 'Evening'
  *     responses:
  *       "200":
  *         description: OK
@@ -554,7 +612,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /attendance/attendance-status-district-wise:
@@ -700,6 +757,64 @@ module.exports = router;
  *                 type: string
  *             example:
  *               date: '04/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/top-performing-classes/byschoolid:
+ *   post:
+ *     summary: Get top 5 performing classes based on present counts for a specific school and date
+ *     description:  Get top 5 performing classes based on present counts for a specific school and date
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schoolId:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               schoolId: '1003001'
+ *               date: '25/11/2023'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/bottom-performing-classes/byschoolid:
+ *   post:
+ *     summary: Get bottom 5 performing classes based on present counts for a specific school and date
+ *     description:  Get bottom 5 performing classes based on present counts for a specific school and date
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schoolId:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               schoolId: '1003001'
+ *               date: '25/11/2023'
  *     responses:
  *       "200":
  *         description: OK

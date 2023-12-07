@@ -43,7 +43,7 @@ const attendanceSchema = mongoose.Schema(
       type: Number,
     },
     attendance_DATE: {
-      type: String,
+      type: Date,
     },
     malePresentCount: {
       type: Number,

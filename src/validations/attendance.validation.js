@@ -16,6 +16,16 @@ const getAttendancePercentageGenderAndRangeWise = {
     zoneName: Joi.string(),
   }),
 };
+const getAttendancePercentageGenderAndRangeAndShiftWise = {
+  body: Joi.object().keys({
+    districtName: Joi.string(),
+    schoolId: Joi.string(),
+    startDate: Joi.string().required(),
+    endDate: Joi.string().required(),
+    zoneName: Joi.string(),
+    shift: Joi.string().required(),
+  }),
+};
 const getTopPerformingDistricts = {
   body: Joi.object().keys({
     date: Joi.string().required(),
@@ -39,6 +49,7 @@ const getBottomPerformingZonesByDistrict = {
     date: Joi.string().required(),
   }),
 };
+
 const getTopPerformingSchoolsByZoneName = {
   body: Joi.object().keys({
     zoneName: Joi.string().required(),
@@ -51,6 +62,19 @@ const getBottomPerformingSchoolsByZoneName = {
     date: Joi.string().required(),
   }),
 };
+
+const getTopPerformingClassesBySchoolId = {
+  body: Joi.object().keys({
+    schoolId: Joi.string().required(),
+    date: Joi.string().required(),
+  }),
+};
+const getBottomPerformingClassesBySchoolId = {
+  body: Joi.object().keys({
+    schoolId: Joi.string().required(),
+    date: Joi.string().required(),
+  }),
+};
 module.exports = {
   getGenderRangeWiseCount,
   getAttendancePercentageGenderAndRangeWise,
@@ -60,4 +84,7 @@ module.exports = {
   getTopPerformingSchoolsByZoneName,
   getBottomPerformingZonesByDistrict,
   getBottomPerformingSchoolsByZoneName,
+  getTopPerformingClassesBySchoolId,
+  getBottomPerformingClassesBySchoolId,
+  getAttendancePercentageGenderAndRangeAndShiftWise,
 };
