@@ -4,7 +4,7 @@ const { toJSON, paginate } = require('./plugins');
 const attendanceSchema = mongoose.Schema(
   {
     identifier: {
-      type: String
+      type: String,
     },
     attendanceStatus: {
       type: String,

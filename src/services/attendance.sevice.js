@@ -222,7 +222,7 @@ const storeAttendanceDataInMongoDB = async () => {
   const year = now.getFullYear();
 
   const date = new Date(`${year}-${month}-${day}`);
-  const formattedDate = new Date(date);
+  const parsedDate = new Date(`${year}-${month}-${day}T00:00:00.000Z`);
   // const now = new Date();
   // const day = String(now.getDate()).padStart(2, '0');
   // const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -343,7 +343,7 @@ const storeAttendanceDataInMongoDB = async () => {
         School_ID: school.Schoolid,
         school_name: school.School_Name,
         shift: school.shift,
-        attendance_DATE: formattedDate,
+        attendance_DATE: parsedDate,
         totalStudentCount,
         PresentCount: presentCountData,
         AbsentCount,
@@ -378,7 +378,7 @@ const storeAttendanceDataInMongoDB = async () => {
             attendance_DATE: formattedDate,
             SchManagement: school.SchManagement,
             totalStudentCount,
-            PresentCount: presentCountData,
+            PresentCount: parsedDate,
             AbsentCount,
             totalNotMarkedAttendanceCount,
             totalLeaveCount,
@@ -413,7 +413,7 @@ const storeAttendanceDataInMongoDB = async () => {
           school_name: school.School_Name,
           shift: school.shift,
           SchManagement: school.SchManagement,
-          attendance_DATE: formattedDate,
+          attendance_DATE: parsedDate,
           totalStudentCount,
           PresentCount: presentCountData,
           AbsentCount,
@@ -455,8 +455,7 @@ const storeAttendanceDataByDate = async (date) => {
   // const formattedDate = new Date(date);
   // console.log(formattedDate);
   const [day, month, year] = date.split('/');
-const parsedDate = new Date(`${year}-${month}-${day}T00:00:00.000Z`);
-console.log(parsedDate);
+  const parsedDate = new Date(`${year}-${month}-${day}T00:00:00.000Z`);
   const password = 'VSK@9180';
   // const formattedDateForApi = (new Date(date)).toLocaleDateString('en-GB');
   // console.log(formattedDateForApi);
@@ -490,7 +489,7 @@ console.log(parsedDate);
       // studentData.filter(
       //   (student) => student.Gender && student.Gender === gender && student.attendance === attendanceType
       // ).length;
-    
+
       const countByClass = (className, attendanceType) =>
         studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
 
@@ -901,16 +900,16 @@ const getAttendanceCountsSchoolWise = async (date, School_ID) => {
 
   const statusCounts = await Attendance.aggregate([
     match,
-   {
-     $group: {
-       _id: '$attendanceStatus',
-       count: { $sum: 1 },
-     },
-   },
- ]);
+    {
+      $group: {
+        _id: '$attendanceStatus',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
   const Schoolid = Number(School_ID);
   const countofSchoool = await School.countDocuments(Number(School_ID)).exec();
-  const totalStudentCount = await Student.countDocuments({Schoolid, status: "Studying"}).exec();
+  const totalStudentCount = await Student.countDocuments({ Schoolid, status: 'Studying' }).exec();
   return {
     statusCounts,
     countofSchoool,
@@ -1592,7 +1591,6 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
 
 const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zoneName, districtName, schoolId) => {
   const matchStage = {
-    
     // createdAt: {
     //   // Ensure the dates are compared correctly with MongoDB date objects
     //   $gte: parsedStartDate,
@@ -1607,7 +1605,7 @@ const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zon
     //   $gte: new Date(startDate),
     //   $lte: new Date(endDate),
     // },
-  //  createdAt:{$gte:ISODate(startDate),$lt:ISODate(endDate)}
+    //  createdAt:{$gte:ISODate(startDate),$lt:ISODate(endDate)}
     // attendance_DATE: {
     //   $gte: startDate,
     //   $lte: endDate,
