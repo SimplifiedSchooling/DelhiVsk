@@ -13,6 +13,8 @@ router.route('/studentcount/schoolname/gender').post(studentController.getStuden
 
 router.route('/studentcount/schoolId/status').post(studentController.getStudentCountBySchoolNameAndStatus);
 
+router.route('/student-attendance-data').post(studentController.getStudentAttendance);
+
 module.exports = router;
 
 /**
@@ -199,6 +201,81 @@ module.exports = router;
  *             required:
  *               - Schoolid
  *               - status
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+
+// /**
+//  * @swagger
+//  * /student:
+//  *   get:
+// *     summary: Get all role
+// *     tags: [Student]
+// *     security:
+// *       - bearerAuth: []
+// *     responses:
+// *       "200":
+// *         description: OK
+// *         content:
+// *           application/json:
+// *             schema:
+// *                $ref: '#/components/schemas/Language'
+// *       "401":
+// *         $ref: '#/components/responses/Unauthorized'
+// *       "403":
+// *         $ref: '#/components/responses/Forbidden'
+// */
+
+// /**
+// * @swagger
+// * /student/student-attendance-data:
+// *   get:
+// *     summary: Get all Student
+// *     tags: [Student]
+// *     security:
+// *       - bearerAuth: []
+// *     parameters:
+// *       - in: query
+// *         name: Date
+// *       - in: query
+// *         name: Schoolid
+// *     responses:
+// *       "200":
+// *         description: OK
+// *       "401":
+// *         description: Unauthorized
+// *       "403":
+// *         description: Forbidden
+// */
+
+
+/**
+ * @swagger
+ * /student/student-attendance-data:
+ *   post:
+ *     summary: Get school wise student attendance data.
+ *     description: Get school wise student attendance data.
+ *     tags: [Student]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Schoolid:
+ *                 type: string
+ *               Date:
+ *                 type: string
+ *             required:
+ *               - Schoolid
+ *               - Date
  *     responses:
  *       "200":
  *         description: OK
