@@ -431,7 +431,7 @@ cron.schedule('0 21 * * *', async () => {
 
 const getAttendanceCounts = async (date) => {
   const match = {
-    attendance_DATE: date,
+    attendance_DATE: new Date(date),
   };
 
   const Counts = await Attendance.aggregate([
@@ -489,7 +489,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
   const { date, districtName } = body;
   const dateMatch = {
     $match: {
-      attendance_DATE: date,
+      attendance_DATE: new Date(date),
       district_name: districtName,
     },
   };
@@ -552,7 +552,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
 const getAttendanceCountsZoneWise = async (date, Z_name) => {
   const match = {
     $match: {
-      attendance_DATE: date,
+      attendance_DATE: new Date(date),
       Z_name,
     },
   };
@@ -614,7 +614,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
 const getAttendanceCountsSchoolWise = async (date, School_ID) => {
   const match = {
     $match: {
-      attendance_DATE: date,
+      attendance_DATE: new Date(date),
       School_ID,
     },
   };
@@ -677,7 +677,7 @@ const getAttendanceCountsSchoolWise = async (date, School_ID) => {
 const getAttendanceCountsShiftWise = async (date, shift) => {
   const dateMatch = {
     $match: {
-      attendance_DATE: date,
+      attendance_DATE: new Date(date),
       shift,
     },
   };
@@ -754,34 +754,34 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
  * @returns {Promise<Array>} - Array containing district-wise attendance present counts
  */
 const attendanceStatus = async (attendance_DATE, attendanceStatus) => {
-  const data = await Attendance.find({ attendance_DATE, attendanceStatus })
+  const data = await Attendance.find({ attendance_DATE: new Date(attendance_DATE), attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
   return data;
 };
 const attendanceStatusDistrictWise = async (district_name, attendance_DATE, attendanceStatus) => {
-  const data = await Attendance.find({ district_name, attendance_DATE, attendanceStatus })
+  const data = await Attendance.find({ district_name,  attendance_DATE: new Date(attendance_DATE), attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
   return data;
 };
 
 const attendanceStatusZoneWise = async (Z_name, attendance_DATE, attendanceStatus) => {
-  const data = await Attendance.find({ Z_name, attendance_DATE, attendanceStatus })
+  const data = await Attendance.find({ Z_name,  attendance_DATE: new Date(attendance_DATE), attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
   return data;
 };
 
 const attendanceStatusSchoolWise = async (School_ID, attendance_DATE, attendanceStatus) => {
-  const data = await Attendance.find({ School_ID, attendance_DATE, attendanceStatus })
+  const data = await Attendance.find({ School_ID,  attendance_DATE: new Date(attendance_DATE), attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
   return data;
 };
 
 const attendanceStatusShiftWise = async (shift, attendance_DATE, attendanceStatus) => {
-  const data = await Attendance.find({ shift, attendance_DATE, attendanceStatus })
+  const data = await Attendance.find({ shift,  attendance_DATE: new Date(attendance_DATE), attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
   return data;
@@ -795,7 +795,7 @@ const attendanceStatusShiftWise = async (shift, attendance_DATE, attendanceStatu
 
 const getDistrictWisePresentCount = async (date) => {
   const match = {
-    attendance_DATE: date,
+    attendance_DATE: new Date(date),
   };
 
   const districtCounts = await Attendance.aggregate([
@@ -841,7 +841,8 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
       $match: {
         School_ID: schoolId,
         attendance_DATE: {
-          $regex: `^(${startDate}|${endDate})`,
+          $gte: new Date(startDate),
+          $lt: new Date(new Date(endDate).getTime() + 24 * 60 * 60 * 1000), // Add one day to include the end date
         },
       },
     },
@@ -1132,7 +1133,7 @@ const getTopPerformingDistricts = async (date) => {
   // Get top 5 performing districts based on present counts
   const result = await Attendance.aggregate([
     {
-      $match: { attendance_DATE: date }, // Filter records based on the provided date
+      $match: { attendance_DATE: new Date(date), }, // Filter records based on the provided date
     },
     {
       $group: {
@@ -1160,7 +1161,7 @@ const getTopPerformingDistricts = async (date) => {
     result.map(async (district) => {
       const schoolsDataNotFoundCount = await Attendance.countDocuments({
         attendanceStatus: 'data not found',
-        attendance_DATE: date,
+        attendance_DATE: new Date(date),
         district_name: district.district_name,
       });
 
@@ -1184,7 +1185,7 @@ const getTopPerformingDistricts = async (date) => {
 const getTopPerformingZonesByDistrict = async (districtName, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { district_name: districtName, attendance_DATE: date },
+      $match: { district_name: districtName, attendance_DATE: new Date(date), },
     },
     {
       $group: {
@@ -1210,7 +1211,7 @@ const getTopPerformingZonesByDistrict = async (districtName, date) => {
     result.map(async (zone) => {
       const schoolsDataNotFoundCount = await Attendance.countDocuments({
         attendanceStatus: 'data not found',
-        attendance_DATE: date,
+        attendance_DATE: new Date(date),
         district_name: districtName,
         Z_name: zone.zone_name,
       });
@@ -1235,7 +1236,7 @@ const getTopPerformingZonesByDistrict = async (districtName, date) => {
 const getTopPerformingSchoolsByZoneName = async (zoneName, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { Z_name: zoneName, attendance_DATE: date },
+      $match: { Z_name: zoneName, attendance_DATE: new Date(date) },
     },
     {
       $group: {
@@ -1263,7 +1264,7 @@ const getTopPerformingSchoolsByZoneName = async (zoneName, date) => {
     result.map(async (school) => {
       const schoolsDataNotFoundCount = await Attendance.countDocuments({
         attendanceStatus: 'data not found',
-        attendance_DATE: date,
+        attendance_DATE: new Date(date),
         Z_name: zoneName,
         School_ID: school.schoolName,
       });
@@ -1287,7 +1288,7 @@ const getTopPerformingSchoolsByZoneName = async (zoneName, date) => {
 const getBottomPerformingDistricts = async (date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { attendance_DATE: date }, // Filter records based on the provided date
+      $match: { attendance_DATE: new Date(date) }, // Filter records based on the provided date
     },
     {
       $group: {
@@ -1315,7 +1316,7 @@ const getBottomPerformingDistricts = async (date) => {
     result.map(async (district) => {
       const schoolsDataNotFoundCount = await Attendance.countDocuments({
         attendanceStatus: 'data not found',
-        attendance_DATE: date,
+        attendance_DATE: new Date(date),
         district_name: district.district_name,
       });
 
@@ -1339,7 +1340,7 @@ const getBottomPerformingDistricts = async (date) => {
 const getBottomPerformingZonesByDistrict = async (districtName, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { district_name: districtName, attendance_DATE: date },
+      $match: { district_name: districtName, attendance_DATE: new Date(date) },
     },
     {
       $group: {
@@ -1365,7 +1366,7 @@ const getBottomPerformingZonesByDistrict = async (districtName, date) => {
     result.map(async (zone) => {
       const schoolsDataNotFoundCount = await Attendance.countDocuments({
         attendanceStatus: 'data not found',
-        attendance_DATE: date,
+        attendance_DATE: new Date(date),
         district_name: districtName,
         Z_name: zone.zone_name,
       });
@@ -1390,7 +1391,7 @@ const getBottomPerformingZonesByDistrict = async (districtName, date) => {
 const getBottomPerformingSchoolsByZoneName = async (zoneName, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { Z_name: zoneName, attendance_DATE: date },
+      $match: { Z_name: zoneName, attendance_DATE: new Date(date) },
     },
     {
       $group: {
@@ -1417,7 +1418,7 @@ const getBottomPerformingSchoolsByZoneName = async (zoneName, date) => {
     result.map(async (school) => {
       const schoolsDataNotFoundCount = await Attendance.countDocuments({
         attendanceStatus: 'data not found',
-        attendance_DATE: date,
+        attendance_DATE: new Date(date),
         Z_name: zoneName,
         School_ID: school.schoolName,
       });
@@ -1438,7 +1439,7 @@ const getBottomPerformingSchoolsByZoneName = async (zoneName, date) => {
  * @returns {Promise<number>} - Count of schools with attendanceStatus = "data not found"
  */
 const getSchoolsDataNotFoundCount = async (date) => {
-  const count = await Attendance.countDocuments({ attendanceStatus: 'data not found', attendance_DATE: date });
+  const count = await Attendance.countDocuments({ attendanceStatus: 'data not found', attendance_DATE: new Date(date) });
   return count;
 };
 
@@ -1451,7 +1452,7 @@ const getSchoolsDataNotFoundCount = async (date) => {
 const getTopPerformingClassesBySchoolId = async (schoolId, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { School_ID: schoolId, attendance_DATE: date },
+      $match: { School_ID: schoolId, attendance_DATE: new Date(date) },
     },
     {
       $unwind: '$classCount', // Unwind the classCount array
@@ -1489,7 +1490,7 @@ const getTopPerformingClassesBySchoolId = async (schoolId, date) => {
 const getBottomPerformingClassesBySchoolId = async (schoolId, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { School_ID: schoolId, attendance_DATE: date },
+      $match: { School_ID: schoolId, attendance_DATE: new Date(date) },
     },
     {
       $unwind: '$classCount', // Unwind the classCount array
