@@ -760,14 +760,14 @@ const attendanceStatus = async (attendance_DATE, attendanceStatus) => {
   return data;
 };
 const attendanceStatusDistrictWise = async (district_name, attendance_DATE, attendanceStatus) => {
-  const data = await Attendance.find({ district_name,  attendance_DATE: new Date(attendance_DATE), attendanceStatus })
+  const data = await Attendance.find({ district_name, attendance_DATE: new Date(attendance_DATE), attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
   return data;
 };
 
 const attendanceStatusZoneWise = async (Z_name, attendance_DATE, attendanceStatus) => {
-  const data = await Attendance.find({ Z_name,  attendance_DATE: new Date(attendance_DATE), attendanceStatus })
+  const data = await Attendance.find({ Z_name, attendance_DATE: new Date(attendance_DATE), attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
   return data;
@@ -781,7 +781,7 @@ const attendanceStatusSchoolWise = async (School_ID, attendance_DATE, attendance
 };
 
 const attendanceStatusShiftWise = async (shift, attendance_DATE, attendanceStatus) => {
-  const data = await Attendance.find({ shift,  attendance_DATE: new Date(attendance_DATE), attendanceStatus })
+  const data = await Attendance.find({ shift, attendance_DATE: new Date(attendance_DATE), attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
   return data;
@@ -990,11 +990,6 @@ const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zon
       $sort: { attendance_DATE: 1 },
     },
   ]);
-
-  if (dateWiseResult.length === 0) {
-    throw new Error('Data not found for the specified date range.');
-  }
-
   return {
     overallPercentage: overallResult[0] ? overallResult[0].overallPercentage || {} : {},
     dateWisePercentage: dateWiseResult || [],
@@ -1118,10 +1113,6 @@ const getAttendancePercentageGenderAndRangeAndShiftWise = async (
       $sort: { attendance_DATE: 1 },
     },
   ]);
-
-  if (dateWiseResult.length === 0) {
-    throw new Error('Data not found for the specified date range.');
-  }
 
   return {
     overallPercentage: overallResult[0] ? overallResult[0].overallPercentage || {} : {},
