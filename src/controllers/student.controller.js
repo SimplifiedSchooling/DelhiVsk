@@ -33,7 +33,7 @@ const getStudentCountBySchoolNameAndStatus = catchAsync(async (req, res) => {
 
 const getStudentAttendance = catchAsync(async (req, res) => {
   const { Schoolid, Date } = req.body;
-  const password = "VSK@9180";
+  const password = 'VSK@9180';
   // Validate required parameters
   if (!password || !Schoolid || !Date) {
     return res.status(400).json({ error: 'Missing required parameters' });
