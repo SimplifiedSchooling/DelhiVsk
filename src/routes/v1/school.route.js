@@ -35,6 +35,8 @@ router.post('/getDistrictZone', schoolController.getDistrictZoneNames);
 
 router.post('/getZoneSchool', schoolController.getZoneSchool);
 
+router.post('/get-zone-goverment-schools', schoolController.getZoneSchoolOfGoverment);
+
 module.exports = router;
 
 /**
@@ -176,6 +178,33 @@ module.exports = router;
 /**
  * @swagger
  * /school/getZoneSchool:
+ *   post:
+ *     summary: Get zone School names
+ *     description: Get a list of zone School names.
+ *     tags: [School]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Zone_Name:
+ *                 type: string
+ *             required:
+ *               - Zone_Name
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /school/get-zone-goverment-schools:
  *   post:
  *     summary: Get zone School names
  *     description: Get a list of zone School names.
