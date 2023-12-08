@@ -790,7 +790,7 @@ const attendanceStatusZoneWise = async (Z_name, attendance_DATE, attendanceStatu
 };
 
 const attendanceStatusSchoolWise = async (School_ID, attendance_DATE, attendanceStatus) => {
-  const data = await Attendance.find({ School_ID,  attendance_DATE: new Date(attendance_DATE), attendanceStatus })
+  const data = await Attendance.find({ School_ID, attendance_DATE: new Date(attendance_DATE), attendanceStatus })
     .select('attendanceStatus district_name Z_name School_ID school_name shift SchManagement attendance_DATE') // Add the specific fields you want to retrieve
     .exec();
   return data;
@@ -849,13 +849,11 @@ const getDistrictWisePresentCount = async (date) => {
  */
 
 const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
-  // const parsedStartDate = new Date(startDate);
-  // const parsedEndDate = new Date(endDate);
-
   const result = await Attendance.aggregate([
     {
       $match: {
         School_ID: schoolId,
+        SchManagement: 'Government',
         attendance_DATE: {
           $gte: new Date(startDate),
           $lt: new Date(new Date(endDate).getTime() + 24 * 60 * 60 * 1000), // Add one day to include the end date
@@ -897,6 +895,7 @@ const getGenderRangeWiseCount = async (schoolId, startDate, endDate) => {
 
 const getAttendancePercentageGenderAndRangeWise = async (startDate, endDate, zoneName, districtName, schoolId) => {
   const matchStage = {
+    SchManagement: 'Government',
     attendance_DATE: {
       $gte: new Date(startDate),
       $lt: new Date(new Date(endDate).getTime() + 24 * 60 * 60 * 1000), // Add one day to include the end date
@@ -1021,6 +1020,7 @@ const getAttendancePercentageGenderAndRangeAndShiftWise = async (
   shift
 ) => {
   const matchStage = {
+    SchManagement: 'Government',
     attendance_DATE: {
       $gte: new Date(startDate),
       $lt: new Date(new Date(endDate).getTime() + 24 * 60 * 60 * 1000), // Add one day to include the end date
@@ -1137,10 +1137,13 @@ const getAttendancePercentageGenderAndRangeAndShiftWise = async (
 };
 
 const getTopPerformingDistricts = async (date) => {
-  // Get top 5 performing districts based on present counts
+  // Get top 5 performing districts based on present counts for Government schools
   const result = await Attendance.aggregate([
     {
-      $match: { attendance_DATE: new Date(date), }, // Filter records based on the provided date
+      $match: {
+        attendance_DATE: new Date(date),
+        SchManagement: 'Government', // Filter records based on Government schools
+      },
     },
     {
       $group: {
@@ -1170,6 +1173,7 @@ const getTopPerformingDistricts = async (date) => {
         attendanceStatus: 'data not found',
         attendance_DATE: new Date(date),
         district_name: district.district_name,
+        SchManagement: 'Government', // Also filter based on Government schools here
       });
 
       return {
@@ -1182,6 +1186,7 @@ const getTopPerformingDistricts = async (date) => {
 
   return resultWithSchoolsDataNotFoundCount;
 };
+
 /**
  * Get top 5 performing zones based on present counts for a specific district and Date
  * @param {string} districtName - Name of the district
@@ -1192,7 +1197,7 @@ const getTopPerformingDistricts = async (date) => {
 const getTopPerformingZonesByDistrict = async (districtName, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { district_name: districtName, attendance_DATE: new Date(date), },
+      $match: { SchManagement: 'Government', district_name: districtName, attendance_DATE: new Date(date) },
     },
     {
       $group: {
@@ -1221,6 +1226,7 @@ const getTopPerformingZonesByDistrict = async (districtName, date) => {
         attendance_DATE: new Date(date),
         district_name: districtName,
         Z_name: zone.zone_name,
+        SchManagement: 'Government', // Filter for Government schools
       });
 
       return {
@@ -1243,7 +1249,7 @@ const getTopPerformingZonesByDistrict = async (districtName, date) => {
 const getTopPerformingSchoolsByZoneName = async (zoneName, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { Z_name: zoneName, attendance_DATE: new Date(date) },
+      $match: { SchManagement: 'Government', Z_name: zoneName, attendance_DATE: new Date(date) },
     },
     {
       $group: {
@@ -1274,6 +1280,7 @@ const getTopPerformingSchoolsByZoneName = async (zoneName, date) => {
         attendance_DATE: new Date(date),
         Z_name: zoneName,
         School_ID: school.schoolName,
+        SchManagement: 'Government',
       });
 
       return {
@@ -1295,7 +1302,7 @@ const getTopPerformingSchoolsByZoneName = async (zoneName, date) => {
 const getBottomPerformingDistricts = async (date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { attendance_DATE: new Date(date) }, // Filter records based on the provided date
+      $match: { attendance_DATE: new Date(date), SchManagement: 'Government' }, // Filter records based on the provided date
     },
     {
       $group: {
@@ -1325,6 +1332,7 @@ const getBottomPerformingDistricts = async (date) => {
         attendanceStatus: 'data not found',
         attendance_DATE: new Date(date),
         district_name: district.district_name,
+        SchManagement: 'Government',
       });
 
       return {
@@ -1347,7 +1355,7 @@ const getBottomPerformingDistricts = async (date) => {
 const getBottomPerformingZonesByDistrict = async (districtName, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { district_name: districtName, attendance_DATE: new Date(date) },
+      $match: { SchManagement: 'Government', district_name: districtName, attendance_DATE: new Date(date) },
     },
     {
       $group: {
@@ -1376,6 +1384,7 @@ const getBottomPerformingZonesByDistrict = async (districtName, date) => {
         attendance_DATE: new Date(date),
         district_name: districtName,
         Z_name: zone.zone_name,
+        SchManagement: 'Government',
       });
 
       return {
@@ -1398,7 +1407,7 @@ const getBottomPerformingZonesByDistrict = async (districtName, date) => {
 const getBottomPerformingSchoolsByZoneName = async (zoneName, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { Z_name: zoneName, attendance_DATE: new Date(date) },
+      $match: { SchManagement: 'Government', Z_name: zoneName, attendance_DATE: new Date(date) },
     },
     {
       $group: {
@@ -1428,6 +1437,7 @@ const getBottomPerformingSchoolsByZoneName = async (zoneName, date) => {
         attendance_DATE: new Date(date),
         Z_name: zoneName,
         School_ID: school.schoolName,
+        SchManagement: 'Government',
       });
 
       return {
@@ -1446,7 +1456,11 @@ const getBottomPerformingSchoolsByZoneName = async (zoneName, date) => {
  * @returns {Promise<number>} - Count of schools with attendanceStatus = "data not found"
  */
 const getSchoolsDataNotFoundCount = async (date) => {
-  const count = await Attendance.countDocuments({ attendanceStatus: 'data not found', attendance_DATE: new Date(date) });
+  const count = await Attendance.countDocuments({
+    attendanceStatus: 'data not found',
+    attendance_DATE: new Date(date),
+    SchManagement: 'Government',
+  });
   return count;
 };
 
@@ -1459,7 +1473,7 @@ const getSchoolsDataNotFoundCount = async (date) => {
 const getTopPerformingClassesBySchoolId = async (schoolId, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { School_ID: schoolId, attendance_DATE: new Date(date) },
+      $match: { School_ID: schoolId, attendance_DATE: new Date(date), SchManagement: 'Government' },
     },
     {
       $unwind: '$classCount', // Unwind the classCount array
@@ -1497,7 +1511,7 @@ const getTopPerformingClassesBySchoolId = async (schoolId, date) => {
 const getBottomPerformingClassesBySchoolId = async (schoolId, date) => {
   const result = await Attendance.aggregate([
     {
-      $match: { School_ID: schoolId, attendance_DATE: new Date(date) },
+      $match: { School_ID: schoolId, attendance_DATE: new Date(date), SchManagement: 'Government' },
     },
     {
       $unwind: '$classCount', // Unwind the classCount array
@@ -1525,6 +1539,51 @@ const getBottomPerformingClassesBySchoolId = async (schoolId, date) => {
 
   return result;
 };
+//------------------------------------------------------------------------------
+
+/**
+ * Get  attendance counts for a specific date for Added schools
+ * @param {string} date - The end date of the attendance range
+ * @returns {Promise<Object>} - Object containing gender range-wise attendance counts
+ */
+
+const getAttendanceCountForAddedSchools = async (date) => {
+  const result = await Attendance.aggregate([
+    {
+      $match: {
+        attendance_DATE: new Date(date),
+        SchManagement: 'Aided',
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        totalPresentCount: { $sum: '$PresentCount' },
+        totalAbsentCount: { $sum: '$AbsentCount' },
+        totalLeaveCount: { $sum: '$totalLeaveCount' },
+        totalAttendanceNotMarked: { $sum: '$totalNotMarkedAttendanceCount' },
+      },
+    },
+    {
+      $project: {
+        _id: 0, // Exclude _id field
+      },
+    },
+  ]);
+
+  return result[0]; // Return the first element as we used $group
+};
+
+/**
+ * Get schools list of Aided
+ * @returns {Promise<Object>} - Get schools list of Aided
+ */
+const getAidedSchoolList = async () => {
+  const count = await School.find({
+    SchManagement: 'Aided',
+  });
+  return count;
+};
 
 module.exports = {
   storeAttendanceDataInMongoDB,
@@ -1539,6 +1598,7 @@ module.exports = {
   attendanceStatusSchoolWise,
   attendanceStatusShiftWise,
   getDistrictWisePresentCount,
+  //-----------------------
   getGenderRangeWiseCount,
   getAttendancePercentageGenderAndRangeWise,
   getAttendancePercentageGenderAndRangeAndShiftWise,
@@ -1552,4 +1612,7 @@ module.exports = {
   getSchoolsDataNotFoundCount,
   getTopPerformingClassesBySchoolId,
   getBottomPerformingClassesBySchoolId,
+  //----------------------------------------------------------------
+  getAttendanceCountForAddedSchools,
+  getAidedSchoolList,
 };
