@@ -3,7 +3,7 @@ const allRoles = {
   admin: ['getUsers', 'manageUsers'],
   district: [],
   zone: [],
-  school: []
+  school: [],
 };
 
 const roles = Object.keys(allRoles);

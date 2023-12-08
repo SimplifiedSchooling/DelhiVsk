@@ -210,7 +210,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 // /**
 //  * @swagger
 //  * /student:
@@ -253,7 +252,6 @@ module.exports = router;
 // *       "403":
 // *         description: Forbidden
 // */
-
 
 /**
  * @swagger
