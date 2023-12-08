@@ -694,6 +694,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
     $match: {
       attendance_DATE: new Date(date),
       shift,
+      SchManagement: 'Government'
     },
   };
   const Counts = await Attendance.aggregate([
@@ -732,7 +733,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({ shift }).exec();
+  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government' }).exec();
   const schools = await School.find({ shift });
 
   // Extract school IDs from the result
