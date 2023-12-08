@@ -28,6 +28,13 @@ router.post(
   validate(attendanceValidation.getGenderRangeWiseCount),
   attendanceController.getGenderRangeWiseCountCount
 );
+router.get('/aidedschoolslist', attendanceController.getAidedSchoolList);
+
+router.post(
+  '/attendancecout/aidedschools',
+  validate(attendanceValidation.getAttendancecoutCount),
+  attendanceController.getAttendanceCountForAidedSchools
+);
 router.post(
   '/attendancepercentage/range/parameter',
   validate(attendanceValidation.getAttendancePercentageGenderAndRangeWise),
@@ -96,10 +103,48 @@ module.exports = router;
 
 /**
  * @swagger
+ * /attendance/aidedschoolslist:
+ *   get:
+ *     summary: Get list of Aided schools
+ *     tags: [Attendance]
+ *     responses:
+ *       200:
+ *         description: List of Aided Schools retrieved successfully
+ *
+ */
+
+/**
+ * @swagger
+ * /attendance/attendancecout/aidedschools:
+ *   post:
+ *     summary: Get present,absent,leave , unMarked counts for a specific date of Aided schools
+ *     description:   Get present,absent,leave , unMarked counts for a specific date of Aided schools
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               date:
+ *                 type: string
+ *             example:
+ *               date: '2023-12-07'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
  * /attendance/top-performing-zones/bydistrictname:
  *   post:
- *     summary: Get top 5 performing zones based on present counts for a specific district and date
- *     description:  Get top 5 performing zones based on present counts for a specific district and date
+ *     summary: Get top 5 performing zones based on present counts for a specific district and date of Government schools
+ *     description:  Get top 5 performing zones based on present counts for a specific district and date of Government schools
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -127,8 +172,8 @@ module.exports = router;
  * @swagger
  * /attendance/schools-data-not-found-count:
  *   post:
- *     summary: Get counts of schools of attendance data not found
- *     description:  Get counts of schools of attendance data not found
+ *     summary: Get counts of Government schools of attendance data not found
+ *     description:  Get counts of Government schools of attendance data not found
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -153,8 +198,8 @@ module.exports = router;
  * @swagger
  * /attendance/bottom-performing-zones/bydistrictname:
  *   post:
- *     summary: Get bottom 5 performing zones based on present counts for a specific district and date
- *     description:  Get bottom 5 performing zones based on present counts for a specific district and date
+ *     summary: Get bottom 5 performing zones based on present counts for a specific district and date of Government schools.
+ *     description:  Get bottom 5 performing zones based on present counts for a specific district and date of Government schools.
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -182,8 +227,8 @@ module.exports = router;
  * @swagger
  * /attendance/top-performing-schools/byzonename:
  *   post:
- *     summary: Get top 5 performing schools based on present counts for a specific zone and date
- *     description:  Get top 5 performing schools based on present counts for a specific zone and date
+ *     summary: Get top 5 performing Government schools based on present counts for a specific zone and date
+ *     description:  Get top 5 performing Government schools based on present counts for a specific zone and date
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -211,8 +256,8 @@ module.exports = router;
  * @swagger
  * /attendance/bottom-performing-schools/byzonename:
  *   post:
- *     summary: Get bottom 5 performing schools based on present counts for a specific zone and date
- *     description:  Get bottom 5 performing schools based on present counts for a specific zone and date
+ *     summary: Get bottom 5 performing Government schools based on present counts for a specific zone and date
+ *     description:  Get bottom 5 performing Government schools based on present counts for a specific zone and date
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -266,7 +311,7 @@ module.exports = router;
  * @swagger
  * /attendance/top-performing-districts:
  *   post:
- *     summary: Get top 5 performing districts based on present counts by date
+ *     summary: Get top 5 performing districts based on present counts by date of Government schools
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -300,7 +345,7 @@ module.exports = router;
  * @swagger
  * /attendance/bottom-performing-districts:
  *   post:
- *     summary: Get bottom 5 performing districts based on present counts by date
+ *     summary: Get bottom 5 performing districts based on present counts by date of Government schools
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -334,8 +379,8 @@ module.exports = router;
  * @swagger
  * /attendance/genderandrangewise/count:
  *   post:
- *     summary: Get attendance gender and range wise count graph data .
- *     description:  Get attendance gender and range wise count graph data .
+ *     summary: Get attendance of Government schools gender and range wise count graph data .
+ *     description:  Get attendance of Government schools gender and range wise count graph data .
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -366,8 +411,8 @@ module.exports = router;
  * @swagger
  * /attendance/attendancepercentage/range/parameter:
  *   post:
- *     summary: Get attendance by zoneName or districtName or schoolId  and range wise count graph data .
- *     description:  Get attendance gender and range wise count graph data .
+ *     summary: Get attendance of Government schools by zoneName or districtName or schoolId  and range wise count graph data .
+ *     description: Get attendance of Government schools by zoneName or districtName or schoolId  and range wise count graph data ..
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -404,8 +449,8 @@ module.exports = router;
  * @swagger
  * /attendance/attendancepercentage/range/parameter/shift:
  *   post:
- *     summary: Get attendance by zoneName or districtName or schoolId  and range wise count graph data .
- *     description:  Get attendance gender and range wise count graph data .
+ *     summary: Get attendance of Government schools by zoneName or districtName or schoolId  and range wise count graph data .
+ *     description: Get attendance of Government schools by zoneName or districtName or schoolId  and range wise count graph data .
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -770,8 +815,8 @@ module.exports = router;
  * @swagger
  * /attendance/top-performing-classes/byschoolid:
  *   post:
- *     summary: Get top 5 performing classes based on present counts for a specific school and date
- *     description:  Get top 5 performing classes based on present counts for a specific school and date
+ *     summary: Get top 5 performing classes based on present counts for a specific Government school and date
+ *     description:  Get top 5 performing classes based on present counts for a specific Government school and date
  *     tags: [Attendance]
  *     requestBody:
  *       content:
@@ -799,8 +844,8 @@ module.exports = router;
  * @swagger
  * /attendance/bottom-performing-classes/byschoolid:
  *   post:
- *     summary: Get bottom 5 performing classes based on present counts for a specific school and date
- *     description:  Get bottom 5 performing classes based on present counts for a specific school and date
+ *     summary: Get bottom 5 performing classes based on present counts for a specific Government school and date
+ *     description:  Get bottom 5 performing classes based on present counts for a specific Government school and date
  *     tags: [Attendance]
  *     requestBody:
  *       content:

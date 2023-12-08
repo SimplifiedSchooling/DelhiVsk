@@ -7,6 +7,11 @@ const getGenderRangeWiseCount = {
     endDate: Joi.string().required(),
   }),
 };
+const getAttendancecoutCount = {
+  body: Joi.object().keys({
+    date: Joi.string().required(),
+  }),
+};
 const getAttendancePercentageGenderAndRangeWise = {
   body: Joi.object().keys({
     districtName: Joi.string(),
@@ -87,4 +92,5 @@ module.exports = {
   getTopPerformingClassesBySchoolId,
   getBottomPerformingClassesBySchoolId,
   getAttendancePercentageGenderAndRangeAndShiftWise,
+  getAttendancecoutCount,
 };
