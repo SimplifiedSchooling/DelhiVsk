@@ -35,6 +35,8 @@ router.post('/getDistrictZone', schoolController.getDistrictZoneNames);
 
 router.post('/getZoneSchool', schoolController.getZoneSchool);
 
+router.post('/get-zone-goverment-schools', schoolController.getZoneSchoolOfGoverment);
+
 module.exports = router;
 
 /**
