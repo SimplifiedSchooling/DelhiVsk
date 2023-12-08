@@ -195,7 +195,23 @@ const getBottomPerformingClassesBySchoolId = catchAsync(async (req, res) => {
   }
   res.json(bottomPerformingClasses);
 });
+//----------------------------------------------------------------------------------------
+const getAttendanceCountForAidedSchools = catchAsync(async (req, res) => {
+  const { date } = req.body;
+  const attendanceCountForAidedSchool = await attendanceService.getAttendanceCountForAddedSchools(date);
+  if (attendanceCountForAidedSchool.length === 0) {
+    throw new Error([]);
+  }
+  res.json(attendanceCountForAidedSchool);
+});
 
+const getAidedSchoolList = catchAsync(async (req, res) => {
+  const lists = await attendanceService.getAidedSchoolList();
+  if (lists.length === 0) {
+    throw new Error([]);
+  }
+  res.status(httpStatus.OK).json({ lists });
+});
 module.exports = {
   getAttedanceData,
   getAttendanceCounts,
@@ -222,4 +238,7 @@ module.exports = {
   getTopPerformingClassesBySchoolId,
   getBottomPerformingClassesBySchoolId,
   getAttendancePercentageByGenderAndRangeAndShiftWise,
+  //----------------------------------------------------------------
+  getAttendanceCountForAidedSchools,
+  getAidedSchoolList,
 };
