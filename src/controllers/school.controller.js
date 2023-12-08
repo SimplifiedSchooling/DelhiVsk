@@ -92,6 +92,20 @@ async function getZoneSchool(req, res) {
   }
 }
 
+const getZoneSchoolOfGoverment = catchAsync( async(req, res) => {
+  try {
+    const zoneName = req.body.Zone_Name; // Get the Zone_Name from the query parameters
+    if (!zoneName) {
+      new ApiError(httpStatus.NOT_FOUND, 'Zone_Name parameter is required');
+    }
+
+    const ZoneSchool = await schoolService.getZoneNameSchoolsOfGoverment(zoneName);
+    res.status(httpStatus.CREATED).send({ ZoneSchool });
+  } catch (error) {
+    new ApiError(httpStatus.NOT_FOUND, 'School not found');
+  }
+});
+
 const getSchoolStatsBySchoolName = catchAsync(async (req, res) => {
   const { schoolName } = req.body;
   const result = await schoolService.getStudentCountBySchoolName(schoolName);
@@ -108,4 +122,5 @@ module.exports = {
   getDistrictSchool,
   getZoneSchool,
   getSchoolStatsBySchoolName,
+  getZoneSchoolOfGoverment,
 };
