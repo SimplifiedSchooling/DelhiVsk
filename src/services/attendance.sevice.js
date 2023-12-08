@@ -432,6 +432,7 @@ cron.schedule('0 21 * * *', async () => {
 const getAttendanceCounts = async (date) => {
   const match = {
     attendance_DATE: new Date(date),
+    SchManagement: 'Government'
   };
 
   const Counts = await Attendance.aggregate([
@@ -469,8 +470,16 @@ const getAttendanceCounts = async (date) => {
     },
   ]);
 
-  const countofSchool = await School.countDocuments().exec();
-  const totalStudentCount = await Student.countDocuments({ status: 'Studying' }).exec();
+  const countofSchool = await School.countDocuments({SchManagement: 'Government'}).exec();
+  const schools = await School.find({ SchManagement: 'Government' }, 'Schoolid');
+
+  // Extract the IDs of schools
+  const schoolIds = schools.map((school) => school.Schoolid);
+
+  // Use the $in operator to find students belonging to those schools
+  const totalStudentCount = await Student.countDocuments({ Schoolid: { $in: schoolIds }, status: 'Studying', });
+
+  // const totalStudentCount = await Student.countDocuments({ status: 'Studying', SchManagement: 'Government'}).exec();
 
   return {
     statusCounts,
@@ -491,6 +500,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
     $match: {
       attendance_DATE: new Date(date),
       district_name: districtName,
+      SchManagement: 'Government',
     },
   };
   const Counts = await Attendance.aggregate([
