@@ -11,17 +11,17 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    email: {
+    userName: {
       type: String,
       required: true,
       unique: true,
       trim: true,
-      lowercase: true,
-      validate(value) {
-        if (!validator.isEmail(value)) {
-          throw new Error('Invalid email');
-        }
-      },
+      // lowercase: true,
+      // validate(value) {
+      //   if (!validator.isEmail(value)) {
+      //     throw new Error('Invalid email');
+      //   }
+      // },
     },
     password: {
       type: String,
@@ -56,12 +56,12 @@ userSchema.plugin(paginate);
 
 /**
  * Check if email is taken
- * @param {string} email - The user's email
+ * @param {string} userName - The user's email
  * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
  * @returns {Promise<boolean>}
  */
-userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
-  const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
+userSchema.statics.isEmailTaken = async function (userName, excludeUserId) {
+  const user = await this.findOne({ userName, _id: { $ne: excludeUserId } });
   return !!user;
 };
 
