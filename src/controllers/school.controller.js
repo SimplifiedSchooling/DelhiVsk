@@ -43,14 +43,6 @@ async function getZoneName(req, res) {
   const result = await schoolService.fetchSchoolZone();
   res.status(httpStatus.CREATED).send(result);
 }
-// async function getDistrictSchool(req, res) {
-//   try {
-//     const districtSchools = await schoolService.getDistrictSchools();
-//     res.json({ districtSchools });
-//   } catch (error) {
-//     res.status(500).json({ error: 'An error occurred' });
-//   }
-// }
 async function getDistrictSchool(req, res) {
   try {
     const districtName = req.body.District_name;
@@ -92,7 +84,7 @@ async function getZoneSchool(req, res) {
   }
 }
 
-const getZoneSchoolOfGoverment = catchAsync( async(req, res) => {
+const getZoneSchoolOfGoverment = catchAsync(async (req, res) => {
   try {
     const zoneName = req.body.Zone_Name; // Get the Zone_Name from the query parameters
     if (!zoneName) {

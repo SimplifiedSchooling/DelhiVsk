@@ -89,26 +89,6 @@ const fetchSchoolZone = async () => {
 
   return { ZoneInfo: formattedZones };
 };
-// async function getDistrictSchools() {
-//   try {
-//     const response = await axios.get(apiUrl);
-//     const schools = response.data;
-//     const districtSchools = {};
-//     schools.forEach((school) => {
-//       const district = school.District_name;
-//       const schoolName = school.School_Name;
-
-//       if (!districtSchools[district]) {
-//         districtSchools[district] = [];
-//       }
-//       districtSchools[district].push(schoolName);
-//     });
-//     return districtSchools;
-//   } catch (error) {
-//     throw new Error('Error fetching data: ' + error.message);
-//   }
-// }
-
 const getDistrictSchools = async (districtName) => {
   const schools = await School.find({ District_name: districtName }, 'Schoolid School_Name').exec();
   return schools;
@@ -130,7 +110,9 @@ const getZoneNameSchools = async (zoneName) => {
 };
 
 const getZoneNameSchoolsOfGoverment = async (zoneName) => {
-  const schools = await School.find({ Zone_Name: zoneName, SchManagement: 'Government' }).select('School_Name Schoolid').exec();
+  const schools = await School.find({ Zone_Name: zoneName, SchManagement: 'Government' })
+    .select('School_Name Schoolid')
+    .exec();
   return schools;
 };
 module.exports = {
