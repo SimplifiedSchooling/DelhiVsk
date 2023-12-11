@@ -1,5 +1,6 @@
 const axios = require('axios');
 const cron = require('node-cron');
+const logger = require('../config/logger');
 const { School, Student } = require('../models');
 const redis = require('../utils/redis');
 
@@ -140,7 +141,6 @@ async function storeStudentDataInMongoDB() {
     }
   }
 }
-
 // Schedule the job to run every Sunday at 3 AM
 cron.schedule('0 3 * * 0', async () => {
   try {
@@ -172,9 +172,36 @@ const getStudentCountBySchoolNameAndStatus = async (Schoolid, status) => {
   const result = await Student.find({ Schoolid, status });
   return result;
 };
+
+/**
+ * Search for students based on SCHOOL_NAME, Name, or Schoolid
+ * @param {Object} filters - Filters for the search
+ * @returns {Promise<Array>} - Array of matching students
+ */
+const searchStudents = async (filters) => {
+  const { SCHOOL_NAME, Name, S_ID } = filters;
+  const query = {};
+
+  if (SCHOOL_NAME) {
+    query.SCHOOL_NAME = new RegExp(`^${SCHOOL_NAME}`, 'i');
+  }
+
+  if (Name) {
+    query.Name = new RegExp(`^${Name}`, 'i');
+  }
+
+  if (S_ID) {
+    query.S_ID = S_ID;
+  }
+
+  const students = await Student.find(query).exec();
+  return students;
+};
+
 module.exports = {
   storeStudentDataInMongoDB,
   getStudentCountBySchoolName,
   getStudentCountBySchoolNameAndGender,
   getStudentCountBySchoolNameAndStatus,
+  searchStudents,
 };

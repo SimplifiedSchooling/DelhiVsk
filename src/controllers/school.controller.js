@@ -92,7 +92,7 @@ async function getZoneSchool(req, res) {
   }
 }
 
-const getZoneSchoolOfGoverment = catchAsync( async(req, res) => {
+const getZoneSchoolOfGoverment = catchAsync(async (req, res) => {
   try {
     const zoneName = req.body.Zone_Name; // Get the Zone_Name from the query parameters
     if (!zoneName) {
