@@ -7,7 +7,7 @@ router.route('/webApi').get(teacherController.getTeacherData);
 
 router.route('/').get(teacherController.getTeacher);
 router.route('/get-teachers-by-gender').post(teacherController.getTeacherBySchoolAndGender);
-
+router.route('/search-teachers').post(teacherController.searchTeachers);
 module.exports = router;
 
 /**
@@ -15,6 +15,35 @@ module.exports = router;
  * tags:
  *   name: Teacher
  *   description: School management
+ */
+
+/**
+ * @swagger
+ * /teacher/search-teachers:
+ *   post:
+ *     summary: Get teachers data by Name , schname, postdesc or empid property.
+ *     description: Get teachers data by Name , schname, postdesc or empid property.
+ *     tags: [Teacher]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schname:
+ *                 type: string
+ *               Name:
+ *                 type: string
+ *               empid:
+ *                 type: string
+ *               postdesc:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response with an array of matching teachers
+ *       '500':
+ *         description: Internal Server Error
  */
 
 /**

@@ -63,8 +63,37 @@ const getTeacherBySchoolAndGender = async (gender, schname) => {
   return data;
 };
 
+/**
+ * Search for teachers based on schname, Name, or schoolid
+ * @param {Object} filters - Filters for the search
+ * @returns {Promise<Array>} - Array of matching teachers
+ */
+const searchTeachers = async (filters) => {
+  const { schname, Name, empid, postdesc } = filters;
+  const query = {};
+
+  if (schname) {
+    query.schname = new RegExp(`^${schname}`, 'i');
+  }
+
+  if (Name) {
+    query.Name = new RegExp(`^${Name}`, 'i');
+  }
+
+  if (empid) {
+    query.empid = empid;
+  }
+  if (postdesc) {
+    query.postdesc = new RegExp(`^${postdesc}`, 'i');
+  }
+
+  const teachers = await Teacher.find(query).exec();
+  return teachers;
+};
+
 module.exports = {
   storeTeacherDataInMongoDB,
   getTeacher,
   getTeacherBySchoolAndGender,
+  searchTeachers,
 };

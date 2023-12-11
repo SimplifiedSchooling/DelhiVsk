@@ -14,6 +14,7 @@ router.route('/studentcount/schoolname/gender').post(studentController.getStuden
 router.route('/studentcount/schoolId/status').post(studentController.getStudentCountBySchoolNameAndStatus);
 
 router.route('/student-attendance-data').post(studentController.getStudentAttendance);
+router.route('/search-students').post(studentController.searchStudents);
 
 module.exports = router;
 
@@ -24,6 +25,32 @@ module.exports = router;
  *   description: School management
  */
 
+/**
+ * @swagger
+ * /student/search-students:
+ *   post:
+ *     summary: Get students data by Name , SCHOOL_NAME or S_ID property.
+ *     description: Get students data by Name , SCHOOL_NAME or S_ID property.
+ *     tags: [Student]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               SCHOOL_NAME:
+ *                 type: string
+ *               Name:
+ *                 type: string
+ *               S_ID:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response with an array of matching students
+ *       '500':
+ *         description: Internal Server Error
+ */
 /**
  * @swagger
  * /student:

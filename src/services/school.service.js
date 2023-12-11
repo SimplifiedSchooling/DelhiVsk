@@ -130,7 +130,9 @@ const getZoneNameSchools = async (zoneName) => {
 };
 
 const getZoneNameSchoolsOfGoverment = async (zoneName) => {
-  const schools = await School.find({ Zone_Name: zoneName, SchManagement: 'Government' }).select('School_Name Schoolid').exec();
+  const schools = await School.find({ Zone_Name: zoneName, SchManagement: 'Government' })
+    .select('School_Name Schoolid')
+    .exec();
   return schools;
 };
 module.exports = {
