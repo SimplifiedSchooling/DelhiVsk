@@ -21,8 +21,8 @@ module.exports = router;
  * @swagger
  * /teacher/search-teachers:
  *   post:
- *     summary: Get teachers data by Name , schname, postdesc or empid property.
- *     description: Get teachers data by Name , schname, postdesc or empid property.
+ *     summary: Get teachers data by a single property (Name, schname, postdesc, or empid).
+ *     description: Get teachers data by a single property (Name, schname, postdesc, or empid).
  *     tags: [Teacher]
  *     requestBody:
  *       required: true
@@ -31,13 +31,7 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               schname:
- *                 type: string
- *               Name:
- *                 type: string
- *               empid:
- *                 type: string
- *               postdesc:
+ *               searchQuery:
  *                 type: string
  *     responses:
  *       '200':
@@ -45,7 +39,6 @@ module.exports = router;
  *       '500':
  *         description: Internal Server Error
  */
-
 /**
  * @swagger
  * /teacher:

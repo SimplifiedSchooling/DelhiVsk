@@ -46,7 +46,7 @@ const getStudentAttendance = catchAsync(async (req, res) => {
 });
 
 const searchStudents = catchAsync(async (req, res) => {
-  const result = await studentService.searchStudents(req.body);
+  const result = await studentService.searchStudents(req.body.searchQuery);
   res.send(result);
 });
 
