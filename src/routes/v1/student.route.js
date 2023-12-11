@@ -29,8 +29,8 @@ module.exports = router;
  * @swagger
  * /student/search-students:
  *   post:
- *     summary: Get students data by Name , SCHOOL_NAME or S_ID property.
- *     description: Get students data by Name , SCHOOL_NAME or S_ID property.
+ *     summary: Get Student data by a single property (Name, schname,S_ID ).
+ *     description: Get Student data by a single property (Name, schname,S_ID).
  *     tags: [Student]
  *     requestBody:
  *       required: true
@@ -39,11 +39,7 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               SCHOOL_NAME:
- *                 type: string
- *               Name:
- *                 type: string
- *               S_ID:
+ *               searchQuery:
  *                 type: string
  *     responses:
  *       '200':
@@ -51,6 +47,7 @@ module.exports = router;
  *       '500':
  *         description: Internal Server Error
  */
+
 /**
  * @swagger
  * /student:

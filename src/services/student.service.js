@@ -174,30 +174,27 @@ const getStudentCountBySchoolNameAndStatus = async (Schoolid, status) => {
 };
 
 /**
- * Search for students based on SCHOOL_NAME, Name, or Schoolid
+ * Search for students based on SCHOOL_NAME, Name, or S_ID
  * @param {Object} filters - Filters for the search
  * @returns {Promise<Array>} - Array of matching students
  */
-const searchStudents = async (filters) => {
-  const { SCHOOL_NAME, Name, S_ID } = filters;
-  const query = {};
-
-  if (SCHOOL_NAME) {
-    query.SCHOOL_NAME = new RegExp(`^${SCHOOL_NAME}`, 'i');
-  }
-
-  if (Name) {
-    query.Name = new RegExp(`^${Name}`, 'i');
-  }
-
-  if (S_ID) {
-    query.S_ID = S_ID;
-  }
+const searchStudents = async (searchQuery) => {
+  const query = {
+    $or: [
+      { SCHOOL_NAME: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
+      { Name: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
+      { S_ID: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
+    ],
+  };
 
   const students = await Student.find(query).exec();
   return students;
 };
 
+// Function to escape special characters in a string for RegExp
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 module.exports = {
   storeStudentDataInMongoDB,
   getStudentCountBySchoolName,
