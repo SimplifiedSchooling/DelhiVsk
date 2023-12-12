@@ -14,6 +14,10 @@ router
   .post(graphsController.getAllSchoolStudentTeacherDataByDistrictName);
 router.route('/school-student-count-by-district').get(graphsController.getSchoolStudentCountByDistrictsController);
 
+router.route('/school-student-count/zone').post(graphsController.getSchoolStudentCountByZone);
+router.route('/dashboard/district-wise').post(graphsController.getSchoolStudentCountByDistrict);
+
+
 module.exports = router;
 
 /**
@@ -123,4 +127,58 @@ module.exports = router;
  *         description: OK
  *       "500":
  *         description: Internal Server Error
+ */
+
+/**
+ * @swagger
+ * /graphs/school-student-count/zone:
+ *   post:
+ *     summary: Get all schools graph data by district name.
+ *     description: Get school graph data by district name.
+ *     tags: [Graphs]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               district:
+ *                 type: string
+ *             required:
+ *               - district
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /graphs/dashboard/district-wise:
+ *   post:
+ *     summary: Get all schools total data by district name.
+ *     description: Get school total data by district name.
+ *     tags: [Graphs]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               district:
+ *                 type: string
+ *             required:
+ *               - district
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
  */

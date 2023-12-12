@@ -617,7 +617,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
   const totalStudentCount = await Student.countDocuments({
     Schoolid: { $in: schoolIds },
     status: 'Studying',
-    District: districtName,
+    // District: districtName,
     z_name: Z_name.toLowerCase(),
   });
   //  const totalStudentCount = await Student.countDocuments({ z_name: Z_name.toLowerCase(), status: 'Studying' }).exec();

@@ -77,6 +77,11 @@ const getStudentCountBySchoolNameAndStatus = async (Schoolid, status) => {
   return result;
 };
 
+
+
+
+
+
 module.exports = {
   storeStudentDataInMongoDB,
   getStudentCountBySchoolName,
