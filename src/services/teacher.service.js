@@ -63,8 +63,33 @@ const getTeacherBySchoolAndGender = async (gender, schname) => {
   return data;
 };
 
+/**
+ * Search for teachers based on schname, Name, or schoolid
+ * @param {Object} filters - Filters for the search
+ * @returns {Promise<Array>} - Array of matching teachers
+ */
+const searchTeachers = async (searchQuery) => {
+  const query = {
+    $or: [
+      { schname: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
+      { Name: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
+      { empid: searchQuery },
+      { postdesc: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
+    ],
+  };
+
+  const teachers = await Teacher.find(query).exec();
+  return teachers;
+};
+
+// Function to escape special characters in a string for RegExp
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 module.exports = {
   storeTeacherDataInMongoDB,
   getTeacher,
   getTeacherBySchoolAndGender,
+  searchTeachers,
 };

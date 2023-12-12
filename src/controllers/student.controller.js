@@ -45,6 +45,11 @@ const getStudentAttendance = catchAsync(async (req, res) => {
   res.send(result.data);
 });
 
+const searchStudents = catchAsync(async (req, res) => {
+  const result = await studentService.searchStudents(req.body.searchQuery);
+  res.send(result);
+});
+
 module.exports = {
   getStudentData,
   studentData,
@@ -52,4 +57,5 @@ module.exports = {
   getStudentCountBySchoolName,
   getStudentCountBySchoolNameAndGender,
   getStudentCountBySchoolNameAndStatus,
+  searchStudents,
 };

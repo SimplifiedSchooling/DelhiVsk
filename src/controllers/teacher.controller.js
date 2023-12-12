@@ -17,8 +17,14 @@ const getTeacherBySchoolAndGender = catchAsync(async (req, res) => {
   const result = await teacherService.getTeacherBySchoolAndGender(gender, schname);
   res.send(result);
 });
+
+const searchTeachers = catchAsync(async (req, res) => {
+  const result = await teacherService.searchTeachers(req.body.searchQuery);
+  res.send(result);
+});
 module.exports = {
   getTeacherData,
   getTeacher,
   getTeacherBySchoolAndGender,
+  searchTeachers,
 };
