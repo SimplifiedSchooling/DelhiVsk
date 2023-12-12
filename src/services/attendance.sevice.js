@@ -12,7 +12,6 @@ const { School, Attendance, Student } = require('../models');
  */
 
 async function fetchStudentDataForSchool(schoolId, password, date) {
-  console.log(date);
   try {
     const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/Student_Attendence_School?password=${password}&School_ID=${schoolId}&Date=${date}`;
 
@@ -618,7 +617,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
   const totalStudentCount = await Student.countDocuments({
     Schoolid: { $in: schoolIds },
     status: 'Studying',
-    District: districtName,
+    // District: districtName,
     z_name: Z_name.toLowerCase(),
   });
   //  const totalStudentCount = await Student.countDocuments({ z_name: Z_name.toLowerCase(), status: 'Studying' }).exec();
