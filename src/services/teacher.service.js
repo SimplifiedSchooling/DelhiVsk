@@ -71,10 +71,10 @@ const getTeacherBySchoolAndGender = async (gender, schname) => {
 const searchTeachers = async (searchQuery) => {
   const query = {
     $or: [
-      { schname: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
+      // { schname: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
       { Name: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
       { empid: searchQuery },
-      { postdesc: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
+      // { postdesc: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
     ],
   };
 
