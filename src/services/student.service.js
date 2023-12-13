@@ -90,7 +90,7 @@ const getStudentCountBySchoolNameAndStatus = async (Schoolid, status) => {
 const searchStudents = async (searchQuery) => {
   const query = {
     $or: [
-      { SCHOOL_NAME: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
+      // { SCHOOL_NAME: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
       { Name: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
       { S_ID: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
     ],
@@ -102,6 +102,7 @@ const searchStudents = async (searchQuery) => {
 
 // Function to escape special characters in a string for RegExp
 function escapeRegExp(string) {
+  // return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 module.exports = {
