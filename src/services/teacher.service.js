@@ -68,6 +68,11 @@ const getTeacherBySchoolAndGender = async (gender, schname) => {
  * @param {Object} filters - Filters for the search
  * @returns {Promise<Array>} - Array of matching teachers
  */
+// Function to escape special characters in a string for RegExp
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 const searchTeachers = async (searchQuery) => {
   const query = {
     $or: [
@@ -81,11 +86,6 @@ const searchTeachers = async (searchQuery) => {
   const teachers = await Teacher.find(query).exec();
   return teachers;
 };
-
-// Function to escape special characters in a string for RegExp
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
 
 module.exports = {
   storeTeacherDataInMongoDB,

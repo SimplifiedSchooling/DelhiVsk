@@ -135,7 +135,6 @@ async function storeStudentDataInMongoDB() {
 
   for (const school of schools) {
     const studentData = await fetchStudentDataForSchool(school.Schoolid, password);
-
     if (studentData && studentData.Cargo) {
       await processStudentData(studentData.Cargo);
     }
@@ -178,6 +177,11 @@ const getStudentCountBySchoolNameAndStatus = async (Schoolid, status) => {
  * @param {Object} filters - Filters for the search
  * @returns {Promise<Array>} - Array of matching students
  */
+// Function to escape special characters in a string for RegExp
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 const searchStudents = async (searchQuery) => {
   const query = {
     $or: [
@@ -191,10 +195,6 @@ const searchStudents = async (searchQuery) => {
   return students;
 };
 
-// Function to escape special characters in a string for RegExp
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
 module.exports = {
   storeStudentDataInMongoDB,
   getStudentCountBySchoolName,
