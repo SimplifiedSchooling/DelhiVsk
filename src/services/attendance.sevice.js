@@ -419,26 +419,16 @@ const storeAttendanceDataByDate = async (date) => {
 };
 
 // Schedule the job to run every day at 9 PM
-// cron.schedule('0 21 * * *', async () => {
-//   try {
-//     logger.info(`Running the attendance data update job...`);
-//     await storeAttendanceDataInMongoDB();
-//     logger.info(`Attendance data update job completed.`);
-//   } catch (error) {
-//     logger.info('Error running the job:', error);
-//   }
-// });
-
-
-cron.schedule('*/1 * * * *', async () => {
+cron.schedule('0 21 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await storeAttendanceDataInMongoDB();
     logger.info(`Attendance data update job completed.`);
   } catch (error) {
-    logger.error('Error running the job:', error);
+    logger.info('Error running the job:', error);
   }
 });
+
 
 /// ///////////////////////Attendance graph by single date /////////////
 /**
