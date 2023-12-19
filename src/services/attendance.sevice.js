@@ -22,6 +22,7 @@ async function fetchStudentDataForSchool(schoolId, password, date) {
     }
     return [response.data.Cargo];
   } catch (error) {
+    console.log(error)
     return null;
   }
 }
@@ -42,7 +43,7 @@ const storeAttendanceDataInMongoDB = async () => {
     if (studentData) {
       // Create a unique identifier based on school and date
       const identifier = `${school.Schoolid}-${date}`;
-      const existingAttendance = await Attendance.findOne({ School_ID: school.Schoolid, attendance_DATE: date });
+      const existingAttendance = await Attendance.findOne({ School_ID: school.Schoolid, attendance_DATE: parsedDate });
 
       const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid) }).exec();
       const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid) }).exec();
@@ -153,7 +154,12 @@ const storeAttendanceDataInMongoDB = async () => {
         maleAttendanceNotMarked,
         femaleAttendanceNotMarked,
         otherAttendanceNotMarked,
-        attendanceStatus,
+        attendanceStatus:(Astatus =
+          studentData.length === 0
+            ? 'data not found'
+            : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0
+            ? 'attendance not marked'
+            : 'done'),
         classCount,
       };
 
@@ -167,10 +173,10 @@ const storeAttendanceDataInMongoDB = async () => {
             School_ID: school.Schoolid,
             school_name: school.School_Name,
             shift: school.shift,
-            attendance_DATE: formattedDate,
+            attendance_DATE: parsedDate,
             SchManagement: school.SchManagement,
             totalStudentCount,
-            PresentCount: parsedDate,
+            PresentCount: presentCountData,
             AbsentCount,
             totalNotMarkedAttendanceCount,
             totalLeaveCount,
@@ -413,13 +419,24 @@ const storeAttendanceDataByDate = async (date) => {
 };
 
 // Schedule the job to run every day at 9 PM
-cron.schedule('0 21 * * *', async () => {
+// cron.schedule('0 21 * * *', async () => {
+//   try {
+//     logger.info(`Running the attendance data update job...`);
+//     await storeAttendanceDataInMongoDB();
+//     logger.info(`Attendance data update job completed.`);
+//   } catch (error) {
+//     logger.info('Error running the job:', error);
+//   }
+// });
+
+
+cron.schedule('*/1 * * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await storeAttendanceDataInMongoDB();
     logger.info(`Attendance data update job completed.`);
   } catch (error) {
-    logger.info('Error running the job:', error);
+    logger.error('Error running the job:', error);
   }
 });
 
