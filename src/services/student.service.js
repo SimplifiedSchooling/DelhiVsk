@@ -77,11 +77,6 @@ const getStudentCountBySchoolNameAndStatus = async (Schoolid, status) => {
   return result;
 };
 
-
-
-
-
-
 /**
  * Search for students based on SCHOOL_NAME, Name, or S_ID
  * @param {Object} filters - Filters for the search

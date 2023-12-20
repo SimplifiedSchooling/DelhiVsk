@@ -22,7 +22,7 @@ async function fetchStudentDataForSchool(schoolId, password, date) {
     }
     return [response.data.Cargo];
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return null;
   }
 }
@@ -154,7 +154,7 @@ const storeAttendanceDataInMongoDB = async () => {
         maleAttendanceNotMarked,
         femaleAttendanceNotMarked,
         otherAttendanceNotMarked,
-        attendanceStatus:(Astatus =
+        attendanceStatus: (Astatus =
           studentData.length === 0
             ? 'data not found'
             : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0
@@ -428,7 +428,6 @@ cron.schedule('0 21 * * *', async () => {
     logger.info('Error running the job:', error);
   }
 });
-
 
 /// ///////////////////////Attendance graph by single date /////////////
 /**
