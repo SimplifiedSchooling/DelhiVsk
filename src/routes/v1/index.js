@@ -17,6 +17,7 @@ const allDashboard2 = require('./alldashboard2');
 const allDashboard3 = require('./alldashboard3.route');
 const udiseSchoolRoute = require('./udise.school.route');
 const studentGraphAllRoute = require('./student.graph.all.route');
+const guestTeacherRoute = require('./guest.teacher.route');
 
 const router = express.Router();
 
@@ -84,6 +85,10 @@ const defaultRoutes = [
   {
     path: '/all-student-graph',
     route: studentGraphAllRoute,
+  },
+  {
+    path: '/guest-teacher',
+    route: guestTeacherRoute,
   },
 ];
 

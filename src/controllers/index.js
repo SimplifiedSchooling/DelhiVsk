@@ -14,3 +14,4 @@ module.exports.allDashboard2 = require('./alldashboard2.controller');
 module.exports.allDashboard3 = require('./alldashboard3.controller');
 module.exports.udiseSchooolController = require('./udise.school.controller');
 module.exports.studentGraphAllController = require('./student.graph.all.controller');
+module.exports.guestTeacherControler = require('./guest.teacher.controller');
