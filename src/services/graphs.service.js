@@ -547,15 +547,15 @@ const getSchoolStudentCountByDistricts = async () => {
 };
 
 const getSchoolStudentCountByZone = async (district) => {
-    // Check if the data is already cached in Redis
-    const cachedData = await redis.get(`getSchoolStudentCountByDistricts:${district}`);
+  // Check if the data is already cached in Redis
+  const cachedData = await redis.get(`getSchoolStudentCountByDistricts:${district}`);
 
-    if (cachedData) {
-      return JSON.parse(cachedData);
-    }
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
   const districtStats = await School.aggregate([
     {
-      $match: { District_name: district }
+      $match: { District_name: district },
     },
     {
       $group: {
@@ -565,24 +565,21 @@ const getSchoolStudentCountByZone = async (district) => {
       },
     },
     {
-    $lookup: {
-      from: 'students',
-      let: { zoneName: { $toLower: '$_id' } },
-      pipeline: [
-        {
-          $match: {
-            $expr: {
-              $eq: [
-                { $toLower: '$z_name' },
-                '$$zoneName',
-              ],
+      $lookup: {
+        from: 'students',
+        let: { zoneName: { $toLower: '$_id' } },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: [{ $toLower: '$z_name' }, '$$zoneName'],
+              },
             },
           },
-        },
-      ],
-      as: 'students',
+        ],
+        as: 'students',
+      },
     },
-  },
     {
       $unwind: {
         path: '$students',
@@ -613,8 +610,7 @@ const getSchoolStudentCountByZone = async (district) => {
   return districtStats;
 };
 
-
-const getDistrictWiseCounts = async(District_name) => {
+const getDistrictWiseCounts = async (District_name) => {
   const [
     totalSchools,
     totalTeachers,
@@ -626,14 +622,14 @@ const getDistrictWiseCounts = async(District_name) => {
     totalStudent,
     totalStydyingStudent,
   ] = await Promise.allSettled([
-    School.countDocuments({District_name}).exec(),
-    Teacher.countDocuments({districtname: District_name}).exec(),
+    School.countDocuments({ District_name }).exec(),
+    Teacher.countDocuments({ districtname: District_name }).exec(),
     Teacher.countDocuments({ gender: 'Female', districtname: District_name }).exec(),
-    Teacher.countDocuments({ gender: 'Male',districtname: District_name }).exec(),
+    Teacher.countDocuments({ gender: 'Male', districtname: District_name }).exec(),
     Student.countDocuments({ Gender: 'M', District: District_name }).exec(),
     Student.countDocuments({ Gender: 'F', District: District_name }).exec(),
     Student.countDocuments({ Gender: 'T', District: District_name }).exec(),
-    Student.countDocuments({District: District_name}).exec(),
+    Student.countDocuments({ District: District_name }).exec(),
     Student.countDocuments({ status: 'Studying', District: District_name }).exec(),
   ]);
   return {
@@ -646,9 +642,8 @@ const getDistrictWiseCounts = async(District_name) => {
     Other: Other.value,
     totalStudent: totalStudent.value,
     totalStydyingStudent: totalStydyingStudent.value,
-  }
-}
-
+  };
+};
 
 const getDashboardByZone = async (zone) => {
   // Check if the data is already cached in Redis
@@ -660,7 +655,7 @@ const getDashboardByZone = async (zone) => {
 
   const districtStats = await School.aggregate([
     {
-      $match: { Zone_Name: zone }
+      $match: { Zone_Name: zone },
     },
     {
       $group: {

@@ -35,8 +35,8 @@ const guestTeacherSchema = mongoose.Schema(
       type: String,
     },
     zoneid: {
-        type: String,
-    }
+      type: String,
+    },
   },
   {
     timestamps: true,

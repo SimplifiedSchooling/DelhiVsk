@@ -8,11 +8,22 @@ const getTeacherCountBySchoolManagement = catchAsync(async (req, res) => {
 });
 
 const getTeacherStatsDistrict = catchAsync(async (req, res) => {
-    const result = await guestTeacherService.getTeacherStatsDistrict(req.body.DistrictName);
-    res.status(httpStatus.CREATED).send(result);
-  });
+  const result = await guestTeacherService.getTeacherStatsDistrict(req.body.DistrictName);
+  res.status(httpStatus.CREATED).send(result);
+});
 
+const getTeacherStatsZone = catchAsync(async (req, res) => {
+  const result = await guestTeacherService.getTeacherStatsZone(req.body.zoneName);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getTeacherStatsSchool = catchAsync(async (req, res) => {
+  const result = await guestTeacherService.getTeacherStatsSchool(req.body.Schoolid);
+  res.status(httpStatus.CREATED).send(result);
+});
 module.exports = {
-    getTeacherCountBySchoolManagement,
-    getTeacherStatsDistrict,
-}
+  getTeacherCountBySchoolManagement,
+  getTeacherStatsDistrict,
+  getTeacherStatsZone,
+  getTeacherStatsSchool,
+};
