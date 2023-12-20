@@ -21,3 +21,4 @@ module.exports.Coverageqr = require('./vsk.diksha.etb.qr.coverage.model');
 module.exports.Udiseschool = require('./udise.school.model');
 module.exports.StudentCounts = require('./student.count.model');
 module.exports.StudentMob = require('./studentMob.model');
+module.exports.GuestTeacher = require('./guest.teachers.model');
