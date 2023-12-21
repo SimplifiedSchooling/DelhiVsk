@@ -10,6 +10,8 @@ router.route('/school-district-wise').post(guestTeacherControler.getTeacherStats
 router.route('/school/zone-wise').post(guestTeacherControler.getTeacherStatsZone);
 
 router.route('/school-wise/stats').post(guestTeacherControler.getTeacherStatsSchool);
+
+router.route('/search-guest-teachers').post(guestTeacherControler.getGuestTeacherSearch);
 module.exports = router;
 
 /**
@@ -114,4 +116,28 @@ module.exports = router;
  *         description: Unauthorized
  *       "403":
  *         description: Forbidden
+ */
+
+
+/**
+ * @swagger
+ * /guest-teacher/search-guest-teachers:
+ *   post:
+ *     summary: Get teachers data by a single property (Name, ApplicationId).
+ *     description: Get teachers data by a single property (Name, ApplicationId).
+ *     tags: [GuestTeacherGraph]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               searchQuery:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response with an array of matching teachers
+ *       '500':
+ *         description: Internal Server Error
  */

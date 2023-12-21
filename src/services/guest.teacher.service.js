@@ -799,9 +799,38 @@ const getTeacherStatsSchool = async (SchoolId) => {
   // await redis.set('getTeacherStatsTeacherGraphical', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
+
+/**
+ * Search for teachers based on schname, Name, or schoolid
+ * @param {Object} filters - Filters for the search
+ * @returns {Promise<Array>} - Array of matching teachers
+ */
+const searchTeachers = async (searchQuery) => {
+  const query = {
+    $or: [
+      { Name: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
+      { ApplicationId: searchQuery },
+    ],
+  };
+  const teachers = await GuestTeacher.find(query).exec();
+  return teachers;
+};
+
+// Function to escape special characters in a string for RegExp
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+const teacherList = async(SchoolID) => {
+  const result = GuestTeacher.find({SchoolID})
+  return result;
+}
+
 module.exports = {
   getTeacherStats,
   getTeacherStatsDistrict,
   getTeacherStatsZone,
   getTeacherStatsSchool,
+  searchTeachers,
+  teacherList,
 };
