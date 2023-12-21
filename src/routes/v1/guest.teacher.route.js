@@ -12,6 +12,11 @@ router.route('/school/zone-wise').post(guestTeacherControler.getTeacherStatsZone
 router.route('/school-wise/stats').post(guestTeacherControler.getTeacherStatsSchool);
 
 router.route('/search-guest-teachers').post(guestTeacherControler.getGuestTeacherSearch);
+
+router.route('/school/teacher-list').post(guestTeacherControler.getGuestTeacherList);
+
+router.route('/school/post-wise/teacher-list').post(guestTeacherControler.teacherGuestPostWiseList);
+
 module.exports = router;
 
 /**
@@ -134,6 +139,55 @@ module.exports = router;
  *             type: object
  *             properties:
  *               searchQuery:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response with an array of matching teachers
+ *       '500':
+ *         description: Internal Server Error
+ */
+
+/**
+ * @swagger
+ * /guest-teacher/school/teacher-list:
+ *   post:
+ *     summary: Get teachers data by a single property (Name, ApplicationId).
+ *     description: Get teachers data by a single property (Name, ApplicationId).
+ *     tags: [GuestTeacherGraph]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               SchoolID:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response with an array of matching teachers
+ *       '500':
+ *         description: Internal Server Error
+ */
+
+
+/**
+ * @swagger
+ * /guest-teacher/school/post-wise/teacher-list:
+ *   post:
+ *     summary: Get teachers data by Post and SchoolID.
+ *     description: Get teachers data by Post and SchoolID.
+ *     tags: [GuestTeacherGraph]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               SchoolID:
+ *                 type: string
+ *               Post:
  *                 type: string
  *     responses:
  *       '200':

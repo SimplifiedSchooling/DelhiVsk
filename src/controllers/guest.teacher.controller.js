@@ -28,9 +28,16 @@ const getGuestTeacherSearch = catchAsync(async (req, res) => {
   });
 
   const getGuestTeacherList = catchAsync(async (req, res) => {
-    const result = await guestTeacherService.getTeacherStatsSchool(req.params.Schoolid);
+    const result = await guestTeacherService.teacherGuestList(req.body.SchoolID);
     res.status(httpStatus.CREATED).send(result);
   });
+
+  const teacherGuestPostWiseList = catchAsync(async (req, res) => {
+    const { SchoolID, Post } = req.body;
+    const result = await guestTeacherService.teacherGuestPostWiseList(SchoolID, Post);
+    res.status(httpStatus.CREATED).send(result);
+  });
+
 module.exports = {
   getTeacherCountBySchoolManagement,
   getTeacherStatsDistrict,
@@ -38,4 +45,5 @@ module.exports = {
   getTeacherStatsSchool,
   getGuestTeacherSearch,
   getGuestTeacherList,
+  teacherGuestPostWiseList,
 };

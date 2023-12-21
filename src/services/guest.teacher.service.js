@@ -819,12 +819,17 @@ const searchTeachers = async (searchQuery) => {
 // Function to escape special characters in a string for RegExp
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
+};
 
-const teacherList = async(SchoolID) => {
+const teacherGuestList = async(SchoolID) => {
   const result = GuestTeacher.find({SchoolID})
   return result;
-}
+};
+
+const teacherGuestPostWiseList = async(SchoolID, Post) => {
+  const result = GuestTeacher.find({SchoolID, Post})
+  return result;
+};
 
 module.exports = {
   getTeacherStats,
@@ -832,5 +837,6 @@ module.exports = {
   getTeacherStatsZone,
   getTeacherStatsSchool,
   searchTeachers,
-  teacherList,
+  teacherGuestList,
+  teacherGuestPostWiseList,
 };
