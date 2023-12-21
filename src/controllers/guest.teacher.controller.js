@@ -23,20 +23,20 @@ const getTeacherStatsSchool = catchAsync(async (req, res) => {
 });
 
 const getGuestTeacherSearch = catchAsync(async (req, res) => {
-    const result = await guestTeacherService.searchTeachers(req.body.searchQuery);
-    res.status(httpStatus.CREATED).send(result);
-  });
+  const result = await guestTeacherService.searchTeachers(req.body.searchQuery);
+  res.status(httpStatus.CREATED).send(result);
+});
 
-  const getGuestTeacherList = catchAsync(async (req, res) => {
-    const result = await guestTeacherService.teacherGuestList(req.body.SchoolID);
-    res.status(httpStatus.CREATED).send(result);
-  });
+const getGuestTeacherList = catchAsync(async (req, res) => {
+  const result = await guestTeacherService.teacherGuestList(req.body.SchoolID);
+  res.status(httpStatus.CREATED).send(result);
+});
 
-  const teacherGuestPostWiseList = catchAsync(async (req, res) => {
-    const { SchoolID, Post } = req.body;
-    const result = await guestTeacherService.teacherGuestPostWiseList(SchoolID, Post);
-    res.status(httpStatus.CREATED).send(result);
-  });
+const teacherGuestPostWiseList = catchAsync(async (req, res) => {
+  const { SchoolID, Post } = req.body;
+  const result = await guestTeacherService.teacherGuestPostWiseList(SchoolID, Post);
+  res.status(httpStatus.CREATED).send(result);
+});
 
 module.exports = {
   getTeacherCountBySchoolManagement,

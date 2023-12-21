@@ -9,7 +9,7 @@ const fetchDataFromApi = async () => {
     const response = await axios.get(
       'https://www.edudel.nic.in/mis/EduWebService_Other/vidyasamikshakendra.asmx/Guest_Teacher_details_API?password=VSK@9180'
     );
-    return response.data; // Assuming the API response contains an array of guest teacher data
+    return response.data;
   } catch (error) {
     console.error('Error fetching data from API:', error.message);
     return null;
@@ -20,7 +20,6 @@ const fetchDataFromApi = async () => {
 const updateDatabaseWithApiData = async () => {
   try {
     const apiData = await fetchDataFromApi();
-    // If data is received from the API
     if (apiData.Cargo && Array.isArray(apiData.Cargo)) {
       // Process the data and update or delete records in the database
       for (const guestTeacherData of apiData.Cargo) {
@@ -36,7 +35,6 @@ const updateDatabaseWithApiData = async () => {
 
       console.log('Database updated successfully.');
     } else {
-      // If no data is received from the API, delete all records from the database
       await GuestTeacher.deleteMany({});
       console.log('No data received from the API. Database cleared.');
     }
@@ -46,8 +44,6 @@ const updateDatabaseWithApiData = async () => {
 };
 
 // Call the function to update or delete records in the database based on the retrieved data
-
-// Schedule the job to run every day at 11 PM  0 23 * * *
 cron.schedule('0 0 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
@@ -66,8 +62,8 @@ const getSchoolIdByShiftWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$shift', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -80,8 +76,8 @@ const getSchoolIdByManagmentWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$SchManagement', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -94,8 +90,8 @@ const getSchoolIdByZoneNameWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$Zone_Name', // Group by Zone_Name
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$Zone_Name',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -107,8 +103,8 @@ const getSchoolIdByTypeOfSchoolWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$typeOfSchool', // Group by the typeOfSchool field
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -120,8 +116,8 @@ const getSchoolIdBySchCategoryWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -131,11 +127,6 @@ const getSchoolIdBySchCategoryWise = async () => {
 };
 
 const getTeacherStats = async () => {
-  // const cachedData = await redis.get('getTeacherStatsTeacherGraphical');
-
-  // if (cachedData) {
-  //   return JSON.parse(cachedData);
-  // }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWise();
   const teacherCounts = [];
 
@@ -217,7 +208,6 @@ const getTeacherStats = async () => {
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
   };
-  // await redis.set('getTeacherStatsTeacherGraphical', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
@@ -234,8 +224,8 @@ const getSchoolIdByShiftWiseDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$shift', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -253,8 +243,8 @@ const getSchoolIdByManagmentWiseDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$SchManagement', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -272,8 +262,8 @@ const getSchoolIdByZoneNameWiseDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$Zone_Name', // Group by Zone_Name
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$Zone_Name',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -290,8 +280,8 @@ const getSchoolIdByTypeOfSchoolWiseDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool', // Group by the typeOfSchool field
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -308,8 +298,8 @@ const getSchoolIdBySchCategoryWiseDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -319,11 +309,6 @@ const getSchoolIdBySchCategoryWiseDistrict = async (districtName) => {
 };
 
 const getTeacherStatsDistrict = async (districtName) => {
-  // const cachedData = await redis.get('getTeacherStatsTeacherGraphical');
-
-  // if (cachedData) {
-  //   return JSON.parse(cachedData);
-  // }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseDistrict(districtName);
   const teacherCounts = [];
 
@@ -410,7 +395,6 @@ const getTeacherStatsDistrict = async (districtName) => {
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
   };
-  // await redis.set('getTeacherStatsTeacherGraphical', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
@@ -427,8 +411,8 @@ const getSchoolIdByShiftWiseZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$shift', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -446,8 +430,8 @@ const getSchoolIdByManagmentWiseZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$SchManagement', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -465,8 +449,8 @@ const getSchoolIdByZoneNameWiseZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$Zone_Name', // Group by Zone_Name
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$Zone_Name',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -483,8 +467,8 @@ const getSchoolIdByTypeOfSchoolWiseZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool', // Group by the typeOfSchool field
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -501,8 +485,8 @@ const getSchoolIdBySchCategoryWiseZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -512,11 +496,6 @@ const getSchoolIdBySchCategoryWiseZone = async (zone) => {
 };
 
 const getTeacherStatsZone = async (zone) => {
-  // const cachedData = await redis.get('getTeacherStatsTeacherGraphical');
-
-  // if (cachedData) {
-  //   return JSON.parse(cachedData);
-  // }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseZone(zone);
   const teacherCounts = [];
 
@@ -603,7 +582,6 @@ const getTeacherStatsZone = async (zone) => {
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
   };
-  // await redis.set('getTeacherStatsTeacherGraphical', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
@@ -620,8 +598,8 @@ const getSchoolIdByShiftWiseSchool = async (SchoolId) => {
     },
     {
       $group: {
-        _id: '$shift', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -639,8 +617,8 @@ const getSchoolIdByManagmentWiseSchool = async (SchoolId) => {
     },
     {
       $group: {
-        _id: '$SchManagement', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -658,8 +636,8 @@ const getSchoolIdByZoneNameWiseSchool = async (SchoolId) => {
     },
     {
       $group: {
-        _id: '$Zone_Name', // Group by Zone_Name
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$Zone_Name',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -676,8 +654,8 @@ const getSchoolIdByTypeOfSchoolWiseSchool = async (SchoolId) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool', // Group by the typeOfSchool field
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -694,8 +672,8 @@ const getSchoolIdBySchCategoryWiseSchool = async (SchoolId) => {
     },
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -705,11 +683,6 @@ const getSchoolIdBySchCategoryWiseSchool = async (SchoolId) => {
 };
 
 const getTeacherStatsSchool = async (SchoolId) => {
-  // const cachedData = await redis.get('getTeacherStatsTeacherGraphical');
-
-  // if (cachedData) {
-  //   return JSON.parse(cachedData);
-  // }
   const schCategorySchoolIds = await getSchoolIdBySchCategoryWiseSchool(SchoolId);
   const teacherCounts = [];
 
@@ -796,7 +769,6 @@ const getTeacherStatsSchool = async (SchoolId) => {
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
   };
-  // await redis.set('getTeacherStatsTeacherGraphical', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
 
@@ -807,10 +779,7 @@ const getTeacherStatsSchool = async (SchoolId) => {
  */
 const searchTeachers = async (searchQuery) => {
   const query = {
-    $or: [
-      { Name: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') },
-      { ApplicationId: searchQuery },
-    ],
+    $or: [{ Name: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i') }, { ApplicationId: searchQuery }],
   };
   const teachers = await GuestTeacher.find(query).exec();
   return teachers;
@@ -819,15 +788,15 @@ const searchTeachers = async (searchQuery) => {
 // Function to escape special characters in a string for RegExp
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-};
+}
 
-const teacherGuestList = async(SchoolID) => {
-  const result = GuestTeacher.find({SchoolID})
+const teacherGuestList = async (SchoolID) => {
+  const result = GuestTeacher.find({ SchoolID });
   return result;
 };
 
-const teacherGuestPostWiseList = async(SchoolID, Post) => {
-  const result = GuestTeacher.find({SchoolID, Post})
+const teacherGuestPostWiseList = async (SchoolID, Post) => {
+  const result = GuestTeacher.find({ SchoolID, Post });
   return result;
 };
 

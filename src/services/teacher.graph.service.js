@@ -7,7 +7,6 @@ const getTeacherExperienceCountByRange = async () => {
   try {
     const currentDate = new Date(); // Current date
     const teachers = await Teacher.find({});
-    // Initialize an object to store the count in each experience range
     const experienceCounts = {
       under5Years: 0,
       fiveTo10Years: 0,
@@ -18,7 +17,7 @@ const getTeacherExperienceCountByRange = async () => {
     };
 
     teachers.forEach((teacher) => {
-      const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
+      const joiningDate = new Date(teacher.initJoiningDate);
       const experienceInMilliseconds = currentDate - joiningDate;
       const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
 
@@ -47,8 +46,8 @@ const getSchoolIdByShiftWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$shift', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -61,8 +60,8 @@ const getSchoolIdByManagmentWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$SchManagement', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -75,8 +74,8 @@ const getSchoolIdByZoneNameWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$Zone_Name', // Group by Zone_Name
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$Zone_Name',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -88,8 +87,8 @@ const getSchoolIdByTypeOfSchoolWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$typeOfSchool', // Group by the typeOfSchool field
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -101,8 +100,8 @@ const getSchoolIdBySchCategoryWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -204,10 +203,8 @@ const getTeacherStats = async () => {
     totalMaleTeachers: totalMaleTeachers.value,
     teacherCounts,
     teacherShiftWiseCounts,
-    // teacherStreamWiseCounts,
     teacherZoneWiseCounts,
     teacherTypeOfSchoolWiseCounts,
-    // teacherMinorityWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
     experianceOfTeachers,
@@ -242,7 +239,6 @@ const getTeacherCountBySchoolManagement = async () => {
 const getTeacherExperienceCountByRangeDistrictWise = async (districtname) => {
   const currentDate = new Date(); // Current date
   const teachers = await Teacher.find({ districtname });
-  // Initialize an object to store the count in each experience range
   const experienceCounts = {
     under5Years: 0,
     fiveTo10Years: 0,
@@ -253,7 +249,7 @@ const getTeacherExperienceCountByRangeDistrictWise = async (districtname) => {
   };
 
   teachers.forEach((teacher) => {
-    const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
+    const joiningDate = new Date(teacher.initJoiningDate);
     const experienceInMilliseconds = currentDate - joiningDate;
     const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
 
@@ -284,8 +280,8 @@ const getSchoolIdByShiftWiseAndDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$shift', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -303,33 +299,14 @@ const getSchoolIdByTypeOfSchoolWiseAndDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool', // Group by typeOfSchool
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
   const schCategorySchoolIds = await School.aggregate(pipeline);
   return schCategorySchoolIds;
 };
-
-// const getSchoolIdByMinorityWiseAndDistrict = async (districtName) => {
-//   const pipeline = [
-//     {
-//       $match: {
-//         District_name: districtName,
-//       },
-//     },
-//     {
-//       $group: {
-//         _id: '$minority', // Group by SchManagement
-//         schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
-//       },
-//     },
-//   ];
-
-//   const schCategorySchoolIds = await School.aggregate(pipeline);
-//   return schCategorySchoolIds;
-// };
 
 const getSchoolIdByZoneNameWiseAndDistrict = async (districtName) => {
   const pipeline = [
@@ -340,8 +317,8 @@ const getSchoolIdByZoneNameWiseAndDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$Zone_Name', // Group by SchManagement
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$Zone_Name',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -359,8 +336,8 @@ const getSchoolIdByManagmentWiseAndDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$SchManagement', // Group by SchManagement
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -378,8 +355,8 @@ const getSchoolIdBySchCategoryWiseAndDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -511,7 +488,7 @@ const getTeacherExperienceCountByRangeZoneWise = async (zonename) => {
     };
 
     teachers.forEach((teacher) => {
-      const joiningDate = new Date(teacher.JoiningDate);
+      const joiningDate = new Date(teacher.initJoiningDate);
       const experienceInMilliseconds = currentDate - joiningDate;
       const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
 
@@ -581,8 +558,8 @@ const getSchoolIdByZoneWiseAndZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$Zone_Name', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$Zone_Name',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -600,8 +577,8 @@ const getSchoolIdByManagmentWiseAndZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$SchManagement', // Group by SchManagement
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -619,8 +596,8 @@ const getSchoolIdBySchCategoryWiseAndZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -758,7 +735,7 @@ const getTeacherExperienceCountByRangeSchool = async (schoolId) => {
     over25Years: 0,
   };
   teachers.forEach((teacher) => {
-    const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
+    const joiningDate = new Date(teacher.initJoiningDate);
     const experienceInMilliseconds = currentDate - joiningDate;
     const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
     if (yearsOfExperience < 5) {
@@ -787,8 +764,8 @@ const getSchoolIdByShiftWiseAndSchoolName = async (schoolId) => {
     },
     {
       $group: {
-        _id: '$shift', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -806,8 +783,8 @@ const getSchoolIdByTypeOfSchoolWiseAndSchoolName = async (schoolId) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -825,8 +802,8 @@ const getSchoolIdByManagmentWiseAndSchoolName = async (schoolId) => {
     },
     {
       $group: {
-        _id: '$SchManagement', // Group by SchManagement
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -844,8 +821,8 @@ const getSchoolIdBySchCategoryWiseAndSchoolName = async (schoolId) => {
     },
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
