@@ -123,7 +123,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /guest-teacher/search-guest-teachers:
@@ -169,7 +168,6 @@ module.exports = router;
  *       '500':
  *         description: Internal Server Error
  */
-
 
 /**
  * @swagger

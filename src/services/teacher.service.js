@@ -53,6 +53,66 @@ cron.schedule('0 0 * * *', async () => {
   }
 });
 
+async function fetchTeacherUpdate(empid, password) {
+  try {
+    const response = await axios.get('https://www.edudel.nic.in/mis/eduwebservice/webappsmob.asmx/EmployeePersonnelDetail', {
+      params: {
+        userid: empid,
+        password: password,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    logger.info(`Error fetching data for teacher ${empid}:`, error);
+    return null;
+  }
+}
+
+
+function getpassword(){
+  const dateValue = new Date();
+  return "Mob#"+(dateValue.getFullYear()*dateValue.getDate()+dateValue.getMonth()+1)+"37t@Zr"
+}
+
+async function storeTeacherDataUpdate() {
+  const teachers = await Teacher.find().exec();
+
+  const password = getpassword()
+  for (const teacher of teachers) {
+    const teacherData = await fetchTeacherUpdate(teacher.empid, password);
+
+    for (const apiEmployee of teacherData.Cargo) {
+      const { name, joining_date } = apiEmployee;
+      const part = name.split('-');
+      const empid = part;
+      // Find the corresponding teacher in the MongoDB collection
+      const teacher = await Teacher.findOne({ empid });
+
+      // If the teacher is found, update the initJoiningDate field
+      if (teacher) {
+        teacher.initJoiningDate = joining_date;
+        await teacher.save();
+        logger.info(`Updated initJoiningDate for teacher with empid ${empid}`);
+      } else {
+        logger.info(`Teacher with empid ${empid} not found in the database`);
+      }
+    }
+  }
+}
+
+// Schedule the job to run every day at 11 PM  0 23 * * *
+cron.schedule('*/2 * * * *', async () => {
+  try {
+    logger.info(`Running the attendance data update job...`);
+    await storeTeacherDataUpdate();
+    logger.info(`Student data update job completed.`);
+  } catch (error) {
+    logger.info('Error running the job:', error);
+  }
+});
+
+
+
 const getTeacher = async () => {
   const data = await Teacher.find().limit(10000);
   return data;
