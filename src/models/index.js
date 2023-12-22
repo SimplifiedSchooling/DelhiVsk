@@ -22,3 +22,5 @@ module.exports.Udiseschool = require('./udise.school.model');
 module.exports.StudentCounts = require('./student.count.model');
 module.exports.StudentMob = require('./studentMob.model');
 module.exports.GuestTeacher = require('./guest.teachers.model');
+module.exports.PhysicalFacitlies = require('./physical.facility.model');
+module.exports.SportsEquipments = require('./sports.equipment.model');
