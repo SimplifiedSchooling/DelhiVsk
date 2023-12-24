@@ -35,7 +35,7 @@ const updateDatabaseWithApiData = async () => {
 
       console.log('Database updated successfully.');
     } else {
-      await GuestTeacher.deleteMany({});
+      // await GuestTeacher.deleteMany({});
       console.log('No data received from the API. Database cleared.');
     }
   } catch (error) {

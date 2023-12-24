@@ -5,6 +5,7 @@ const schoolSchema = mongoose.Schema(
   {
     Schoolid: {
       type: Number,
+      uniqe: true,
       required: true,
     },
     School_Name: {

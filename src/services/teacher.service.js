@@ -43,7 +43,7 @@ async function storeTeacherDataInMongoDB() {
 }
 
 // Schedule the job to run every day at 11 PM  0 23 * * *
-cron.schedule('0 0 * * *', async () => {
+cron.schedule('0 1 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await storeTeacherDataInMongoDB();
@@ -101,7 +101,7 @@ async function storeTeacherDataUpdate() {
 }
 
 // Schedule the job to run every day at 11 PM  0 23 * * *
-cron.schedule('*/2 * * * *', async () => {
+cron.schedule('0 0 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await storeTeacherDataUpdate();
