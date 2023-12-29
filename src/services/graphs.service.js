@@ -1,4 +1,4 @@
-const { School, Student, Teacher, StudentCounts } = require('../models');
+const { School, Student, Teacher, StudentCounts, GuestTeacher } = require('../models');
 const redis = require('../utils/redis');
 
 const getStudentCountBySchCategoryByGenders = async () => {
@@ -265,8 +265,12 @@ const getAllSchoolStudentTeacherData = async () => {
     Student.countDocuments().exec(),
     Student.countDocuments({ status: 'Studying' }).exec(),
   ]);
-  const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
-  const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
+
+  const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
+  const total = totalGuestTeacher + totalTeachers.value
+
+  const teacherStudentRatio = totalStydyingStudent.value / total;
+  const averageTeacherOfSchool = total / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
   const zoneWiseCounts = [];
   Object.keys(zoneWiseCount).forEach((zone) => {
@@ -286,7 +290,7 @@ const getAllSchoolStudentTeacherData = async () => {
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
-    totalTeachers: totalTeachers.value,
+    totalTeachers: total,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,

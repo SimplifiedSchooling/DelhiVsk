@@ -1,4 +1,4 @@
-const { School, Teacher, Student } = require('../models');
+const { School, Teacher, Student, GuestTeacher } = require('../models');
 const redis = require('../utils/redis');
 
 /**
@@ -72,9 +72,10 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     Student.countDocuments({ District: districtName }).exec(),
     Student.countDocuments({ status: 'Studying', District: districtName }).exec(),
   ]);
-
-  const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
-  const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
+  const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
+  const totoal = totalGuestTeacher + totalTeachers.value
+  const teacherStudentRatio = totalStudyingStudent.value / totoal;
+  const averageTeacherOfSchool = totoal / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
   const zoneWiseCounts = [];
   Object.keys(zoneWiseCount).forEach((zone) => {
@@ -191,8 +192,10 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     Student.countDocuments({ status: 'Studying', z_name: nameZone }).exec(),
   ]);
 
-  const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
-  const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
+  const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: cleanedZoneName }).exec();
+  const totoal = totalGuestTeacher + totalTeachers.value;
+  const teacherStudentRatio = totalStydyingStudent.value / totoal;
+  const averageTeacherOfSchool = totoal / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
 
   const zoneWiseCounts = [];
@@ -307,9 +310,10 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
     Student.countDocuments({ Schoolid: Number(schoolId) }).exec(),
     Student.countDocuments({ status: 'Studying', Schoolid: Number(schoolId) }).exec(),
   ]);
-
-  const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
-  const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
+  const totalGuestTeacher = await GuestTeacher.countDocuments({ SchoolID: schoolId }).exec();
+  const totoal = totalGuestTeacher + totalTeachers.value;
+  const teacherStudentRatio = totalStudyingStudent.value / totoal;
+  const averageTeacherOfSchool = totoal / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
   const zoneWiseCounts = [];
   Object.keys(zoneWiseCount).forEach((zone) => {
