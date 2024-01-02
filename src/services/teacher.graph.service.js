@@ -7,7 +7,6 @@ const getTeacherExperienceCountByRange = async () => {
   try {
     const currentDate = new Date(); // Current date
     const teachers = await Teacher.find({});
-    // Initialize an object to store the count in each experience range
     const experienceCounts = {
       under5Years: 0,
       fiveTo10Years: 0,
@@ -18,7 +17,7 @@ const getTeacherExperienceCountByRange = async () => {
     };
 
     teachers.forEach((teacher) => {
-      const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
+      const joiningDate = new Date(teacher.initJoiningDate);
       const experienceInMilliseconds = currentDate - joiningDate;
       const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
 
@@ -47,8 +46,8 @@ const getSchoolIdByShiftWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$shift', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -61,8 +60,8 @@ const getSchoolIdByManagmentWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$SchManagement', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -75,8 +74,8 @@ const getSchoolIdByZoneNameWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$Zone_Name', // Group by Zone_Name
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$Zone_Name',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -84,25 +83,12 @@ const getSchoolIdByZoneNameWise = async () => {
   return zoneNameWiseSchoolIds;
 };
 
-// const getSchoolIdByStreamWise = async () => {
-//   const pipeline = [
-//     {
-//       $group: {
-//         _id: '$stream', // Group by the stream field
-//         schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
-//       },
-//     },
-//   ];
-//   const streamWiseSchoolIds = await School.aggregate(pipeline);
-//   return streamWiseSchoolIds;
-// };
-
 const getSchoolIdByTypeOfSchoolWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$typeOfSchool', // Group by the typeOfSchool field
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -110,26 +96,12 @@ const getSchoolIdByTypeOfSchoolWise = async () => {
   return typeOfSchoolWiseSchoolIds;
 };
 
-// const getSchoolIdByMinorityWise = async () => {
-//   const pipeline = [
-//     {
-//       $group: {
-//         _id: '$minority', // Group by the minority field
-//         schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
-//       },
-//     },
-//   ];
-
-//   const minorityWiseSchoolIds = await School.aggregate(pipeline);
-//   return minorityWiseSchoolIds;
-// };
-
 const getSchoolIdBySchCategoryWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -185,16 +157,6 @@ const getTeacherStats = async () => {
     });
   }
 
-  // const streamWiseCountIds = await getSchoolIdByStreamWise();
-  // const teacherStreamWiseCounts = [];
-  // for (const stream of streamWiseCountIds) {
-  //   const teacherStreamWiseCount = await Teacher.countDocuments({ schoolid: { $in: stream.schoolIds } });
-  //   teacherStreamWiseCounts.push({
-  //     stream: stream._id,
-  //     teacherStreamWiseCount,
-  //   });
-  // }
-
   const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWise();
   const teacherTypeOfSchoolWiseCounts = [];
 
@@ -206,16 +168,6 @@ const getTeacherStats = async () => {
     });
   }
 
-  // const minorityWiseCountIds = await getSchoolIdByMinorityWise();
-  // const teacherMinorityWiseCounts = [];
-
-  // for (const minority of minorityWiseCountIds) {
-  //   const teacherMinorityWiseCount = await Teacher.countDocuments({ schoolid: { $in: minority.schoolIds } });
-  //   teacherMinorityWiseCounts.push({
-  //     minority: minority._id,
-  //     teacherMinorityWiseCount,
-  //   });
-  // }
   const pipeline3 = [
     {
       $group: {
@@ -237,14 +189,6 @@ const getTeacherStats = async () => {
       Student.countDocuments({ status: 'Studying' }).exec(),
     ]);
 
-  // const totalStudentCount = await StudentCounts.aggregate([
-  //   {
-  //     $group: {
-  //       _id: null,
-  //       totalStudent: { $sum: '$totalStudent' },
-  //     },
-  //   },
-  // ]);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRange();
   const averageTeachers = totalTeachers.value / totalSchools.value;
@@ -259,10 +203,8 @@ const getTeacherStats = async () => {
     totalMaleTeachers: totalMaleTeachers.value,
     teacherCounts,
     teacherShiftWiseCounts,
-    // teacherStreamWiseCounts,
     teacherZoneWiseCounts,
     teacherTypeOfSchoolWiseCounts,
-    // teacherMinorityWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
     experianceOfTeachers,
@@ -297,7 +239,6 @@ const getTeacherCountBySchoolManagement = async () => {
 const getTeacherExperienceCountByRangeDistrictWise = async (districtname) => {
   const currentDate = new Date(); // Current date
   const teachers = await Teacher.find({ districtname });
-  // Initialize an object to store the count in each experience range
   const experienceCounts = {
     under5Years: 0,
     fiveTo10Years: 0,
@@ -308,7 +249,7 @@ const getTeacherExperienceCountByRangeDistrictWise = async (districtname) => {
   };
 
   teachers.forEach((teacher) => {
-    const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
+    const joiningDate = new Date(teacher.initJoiningDate);
     const experienceInMilliseconds = currentDate - joiningDate;
     const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
 
@@ -339,8 +280,8 @@ const getSchoolIdByShiftWiseAndDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$shift', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -348,24 +289,6 @@ const getSchoolIdByShiftWiseAndDistrict = async (districtName) => {
   const schCategorySchoolIds = await School.aggregate(pipeline);
   return schCategorySchoolIds;
 };
-
-// const getSchoolIdByStreamWiseAndDistrict = async (districtName) => {
-//   const pipeline = [
-//     {
-//       $match: {
-//         District_name: districtName,
-//       },
-//     },
-//     {
-//       $group: {
-//         _id: '$stream', // Group by stream
-//         schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
-//       },
-//     },
-//   ];
-//   const schCategorySchoolIds = await School.aggregate(pipeline);
-//   return schCategorySchoolIds;
-// };
 
 const getSchoolIdByTypeOfSchoolWiseAndDistrict = async (districtName) => {
   const pipeline = [
@@ -376,33 +299,14 @@ const getSchoolIdByTypeOfSchoolWiseAndDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool', // Group by typeOfSchool
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
   const schCategorySchoolIds = await School.aggregate(pipeline);
   return schCategorySchoolIds;
 };
-
-// const getSchoolIdByMinorityWiseAndDistrict = async (districtName) => {
-//   const pipeline = [
-//     {
-//       $match: {
-//         District_name: districtName,
-//       },
-//     },
-//     {
-//       $group: {
-//         _id: '$minority', // Group by SchManagement
-//         schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
-//       },
-//     },
-//   ];
-
-//   const schCategorySchoolIds = await School.aggregate(pipeline);
-//   return schCategorySchoolIds;
-// };
 
 const getSchoolIdByZoneNameWiseAndDistrict = async (districtName) => {
   const pipeline = [
@@ -413,8 +317,8 @@ const getSchoolIdByZoneNameWiseAndDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$Zone_Name', // Group by SchManagement
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$Zone_Name',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -432,8 +336,8 @@ const getSchoolIdByManagmentWiseAndDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$SchManagement', // Group by SchManagement
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -451,8 +355,8 @@ const getSchoolIdBySchCategoryWiseAndDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -490,17 +394,6 @@ const getTeacherStatsByDistrict = async (districtName) => {
       teacherShiftWiseCount,
     });
   }
-
-  // const streamWiseCountIds = await getSchoolIdByStreamWiseAndDistrict(districtName);
-  // const teacherStreamWiseCounts = [];
-  // for (const stream of streamWiseCountIds) {
-  //   const teacherStreamWiseCount = await Teacher.countDocuments({ schoolid: { $in: stream.schoolIds } });
-  //   teacherStreamWiseCounts.push({
-  //     stream: stream._id,
-  //     teacherStreamWiseCount,
-  //   });
-  // }
-
   const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWiseAndDistrict(districtName);
   const teacherTypeOfSchoolWiseCounts = [];
   for (const typeOfSchool of typeOfSchoolWiseCountIds) {
@@ -520,17 +413,6 @@ const getTeacherStatsByDistrict = async (districtName) => {
       teacherZoneWiseCount,
     });
   }
-
-  // const minorityWiseCountIds = await getSchoolIdByMinorityWiseAndDistrict(districtName);
-  // const teacherMinorityWiseCounts = [];
-  // for (const minority of minorityWiseCountIds) {
-  //   const teacherMinorityWiseCount = await Teacher.countDocuments({ schoolid: { $in: minority.schoolIds } });
-  //   teacherMinorityWiseCounts.push({
-  //     minority: minority._id,
-  //     teacherMinorityWiseCount,
-  //   });
-  // }
-
   const managmentWiseCountId = await getSchoolIdByManagmentWiseAndDistrict(districtName);
   const teacherManagmentWiseCounts = [];
   for (const managment of managmentWiseCountId) {
@@ -580,9 +462,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
     teacherCounts,
     teacherTypeOfSchoolWiseCounts,
     teacherZoneWiseCounts,
-    // teacherStreamWiseCounts,
     teacherShiftWiseCounts,
-    // teacherMinorityWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
     experianceOfTeachers,
@@ -608,7 +488,7 @@ const getTeacherExperienceCountByRangeZoneWise = async (zonename) => {
     };
 
     teachers.forEach((teacher) => {
-      const joiningDate = new Date(teacher.JoiningDate);
+      const joiningDate = new Date(teacher.initJoiningDate);
       const experienceInMilliseconds = currentDate - joiningDate;
       const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
 
@@ -651,26 +531,6 @@ const getSchoolIdByShiftWiseAndZone = async (zone) => {
   const schCategorySchoolIds = await School.aggregate(pipeline);
   return schCategorySchoolIds;
 };
-
-// const getSchoolIdByStreamWiseAndZone = async (zone) => {
-//   const pipeline = [
-//     {
-//       $match: {
-//         Zone_Name: zone,
-//       },
-//     },
-//     {
-//       $group: {
-//         _id: '$stream',
-//         schoolIds: { $push: '$Schoolid' },
-//       },
-//     },
-//   ];
-
-//   const schCategorySchoolIds = await School.aggregate(pipeline);
-//   return schCategorySchoolIds;
-// };
-
 const getSchoolIdByTypeOfSchoolWiseAndZone = async (zone) => {
   const pipeline = [
     {
@@ -689,26 +549,6 @@ const getSchoolIdByTypeOfSchoolWiseAndZone = async (zone) => {
   const schCategorySchoolIds = await School.aggregate(pipeline);
   return schCategorySchoolIds;
 };
-
-// const getSchoolIdByMinorityWiseAndZone = async (zone) => {
-//   const pipeline = [
-//     {
-//       $match: {
-//         Zone_Name: zone,
-//       },
-//     },
-//     {
-//       $group: {
-//         _id: '$minority',
-//         schoolIds: { $push: '$Schoolid' },
-//       },
-//     },
-//   ];
-
-//   const schCategorySchoolIds = await School.aggregate(pipeline);
-//   return schCategorySchoolIds;
-// };
-
 const getSchoolIdByZoneWiseAndZone = async (zone) => {
   const pipeline = [
     {
@@ -718,8 +558,8 @@ const getSchoolIdByZoneWiseAndZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$Zone_Name', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$Zone_Name',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -737,8 +577,8 @@ const getSchoolIdByManagmentWiseAndZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$SchManagement', // Group by SchManagement
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -756,8 +596,8 @@ const getSchoolIdBySchCategoryWiseAndZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -799,17 +639,6 @@ const getTeacherCountByZone = async (zone) => {
       teacherShiftWiseCount,
     });
   }
-
-  // const streamWiseCountIds = await getSchoolIdByStreamWiseAndZone(zone);
-  // const teacherStreamWiseCounts = [];
-  // for (const stream of streamWiseCountIds) {
-  //   const teacherStreamWiseCount = await Teacher.countDocuments({ schoolid: { $in: stream.schoolIds } });
-  //   teacherStreamWiseCounts.push({
-  //     stream: stream._id,
-  //     teacherStreamWiseCount,
-  //   });
-  // }
-
   const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWiseAndZone(zone);
   const teacherTypeOfSchoolWiseCounts = [];
 
@@ -820,18 +649,6 @@ const getTeacherCountByZone = async (zone) => {
       teacherTypeOfSchoolWiseCount,
     });
   }
-
-  // const minorityWiseCountIds = await getSchoolIdByMinorityWiseAndZone(zone);
-  // const teacherMinorityWiseCounts = [];
-
-  // for (const minority of minorityWiseCountIds) {
-  //   const teacherMinorityWiseCount = await Teacher.countDocuments({ schoolid: { $in: minority.schoolIds } });
-  //   teacherMinorityWiseCounts.push({
-  //     minority: minority._id,
-  //     teacherMinorityWiseCount,
-  //   });
-  // }
-
   const zoneNameWiseCountIds = await getSchoolIdByZoneWiseAndZone(zone);
   const teacherZoneWiseCounts = [];
   for (const zone of zoneNameWiseCountIds) {
@@ -877,21 +694,6 @@ const getTeacherCountByZone = async (zone) => {
       Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
       Student.countDocuments({ status: 'Studying', z_name: nameZone }).exec(),
     ]);
-
-  // const studentCount = await StudentCounts.aggregate([
-  //   {
-  //     $match: {
-  //       Zone_Name: zone,
-  //     },
-  //   },
-  //   {
-  //     $group: {
-  //       _id: null,
-  //       totalStudents: { $sum: '$totalStudent' },
-  //     },
-  //   },
-  // ]);
-
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeZoneWise(cleanedZoneName);
   const averageTeachers = totalTeachers.value / totalSchools.value;
@@ -906,9 +708,7 @@ const getTeacherCountByZone = async (zone) => {
     totalMaleTeachers: totalMaleTeachers.value,
     teacherCounts,
     teacherShiftWiseCounts,
-    // teacherStreamWiseCounts,
     teacherTypeOfSchoolWiseCounts,
-    // teacherMinorityWiseCounts,
     teacherZoneWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
@@ -935,7 +735,7 @@ const getTeacherExperienceCountByRangeSchool = async (schoolId) => {
     over25Years: 0,
   };
   teachers.forEach((teacher) => {
-    const joiningDate = new Date(teacher.JoiningDate); // Parse the JoiningDate string to a Date object
+    const joiningDate = new Date(teacher.initJoiningDate);
     const experienceInMilliseconds = currentDate - joiningDate;
     const yearsOfExperience = experienceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
     if (yearsOfExperience < 5) {
@@ -964,8 +764,8 @@ const getSchoolIdByShiftWiseAndSchoolName = async (schoolId) => {
     },
     {
       $group: {
-        _id: '$shift', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$shift',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -983,8 +783,8 @@ const getSchoolIdByTypeOfSchoolWiseAndSchoolName = async (schoolId) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool', // Group by shift
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$typeOfSchool',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -1002,8 +802,8 @@ const getSchoolIdByManagmentWiseAndSchoolName = async (schoolId) => {
     },
     {
       $group: {
-        _id: '$SchManagement', // Group by SchManagement
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchManagement',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -1021,8 +821,8 @@ const getSchoolIdBySchCategoryWiseAndSchoolName = async (schoolId) => {
     },
     {
       $group: {
-        _id: '$SchCategory', // Group by SchCategory
-        schoolIds: { $push: '$Schoolid' }, // Capture Schoolid values
+        _id: '$SchCategory',
+        schoolIds: { $push: '$Schoolid' },
       },
     },
   ];
@@ -1122,10 +922,7 @@ const getTeacherCountBySchoolName = async (schoolId) => {
     totalMaleTeachers: totalMaleTeachers.value,
     teacherCounts,
     teacherShiftWiseCounts,
-    // teacherStreamWiseCounts,
     teacherTypeOfSchoolWiseCounts,
-    // teacherMinorityWiseCounts,
-    // teacherZoneWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
     experianceOfTeachers,

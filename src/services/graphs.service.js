@@ -213,9 +213,6 @@ const getAllSchoolStudentTeacherData = async () => {
   let lowClassCount = 0;
   let highClassCount = 0;
   const shiftWiseCount = { Morning: 0, Afternoon: 0, Evening: 0 };
-  // const afiliationCount = {};
-  // const minorityCount = {};
-  // const streamCount = {};
   const typeOfSchoolCount = {};
 
   schoolData.forEach((school) => {
@@ -242,19 +239,6 @@ const getAllSchoolStudentTeacherData = async () => {
     // Shift Wise School Count
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
-
-    // // Afiliation Count
-    // const afiliation = school.afiliation || 'Unknown';
-    // afiliationCount[afiliation] = (afiliationCount[afiliation] || 0) + 1;
-
-    // // Minority Count
-    // const minority = school.minority || 'Unknown';
-    // minorityCount[minority] = (minorityCount[minority] || 0) + 1;
-
-    // // Stream Count
-    // const stream = school.stream || 'Unknown';
-    // streamCount[stream] = (streamCount[stream] || 0) + 1;
-
     // Stream Count
     const typeOfSchool = school.typeOfSchool || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
@@ -281,18 +265,6 @@ const getAllSchoolStudentTeacherData = async () => {
     Student.countDocuments().exec(),
     Student.countDocuments({ status: 'Studying' }).exec(),
   ]);
-
-  // const studentCount = await StudentCounts.aggregate([
-  //   {
-  //     $group: {
-  //       _id: null,
-  //       totalStudents: { $sum: '$totalStudent' },
-  //       maleStudents: { $sum: '$maleStudents' },
-  //       femaleStudents: { $sum: '$femaleStudents' },
-  //       otherStudents: { $sum: '$otherStudents' },
-  //     },
-  //   },
-  // ]);
   const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
   const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
@@ -303,31 +275,6 @@ const getAllSchoolStudentTeacherData = async () => {
       count: zoneWiseCount[zone],
     });
   });
-
-  // const afiliationCounts = [];
-  // Object.keys(afiliationCount).forEach((afiliation) => {
-  //   afiliationCounts.push({
-  //     afiliation,
-  //     count: afiliationCount[afiliation],
-  //   });
-  // });
-
-  // const minorityCounts = [];
-  // Object.keys(minorityCount).forEach((minority) => {
-  //   minorityCounts.push({
-  //     minority,
-  //     count: minorityCount[minority],
-  //   });
-  // });
-
-  // const streamCounts = [];
-  // Object.keys(streamCount).forEach((stream) => {
-  //   streamCounts.push({
-  //     stream,
-  //     count: streamCount[stream],
-  //   });
-  // });
-
   const typeOfSchoolCounts = [];
   Object.keys(typeOfSchoolCount).forEach((typeOfSchool) => {
     typeOfSchoolCounts.push({
@@ -599,101 +546,165 @@ const getSchoolStudentCountByDistricts = async () => {
   return districtStats;
 };
 
-// const getDistrictStats = async () => {
-//   try {
-//     const districtStats = await School.aggregate([
-//       {
-//         $group: {
-//           _id: '$District_name',
-//           totalSchools: { $sum: 1 },
-//         },
-//       },
-//       {
-//         $lookup: {
-//           from: 'students', // Assuming your student collection is named 'students'
-//           localField: 'Schoolid',
-//           foreignField: 'Schoolid',
-//           as: 'students',
-//         },
-//       },
-//       {
-//         $unwind: {
-//           path: '$students',
-//           preserveNullAndEmptyArrays: true,
-//         },
-//       },
-//       {
-//         $group: {
-//           _id: '$_id',
-//           totalStudents: { $sum: { $cond: { if: { $isArray: '$students' }, then: 1, else: 0 } } },
-//           totalSchools: { $first: '$totalSchools' },
-//         },
-//       },
-//     ]);
-//     console.log(districtStats);
-//     return districtStats;
-//   } catch (error) {
-//     console.error('Error fetching district stats:', error);
-//     return null;
-//   }
-// };
+const getSchoolStudentCountByZone = async (district) => {
+  // Check if the data is already cached in Redis
+  const cachedData = await redis.get(`getSchoolStudentCountByDistricts:${district}`);
 
-// // Example usage
-// getDistrictStats().then((result) => {
-//   console.log(result);
-// });
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+  const districtStats = await School.aggregate([
+    {
+      $match: { District_name: district },
+    },
+    {
+      $group: {
+        _id: '$Zone_Name',
+        Z_ID: { $first: '$Z_ID' }, // Include zone ID in the result
+        totalSchools: { $sum: 1 },
+      },
+    },
+    {
+      $lookup: {
+        from: 'students',
+        let: { zoneName: { $toLower: '$_id' } },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: [{ $toLower: '$z_name' }, '$$zoneName'],
+              },
+            },
+          },
+        ],
+        as: 'students',
+      },
+    },
+    {
+      $unwind: {
+        path: '$students',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $group: {
+        _id: '$_id',
+        Zone_Name: { $first: '$Zone_Name' },
+        Z_ID: { $first: '$Z_ID' },
+        totalStudents: { $sum: 1 },
+        totalSchools: { $first: '$totalSchools' },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        zoneName: '$_id',
+        Z_ID: 1,
+        totalStudentCount: '$totalStudents',
+        totalSchoolCount: '$totalSchools',
+      },
+    },
+  ]);
 
-// const getDistrictStats = async () => {
+  await redis.set(`getSchoolStudentCountByDistricts:${district}`, JSON.stringify(districtStats), 'EX', 24 * 60 * 60);
+  return districtStats;
+};
 
-// const districtStats = await School.aggregate([
-//   {
-//     $group: {
-//       _id: "$District_name",
-//       D_ID: { $first: '$D_ID' }, // Include district ID in the result
-//       totalSchools: { $sum: 1 },
-//     },
-//   },
-//   {
-//     $lookup: {
-//       from: 'students', // Assuming your student collection is named 'students'
-//       localField: '_id',
-//       foreignField: 'District',
-//       as: 'students',
-//     },
-//   },
-//   {
-//     $unwind: {
-//       path: '$students',
-//       preserveNullAndEmptyArrays: true,
-//     },
-//   },
-//   {
-//     $group: {
-//       _id: '$_id',
-//       D_ID: { $first: '$D_ID' },
-//       totalStudents: { $sum: 1 },
-//       totalSchools: { $first: '$totalSchools' },
-//     },
-//   },
-//   {
-//     $project: {
-//       _id: 0,
-//       districtName: '$_id',
-//       D_ID: 1,
-//       totalStudentCount: '$totalStudents',
-//       totalSchoolCount: '$totalSchools',
-//     },
-//   },
-// ]);
+const getDistrictWiseCounts = async (District_name) => {
+  const [
+    totalSchools,
+    totalTeachers,
+    totalFemaleTeachers,
+    totalMaleTeachers,
+    totalMaleStudent,
+    totalGirlsStudent,
+    Other,
+    totalStudent,
+    totalStydyingStudent,
+  ] = await Promise.allSettled([
+    School.countDocuments({ District_name }).exec(),
+    Teacher.countDocuments({ districtname: District_name }).exec(),
+    Teacher.countDocuments({ gender: 'Female', districtname: District_name }).exec(),
+    Teacher.countDocuments({ gender: 'Male', districtname: District_name }).exec(),
+    Student.countDocuments({ Gender: 'M', District: District_name }).exec(),
+    Student.countDocuments({ Gender: 'F', District: District_name }).exec(),
+    Student.countDocuments({ Gender: 'T', District: District_name }).exec(),
+    Student.countDocuments({ District: District_name }).exec(),
+    Student.countDocuments({ status: 'Studying', District: District_name }).exec(),
+  ]);
+  return {
+    totalSchools: totalSchools.value,
+    totalTeachers: totalTeachers.value,
+    totalFemaleTeachers: totalFemaleTeachers.value,
+    totalMaleTeachers: totalMaleTeachers.value,
+    totalMaleStudent: totalMaleStudent.value,
+    totalGirlsStudent: totalGirlsStudent.value,
+    Other: Other.value,
+    totalStudent: totalStudent.value,
+    totalStydyingStudent: totalStydyingStudent.value,
+  };
+};
 
-// return districtStats;
-// };
+const getDashboardByZone = async (zone) => {
+  // Check if the data is already cached in Redis
+  // const cachedData = await redis.get('getSchoolStudentCountByDistricts');
 
-// // Example usage
-// getDistrictStats().then((result) => {
-//   console.log(result);
-// });
+  // if (cachedData) {
+  //   return JSON.parse(cachedData);
+  // }
 
+  const districtStats = await School.aggregate([
+    {
+      $match: { Zone_Name: zone },
+    },
+    {
+      $group: {
+        _id: '$School_Name',
+        School_Name: { $first: '$School_Name' }, // Include district ID in the result
+        totalSchools: { $sum: 1 },
+      },
+    },
+    {
+      $lookup: {
+        from: 'students', // Assuming your student collection is named 'students'
+        localField: '_id',
+        foreignField: 'SCHOOL_NAME',
+        as: 'students',
+      },
+    },
+    {
+      $unwind: {
+        path: '$students',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $group: {
+        _id: '$_id',
+        // D_ID: { $first: '$D_ID' },
+        totalStudents: { $sum: 1 },
+        totalSchools: { $first: '$totalSchools' },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        School_Name: '$_id',
+        D_ID: 1,
+        totalStudentCount: '$totalStudents',
+        totalSchoolCount: '$totalSchools',
+      },
+    },
+  ]);
+
+  // return districtStats;
+  // await redis.set('getSchoolStudentCountByDistricts', JSON.stringify(districtStats), 'EX', 24 * 60 * 60);
+  return districtStats;
+};
+
+// getDashboardByZone('Zone-01').then((result) => {
+//   console.log(result)
+// })
 module.exports = {
   getSchoolStats,
   getAggregatedSchoolData,
@@ -702,4 +713,6 @@ module.exports = {
   getAllSchoolStudentTeacherData,
   getSchoolStudentCountByDistricts,
   getStudentsEnrollmentGraph,
+  getSchoolStudentCountByZone,
+  getDistrictWiseCounts,
 };

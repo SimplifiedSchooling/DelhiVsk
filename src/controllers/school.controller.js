@@ -43,14 +43,6 @@ async function getZoneName(req, res) {
   const result = await schoolService.fetchSchoolZone();
   res.status(httpStatus.CREATED).send(result);
 }
-// async function getDistrictSchool(req, res) {
-//   try {
-//     const districtSchools = await schoolService.getDistrictSchools();
-//     res.json({ districtSchools });
-//   } catch (error) {
-//     res.status(500).json({ error: 'An error occurred' });
-//   }
-// }
 async function getDistrictSchool(req, res) {
   try {
     const districtName = req.body.District_name;

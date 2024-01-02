@@ -34,6 +34,9 @@ const staffSchema = mongoose.Schema(
     zonename: {
       type: String,
     },
+    initJoiningDate: {
+      type: String,
+    },
   },
   {
     timestamps: true,

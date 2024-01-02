@@ -12,7 +12,6 @@ const { School, Attendance, Student } = require('../models');
  */
 
 async function fetchStudentDataForSchool(schoolId, password, date) {
-  console.log(date);
   try {
     const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/Student_Attendence_School?password=${password}&School_ID=${schoolId}&Date=${date}`;
 
@@ -23,6 +22,7 @@ async function fetchStudentDataForSchool(schoolId, password, date) {
     }
     return [response.data.Cargo];
   } catch (error) {
+    console.log(error);
     return null;
   }
 }
@@ -43,7 +43,7 @@ const storeAttendanceDataInMongoDB = async () => {
     if (studentData) {
       // Create a unique identifier based on school and date
       const identifier = `${school.Schoolid}-${date}`;
-      const existingAttendance = await Attendance.findOne({ School_ID: school.Schoolid, attendance_DATE: date });
+      const existingAttendance = await Attendance.findOne({ School_ID: school.Schoolid, attendance_DATE: parsedDate });
 
       const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid) }).exec();
       const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid) }).exec();
@@ -154,7 +154,12 @@ const storeAttendanceDataInMongoDB = async () => {
         maleAttendanceNotMarked,
         femaleAttendanceNotMarked,
         otherAttendanceNotMarked,
-        attendanceStatus,
+        attendanceStatus: (Astatus =
+          studentData.length === 0
+            ? 'data not found'
+            : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0
+            ? 'attendance not marked'
+            : 'done'),
         classCount,
       };
 
@@ -168,10 +173,10 @@ const storeAttendanceDataInMongoDB = async () => {
             School_ID: school.Schoolid,
             school_name: school.School_Name,
             shift: school.shift,
-            attendance_DATE: formattedDate,
+            attendance_DATE: parsedDate,
             SchManagement: school.SchManagement,
             totalStudentCount,
-            PresentCount: parsedDate,
+            PresentCount: presentCountData,
             AbsentCount,
             totalNotMarkedAttendanceCount,
             totalLeaveCount,
@@ -618,7 +623,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
   const totalStudentCount = await Student.countDocuments({
     Schoolid: { $in: schoolIds },
     status: 'Studying',
-    District: districtName,
+    // District: districtName,
     z_name: Z_name.toLowerCase(),
   });
   //  const totalStudentCount = await Student.countDocuments({ z_name: Z_name.toLowerCase(), status: 'Studying' }).exec();
@@ -1623,6 +1628,26 @@ const getAidedSchoolList = async () => {
   });
   return count;
 };
+/**
+ * Get Attendance data from server
+ * @returns {Promise<Attendance>}
+ */
+
+async function fetchUdisePhysicalFacilitiesData() {
+  try {
+    const apiUrl = `https://www.edudel.nic.in/mis/EduWebService_Other/DISE_New.asmx/DISE_Physical_Facilities_Part_F?password=Dise123`;
+
+    const response = await axios.get(apiUrl);
+
+    if (Array.isArray(response.data.Cargo)) {
+      return response.data.Cargo;
+    }
+    return [response.data.Cargo];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
 
 module.exports = {
   storeAttendanceDataInMongoDB,
@@ -1654,4 +1679,5 @@ module.exports = {
   //----------------------------------------------------------------
   getAttendanceCountForAddedSchools,
   getAidedSchoolList,
+  fetchUdisePhysicalFacilitiesData,
 };
