@@ -4,8 +4,9 @@ const logger = require('../config/logger');
 const { School } = require('../models');
 
 async function fetchStudentDataForSchool() {
-  const apiUrl =
-    'https://www.edudel.nic.in/mis/EduWebService_Other/vidyasamikshakendra.asmx/School_Registry?password=VSK@9180';
+
+  const apiUrl = 'https://www.edudel.nic.in/mis/EduWebService_Other/vidyasamikshakendra.asmx/School_Registry?password=VSK@9180';
+
 
   try {
     const response = await axios.get(apiUrl);
@@ -38,10 +39,17 @@ async function processStudentData(studentData) {
 async function removeOldDataNotInAPI(apiDataSchoolIDs) {
   try {
     const existingRecords = await School.find({}, { SchoolID: 1 });
+
     const existingSchoolIDs = existingRecords.map((record) => record.SchoolID);
 
     // Find IDs present in the database but not in the API response
     const idsToRemove = existingSchoolIDs.filter((id) => !apiDataSchoolIDs.includes(id));
+
+    const existingSchoolIDs = existingRecords.map(record => record.SchoolID);
+
+    // Find IDs present in the database but not in the API response
+    const idsToRemove = existingSchoolIDs.filter(id => !apiDataSchoolIDs.includes(id));
+
 
     if (idsToRemove.length > 0) {
       // Remove records with IDs not present in the API response
@@ -63,7 +71,9 @@ async function storeSchoolDataInMongoDB() {
       const savedRecords = await processStudentData(studentData.Cargo);
 
       // Extract SchoolIDs from API data for removing old records
-      const apiDataSchoolIDs = studentData.Cargo.map((record) => record.SchoolID);
+
+      const apiDataSchoolIDs = studentData.Cargo.map(record => record.SchoolID);
+
 
       await removeOldDataNotInAPI(apiDataSchoolIDs);
 

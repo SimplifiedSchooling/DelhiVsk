@@ -73,7 +73,9 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     Student.countDocuments({ status: 'Studying', District: districtName }).exec(),
   ]);
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
-  const totoal = totalGuestTeacher + totalTeachers.value;
+
+  const totoal = totalGuestTeacher + totalTeachers.value
+
   const teacherStudentRatio = totalStudyingStudent.value / totoal;
   const averageTeacherOfSchool = totoal / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;

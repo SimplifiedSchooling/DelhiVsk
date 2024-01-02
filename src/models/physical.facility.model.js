@@ -91,3 +91,4 @@ PhysicalFacitliesSchema.plugin(paginate);
 const PhysicalFacitlies = mongoose.model('PhysicalFacitlies', PhysicalFacitliesSchema);
 
 module.exports = PhysicalFacitlies;
+
