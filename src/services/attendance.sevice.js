@@ -53,13 +53,13 @@ const storeAttendanceDataInMongoDB = async () => {
       const countByGenderAndAttendance = (gender, attendanceType) =>
         studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
 
-      const countByClass = (className, attendanceType) =>
-        studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
+      // const countByClass = (className, attendanceType) =>
+      //   studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
 
-      const countByClassAndGender = (className, attendanceType, gender) =>
-        studentData.filter(
-          (student) => student.CLASS === className && student.attendance === attendanceType && student.Gender === gender
-        ).length;
+      // const countByClassAndGender = (className, attendanceType, gender) =>
+      //   studentData.filter(
+      //     (student) => student.CLASS === className && student.attendance === attendanceType && student.Gender === gender
+      //   ).length;
 
       const malePresentCount = countByGenderAndAttendance('M', 'Present');
       const femalePresentCount = countByGenderAndAttendance('F', 'Present');
@@ -82,86 +82,86 @@ const storeAttendanceDataInMongoDB = async () => {
       const totalNotMarkedAttendanceCount = maleAttendanceNotMarked + femaleAttendanceNotMarked + otherAttendanceNotMarked;
       const totalLeaveCount = maleLeaveCount + femaleLeaveCount + otherLeaveCount;
 
-      const classCount = [];
-      // Include class-wise counts in the array
-      const classes = Array.from(new Set(studentData.map((student) => student.CLASS)));
-      for (const className of classes) {
-        const classPresentCount = countByClass(className, 'Present');
-        const classAbsentCount = countByClass(className, 'Absent');
-        const classLeaveCount = countByClass(className, 'Leave');
+      // const classCount = [];
+      // // Include class-wise counts in the array
+      // const classes = Array.from(new Set(studentData.map((student) => student.CLASS)));
+      // for (const className of classes) {
+      //   const classPresentCount = countByClass(className, 'Present');
+      //   const classAbsentCount = countByClass(className, 'Absent');
+      //   const classLeaveCount = countByClass(className, 'Leave');
 
-        const classMalePresentCount = countByClassAndGender(className, 'Present', 'M');
-        const classFemalePresentCount = countByClassAndGender(className, 'Present', 'F');
-        const classOtherPresentCount = countByClassAndGender(className, 'Present', 'T');
+      //   const classMalePresentCount = countByClassAndGender(className, 'Present', 'M');
+      //   const classFemalePresentCount = countByClassAndGender(className, 'Present', 'F');
+      //   const classOtherPresentCount = countByClassAndGender(className, 'Present', 'T');
 
-        const classMaleAbsentCount = countByClassAndGender(className, 'Absent', 'M');
-        const classFemaleAbsentCount = countByClassAndGender(className, 'Absent', 'F');
-        const classOtherAbsentCount = countByClassAndGender(className, 'Absent', 'T');
+      //   const classMaleAbsentCount = countByClassAndGender(className, 'Absent', 'M');
+      //   const classFemaleAbsentCount = countByClassAndGender(className, 'Absent', 'F');
+      //   const classOtherAbsentCount = countByClassAndGender(className, 'Absent', 'T');
 
-        const classMaleLeaveCount = countByClassAndGender(className, 'Leave', 'M');
-        const classFemaleLeaveCount = countByClassAndGender(className, 'Leave', 'F');
-        const classOtherLeaveCount = countByClassAndGender(className, 'Leave', 'T');
+      //   const classMaleLeaveCount = countByClassAndGender(className, 'Leave', 'M');
+      //   const classFemaleLeaveCount = countByClassAndGender(className, 'Leave', 'F');
+      //   const classOtherLeaveCount = countByClassAndGender(className, 'Leave', 'T');
 
-        const classMaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'M');
-        const classFemaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'F');
-        const classOtherAttendanceNotMarkedCount = countByClassAndGender(className, '', 'T');
+      //   const classMaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'M');
+      //   const classFemaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'F');
+      //   const classOtherAttendanceNotMarkedCount = countByClassAndGender(className, '', 'T');
 
-        const classNotMarkedAttendanceCount = countByClass(className, '');
-        const classTotalStudentCount =
-          classPresentCount + classAbsentCount + classLeaveCount + classNotMarkedAttendanceCount;
-        classCount.push({
-          className,
-          classTotalStudentCount,
-          classPresentCount,
-          classAbsentCount,
-          classLeaveCount,
-          classNotMarkedAttendanceCount,
-          classMalePresentCount,
-          classFemalePresentCount,
-          classOtherPresentCount,
-          classMaleAbsentCount,
-          classFemaleAbsentCount,
-          classOtherAbsentCount,
-          classMaleLeaveCount,
-          classFemaleLeaveCount,
-          classOtherLeaveCount,
-          classMaleAttendanceNotMarkedCount,
-          classFemaleAttendanceNotMarkedCount,
-          classOtherAttendanceNotMarkedCount,
-        });
-      }
-      const updateData = {
-        district_name: school.District_name,
-        Z_name: school.Zone_Name,
-        School_ID: school.Schoolid,
-        school_name: school.School_Name,
-        shift: school.shift,
-        attendance_DATE: parsedDate,
-        totalStudentCount,
-        PresentCount: presentCountData,
-        AbsentCount,
-        totalNotMarkedAttendanceCount,
-        totalLeaveCount,
-        malePresentCount,
-        feMalePresentCount: femalePresentCount,
-        otherPresentCount,
-        maleAbsentCount,
-        feMaleAbsentCount: femaleAbsentCount,
-        othersAbsentCount: otherAbsentCount,
-        maleLeaveCount,
-        femaleLeaveCount,
-        otherLeaveCount,
-        maleAttendanceNotMarked,
-        femaleAttendanceNotMarked,
-        otherAttendanceNotMarked,
-        attendanceStatus: (Astatus =
-          studentData.length === 0
-            ? 'data not found'
-            : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0
-            ? 'attendance not marked'
-            : 'done'),
-        classCount,
-      };
+      //   const classNotMarkedAttendanceCount = countByClass(className, '');
+      //   const classTotalStudentCount =
+      //     classPresentCount + classAbsentCount + classLeaveCount + classNotMarkedAttendanceCount;
+      //   classCount.push({
+      //     className,
+      //     classTotalStudentCount,
+      //     classPresentCount,
+      //     classAbsentCount,
+      //     classLeaveCount,
+      //     classNotMarkedAttendanceCount,
+      //     classMalePresentCount,
+      //     classFemalePresentCount,
+      //     classOtherPresentCount,
+      //     classMaleAbsentCount,
+      //     classFemaleAbsentCount,
+      //     classOtherAbsentCount,
+      //     classMaleLeaveCount,
+      //     classFemaleLeaveCount,
+      //     classOtherLeaveCount,
+      //     classMaleAttendanceNotMarkedCount,
+      //     classFemaleAttendanceNotMarkedCount,
+      //     classOtherAttendanceNotMarkedCount,
+      //   });
+      // }
+      // const updateData = {
+      //   district_name: school.District_name,
+      //   Z_name: school.Zone_Name,
+      //   School_ID: school.Schoolid,
+      //   school_name: school.School_Name,
+      //   shift: school.shift,
+      //   attendance_DATE: parsedDate,
+      //   totalStudentCount,
+      //   PresentCount: presentCountData,
+      //   AbsentCount,
+      //   totalNotMarkedAttendanceCount,
+      //   totalLeaveCount,
+      //   malePresentCount,
+      //   feMalePresentCount: femalePresentCount,
+      //   otherPresentCount,
+      //   maleAbsentCount,
+      //   feMaleAbsentCount: femaleAbsentCount,
+      //   othersAbsentCount: otherAbsentCount,
+      //   maleLeaveCount,
+      //   femaleLeaveCount,
+      //   otherLeaveCount,
+      //   maleAttendanceNotMarked,
+      //   femaleAttendanceNotMarked,
+      //   otherAttendanceNotMarked,
+      //   attendanceStatus: (Astatus =
+      //     studentData.length === 0
+      //       ? 'data not found'
+      //       : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0
+      //       ? 'attendance not marked'
+      //       : 'done'),
+      //   classCount,
+      // };
 
       if (existingAttendance) {
         // If an entry with the same identifier exists, update it
@@ -198,7 +198,7 @@ const storeAttendanceDataInMongoDB = async () => {
                 : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0
                 ? 'attendance not marked'
                 : 'done'),
-            classCount,
+            // classCount,
           }
         );
       } else {
@@ -235,7 +235,7 @@ const storeAttendanceDataInMongoDB = async () => {
               : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0
               ? 'attendance not marked'
               : 'done'),
-          classCount,
+          // classCount,
         });
       }
     }
@@ -264,13 +264,13 @@ const storeAttendanceDataByDate = async (date) => {
       const countByGenderAndAttendance = (gender, attendanceType) =>
         studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
 
-      const countByClass = (className, attendanceType) =>
-        studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
+      // const countByClass = (className, attendanceType) =>
+      //   studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
 
-      const countByClassAndGender = (className, attendanceType, gender) =>
-        studentData.filter(
-          (student) => student.CLASS === className && student.attendance === attendanceType && student.Gender === gender
-        ).length;
+      // const countByClassAndGender = (className, attendanceType, gender) =>
+      //   studentData.filter(
+      //     (student) => student.CLASS === className && student.attendance === attendanceType && student.Gender === gender
+      //   ).length;
 
       const malePresentCount = countByGenderAndAttendance('M', 'Present');
       const femalePresentCount = countByGenderAndAttendance('F', 'Present');
@@ -293,53 +293,53 @@ const storeAttendanceDataByDate = async (date) => {
       const totalNotMarkedAttendanceCount = maleAttendanceNotMarked + femaleAttendanceNotMarked + otherAttendanceNotMarked;
       const totalLeaveCount = maleLeaveCount + femaleLeaveCount + otherLeaveCount;
 
-      const classCount = [];
-      const classes = Array.from(new Set(studentData.map((student) => student.CLASS)));
-      for (const className of classes) {
-        const classPresentCount = countByClass(className, 'Present');
-        const classAbsentCount = countByClass(className, 'Absent');
-        const classLeaveCount = countByClass(className, 'Leave');
+      // const classCount = [];
+      // const classes = Array.from(new Set(studentData.map((student) => student.CLASS)));
+      // for (const className of classes) {
+      //   const classPresentCount = countByClass(className, 'Present');
+      //   const classAbsentCount = countByClass(className, 'Absent');
+      //   const classLeaveCount = countByClass(className, 'Leave');
 
-        const classMalePresentCount = countByClassAndGender(className, 'Present', 'M');
-        const classFemalePresentCount = countByClassAndGender(className, 'Present', 'F');
-        const classOtherPresentCount = countByClassAndGender(className, 'Present', 'T');
+      //   const classMalePresentCount = countByClassAndGender(className, 'Present', 'M');
+      //   const classFemalePresentCount = countByClassAndGender(className, 'Present', 'F');
+      //   const classOtherPresentCount = countByClassAndGender(className, 'Present', 'T');
 
-        const classMaleAbsentCount = countByClassAndGender(className, 'Absent', 'M');
-        const classFemaleAbsentCount = countByClassAndGender(className, 'Absent', 'F');
-        const classOtherAbsentCount = countByClassAndGender(className, 'Absent', 'T');
+      //   const classMaleAbsentCount = countByClassAndGender(className, 'Absent', 'M');
+      //   const classFemaleAbsentCount = countByClassAndGender(className, 'Absent', 'F');
+      //   const classOtherAbsentCount = countByClassAndGender(className, 'Absent', 'T');
 
-        const classMaleLeaveCount = countByClassAndGender(className, 'Leave', 'M');
-        const classFemaleLeaveCount = countByClassAndGender(className, 'Leave', 'F');
-        const classOtherLeaveCount = countByClassAndGender(className, 'Leave', 'T');
+      //   const classMaleLeaveCount = countByClassAndGender(className, 'Leave', 'M');
+      //   const classFemaleLeaveCount = countByClassAndGender(className, 'Leave', 'F');
+      //   const classOtherLeaveCount = countByClassAndGender(className, 'Leave', 'T');
 
-        const classMaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'M');
-        const classFemaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'F');
-        const classOtherAttendanceNotMarkedCount = countByClassAndGender(className, '', 'T');
+      //   const classMaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'M');
+      //   const classFemaleAttendanceNotMarkedCount = countByClassAndGender(className, '', 'F');
+      //   const classOtherAttendanceNotMarkedCount = countByClassAndGender(className, '', 'T');
 
-        const classNotMarkedAttendanceCount = countByClass(className, '');
-        const classTotalStudentCount =
-          classPresentCount + classAbsentCount + classLeaveCount + classNotMarkedAttendanceCount;
-        classCount.push({
-          className,
-          classTotalStudentCount,
-          classPresentCount,
-          classAbsentCount,
-          classLeaveCount,
-          classNotMarkedAttendanceCount,
-          classMalePresentCount,
-          classFemalePresentCount,
-          classOtherPresentCount,
-          classMaleAbsentCount,
-          classFemaleAbsentCount,
-          classOtherAbsentCount,
-          classMaleLeaveCount,
-          classFemaleLeaveCount,
-          classOtherLeaveCount,
-          classMaleAttendanceNotMarkedCount,
-          classFemaleAttendanceNotMarkedCount,
-          classOtherAttendanceNotMarkedCount,
-        });
-      }
+      //   const classNotMarkedAttendanceCount = countByClass(className, '');
+      //   const classTotalStudentCount =
+      //     classPresentCount + classAbsentCount + classLeaveCount + classNotMarkedAttendanceCount;
+      //   classCount.push({
+      //     className,
+      //     classTotalStudentCount,
+      //     classPresentCount,
+      //     classAbsentCount,
+      //     classLeaveCount,
+      //     classNotMarkedAttendanceCount,
+      //     classMalePresentCount,
+      //     classFemalePresentCount,
+      //     classOtherPresentCount,
+      //     classMaleAbsentCount,
+      //     classFemaleAbsentCount,
+      //     classOtherAbsentCount,
+      //     classMaleLeaveCount,
+      //     classFemaleLeaveCount,
+      //     classOtherLeaveCount,
+      //     classMaleAttendanceNotMarkedCount,
+      //     classFemaleAttendanceNotMarkedCount,
+      //     classOtherAttendanceNotMarkedCount,
+      //   });
+      // }
 
       if (existingAttendance) {
         await Attendance.updateOne(
@@ -375,7 +375,7 @@ const storeAttendanceDataByDate = async (date) => {
                 : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0
                 ? 'attendance not marked'
                 : 'done'),
-            classCount,
+            // classCount,
           }
         );
       } else {
@@ -411,7 +411,7 @@ const storeAttendanceDataByDate = async (date) => {
               : presentCountData === 0 && AbsentCount === 0 && totalLeaveCount === 0
               ? 'attendance not marked'
               : 'done'),
-          classCount,
+          // classCount,
         });
       }
     }
@@ -1648,6 +1648,8 @@ async function fetchUdisePhysicalFacilitiesData() {
     return null;
   }
 }
+
+/// /////////////
 
 module.exports = {
   storeAttendanceDataInMongoDB,

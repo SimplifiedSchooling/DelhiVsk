@@ -1,4 +1,6 @@
 const httpStatus = require('http-status');
+const axios = require('axios');
+const crypto = require('crypto');
 const tokenService = require('./token.service');
 const userService = require('./user.service');
 const Token = require('../models/token.model');
@@ -87,6 +89,66 @@ const verifyEmail = async (verifyEmailToken) => {
     await userService.updateUserById(user.id, { isEmailVerified: true });
   } catch (error) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Email verification failed');
+  }
+};
+
+// const express = require('express');
+
+// const app = express();
+// const port = 3000;
+
+// app.use(express.json());
+
+// Your SMS API credentials
+const userID = 'edudel-vsk';
+const userPwd = '4DgN#F3n8ztVSK';
+const secureKey = '2b3c172f-7dbb-4a28-aa9c-07c5eb770f6b';
+
+// Utility functions
+const encryptedPassword = (password) => {
+  const sha1 = crypto.createHash('sha1');
+  const hash = sha1.update(password, 'utf-8').digest('hex');
+  return hash;
+};
+
+const hashGenerator = (username, senderID, message, secureKey) => {
+  const data = `${username}${senderID}${message}${secureKey}`;
+  const sha512 = crypto.createHash('sha512');
+  const hash = sha512.update(data, 'utf-8').digest('hex');
+  return hash;
+};
+
+// SMS sending route
+const smsVerification = async (req, res) => {
+  try {
+    const { username, password, senderid, mobileNo, message, templateid } = req.body;
+
+    // Encrypted password and secure key
+    const encryptedPwd = encryptedPassword(password);
+    const newSecureKey = hashGenerator(username.trim(), senderid.trim(), message.trim(), secureKey.trim());
+
+    // SMS service endpoint
+    const smsEndpoint = 'https://msdgweb.mgov.gov.in/esms/sendsmsrequestDLT';
+
+    // Constructing the SMS request
+    const requestData = {
+      username: encodeURIComponent(username.trim()),
+      password: encodeURIComponent(encryptedPwd),
+      smsservicetype: 'singlemsg',
+      content: encodeURIComponent(message.trim()),
+      mobileno: encodeURIComponent(mobileNo),
+      senderid: encodeURIComponent(senderid.trim()),
+      key: encodeURIComponent(newSecureKey.trim()),
+      templateid: encodeURIComponent(templateid.trim()),
+    };
+
+    const response = await axios.post(smsEndpoint, null, { params: requestData });
+
+    // Send the response from the SMS service to the client
+    res.json({ status: response.status, data: response.data });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 

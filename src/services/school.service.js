@@ -1,35 +1,88 @@
 const axios = require('axios');
+const cron = require('node-cron');
+const logger = require('../config/logger');
 const { School } = require('../models');
 
 async function fetchStudentDataForSchool() {
-  const apiUrl = `https://www.edudel.nic.in/mis/EduWebService_Other/vidyasamikshakendra.asmx/School_Registry?password=VSK@9180`;
+  const apiUrl =
+    'https://www.edudel.nic.in/mis/EduWebService_Other/vidyasamikshakendra.asmx/School_Registry?password=VSK@9180';
 
   try {
     const response = await axios.get(apiUrl);
     return response.data;
   } catch (error) {
-    throw new Error(`Error fetching data: ${error.message}`);
-    return null;
+    logger.error(`Error fetching data: ${error.message}`);
   }
 }
 
 async function processStudentData(studentData) {
   const savePromises = studentData.map(async (student) => {
-    const record = new School(student);
-    return record.save();
+    try {
+      const existingRecord = await School.findOne({ SchoolID: student.SchoolID });
+
+      if (existingRecord) {
+        return null; // Skip saving duplicate records
+      }
+
+      const newRecord = new School(student);
+      await newRecord.save();
+      return newRecord;
+    } catch (error) {
+      logger.error(`Error saving record for SchoolID ${student.SchoolID}: ${error.message}`);
+    }
   });
 
   return Promise.all(savePromises);
 }
 
-async function storeSchoolDataInMongoDB() {
-  const studentData = await fetchStudentDataForSchool();
+async function removeOldDataNotInAPI(apiDataSchoolIDs) {
+  try {
+    const existingRecords = await School.find({}, { SchoolID: 1 });
+    const existingSchoolIDs = existingRecords.map((record) => record.SchoolID);
 
-  if (studentData && studentData.Cargo) {
-    const savedRecords = await processStudentData(studentData.Cargo);
-    return savedRecords;
+    // Find IDs present in the database but not in the API response
+    const idsToRemove = existingSchoolIDs.filter((id) => !apiDataSchoolIDs.includes(id));
+
+    if (idsToRemove.length > 0) {
+      // Remove records with IDs not present in the API response
+      await School.deleteMany({ SchoolID: { $in: idsToRemove } });
+      logger.info('Old records removed successfully.');
+    } else {
+      logger.info('No old records to remove.');
+    }
+  } catch (error) {
+    logger.error(`Error removing old records: ${error.message}`);
   }
 }
+
+async function storeSchoolDataInMongoDB() {
+  try {
+    const studentData = await fetchStudentDataForSchool();
+
+    if (studentData && studentData.Cargo) {
+      const savedRecords = await processStudentData(studentData.Cargo);
+
+      // Extract SchoolIDs from API data for removing old records
+      const apiDataSchoolIDs = studentData.Cargo.map((record) => record.SchoolID);
+
+      await removeOldDataNotInAPI(apiDataSchoolIDs);
+
+      logger.info('Data fetch and store process completed.');
+    }
+  } catch (error) {
+    logger.error(`Error storing school data in MongoDB: ${error.message}`);
+  }
+}
+
+cron.schedule('0 0 * * *', async () => {
+  try {
+    logger.info(`Running the attendance data update job...`);
+    await storeSchoolDataInMongoDB();
+    logger.info(`Student data update job completed.`);
+  } catch (error) {
+    logger.info('Error running the job:', error);
+  }
+});
 
 const schoolData = async () => {
   const data = await School.find();

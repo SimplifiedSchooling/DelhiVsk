@@ -17,4 +17,5 @@ module.exports.allDashboard3 = require('./alldashboard3.service');
 module.exports.udiseSchoolService = require('./udise.school.service');
 module.exports.studentGraphsAllService = require('./student.graph.all');
 module.exports.guestTeacherService = require('./guest.teacher.service');
-module.exports.udisephysicalGacilitiesService = require('./guest.teacher.service');
+module.exports.physicalFacilityService = require('./physical.facility.service');
+module.exports.sportsEquipment = require('./sports.equipment.service');
