@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const PhysicalFacitliesSchema = new mongoose.Schema({
+const schoolSchema = new mongoose.Schema({
   district: String,
   zone: Number,
   SchoolID: Number,
@@ -83,12 +83,11 @@ const PhysicalFacitliesSchema = new mongoose.Schema({
   SPL_EDUCATOR_YN: String,
 });
 // add plugin that converts mongoose to json
-PhysicalFacitliesSchema.plugin(toJSON);
-PhysicalFacitliesSchema.plugin(paginate);
+schoolSchema.plugin(toJSON);
+schoolSchema.plugin(paginate);
 /**
- * @typedef PhysicalFacitlies
+ * @typedef Udisephysicalfacitlies
  */
-const PhysicalFacitlies = mongoose.model('PhysicalFacitlies', PhysicalFacitliesSchema);
+const Udisephysicalfacitlies = mongoose.model('Udisephysicalfacitlies', schoolSchema);
 
-module.exports = PhysicalFacitlies;
-
+module.exports = Udisephysicalfacitlies;

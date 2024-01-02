@@ -1628,6 +1628,28 @@ const getAidedSchoolList = async () => {
   });
   return count;
 };
+/**
+ * Get Attendance data from server
+ * @returns {Promise<Attendance>}
+ */
+
+async function fetchUdisePhysicalFacilitiesData() {
+  try {
+    const apiUrl = `https://www.edudel.nic.in/mis/EduWebService_Other/DISE_New.asmx/DISE_Physical_Facilities_Part_F?password=Dise123`;
+
+    const response = await axios.get(apiUrl);
+
+    if (Array.isArray(response.data.Cargo)) {
+      return response.data.Cargo;
+    }
+    return [response.data.Cargo];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+/// /////////////
 
 
 
@@ -1666,4 +1688,5 @@ module.exports = {
   //----------------------------------------------------------------
   getAttendanceCountForAddedSchools,
   getAidedSchoolList,
+  fetchUdisePhysicalFacilitiesData,
 };
