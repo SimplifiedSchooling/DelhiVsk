@@ -15,36 +15,61 @@ async function fetchStudentDataForSchool() {
 }
 
 async function processStudentData(studentData) {
-  const savePromises = studentData.map(async (student) => {
+  const saveResults = [];
+
+  for (const student of studentData) {
     try {
-      const existingRecord = await School.findOne({ SchoolID: student.SchoolID });
+      const filter = { Schoolid: student.Schoolid }; // Ensure the field name matches the schema
+      const update = { $set: student };
+      const options = { new: true, upsert: true };
 
-      if (existingRecord) {
-        return null; // Skip saving duplicate records
+      const result = await School.findOneAndUpdate(filter, update, options);
+
+      if (result) {
+        let type, record;
+
+        if (result.lastErrorObject) {
+          // If lastErrorObject is present, use it
+          type = result.lastErrorObject.updatedExisting ? 'update' : 'insert';
+        } else if (result.value) {
+          // If lastErrorObject is not present but value is, use value
+          type = 'update';
+        } else {
+          // If both lastErrorObject and value are undefined, it's an insert
+          type = 'insert';
+        }
+
+        record = result.lastErrorObject ? result.value : result;
+
+        saveResults.push({ type, record });
+      } else {
+        saveResults.push({
+          type: 'insert',
+          record: student,
+        });
       }
-
-      const newRecord = new School(student);
-      await newRecord.save();
-      return newRecord;
     } catch (error) {
-      logger.error(`Error saving record for SchoolID ${student.SchoolID}: ${error.message}`);
+      logger.error(`Error processing record for SchoolID ${student.Schoolid}: ${error.message}`);
     }
-  });
+  }
 
-  return Promise.all(savePromises);
+  return saveResults;
 }
+
+
+
 
 async function removeOldDataNotInAPI(apiDataSchoolIDs) {
   try {
-    const existingRecords = await School.find({}, { SchoolID: 1 });
-    const existingSchoolIDs = existingRecords.map(record => record.SchoolID);
+    const existingRecords = await School.find({}, { Schoolid: 1 });
+    const existingSchoolIDs = existingRecords.map(record => record.Schoolid);
 
     // Find IDs present in the database but not in the API response
     const idsToRemove = existingSchoolIDs.filter(id => !apiDataSchoolIDs.includes(id));
 
     if (idsToRemove.length > 0) {
       // Remove records with IDs not present in the API response
-      await School.deleteMany({ SchoolID: { $in: idsToRemove } });
+      await School.deleteMany({ Schoolid: { $in: idsToRemove } });
       logger.info('Old records removed successfully.');
     } else {
       logger.info('No old records to remove.');
@@ -62,7 +87,7 @@ async function storeSchoolDataInMongoDB() {
       const savedRecords = await processStudentData(studentData.Cargo);
 
       // Extract SchoolIDs from API data for removing old records
-      const apiDataSchoolIDs = studentData.Cargo.map(record => record.SchoolID);
+      const apiDataSchoolIDs = studentData.Cargo.map(record => record.Schoolid);
 
       await removeOldDataNotInAPI(apiDataSchoolIDs);
 
@@ -82,6 +107,19 @@ cron.schedule('0 0 * * *', async () => {
     logger.info('Error running the job:', error);
   }
 });
+
+// const task = cron.schedule('*/5 * * * *', async () => {
+//   try {
+//     logger.info(`Running the attendance data update job...`);
+//     await storeSchoolDataInMongoDB();
+//     logger.info(`Student data update job completed.`);
+    
+//     // Stop the cron job after it has been executed once
+//     // task.destroy();
+//   } catch (error) {
+//     logger.error('Error running the job:', error);
+//   }
+// });
 
 const schoolData = async () => {
   const data = await School.find();
