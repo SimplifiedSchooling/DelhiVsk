@@ -4,7 +4,9 @@ const logger = require('../config/logger');
 const { School } = require('../models');
 
 async function fetchStudentDataForSchool() {
+
   const apiUrl = 'https://www.edudel.nic.in/mis/EduWebService_Other/vidyasamikshakendra.asmx/School_Registry?password=VSK@9180';
+
 
   try {
     const response = await axios.get(apiUrl);
@@ -67,6 +69,7 @@ async function removeOldDataNotInAPI(apiDataSchoolIDs) {
     // Find IDs present in the database but not in the API response
     const idsToRemove = existingSchoolIDs.filter(id => !apiDataSchoolIDs.includes(id));
 
+
     if (idsToRemove.length > 0) {
       // Remove records with IDs not present in the API response
       await School.deleteMany({ Schoolid: { $in: idsToRemove } });
@@ -89,6 +92,7 @@ async function storeSchoolDataInMongoDB() {
       // Extract SchoolIDs from API data for removing old records
       const apiDataSchoolIDs = studentData.Cargo.map(record => record.Schoolid);
 
+
       await removeOldDataNotInAPI(apiDataSchoolIDs);
 
       logger.info('Data fetch and store process completed.');
@@ -98,28 +102,28 @@ async function storeSchoolDataInMongoDB() {
   }
 }
 
-cron.schedule('0 0 * * *', async () => {
-  try {
-    logger.info(`Running the attendance data update job...`);
-    await storeSchoolDataInMongoDB();
-    logger.info(`Student data update job completed.`);
-  } catch (error) {
-    logger.info('Error running the job:', error);
-  }
-});
-
-// const task = cron.schedule('*/5 * * * *', async () => {
+// cron.schedule('0 0 * * *', async () => {
 //   try {
 //     logger.info(`Running the attendance data update job...`);
 //     await storeSchoolDataInMongoDB();
 //     logger.info(`Student data update job completed.`);
-    
-//     // Stop the cron job after it has been executed once
-//     // task.destroy();
 //   } catch (error) {
-//     logger.error('Error running the job:', error);
+//     logger.info('Error running the job:', error);
 //   }
 // });
+
+const task = cron.schedule('*/5 * * * *', async () => {
+  try {
+    logger.info(`Running the attendance data update job...`);
+    await storeSchoolDataInMongoDB();
+    logger.info(`Student data update job completed.`);
+    
+    // Stop the cron job after it has been executed once
+    // task.destroy();
+  } catch (error) {
+    logger.error('Error running the job:', error);
+  }
+});
 
 const schoolData = async () => {
   const data = await School.find();

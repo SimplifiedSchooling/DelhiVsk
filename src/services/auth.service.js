@@ -108,9 +108,10 @@ const secureKey = '2b3c172f-7dbb-4a28-aa9c-07c5eb770f6b';
 
 // Utility functions
 const encryptedPassword = (password) => {
-    const sha1 = crypto.createHash('sha1');
-    const hash = sha1.update(password, 'utf-8').digest('hex');
-    return hash;
+
+  const sha1 = crypto.createHash('sha1');
+  const hash = sha1.update(password, 'utf-8').digest('hex');
+  return hash;
 };
 
 const hashGenerator = (username, senderID, message, secureKey) => {
@@ -152,6 +153,7 @@ const smsVerification =  async(req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+
 };
 
 module.exports = {

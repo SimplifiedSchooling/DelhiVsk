@@ -36,7 +36,7 @@ const staffSchema = mongoose.Schema(
     },
     initJoiningDate: {
       type: String,
-    }
+    },
   },
   {
     timestamps: true,

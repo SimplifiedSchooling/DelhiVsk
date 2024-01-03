@@ -73,7 +73,9 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     Student.countDocuments({ status: 'Studying', District: districtName }).exec(),
   ]);
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
+
   const totoal = totalGuestTeacher + totalTeachers.value
+
   const teacherStudentRatio = totalStudyingStudent.value / totoal;
   const averageTeacherOfSchool = totoal / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
@@ -323,14 +325,22 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
     });
   });
 
-  const typeOfSchoolCounts = [];
-  Object.keys(typeOfSchoolCount).forEach((typeOfSchool) => {
-    typeOfSchoolCounts.push({
-      typeOfSchool,
-      count: typeOfSchoolCount[typeOfSchool],
-    });
-  });
+  // const typeOfSchoolCounts = [];
+  // Object.keys(typeOfSchoolCount).forEach((typeOfSchool) => {
+  //   typeOfSchoolCounts.push({
+  //     typeOfSchool,
+  //     count: typeOfSchoolCount[typeOfSchool],
+  //   });
+  // });
 
+  let typeOfSchoolCounts = '';
+  if (totalMaleStudent.value > 0 && totalGirlsStudent.value > 0) {
+    typeOfSchoolCounts = 'Co-Ed';
+  } else if (totalMaleStudent.value > 0) {
+    typeOfSchoolCounts = 'Boys';
+  } else if (totalGirlsStudent.value > 0) {
+    typeOfSchoolCounts = 'Girls';
+  }
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,

@@ -58,7 +58,7 @@ async function fetchTeacherUpdate(empid, password) {
     const response = await axios.get('https://www.edudel.nic.in/mis/eduwebservice/webappsmob.asmx/EmployeePersonnelDetail', {
       params: {
         userid: empid,
-        password: password,
+        password,
       },
     });
     return response.data;
@@ -68,16 +68,15 @@ async function fetchTeacherUpdate(empid, password) {
   }
 }
 
-
-function getpassword(){
+function getpassword() {
   const dateValue = new Date();
-  return "Mob#"+(dateValue.getFullYear()*dateValue.getDate()+dateValue.getMonth()+1)+"37t@Zr"
+  return `Mob#${dateValue.getFullYear() * dateValue.getDate() + dateValue.getMonth() + 1}37t@Zr`;
 }
 
 async function storeTeacherDataUpdate() {
   const teachers = await Teacher.find().exec();
 
-  const password = getpassword()
+  const password = getpassword();
   for (const teacher of teachers) {
     const teacherData = await fetchTeacherUpdate(teacher.empid, password);
 
@@ -111,8 +110,6 @@ cron.schedule('0 0 * * *', async () => {
   }
 });
 
-
-
 const getTeacher = async () => {
   const data = await Teacher.find().limit(10000);
   return data;
@@ -128,6 +125,11 @@ const getTeacherBySchoolAndGender = async (gender, schname) => {
  * @param {Object} filters - Filters for the search
  * @returns {Promise<Array>} - Array of matching teachers
  */
+// Function to escape special characters in a string for RegExp
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 const searchTeachers = async (searchQuery) => {
   const query = {
     $or: [
@@ -141,11 +143,6 @@ const searchTeachers = async (searchQuery) => {
   const teachers = await Teacher.find(query).exec();
   return teachers;
 };
-
-// Function to escape special characters in a string for RegExp
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
 
 module.exports = {
   storeTeacherDataInMongoDB,
