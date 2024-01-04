@@ -104,6 +104,24 @@ const getSchoolStatsBySchoolName = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getSchoolByAll = catchAsync(async (req, res) => {
+  // const { District_name, Zone_Name, shift } = req.body;
+  const query = {};
+
+  // Build the query based on the provided parameters
+  if (req.body.District_name) {
+    query.District_name = req.body.District_name;
+  }
+  if (req.body.Zone_Name) {
+    query.Zone_Name = req.body.Zone_Name;
+  }
+  if (req.body.shift) {
+    query.shift = req.body.shift;
+  }
+  const result = await schoolService.getSchoolByName(query);
+  res.status(httpStatus.CREATED).send(result);
+});
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
@@ -115,4 +133,5 @@ module.exports = {
   getZoneSchool,
   getSchoolStatsBySchoolName,
   getZoneSchoolOfGoverment,
+  getSchoolByAll,
 };

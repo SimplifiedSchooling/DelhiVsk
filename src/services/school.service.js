@@ -204,6 +204,12 @@ const getZoneNameSchoolsOfGoverment = async (zoneName) => {
     .exec();
   return schools;
 };
+
+const getSchoolByName = async (query) => {
+  const schools = await School.find(query).select('School_Name Schoolid').exec();
+  return schools;
+};
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
@@ -214,4 +220,5 @@ module.exports = {
   getZoneNameSchools,
   fetchSchoolZone,
   getZoneNameSchoolsOfGoverment,
+  getSchoolByName,
 };

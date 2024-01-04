@@ -37,6 +37,7 @@ router.post('/getZoneSchool', schoolController.getZoneSchool);
 
 router.post('/get-zone-goverment-schools', schoolController.getZoneSchoolOfGoverment);
 
+router.post('/get/school-by/district/zone/shift', schoolController.getSchoolByAll);
 module.exports = router;
 
 /**
@@ -229,7 +230,36 @@ module.exports = router;
  *         description: Forbidden
  */
 
-// /**
+/**
+ * @swagger
+ * /school/get/school-by/district/zone/shift:
+ *   post:
+ *     summary: Get zone School names
+ *     description: Get a list of zone School names.
+ *     tags: [School]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               District_name:
+ *                 type: string
+ *               Zone_Name:
+ *                 type: string
+ *               shift:
+ *                 type: string
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+// /**/get/school-by/district/zone/shift
 //  * @swagger
 //  * tags:
 //  *   name: School
