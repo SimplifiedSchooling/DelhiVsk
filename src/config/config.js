@@ -25,6 +25,11 @@ const envVarsSchema = Joi.object()
     EMAIL_FROM: Joi.string().description('the from field in the emails sent by the app'),
     REDIS_PORT: Joi.string(),
     REDIS_HOST: Joi.string(),
+
+    SMS_USERID: Joi.string(),
+    SMS_SECUREKEY: Joi.string(),
+    SMS_SENDERID: Joi.string(),
+    SMS_TEMPLETID: Joi.string(),
   })
   .unknown();
 
@@ -67,5 +72,11 @@ module.exports = {
   redis: {
     host: envVars.REDIS_HOST,
     port: envVars.REDIS_PORT,
+  },
+  SMS: {
+    SMS_USERID: envVars.SMS_USERID,
+    SMS_SECUREKEY: envVars.SMS_SECUREKEY,
+    SMS_SENDERID: envVars.SMS_SENDERID,
+    SMS_TEMPLETID: envVars.SMS_TEMPLETID,
   },
 };

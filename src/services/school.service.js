@@ -4,9 +4,8 @@ const logger = require('../config/logger');
 const { School } = require('../models');
 
 async function fetchStudentDataForSchool() {
-
-  const apiUrl = 'https://www.edudel.nic.in/mis/EduWebService_Other/vidyasamikshakendra.asmx/School_Registry?password=VSK@9180';
-
+  const apiUrl =
+    'https://www.edudel.nic.in/mis/EduWebService_Other/vidyasamikshakendra.asmx/School_Registry?password=VSK@9180';
 
   try {
     const response = await axios.get(apiUrl);
@@ -28,7 +27,8 @@ async function processStudentData(studentData) {
       const result = await School.findOneAndUpdate(filter, update, options);
 
       if (result) {
-        let type, record;
+        let type;
+        let record;
 
         if (result.lastErrorObject) {
           // If lastErrorObject is present, use it
@@ -58,17 +58,13 @@ async function processStudentData(studentData) {
   return saveResults;
 }
 
-
-
-
 async function removeOldDataNotInAPI(apiDataSchoolIDs) {
   try {
     const existingRecords = await School.find({}, { Schoolid: 1 });
-    const existingSchoolIDs = existingRecords.map(record => record.Schoolid);
+    const existingSchoolIDs = existingRecords.map((record) => record.Schoolid);
 
     // Find IDs present in the database but not in the API response
-    const idsToRemove = existingSchoolIDs.filter(id => !apiDataSchoolIDs.includes(id));
-
+    const idsToRemove = existingSchoolIDs.filter((id) => !apiDataSchoolIDs.includes(id));
 
     if (idsToRemove.length > 0) {
       // Remove records with IDs not present in the API response
@@ -90,8 +86,7 @@ async function storeSchoolDataInMongoDB() {
       const savedRecords = await processStudentData(studentData.Cargo);
 
       // Extract SchoolIDs from API data for removing old records
-      const apiDataSchoolIDs = studentData.Cargo.map(record => record.Schoolid);
-
+      const apiDataSchoolIDs = studentData.Cargo.map((record) => record.Schoolid);
 
       await removeOldDataNotInAPI(apiDataSchoolIDs);
 
@@ -112,12 +107,12 @@ async function storeSchoolDataInMongoDB() {
 //   }
 // });
 
-const task = cron.schedule('*/5 * * * *', async () => {
+const task = cron.schedule('0 0 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await storeSchoolDataInMongoDB();
     logger.info(`Student data update job completed.`);
-    
+
     // Stop the cron job after it has been executed once
     // task.destroy();
   } catch (error) {
