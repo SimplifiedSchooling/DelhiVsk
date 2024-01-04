@@ -92,69 +92,119 @@ const verifyEmail = async (verifyEmailToken) => {
   }
 };
 
+// Your SMS API credentia
+class SMSAlert {
+  constructor() {
+    this.userID = 'edudel-vsk';
+    this.userPwd = '4DgN#F3n8ztVSK';
+    this.secureKey = '2b3c172f-7dbb-4a28-aa9c-07c5eb770f6b';
+    this.senderID = 'EDUDEL';
+    this.templateID = '1007059202141973277';
+  }
 
-// const express = require('express');
+  async sendAdminLoginOTPMsg(otpValue, mobNo) {
+    try {
+      const moduleName = 'SoSE Admin Web App';
+      const message = `OTP for Login with ${moduleName} is ${otpValue} (valid for 5 mins). Do not share this OTP to anyone for security reasons.\n\n-EDUDEL`;
 
+      const result = await this.sendOTPMsg(mobNo, message);
+      console.log(result);
+    } catch (error) {
+      console.error(`Error sending OTP: ${error.message}`);
+    }
+  }
 
-// const app = express();
-// const port = 3000;
+  async sendOTPMsg(mobileNo, message) {
+    const smsservicetype = 'otpmsg';
 
-// app.use(express.json());
+    const encryptedPassword = this.encryptedPassword(this.userPwd);
+    const key = this.hashGenerator(this.userID, this.senderID, message, this.secureKey);
 
-// Your SMS API credentials
-const userID = 'edudel-vsk';
-const userPwd = '4DgN#F3n8ztVSK';
-const secureKey = '2b3c172f-7dbb-4a28-aa9c-07c5eb770f6b';
+    const query = `username=${encodeURIComponent(this.userID)}&password=${encodeURIComponent(
+      encryptedPassword
+    )}&smsservicetype=${encodeURIComponent(smsservicetype)}&content=${encodeURIComponent(
+      message
+    )}&mobileno=${encodeURIComponent(mobileNo)}&senderid=${encodeURIComponent(this.senderID)}&key=${encodeURIComponent(
+      key
+    )}&templateid=${encodeURIComponent(this.templateID)}`;
+
+    const response = await axios.post('https://msdgweb.mgov.gov.in/esms/sendsmsrequestDLT', query, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    return response.data;
+  }
+
+  encryptedPassword(password) {
+    const encPwd = Buffer.from(password, 'utf-8');
+    const sha1 = crypto.createHash('sha1');
+    const pp = sha1.update(encPwd).digest();
+    return pp.toString('hex');
+  }
+
+  hashGenerator(username, senderID, message, secureKey) {
+    const data = `${username}${senderID}${message}${secureKey}`;
+    const genKey = Buffer.from(data, 'utf-8');
+    const sha512 = crypto.createHash('sha512');
+    const secKey = sha512.update(genKey).digest();
+    return secKey.toString('hex');
+  }
+}
+
+// Example usage
+// const smsAlert = new SMSAlert();
+// smsAlert.sendAdminLoginOTPMsg('123456', '9823525745');
 
 // Utility functions
-const encryptedPassword = (password) => {
+// const encryptedPassword = (password) => {
 
-  const sha1 = crypto.createHash('sha1');
-  const hash = sha1.update(password, 'utf-8').digest('hex');
-  return hash;
-};
+//   const sha1 = crypto.createHash('sha1');
+//   const hash = sha1.update(password, 'utf-8').digest('hex');
+//   return hash;
+// };
 
-const hashGenerator = (username, senderID, message, secureKey) => {
-    const data = `${username}${senderID}${message}${secureKey}`;
-    const sha512 = crypto.createHash('sha512');
-    const hash = sha512.update(data, 'utf-8').digest('hex');
-    return hash;
-};
+// const hashGenerator = (username, senderID, message, secureKey) => {
+//     const data = `${username}${senderID}${message}${secureKey}`;
+//     const sha512 = crypto.createHash('sha512');
+//     const hash = sha512.update(data, 'utf-8').digest('hex');
+//     return hash;
+// };
 
-// SMS sending route
-const smsVerification =  async(req, res) => {
-    try {
-        const { username, password, senderid, mobileNo, message, templateid } = req.body;
+// // SMS sending route
+// const smsVerification =  async(req, res) => {
+//     try {
+//         const { username, password, senderid, mobileNo, message, templateid } = req.body;
 
-        // Encrypted password and secure key
-        const encryptedPwd = encryptedPassword(password);
-        const newSecureKey = hashGenerator(username.trim(), senderid.trim(), message.trim(), secureKey.trim());
+//         // Encrypted password and secure key
+//         const encryptedPwd = encryptedPassword(password);
+//         const newSecureKey = hashGenerator(username.trim(), senderid.trim(), message.trim(), secureKey.trim());
 
-        // SMS service endpoint
-        const smsEndpoint = 'https://msdgweb.mgov.gov.in/esms/sendsmsrequestDLT';
+//         // SMS service endpoint
+//         const smsEndpoint = 'https://msdgweb.mgov.gov.in/esms/sendsmsrequestDLT';
 
-        // Constructing the SMS request
-        const requestData = {
-            username: encodeURIComponent(username.trim()),
-            password: encodeURIComponent(encryptedPwd),
-            smsservicetype: 'singlemsg',
-            content: encodeURIComponent(message.trim()),
-            mobileno: encodeURIComponent(mobileNo),
-            senderid: encodeURIComponent(senderid.trim()),
-            key: encodeURIComponent(newSecureKey.trim()),
-            templateid: encodeURIComponent(templateid.trim()),
-        };
+//         // Constructing the SMS request
+//         const requestData = {
+//             username: encodeURIComponent(username.trim()),
+//             password: encodeURIComponent(encryptedPwd),
+//             smsservicetype: 'singlemsg',
+//             content: encodeURIComponent(message.trim()),
+//             mobileno: encodeURIComponent(mobileNo),
+//             senderid: encodeURIComponent(senderid.trim()),
+//             key: encodeURIComponent(newSecureKey.trim()),
+//             templateid: encodeURIComponent(templateid.trim()),
+//         };
 
-        const response = await axios.post(smsEndpoint, null, { params: requestData });
+//         const response = await axios.post(smsEndpoint, null, { params: requestData });
 
-        // Send the response from the SMS service to the client
-        res.json({ status: response.status, data: response.data });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-
-};
+//         // Send the response from the SMS service to the client
+//         res.json({ status: response.status, data: response.data });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// };
 
 module.exports = {
   loginUserWithEmailAndPassword,

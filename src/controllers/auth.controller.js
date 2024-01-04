@@ -1,6 +1,8 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const { authService, userService, tokenService, emailService } = require('../services');
+const { smsService } = require('../services/otp.service');
+const { otpService } = require('../services');
 
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -47,7 +49,25 @@ const verifyEmail = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const sendOTP = catchAsync(async (req, res) => {
+  const { userId } = req.body;
+  const mobNo = '9420642800';
+  const otpValue = otpService.generateOTP();
+  const result = await otpService.smsAlert.sendAdminLoginOTPMsg(otpValue, mobNo);
+  if (!result) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Error sending OTP');
+  }
+  res.status(httpStatus.OK).send(mobNo);
+});
+
+const verifyOtp = catchAsync(async (req, res) => {
+  const { mobNo, otp } = req.query;
+  await otpService.verifyOtp(mobNo, otp);
+  res.status(httpStatus.CREATED).send('OTP Verify successfully');
+});
+
 module.exports = {
+  sendOTP,
   register,
   login,
   logout,
@@ -56,4 +76,5 @@ module.exports = {
   resetPassword,
   sendVerificationEmail,
   verifyEmail,
+  verifyOtp,
 };

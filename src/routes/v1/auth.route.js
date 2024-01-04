@@ -14,6 +14,8 @@ router.post('/forgot-password', validate(authValidation.forgotPassword), authCon
 router.post('/reset-password', validate(authValidation.resetPassword), authController.resetPassword);
 router.post('/send-verification-email', auth(), authController.sendVerificationEmail);
 router.post('/verify-email', validate(authValidation.verifyEmail), authController.verifyEmail);
+router.post('/send-otp', validate(authValidation.sentOtp), authController.sendOTP);
+router.post('/verify-otp', validate(authValidation.verifyOtp), authController.verifyOtp);
 
 module.exports = router;
 
@@ -288,4 +290,64 @@ module.exports = router;
  *             example:
  *               code: 401
  *               message: verify email failed
+ */
+
+/**
+ * @swagger
+ * /auth/send-otp:
+ *   post:
+ *     summary: send otp
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: query
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Send otp
+ *     responses:
+ *       "204":
+ *         description: No content
+ *       "401":
+ *         description: send otp
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               code: 401
+ *               message: send otp
+ */
+
+/**
+ * @swagger
+ * /auth/verify-otp:
+ *   post:
+ *     summary: verify otp
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: query
+ *         name: mobNo
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: mobile number
+ *       - in: query
+ *         name: otp
+ *         required: true
+ *         schema:
+ *           type: number
+ *         description:  otp
+ *     responses:
+ *       "204":
+ *         description: No content
+ *       "401":
+ *         description: send otp
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               code: 401
+ *               message: send otp
  */

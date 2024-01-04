@@ -449,9 +449,8 @@ const getTeacherStatsByDistrict = async (districtName) => {
       Student.countDocuments({ status: 'Studying', District: districtName }).exec(),
     ]);
 
-  
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
-  const totoal = totalTeachers.value + totalGuestTeacher
+  const totoal = totalTeachers.value + totalGuestTeacher;
 
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeDistrictWise(districtName);
@@ -701,8 +700,8 @@ const getTeacherCountByZone = async (zone) => {
       Student.countDocuments({ status: 'Studying', z_name: nameZone }).exec(),
     ]);
 
- const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: cleanedZoneName }).exec();
- const total = totalGuestTeacher + totalTeachers.value 
+  const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: cleanedZoneName }).exec();
+  const total = totalGuestTeacher + totalTeachers.value;
 
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeZoneWise(cleanedZoneName);
