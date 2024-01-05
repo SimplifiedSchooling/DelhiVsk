@@ -63,7 +63,7 @@ const verifyOtp = catchAsync(async (req, res) => {
   try {
     const { mobNo, otp } = req.query;
     await otpService.verifyOtp(mobNo, otp);
-    res.send('OTP Verified successfully');
+    res.send({message:'OTP Verified successfully'});
   } catch (error) {
     res.status(httpStatus.UNAUTHORIZED).send(`Error: ${error.message}`);
   }
