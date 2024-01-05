@@ -22,7 +22,7 @@ async function fetchStudentDataForSchool(schoolId, password, date) {
     }
     return [response.data.Cargo];
   } catch (error) {
-    console.log(error);
+    throw new Error([]);
     return null;
   }
 }
@@ -835,7 +835,6 @@ const getAttendanceCountsShiftDistrictWise = async (date, shift, district) => {
   ]);
   const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government', District_name: district }).exec();
   const schools = await School.find({ shift, SchManagement: 'Government', District_name: district });
-
   // Extract school IDs from the result
   const schoolIds = schools.map((school) => school.Schoolid);
 
@@ -854,7 +853,6 @@ const getAttendanceCountsShiftDistrictWise = async (date, shift, district) => {
       },
     },
   ]);
-
   // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
   return {
     statusCounts,
@@ -1812,7 +1810,7 @@ async function fetchUdisePhysicalFacilitiesData() {
     }
     return [response.data.Cargo];
   } catch (error) {
-    console.log(error);
+    throw new Error([]);
     return null;
   }
 }

@@ -16,7 +16,7 @@ router.route('/school/date-wise').post(attendanceController.getAttendanceCountsS
 // Shift wise //
 router.route('/zone/shift/wise').post(attendanceController.getAttendanceCountsShiftWise);
 router.route('/zone/shift-district-wise').post(attendanceController.getAttendanceCountsShiftDistrictWise);
-router.route('/zone/shift-district-wise').post(attendanceController.getAttendanceCountsShiftWise);
+router.route('/zone/shift-zone-wise').post(attendanceController.getAttendanceCountsShiftZoneWise);
 
 router.route('/attendance-status-wise').post(attendanceController.attendanceStatus);
 router.route('/attendance-status-district-wise').post(attendanceController.attendanceStatusDistrictWise);
@@ -633,7 +633,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /attendance/zone/shift/wise:
+ * /attendance/zone/shift-district-wise:
  *   post:
  *     summary: Get all  Attendance graph  data by shift wise.
  *     description: Get all  Attendance graph  data by shift .
@@ -644,14 +644,14 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               disrtict:
+ *               district:
  *                 type: string
  *               shift:
  *                 type: string
  *               date:
  *                 type: string
  *             example:
- *               disrtict: 'East'
+ *               district: 'East'
  *               shift: 'morning'
  *               date: '2023-12-01'
  *     responses:
@@ -665,7 +665,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /attendance/zone/shift/wise:
+ * /attendance/zone/shift-zone-wise:
  *   post:
  *     summary: Get all  Attendance graph  data by shift wise.
  *     description: Get all  Attendance graph  data by shift .
