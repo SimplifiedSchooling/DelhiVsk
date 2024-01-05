@@ -62,19 +62,10 @@ const sendOTP = catchAsync(async (req, res) => {
 const verifyOtp = catchAsync(async (req, res) => {
   try {
     const { mobNo, otp } = req.query;
-    const verificationResult = await otpService.verifyOtp(mobNo, otp);
-
-    if (!verificationResult) {
-      // Verification failed
-      return res.status(httpStatus.UNAUTHORIZED).send('Error: Otp does not match');
-    }
-
-    // Verification successful
-    res.status(httpStatus.OK).send('OTP Verified successfully');
+    await otpService.verifyOtp(mobNo, otp);
+    res.send('OTP Verified successfully');
   } catch (error) {
-    // Handle other errors
-    console.error('Error in verifyOtp:', error);
-    res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Error: Internal Server Error');
+    res.status(httpStatus.UNAUTHORIZED).send(`Error: ${error.message}`);
   }
 });
 
