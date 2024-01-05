@@ -781,6 +781,184 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
 };
 
 /**
+ * Get attendance counts for a specific date and shift district
+ * @param {string} date - The date for which attendance is requested
+ * @param {string} shift - The shift for which attendance is requested
+ * @param {string} district - The shift for which attendance is requested
+ * @returns {Promise<Object>} - Object containing attendance counts for the shift
+ */
+
+const getAttendanceCountsShiftDistrictWise = async (date, shift, district) => {
+  const dateMatch = {
+    $match: {
+      attendance_DATE: new Date(date),
+      district_name: district,
+      shift,
+      SchManagement: 'Government',
+    },
+  };
+  const Counts = await Attendance.aggregate([
+    dateMatch,
+    {
+      $group: {
+        _id: null,
+        PresentCount: { $sum: '$PresentCount' },
+        AbsentCount: { $sum: '$AbsentCount' },
+        totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
+        totalLeaveCount: { $sum: '$totalLeaveCount' },
+        malePresentCount: { $sum: '$malePresentCount' },
+        feMalePresentCount: { $sum: '$feMalePresentCount' },
+        otherPresentCount: { $sum: '$otherPresentCount' },
+        maleAbsentCount: { $sum: '$maleAbsentCount' },
+        feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
+        othersAbsentCount: { $sum: '$othersAbsentCount' },
+        maleLeaveCount: { $sum: '$maleLeaveCount' },
+        femaleLeaveCount: { $sum: '$femaleLeaveCount' },
+        otherLeaveCount: { $sum: '$otherLeaveCount' },
+        maleAttendanceNotMarked: { $sum: '$maleAttendanceNotMarked' },
+        femaleAttendanceNotMarked: { $sum: '$femaleAttendanceNotMarked' },
+        otherAttendanceNotMarked: { $sum: '$otherAttendanceNotMarked' },
+        attendanceNotFoundCountSchoolCount: {
+          $sum: { $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, 1, 0] },
+        },
+      },
+    },
+  ]);
+  const statusCounts = await Attendance.aggregate([
+    dateMatch,
+    {
+      $group: {
+        _id: '$attendanceStatus',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government' ,District_name: district}).exec();
+  const schools = await School.find({ shift, SchManagement: 'Government', District_name: district });
+
+  // Extract school IDs from the result
+  const schoolIds = schools.map((school) => school.Schoolid);
+
+  // Use aggregation to get shift-wise student count
+  const result = await Student.aggregate([
+    {
+      $match: {
+        Schoolid: { $in: schoolIds },
+        status: 'Studying', // Add this condition to filter by status
+      },
+    },
+    {
+      $group: {
+        _id: '$shift',
+        studentCount: { $sum: 1 },
+      },
+    },
+  ]);
+
+  // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
+  return {
+    statusCounts,
+    countofSchoool,
+    totalStudentCount: result[0].studentCount,
+    Counts,
+  };
+};
+
+/**
+ * Get attendance counts for a specific date and shift zone
+ * @param {string} date - The date for which attendance is requested
+ * @param {string} shift - The shift for which attendance is requested
+ * @param {string} zone - The shift for which attendance is requested
+ * @returns {Promise<Object>} - Object containing attendance counts for the shift
+ */
+
+const getAttendanceCountsShiftZoneWise = async (date, shift, zone) => {
+  const dateMatch = {
+    $match: {
+      attendance_DATE: new Date(date),
+      Z_name: zone,
+      shift,
+      SchManagement: 'Government',
+    },
+  };
+  const Counts = await Attendance.aggregate([
+    dateMatch,
+    {
+      $group: {
+        _id: null,
+        PresentCount: { $sum: '$PresentCount' },
+        AbsentCount: { $sum: '$AbsentCount' },
+        totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
+        totalLeaveCount: { $sum: '$totalLeaveCount' },
+        malePresentCount: { $sum: '$malePresentCount' },
+        feMalePresentCount: { $sum: '$feMalePresentCount' },
+        otherPresentCount: { $sum: '$otherPresentCount' },
+        maleAbsentCount: { $sum: '$maleAbsentCount' },
+        feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
+        othersAbsentCount: { $sum: '$othersAbsentCount' },
+        maleLeaveCount: { $sum: '$maleLeaveCount' },
+        femaleLeaveCount: { $sum: '$femaleLeaveCount' },
+        otherLeaveCount: { $sum: '$otherLeaveCount' },
+        maleAttendanceNotMarked: { $sum: '$maleAttendanceNotMarked' },
+        femaleAttendanceNotMarked: { $sum: '$femaleAttendanceNotMarked' },
+        otherAttendanceNotMarked: { $sum: '$otherAttendanceNotMarked' },
+        attendanceNotFoundCountSchoolCount: {
+          $sum: { $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, 1, 0] },
+        },
+      },
+    },
+  ]);
+  const statusCounts = await Attendance.aggregate([
+    dateMatch,
+    {
+      $group: {
+        _id: '$attendanceStatus',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government' , Zone_Name: zone,}).exec();
+  const schools = await School.find({ shift, SchManagement: 'Government', Zone_Name: zone, });
+
+  // Extract school IDs from the result
+  const schoolIds = schools.map((school) => school.Schoolid);
+
+  // Use aggregation to get shift-wise student count
+  const result = await Student.aggregate([
+    {
+      $match: {
+        Schoolid: { $in: schoolIds },
+        status: 'Studying', // Add this condition to filter by status
+      },
+    },
+    {
+      $group: {
+        _id: '$shift',
+        studentCount: { $sum: 1 },
+      },
+    },
+  ]);
+
+  // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
+  return {
+    statusCounts,
+    countofSchoool,
+    totalStudentCount: result[0].studentCount,
+    Counts,
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+/**
  * Get By Attendance ststus wie School data
  * @param {string} date - The date for which attendance is requested
  * @returns {Promise<Array>} - Array containing district-wise attendance present counts
@@ -1684,4 +1862,7 @@ module.exports = {
   getAttendanceCountForAddedSchools,
   getAidedSchoolList,
   fetchUdisePhysicalFacilitiesData,
+
+  getAttendanceCountsShiftDistrictWise,
+  getAttendanceCountsShiftZoneWise,
 };

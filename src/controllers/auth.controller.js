@@ -61,7 +61,10 @@ const sendOTP = catchAsync(async (req, res) => {
 
 const verifyOtp = catchAsync(async (req, res) => {
   const { mobNo, otp } = req.query;
-  await otpService.verifyOtp(mobNo, otp);
+ const result =   await otpService.verifyOtp(mobNo, otp);
+   if (!result) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Error verifying OTP');
+  }
   res.status(httpStatus.OK).send('OTP Verify successfully');
 });
 
