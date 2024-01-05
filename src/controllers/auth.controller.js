@@ -70,7 +70,6 @@ const verifyOtp = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send('OTP Verified successfully');
 });
 
-
 module.exports = {
   sendOTP,
   register,

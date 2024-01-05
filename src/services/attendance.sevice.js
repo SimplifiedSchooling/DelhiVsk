@@ -833,7 +833,7 @@ const getAttendanceCountsShiftDistrictWise = async (date, shift, district) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government' ,District_name: district}).exec();
+  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government', District_name: district }).exec();
   const schools = await School.find({ shift, SchManagement: 'Government', District_name: district });
 
   // Extract school IDs from the result
@@ -917,8 +917,8 @@ const getAttendanceCountsShiftZoneWise = async (date, shift, zone) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government' , Zone_Name: zone,}).exec();
-  const schools = await School.find({ shift, SchManagement: 'Government', Zone_Name: zone, });
+  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government', Zone_Name: zone }).exec();
+  const schools = await School.find({ shift, SchManagement: 'Government', Zone_Name: zone });
 
   // Extract school IDs from the result
   const schoolIds = schools.map((school) => school.Schoolid);
@@ -947,16 +947,6 @@ const getAttendanceCountsShiftZoneWise = async (date, shift, zone) => {
     Counts,
   };
 };
-
-
-
-
-
-
-
-
-
-
 
 /**
  * Get By Attendance ststus wie School data
