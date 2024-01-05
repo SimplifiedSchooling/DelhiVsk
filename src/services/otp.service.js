@@ -102,13 +102,26 @@ async function getMobileNumberByUserId(userId) {
 };
 
 
+// const verifyOtp = async (mobNumber, otp) => {
+//   const otpDoc = await Otp.find({ mobNumber, otp });
+//   if (!otpDoc[0] || !otpDoc[0].otp) {
+//     throw new ApiError(httpStatus.UNAUTHORIZED, 'Otp does not match');
+//   }
+//   await Otp.deleteMany({ mobNumber });
+// };
+
 const verifyOtp = async (mobNumber, otp) => {
   const otpDoc = await Otp.find({ mobNumber, otp });
   if (!otpDoc[0] || !otpDoc[0].otp) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Otp does not match');
+    // Verification failed
+    return false;
   }
   await Otp.deleteMany({ mobNumber });
+
+  // Verification successful
+  return true;
 };
+
 
 const smsAlert = new SMSAlert();
 module.exports = {

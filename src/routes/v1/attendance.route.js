@@ -631,7 +631,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /attendance/zone/shift/wise:
@@ -664,7 +663,6 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /attendance/zone/shift/wise:
@@ -696,21 +694,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * @swagger
