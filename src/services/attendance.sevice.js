@@ -749,7 +749,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government' }).exec();
+  const countofSchool = await School.countDocuments({ shift, SchManagement: 'Government' }).exec();
   const schools = await School.find({ shift, SchManagement: 'Government' });
 
   // Extract school IDs from the result
@@ -774,7 +774,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
   // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
   return {
     statusCounts,
-    countofSchoool,
+    countofSchool,
     totalStudentCount: result[0].studentCount,
     Counts,
   };
@@ -833,7 +833,7 @@ const getAttendanceCountsShiftDistrictWise = async (date, shift, district) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government', District_name: district }).exec();
+  const countofSchool = await School.countDocuments({ shift, SchManagement: 'Government', District_name: district }).exec();
   const schools = await School.find({ shift, SchManagement: 'Government', District_name: district });
   // Extract school IDs from the result
   const schoolIds = schools.map((school) => school.Schoolid);
@@ -856,7 +856,7 @@ const getAttendanceCountsShiftDistrictWise = async (date, shift, district) => {
   // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
   return {
     statusCounts,
-    countofSchoool,
+    countofSchool,
     totalStudentCount: result[0].studentCount,
     Counts,
   };
@@ -915,7 +915,7 @@ const getAttendanceCountsShiftZoneWise = async (date, shift, zone) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government', Zone_Name: zone }).exec();
+  const countofSchool = await School.countDocuments({ shift, SchManagement: 'Government', Zone_Name: zone }).exec();
   const schools = await School.find({ shift, SchManagement: 'Government', Zone_Name: zone });
 
   // Extract school IDs from the result
@@ -940,7 +940,7 @@ const getAttendanceCountsShiftZoneWise = async (date, shift, zone) => {
   // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
   return {
     statusCounts,
-    countofSchoool,
+    countofSchool,
     totalStudentCount: result[0].studentCount,
     Counts,
   };
