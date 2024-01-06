@@ -207,9 +207,6 @@ const getZoneNameSchoolsOfGoverment = async (zoneName) => {
 
 const getSchoolByName = async (query) => {
   const result = await School.find(query).select('School_Name Schoolid').exec();
-  
-//  const count = await School.countDocuments(query) 
-//  const result = {count, schools} 
   return result;
 };
 
