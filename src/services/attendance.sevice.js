@@ -545,8 +545,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
     },
   ]);
 
-  const countofSchoool = await School.countDocuments({ District_name: districtName }).exec();
-
+  const countofSchool = await School.countDocuments({ District_name: districtName }).exec();
   const schools = await School.find({ SchManagement: 'Government' }, 'Schoolid');
   const schoolIds = schools.map((school) => school.Schoolid);
   const totalStudentCount = await Student.countDocuments({
@@ -557,7 +556,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
   // const totalStudentCount = await Student.countDocuments({ District: districtName, status: 'Studying' }).exec();
   return {
     statusCounts,
-    countofSchoool,
+    countofSchool,
     totalStudentCount,
     Counts,
   };
@@ -616,7 +615,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
     },
   ]);
 
-  const countofSchoool = await School.countDocuments({ Zone_Name: Z_name, SchManagement: 'Government' }).exec();
+  const countofSchool = await School.countDocuments({ Zone_Name: Z_name, SchManagement: 'Government' }).exec();
 
   const schools = await School.find({ SchManagement: 'Government' }, 'Schoolid');
   const schoolIds = schools.map((school) => school.Schoolid);
@@ -629,7 +628,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
   //  const totalStudentCount = await Student.countDocuments({ z_name: Z_name.toLowerCase(), status: 'Studying' }).exec();
   return {
     statusCounts,
-    countofSchoool,
+    countofSchool,
     totalStudentCount,
     Counts,
   };
@@ -688,11 +687,11 @@ const getAttendanceCountsSchoolWise = async (date, School_ID) => {
     },
   ]);
   const Schoolid = Number(School_ID);
-  const countofSchoool = await School.countDocuments(Number(School_ID)).exec();
+  const countofSchool = await School.countDocuments(Number(School_ID)).exec();
   const totalStudentCount = await Student.countDocuments({ Schoolid, status: 'Studying' }).exec();
   return {
     statusCounts,
-    countofSchoool,
+    countofSchool,
     totalStudentCount,
     Counts,
   };

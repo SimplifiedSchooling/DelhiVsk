@@ -16,3 +16,4 @@ module.exports.udiseSchooolController = require('./udise.school.controller');
 module.exports.studentGraphAllController = require('./student.graph.all.controller');
 module.exports.guestTeacherControler = require('./guest.teacher.controller');
 module.exports.physicalFacilityController = require('./physical.facility.controller');
+module.exports.classStudentController = require('./class.student.controller');
