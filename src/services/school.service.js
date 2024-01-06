@@ -210,6 +210,31 @@ const getSchoolByName = async (query) => {
   return result;
 };
 
+
+const fromUserIDGetData = async(id) => {
+  let result;
+  // Check if id is a valid D_ID
+  const districtDetails = await School.findOne({ D_ID: id }, 'District_name');
+  if (districtDetails) {
+    result = districtDetails.District_name;
+  }
+
+  // Check if id is a valid Z_ID
+  const zoneDetails = await School.findOne({ Z_ID: id }, 'Zone_Name');
+  if (zoneDetails) {
+    result = zoneDetails.Zone_Name;
+  }
+
+  // Check if id is a valid Schoolid
+  const schoolDetails = await School.findOne({ Schoolid: id }, 'Schoolid School_Name');
+  if (schoolDetails) {
+    result =  schoolDetails.Schoolid ;
+  }
+  return result;
+};
+
+
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
@@ -221,4 +246,5 @@ module.exports = {
   fetchSchoolZone,
   getZoneNameSchoolsOfGoverment,
   getSchoolByName,
+  fromUserIDGetData,
 };

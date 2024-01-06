@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const { authService, userService, tokenService, emailService } = require('../services');
+const { authService, userService, tokenService, emailService, schoolService } = require('../services');
 const { otpService } = require('../services');
 
 const register = catchAsync(async (req, res) => {
@@ -49,14 +49,19 @@ const verifyEmail = catchAsync(async (req, res) => {
 });
 
 const sendOTP = catchAsync(async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.query;
+  if (!userId) {
+    return res.status(httpStatus.BAD_REQUEST).json({ error: 'Missing parameter' });
+  }
   const mobNo = '9420642800';
   const otpValue = otpService.generateOTP();
   const result = await otpService.smsAlert.sendAdminLoginOTPMsg(otpValue, mobNo);
+  const user = await schoolService.fromUserIDGetData(userId)
   if (!result) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Error sending OTP');
   }
-  res.status(httpStatus.OK).send(mobNo);
+
+  res.status(httpStatus.OK).send({mobNo, user});
 });
 
 const verifyOtp = catchAsync(async (req, res) => {

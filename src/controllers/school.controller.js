@@ -122,6 +122,18 @@ const getSchoolByAll = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+// const fromUserIDGetData = catchAsync(async(req, res) => {
+
+  
+//   if (!result) {
+//     return res.status(httpStatus.NOT_FOUND).json({ error: 'Invalid id' });
+//   }
+  
+//   return res.status(httpStatus.OK).json(result);
+
+// })
+
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
