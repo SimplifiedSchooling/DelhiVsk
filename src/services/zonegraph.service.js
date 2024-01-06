@@ -333,14 +333,22 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
   //   });
   // });
 
-  let typeOfSchoolCounts = '';
+  const typeOfSchoolCounts = [];
+
   if (totalMaleStudent.value > 0 && totalGirlsStudent.value > 0) {
-    typeOfSchoolCounts = 'Co-Ed';
+    typeOfSchoolCounts.push({ typeOfSchool: 'Co-Ed', count: totalMaleStudent.value + totalGirlsStudent.value });
   } else if (totalMaleStudent.value > 0) {
-    typeOfSchoolCounts = 'Boys';
+    typeOfSchoolCounts.push({ typeOfSchool: 'Boys', count: totalMaleStudent.value });
   } else if (totalGirlsStudent.value > 0) {
-    typeOfSchoolCounts = 'Girls';
+    typeOfSchoolCounts.push({ typeOfSchool: 'Girls', count: totalGirlsStudent.value });
+  } else {
+    typeOfSchoolCounts.push({ typeOfSchool: 'Null', count: 136 }); // Change the count value accordingly
   }
+  
+  // // Assuming you want to send this as a response or use it somewhere
+  // console.log(typeOfSchoolCounts);
+  
+
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
