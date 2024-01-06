@@ -153,6 +153,7 @@ const getClasswiseCountsSchool = async (Schoolid) => {
   });
 };
 
+
 module.exports = {
   getClasswiseCounts,
   getClasswiseCountsDistrict,
