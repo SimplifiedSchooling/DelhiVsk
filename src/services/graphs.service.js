@@ -710,6 +710,61 @@ const getDashboardByZone = async (zone) => {
 // getDashboardByZone('Zone-01').then((result) => {
 //   console.log(result)
 // })
+const getDistrictWiseCountsGraphs = async () => {
+    // try {
+        // Check if the data is already cached in Redis
+  const cachedData = await redis.get('getDistrictWiseCountsGraphicalRepresentation');
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+      const schoolResult = await School.aggregate([
+        {
+          $group: {
+            _id: '$District_name',
+            totalSchools: { $sum: 1 },
+          },
+        },
+      ]);
+  
+      const studentResult = await Student.aggregate([
+        {
+          $group: {
+            _id: '$District',
+            totalStudents: { $sum: 1 },
+          },
+        },
+      ]);
+  
+      const teacherResult = await Teacher.aggregate([
+        {
+          $group: {
+            _id: '$districtname',
+            totalTeachers: { $sum: 1 },
+          },
+        },
+      ]);
+  
+      // Combine the results into a single array
+      const combinedResults = schoolResult.map((district) => {
+        const studentDistrict = studentResult.find((s) => s._id === district._id) || {};
+        const teacherDistrict = teacherResult.find((t) => t._id === district._id) || {};
+  
+        return {
+          _id: district._id,
+          totalSchools: district.totalSchools || 0,
+          totalStudents: studentDistrict.totalStudents || 0,
+          totalTeachers: teacherDistrict.totalTeachers || 0,
+        };
+      });
+      await redis.set('getDistrictWiseCountsGraphicalRepresentation', JSON.stringify(combinedResults), 'EX', 24 * 60 * 60);
+      return combinedResults;
+
+  };
+  
+
+
 module.exports = {
   getSchoolStats,
   getAggregatedSchoolData,
@@ -720,4 +775,5 @@ module.exports = {
   getStudentsEnrollmentGraph,
   getSchoolStudentCountByZone,
   getDistrictWiseCounts,
+  getDistrictWiseCountsGraphs,
 };

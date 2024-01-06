@@ -49,6 +49,13 @@ const getSchoolStudentCountByDistrict = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getDistrictWiseCountsGraphs = catchAsync(async (req, res) => {
+  const result = await graphsService.getDistrictWiseCountsGraphs();
+  if (!result) {
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Data not found');
+  }
+  res.status(httpStatus.CREATED).send(result);
+});
 module.exports = {
   getSchoolStats,
   getAggregatedSchoolDataController,
@@ -59,4 +66,5 @@ module.exports = {
   getStudentsEnrollmentGraph,
   getSchoolStudentCountByZone,
   getSchoolStudentCountByDistrict,
+  getDistrictWiseCountsGraphs,
 };
