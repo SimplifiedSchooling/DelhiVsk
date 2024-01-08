@@ -228,7 +228,7 @@ const fromUserIDGetData = async(id) => {
   // Check if id is a valid Schoolid
   const schoolDetails = await School.findOne({ Schoolid: id }, 'Schoolid School_Name');
   if (schoolDetails) {
-    result =  schoolDetails.Schoolid ;
+    result =  schoolDetails.Schoolid + '-' + schoolDetails.School_Name;
   }
   return result;
 };
