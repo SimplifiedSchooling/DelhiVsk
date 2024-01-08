@@ -233,7 +233,9 @@ const fromUserIDGetData = async(id) => {
   return result;
 };
 
-
+const getAllSchoolsNames = async () => {
+    return await School.find({}, { School_Name: 1, Schoolid: 1, _id: 0 });
+};
 
 module.exports = {
   storeSchoolDataInMongoDB,
@@ -247,4 +249,5 @@ module.exports = {
   getZoneNameSchoolsOfGoverment,
   getSchoolByName,
   fromUserIDGetData,
+  getAllSchoolsNames,
 };
