@@ -38,6 +38,8 @@ router.post('/getZoneSchool', schoolController.getZoneSchool);
 router.post('/get-zone-goverment-schools', schoolController.getZoneSchoolOfGoverment);
 
 router.post('/get/school-by/district/zone/shift', schoolController.getSchoolByAll);
+
+router.get('/get-all-school-name', schoolController.getAllSchoolsNames);
 module.exports = router;
 
 /**
@@ -47,6 +49,21 @@ module.exports = router;
  *   description: School management
  */
 
+/**
+ * @swagger
+ * /school/get-all-school-name:
+ *   get:
+ *     summary: Get all schools name and schoolid
+ *     description:  Get all schools name and schoolid
+ *     tags: [School]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
 /**
  * @swagger
  * /school:

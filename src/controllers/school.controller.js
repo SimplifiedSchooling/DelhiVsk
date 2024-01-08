@@ -132,7 +132,13 @@ const getSchoolByAll = catchAsync(async (req, res) => {
 //   return res.status(httpStatus.OK).json(result);
 
 // })
-
+const getAllSchoolsNames = catchAsync(async (req, res) => {
+  const result = await schoolService.getAllSchoolsNames();
+  if(!result){
+    new ApiError(httpStatus.NOT_FOUND, 'Not found School data');
+  }
+  res.status(httpStatus.CREATED).send(result);
+});
 
 module.exports = {
   storeSchoolDataInMongoDB,
@@ -146,4 +152,5 @@ module.exports = {
   getSchoolStatsBySchoolName,
   getZoneSchoolOfGoverment,
   getSchoolByAll,
+  getAllSchoolsNames,
 };
