@@ -45,6 +45,18 @@ const studentSchema = mongoose.Schema(
     SCHOOL_NAME: {
       type: String,
     },
+    Religion: {
+      type: String,
+    },
+    Category:{
+      type: String,
+    },
+    Height: {
+      type: String,
+    },
+    Weight: {
+      type: String,
+    },
   },
   {
     timestamps: true,
