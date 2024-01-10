@@ -11,6 +11,23 @@ const result = await tabularAttendanceService.getAttendanceData(Z_name, School_I
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getAllDistrictsAndZones = catchAsync(async (req, res) => {
+const result = await tabularAttendanceService.getAllDistrictsAndZones();
+if(!result){
+  return res.status(httpStatus.NOT_FOUND).json(  'Data not found' );
+}
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getStudentHealth= catchAsync(async (req, res) => {
+  const result = await tabularAttendanceService.studentHealth(req.query.Schoolid);
+  if(!result){
+    return res.status(httpStatus.NOT_FOUND).json(  'Data not found' );
+  }
+    res.status(httpStatus.CREATED).send(result);
+  });
 module.exports = {
     getAttendanceData,
+    getAllDistrictsAndZones,
+    getStudentHealth,
 }
