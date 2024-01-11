@@ -45,13 +45,13 @@ const storeAttendanceDataInMongoDB = async () => {
       const identifier = `${school.Schoolid}-${date}`;
       const existingAttendance = await Attendance.findOne({ School_ID: school.Schoolid, attendance_DATE: parsedDate });
 
-      const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid) }).exec();
-      const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid) }).exec();
-      const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid) }).exec();
+      const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
+      const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
+      const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
 
       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
       const countByGenderAndAttendance = (gender, attendanceType) =>
-        studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
+        studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType && student.status === 'Studying').length;
 
       // const countByClass = (className, attendanceType) =>
       //   studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
@@ -259,14 +259,14 @@ const storeAttendanceDataByDate = async (date) => {
       // Check if an entry with the same identifier exists
       const existingAttendance = await Attendance.findOne({ identifier });
 
-      const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid) }).exec();
-      const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid) }).exec();
-      const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid) }).exec();
+      const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
+      const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
+      const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
 
       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
 
       const countByGenderAndAttendance = (gender, attendanceType) =>
-        studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
+        studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType && student.status === 'Studying').length;
 
       // const countByClass = (className, attendanceType) =>
       //   studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
