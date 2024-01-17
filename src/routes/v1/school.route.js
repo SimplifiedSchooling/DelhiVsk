@@ -40,6 +40,9 @@ router.post('/get-zone-goverment-schools', schoolController.getZoneSchoolOfGover
 router.post('/get/school-by/district/zone/shift', schoolController.getSchoolByAll);
 
 router.get('/get-all-school-name', schoolController.getAllSchoolsNames);
+router.get('/school-data-tabular', schoolController.getSchoolData);
+
+router.post('/tabular-school-data', schoolController.getSchoolDataForTabular);
 module.exports = router;
 
 /**
@@ -270,6 +273,54 @@ module.exports = router;
  *     responses:
  *       "200":
  *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+/**
+ * @swagger
+ * /school/school-data-tabular:
+ *   get:
+ *     summary: Get all schools
+ *     description: Get a list of all schools.
+ *     tags: [School]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /school/tabular-school-data:
+ *   post:
+ *     summary: Get  School
+ *     description: Get a list of School names.
+ *     tags: [School]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Z_name:
+ *                 type: string
+ *               School_ID:
+ *                 type: string
+ *               shift:
+ *                 type: string
+ *               district_name:
+ *                 type: string
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "400":
+ *         description: Bad Request
  *       "401":
  *         description: Unauthorized
  *       "403":

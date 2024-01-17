@@ -140,6 +140,23 @@ const getAllSchoolsNames = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getSchoolDataForTabular = catchAsync(async (req, res) => {
+  const {Z_name, School_ID, shift,district_name } = req.body;
+  const result = await schoolService.getSchoolDataForTabular(Z_name, School_ID, shift,district_name );
+  if(!result){
+    new ApiError(httpStatus.NOT_FOUND, 'School data not found');
+  }
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getSchoolData = catchAsync(async (req, res) => {
+  const result = await schoolService.getSchoolData();
+  if(!result){
+    new ApiError(httpStatus.NOT_FOUND, 'School data not found');
+  }
+  res.status(httpStatus.CREATED).send(result);
+});
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
@@ -153,4 +170,6 @@ module.exports = {
   getZoneSchoolOfGoverment,
   getSchoolByAll,
   getAllSchoolsNames,
+  getSchoolDataForTabular,
+  getSchoolData,
 };
