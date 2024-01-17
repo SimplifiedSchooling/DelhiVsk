@@ -2,7 +2,7 @@ const { Attendance, School, Student } = require('../models');
 
 
 const getAttendanceData = async (Z_name, School_ID, shift,attendance_DATE ,district_name) => {
-const query = {attendance_DATE: new Date(attendance_DATE)};
+const query = {attendance_DATE: new Date(attendance_DATE),SchManagement: 'Government' };
   if (Z_name) query.Z_name = Z_name;
   if (School_ID) query.School_ID = School_ID;
   if (shift) query.shift = shift;

@@ -427,13 +427,25 @@ const storeAttendanceDataByDate = async (date) => {
 };
 
 // Schedule the job to run every day at 9 PM
-cron.schedule('0 21 * * *', async () => {
+// cron.schedule('0 21 * * *', async () => {
+//   try {
+//     logger.info(`Running the attendance data update job...`);
+//     await storeAttendanceDataInMongoDB();
+//     logger.info(`Attendance data update job completed.`);
+//   } catch (error) {
+//     logger.info('Error running the job:', error);
+//   }
+// });
+
+
+// Schedule the job to run at 9 am, 12 pm, 3 pm, 8 pm, and 11 pm
+cron.schedule('0 9,12,15,19,23 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await storeAttendanceDataInMongoDB();
     logger.info(`Attendance data update job completed.`);
   } catch (error) {
-    logger.info('Error running the job:', error);
+    logger.error('Error running the job:', error);
   }
 });
 
@@ -488,7 +500,7 @@ const getAttendanceCounts = async (date) => {
   const countofSchool = await School.countDocuments({ SchManagement: 'Government' }).exec();
   const schools = await School.find({ SchManagement: 'Government' }, 'Schoolid');
   const schoolIds = schools.map((school) => school.Schoolid);
-  const totalStudentCount = await Student.countDocuments({ Schoolid: { $in: schoolIds },  }); //status: 'Studying'
+  const totalStudentCount = await Student.countDocuments({ Schoolid: { $in: schoolIds }, status: 'Studying' }); //status: 'Studying'
 
   // const totalStudentCount = await Student.countDocuments({ status: 'Studying', SchManagement: 'Government'}).exec();
 
@@ -558,7 +570,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
   const schoolIds = schools.map((school) => school.Schoolid);
   const totalStudentCount = await Student.countDocuments({
     Schoolid: { $in: schoolIds },
-    // status: 'Studying',
+    status: 'Studying',
     District: districtName,
   });
   // const totalStudentCount = await Student.countDocuments({ District: districtName, status: 'Studying' }).exec();
@@ -629,7 +641,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
   const schoolIds = schools.map((school) => school.Schoolid);
   const totalStudentCount = await Student.countDocuments({
     Schoolid: { $in: schoolIds },
-    // status: 'Studying',
+    status: 'Studying',
     // District: districtName,
     z_name: Z_name.toLowerCase(),
   });
@@ -697,7 +709,7 @@ const getAttendanceCountsSchoolWise = async (date, School_ID) => {
   const Schoolid = Number(School_ID);
   const countofSchool = await School.countDocuments(Number(School_ID)).exec();
   const shiftOfSchool = await School.find({Schoolid: Number(School_ID) }, { shift:1, _id: 0 });
-  const totalStudentCount = await Student.countDocuments({ Schoolid,  }).exec(); //status: 'Studying'
+  const totalStudentCount = await Student.countDocuments({ Schoolid, status: 'Studying' }).exec(); //status: 'Studying'
   return {
     statusCounts,
     countofSchool,
