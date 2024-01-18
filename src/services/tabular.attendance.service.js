@@ -1,5 +1,6 @@
 const { Attendance, School, Student } = require('../models');
-
+const axios = require('axios');
+const https = require('https')
 
 const getAttendanceData = async (Z_name, School_ID, shift,attendance_DATE ,district_name) => {
 const query = {attendance_DATE: new Date(attendance_DATE),SchManagement: 'Government' };
@@ -39,8 +40,102 @@ const studentHealth = async (filter, options) => {
   };
 
 
+  const getpassword = () => {
+    const dateValue = new Date();
+    return "Mob#" + (dateValue.getFullYear() * dateValue.getDate() + dateValue.getMonth() + 1) + "37t@Zr"
+}
+
+// const todaydate = () => {
+//     const date = new Date();
+//     return (date.getMonth()+1)+"/"+(date.getDate())+"/"+(date.getFullYear())
+// }
+
+const getSchoolList = async(selectedDate, zone, password) => {
+  return new Promise((resolve, reject) => {
+    const url = new URL("https://www.edudel.nic.in/mis/eduwebservice/webappsmob.asmx/get");
+    url.searchParams.set('proc', `uspGetReportMobApps_NEW_ADMIN_school_zone '${selectedDate}','Government',${zone}`);
+    url.searchParams.set('password', password);
+
+    const request = https.request(url, (response) => {
+      let data = '';
+
+      response.on('data', (chunk) => {
+        data = data + chunk.toString();
+      });
+
+      response.on('end', () => {
+        try {
+          const body = JSON.parse(data);
+
+          if (body.Cargo instanceof Array) {
+            const schools = body.Cargo.map(item => ({
+              School_ID: item.schid,
+              school_name: item.schname,
+              totalStudentCount: item.enroll,
+              PresentCount: item.P,
+              AbsentCount: item.A,
+              totalLeaveCount: item.L,
+              noexam: item.E,
+              totalNotMarkedAttendanceCount: item.U,
+              shift: item.shift
+            }));
+
+            resolve(schools);
+          } else {
+            reject(new Error("Error: " + body.Cargo));
+          }
+        } catch (error) {
+          reject(error);
+        }
+      });
+    });
+
+    request.on('error', (error) => {
+      reject(error);
+    });
+
+    request.end();
+  });
+}
+
+// const getSchoolList = async (selectedDate, zone, password) => {
+//   console.log(selectedDate, zone, password)
+//   const apiUrl = "https://www.edudel.nic.in/mis/eduwebservice/webappsmob.asmx/get";
+
+//   try {
+//     const response = await axios.post(apiUrl, {
+//       proc: `uspGetReportMobApps_NEW_ADMIN_school_zone '${selectedDate}','Government',${zone}`,
+//       password: password
+//     });
+
+//     const body = response.data;
+
+//     if (body.Cargo instanceof Array) {
+//       const schools = body.Cargo.map(elt => ({
+//         schid: elt.schid,
+//         schname: elt.schname,
+//         enroll: elt.enroll,
+//         present: elt.P,
+//         absent: elt.A,
+//         leave: elt.L,
+//         noexam: elt.E,
+//         unmarked: elt.U,
+//         shift: elt.shift
+//       }));
+
+//       return schools;
+//     } else {
+//       throw new Error("Error: " + body.Cargo);
+//     }
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
 module.exports = {
     getAttendanceData,
     getAllDistrictsAndZones,
     studentHealth,
+    getSchoolList,
+    getpassword,
 }
