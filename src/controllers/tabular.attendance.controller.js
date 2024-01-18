@@ -20,13 +20,7 @@ if(!result){
   res.status(httpStatus.CREATED).send(result);
 });
 
-// const getStudentHealth= catchAsync(async (req, res) => {
-//   const result = await tabularAttendanceService.studentHealth(req.query.Schoolid);
-//   if(!result){
-//     return res.status(httpStatus.NOT_FOUND).json(  'Data not found' );
-//   }
-//     res.status(httpStatus.CREATED).send(result);
-//   });
+
 
   const getStudentHealth = catchAsync(async (req, res) => {
     const filter = pick(req.query, ['Schoolid, Name, S_ID']);
@@ -35,9 +29,20 @@ if(!result){
     const allClasses = await tabularAttendanceService.studentHealth(filter, options);
     res.send(allClasses);
   });
+
+  const getSchoolList= catchAsync(async (req, res) => {
+  const {date, zone} = req.body;
+    const password = tabularAttendanceService.getpassword()
+  const result = await tabularAttendanceService.getSchoolList(date, zone,password);
+  if(!result){
+    return res.status(httpStatus.NOT_FOUND).json(  'Data not found' );
+  }
+    res.status(httpStatus.CREATED).send(result);
+  });
   
 module.exports = {
     getAttendanceData,
     getAllDistrictsAndZones,
     getStudentHealth,
+    getSchoolList,
 }

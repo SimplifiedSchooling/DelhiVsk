@@ -7,6 +7,8 @@ router.route('/').post(tabularAttendaceController.getAttendanceData);
 router.route('/get-district').get(tabularAttendaceController.getAllDistrictsAndZones);
 
 router.route('/get-studnet-health').get(tabularAttendaceController.getStudentHealth);
+
+router.route('/live-school-attendance').post(tabularAttendaceController.getSchoolList);
 module.exports = router;
 
 /**
@@ -137,3 +139,34 @@ module.exports = router;
 *       "403":
 *         $ref: '#/components/responses/Forbidden'
 */
+
+
+/**
+ * @swagger
+ * /tabular-attendnace/live-school-attendance:
+ *   post:
+ *     summary: Get tabular attendance.
+ *     description: Get tabular attendance.
+ *     tags: [Tabular-Attendnace]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               zone:
+ *                 type: number
+ *               date:
+ *                 type: string
+ *             required:
+ *               - date
+ *               - zone
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
