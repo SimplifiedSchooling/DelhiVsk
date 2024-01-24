@@ -28,7 +28,7 @@ const getAttendancePercentageGenderAndRangeAndShiftWise = {
     startDate: Joi.string().required(),
     endDate: Joi.string().required(),
     zoneName: Joi.string(),
-    shift: Joi.string().required(),
+    shift: Joi.string(),
   }),
 };
 const getTopPerformingDistricts = {
