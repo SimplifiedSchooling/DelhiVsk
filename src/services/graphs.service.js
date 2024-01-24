@@ -192,6 +192,19 @@ const getAggregatedSchoolData = async () => {
   return result;
 };
 
+
+const getStudentStatusCountsAggregation = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+  ];
+
+  return Student.aggregate(pipeline);
+};
 /**
  * Get all school, student, teacher graph data
  * @returns {Promise<Object>} School, teacher, student graph data
@@ -287,11 +300,12 @@ const getAllSchoolStudentTeacherData = async () => {
       count: typeOfSchoolCount[typeOfSchool],
     });
   });
-
+  const statusCounts = await getStudentStatusCountsAggregation();
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
     totalTeachers: total,
+    studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
