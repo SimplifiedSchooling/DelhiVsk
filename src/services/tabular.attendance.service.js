@@ -50,6 +50,7 @@ const studentHealth = async (filter, options) => {
 //     return (date.getMonth()+1)+"/"+(date.getDate())+"/"+(date.getFullYear())
 // }
 
+
 const getSchoolList = async (selectedDate, zone, password) => {
   return new Promise((resolve, reject) => {
     const url = new URL("https://www.edudel.nic.in/mis/eduwebservice/webappsmob.asmx/get");
@@ -68,11 +69,18 @@ const getSchoolList = async (selectedDate, zone, password) => {
           const body = JSON.parse(data);
 
           if (body.Cargo instanceof Array) {
-            const schools = await Promise.all(body.Cargo.map(async (item) => {
-              const studyingStudentCount = await Student.countDocuments({ Schoolid: item.schid, status: 'Studying' });
-              
+            const schoolIds = body.Cargo.map(item => Number(item.schid));
+            const studyingStudentCounts = await Student.aggregate([
+              { $match: { Schoolid: { $in: schoolIds }, status: 'Studying' } },
+              { $group: { _id: '$Schoolid', count: { $sum: 1 } } }
+            ]);
+            const schools = body.Cargo.map(item => {
+              const schid = Number(item.schid);
+              const matchingCount = studyingStudentCounts.find(counts => counts._id === schid);
+              const studyingStudentCount = matchingCount ? matchingCount.count : 0;
+            
               return {
-                School_ID: item.schid,
+                School_ID: schid,
                 school_name: item.schname,
                 totalStudentCount: item.enroll,
                 PresentCount: item.P,
@@ -83,9 +91,10 @@ const getSchoolList = async (selectedDate, zone, password) => {
                 shift: item.shift,
                 studyingStudentCount: studyingStudentCount
               };
-            }));
-
+            });
+            
             resolve(schools);
+            
           } else {
             reject(new Error("Error: " + body.Cargo));
           }
@@ -103,38 +112,58 @@ const getSchoolList = async (selectedDate, zone, password) => {
   });
 };
 
-// const getSchoolList = async (selectedDate, zone, password) => {
-//   console.log(selectedDate, zone, password)
-//   const apiUrl = "https://www.edudel.nic.in/mis/eduwebservice/webappsmob.asmx/get";
 
-//   try {
-//     const response = await axios.post(apiUrl, {
-//       proc: `uspGetReportMobApps_NEW_ADMIN_school_zone '${selectedDate}','Government',${zone}`,
-//       password: password
+// const getSchoolList = async (selectedDate, zone, password) => {
+//   return new Promise((resolve, reject) => {
+//     const url = new URL("https://www.edudel.nic.in/mis/eduwebservice/webappsmob.asmx/get");
+//     url.searchParams.set('proc', `uspGetReportMobApps_NEW_ADMIN_school_zone '${selectedDate}','Government',${zone}`);
+//     url.searchParams.set('password', password);
+
+//     const request = https.request(url, async (response) => {
+//       let data = '';
+
+//       response.on('data', (chunk) => {
+//         data = data + chunk.toString();
+//       });
+
+//       response.on('end', async () => {
+//         try {
+//           const body = JSON.parse(data);
+
+//           if (body.Cargo instanceof Array) {
+//             const schools = await Promise.all(body.Cargo.map(async (item) => {
+//               const studyingStudentCount = await Student.countDocuments({ Schoolid: item.schid, status: 'Studying' });
+              
+//               return {
+//                 School_ID: item.schid,
+//                 school_name: item.schname,
+//                 totalStudentCount: item.enroll,
+//                 PresentCount: item.P,
+//                 AbsentCount: item.A,
+//                 totalLeaveCount: item.L,
+//                 noexam: item.E,
+//                 totalNotMarkedAttendanceCount: item.U,
+//                 shift: item.shift,
+//                 studyingStudentCount: studyingStudentCount
+//               };
+//             }));
+
+//             resolve(schools);
+//           } else {
+//             reject(new Error("Error: " + body.Cargo));
+//           }
+//         } catch (error) {
+//           reject(error);
+//         }
+//       });
 //     });
 
-//     const body = response.data;
+//     request.on('error', (error) => {
+//       reject(error);
+//     });
 
-//     if (body.Cargo instanceof Array) {
-//       const schools = body.Cargo.map(elt => ({
-//         schid: elt.schid,
-//         schname: elt.schname,
-//         enroll: elt.enroll,
-//         present: elt.P,
-//         absent: elt.A,
-//         leave: elt.L,
-//         noexam: elt.E,
-//         unmarked: elt.U,
-//         shift: elt.shift
-//       }));
-
-//       return schools;
-//     } else {
-//       throw new Error("Error: " + body.Cargo);
-//     }
-//   } catch (error) {
-//     throw error;
-//   }
+//     request.end();
+//   });
 // };
 
 module.exports = {

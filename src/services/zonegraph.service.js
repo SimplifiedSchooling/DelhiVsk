@@ -1,6 +1,22 @@
 const { School, Teacher, Student, GuestTeacher } = require('../models');
 const redis = require('../utils/redis');
 
+
+const getStudentStatusCountsByDistrict = async (district) => {
+  const pipeline = [
+    {
+      $match: { District: district },
+    },
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+  ];
+
+  return Student.aggregate(pipeline);
+};
 /**
  * Get all school, student, teacher graph data by districtName
  * @param {string} districtName - The district name to filter the data
@@ -94,11 +110,12 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
       count: typeOfSchoolCount[typeOfSchool],
     });
   });
-
+  const statusCounts = await getStudentStatusCountsByDistrict(districtName);
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
     totalTeachers: totalTeachers.value,
+    studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
@@ -119,6 +136,24 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   // Cache the result in Redis for future use
   // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
+};
+
+
+
+const getStudentStatusCountsByZone = async (zone) => {
+  const pipeline = [
+    {
+      $match: { z_name: zone.toLowerCase() },
+    },
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+  ];
+
+  return Student.aggregate(pipeline);
 };
 
 /**
@@ -215,11 +250,12 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
       count: typeOfSchoolCount[typeOfSchool],
     });
   });
-
+  const statusCounts = await getStudentStatusCountsByZone(zone);
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
     totalTeachers: totalTeachers.value,
+    studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
@@ -247,6 +283,23 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
  * @param {string} schoolId - The schoolName name to filter the data
  * @returns {Promise<Object>} School, teacher, student graph data
  */
+
+
+const getStudentStatusCountsBySchoolId = async (schoolId) => {
+  const pipeline = [
+    {
+      $match: { Schoolid: Number(schoolId) },
+    },
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+  ];
+
+  return Student.aggregate(pipeline);
+};
 const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
   // Create a cache key based on the district name
   const cacheKey = `schoolId:${schoolId}`;
@@ -347,12 +400,13 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
   
   // // Assuming you want to send this as a response or use it somewhere
   // console.log(typeOfSchoolCounts);
-  
+  const statusCounts = await getStudentStatusCountsBySchoolId(schoolId);
 
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
     totalTeachers: totalTeachers.value,
+    studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,

@@ -194,7 +194,7 @@ const getTeacherStats = async () => {
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRange();
   const averageTeachers = totalTeach / totalSchools.value;
-  const teacherStudentRatio = totalStydyingStudent.value / totalTeach.value;
+  const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
 // console.log(totalTeach)
   const result = {
     teacherStudentRatio,
