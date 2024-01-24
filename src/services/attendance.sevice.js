@@ -1248,8 +1248,11 @@ const getAttendancePercentageGenderAndRangeAndShiftWise = async (
       $gte: new Date(startDate),
       $lt: new Date(new Date(endDate).getTime() + 24 * 60 * 60 * 1000), // Add one day to include the end date
     },
-    shift,
+  
   };
+if(shift){
+  matchStage.shift = shift;
+}
 
   if (schoolId) {
     matchStage.School_ID = schoolId;
