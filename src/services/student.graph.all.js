@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { School, Student, Teacher } = require('../models');
+const { School, Student, Teacher, GuestTeacher } = require('../models');
 const redis = require('../utils/redis');
 
 // Function to get school IDs by a specific field (e.g., SchCategory, stream, etc.)
