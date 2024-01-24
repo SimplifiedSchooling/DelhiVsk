@@ -189,11 +189,11 @@ const getTeacherStats = async () => {
       Student.countDocuments({ status: 'Studying' }).exec(),
     ]);
 
-  const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
-  const totalTeach = totalGuestTeacher + totalTeachers.value;
+  // const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
+  // const totalTeach = totalGuestTeacher + totalTeachers.value;
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRange();
-  const averageTeachers = totalTeach / totalSchools.value;
+  const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
 // console.log(totalTeach)
   const result = {
@@ -449,12 +449,12 @@ const getTeacherStatsByDistrict = async (districtName) => {
       Student.countDocuments({ status: 'Studying', District: districtName }).exec(),
     ]);
 
-  const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
-  const totoal = totalTeachers.value + totalGuestTeacher;
+  // const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
+  // const totoal = totalTeachers.value + totalGuestTeacher;
 
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeDistrictWise(districtName);
-  const averageTeachers = totoal / totalSchools.value;
+  const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
 
   const result = {
@@ -700,12 +700,12 @@ const getTeacherCountByZone = async (zone) => {
       Student.countDocuments({ status: 'Studying', z_name: nameZone }).exec(),
     ]);
 
-  const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: cleanedZoneName }).exec();
-  const total = totalGuestTeacher + totalTeachers.value;
+  // const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: cleanedZoneName }).exec();
+  // const total = totalGuestTeacher + totalTeachers.value;
 
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeZoneWise(cleanedZoneName);
-  const averageTeachers = total / totalSchools.value;
+  const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
 
   const result = {
@@ -917,12 +917,12 @@ const getTeacherCountBySchoolName = async (schoolId) => {
       Student.countDocuments({ status: 'Studying', Schoolid: Number(schoolId) }).exec(),
     ]);
 
-  const totalGuestTeacher = await GuestTeacher.countDocuments({ SchoolID: schoolId }).exec();
+  // const totalGuestTeacher = await GuestTeacher.countDocuments({ SchoolID: schoolId }).exec();
 
-  const totoal = totalTeachers.value + totalGuestTeacher;
+  // const totoal = totalTeachers.value + totalGuestTeacher;
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
   const experianceOfTeachers = await getTeacherExperienceCountByRangeSchool(schoolId);
-  const averageTeachers = totoal / totalSchools.value;
+  const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
 
   const result = {
