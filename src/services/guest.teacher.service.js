@@ -44,7 +44,7 @@ const updateDatabaseWithApiData = async () => {
 };
 
 // Call the function to update or delete records in the database based on the retrieved data
-cron.schedule('0 0 * * *', async () => {
+cron.schedule('7 3 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await updateDatabaseWithApiData();
