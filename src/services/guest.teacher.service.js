@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cron = require('node-cron');
 const logger = require('../config/logger');
-const { GuestTeacher, School } = require('../models');
+const { GuestTeacher, School, Student } = require('../models');
 
 // Function to fetch data from the API
 const fetchDataFromApi = async () => {
@@ -194,9 +194,12 @@ const getTeacherStats = async () => {
       $sort: { _id: 1 },
     },
   ];
+  const totoalStudent = await Student.countDocuments({ status: 'Studying' }).exec();
   const postdescWiseTeacherCounts = await GuestTeacher.aggregate(pipeline3);
   const totalSchool = await School.countDocuments().exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
+  const averageTeachers = totalGuestTeacher / totalSchool;
+  const studentRatio = totoalStudent / totalGuestTeacher;
 
   const result = {
     totalSchool,
@@ -207,6 +210,8 @@ const getTeacherStats = async () => {
     teacherTypeOfSchoolWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
+    averageTeachers,
+    studentRatio,
   };
   return result;
 };
@@ -381,9 +386,12 @@ const getTeacherStatsDistrict = async (districtName) => {
       $sort: { _id: 1 },
     },
   ];
+  const totoalStudent = await Student.countDocuments({ status: 'Studying', District: districtName }).exec();
   const postdescWiseTeacherCounts = await GuestTeacher.aggregate(pipeline3);
   const totalSchool = await School.countDocuments({ District_name: districtName }).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
+  const averageTeachers = totalGuestTeacher / totalSchool;
+  const studentRatio = totoalStudent / totalGuestTeacher;
 
   const result = {
     totalSchool,
@@ -394,6 +402,8 @@ const getTeacherStatsDistrict = async (districtName) => {
     teacherTypeOfSchoolWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
+    averageTeachers,
+    studentRatio,
   };
   return result;
 };
@@ -568,9 +578,12 @@ const getTeacherStatsZone = async (zone) => {
       $sort: { _id: 1 },
     },
   ];
+  const totoalStudent = await Student.countDocuments({ status: 'Studying', z_name: nameZone }).exec();
   const postdescWiseTeacherCounts = await GuestTeacher.aggregate(pipeline3);
   const totalSchool = await School.countDocuments({ Zone_Name: zone }).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: suffix }).exec();
+  const averageTeachers = totalGuestTeacher / totalSchool;
+  const studentRatio = totoalStudent / totalGuestTeacher;
 
   const result = {
     totalSchool,
@@ -581,6 +594,8 @@ const getTeacherStatsZone = async (zone) => {
     teacherTypeOfSchoolWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
+    averageTeachers,
+    studentRatio,
   };
   return result;
 };
@@ -755,9 +770,13 @@ const getTeacherStatsSchool = async (SchoolId) => {
       $sort: { _id: 1 },
     },
   ];
+
+  const totoalStudent = await Student.countDocuments({ status: 'Studying', Schoolid: Number(SchoolId) }).exec();
   const postdescWiseTeacherCounts = await GuestTeacher.aggregate(pipeline3);
   const totalSchool = await School.countDocuments({ Schoolid: Number(SchoolId) }).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments({ SchoolID: SchoolId }).exec();
+  const averageTeachers = totalGuestTeacher / totalSchool;
+  const studentRatio = totoalStudent / totalGuestTeacher;
 
   const result = {
     totalSchool,
@@ -768,6 +787,8 @@ const getTeacherStatsSchool = async (SchoolId) => {
     teacherTypeOfSchoolWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
+    averageTeachers,
+    studentRatio,
   };
   return result;
 };
