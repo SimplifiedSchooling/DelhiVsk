@@ -50,34 +50,39 @@ const studentHealth = async (filter, options) => {
 //     return (date.getMonth()+1)+"/"+(date.getDate())+"/"+(date.getFullYear())
 // }
 
-const getSchoolList = async(selectedDate, zone, password) => {
+const getSchoolList = async (selectedDate, zone, password) => {
   return new Promise((resolve, reject) => {
     const url = new URL("https://www.edudel.nic.in/mis/eduwebservice/webappsmob.asmx/get");
     url.searchParams.set('proc', `uspGetReportMobApps_NEW_ADMIN_school_zone '${selectedDate}','Government',${zone}`);
     url.searchParams.set('password', password);
 
-    const request = https.request(url, (response) => {
+    const request = https.request(url, async (response) => {
       let data = '';
 
       response.on('data', (chunk) => {
         data = data + chunk.toString();
       });
 
-      response.on('end', () => {
+      response.on('end', async () => {
         try {
           const body = JSON.parse(data);
 
           if (body.Cargo instanceof Array) {
-            const schools = body.Cargo.map(item => ({
-              School_ID: item.schid,
-              school_name: item.schname,
-              totalStudentCount: item.enroll,
-              PresentCount: item.P,
-              AbsentCount: item.A,
-              totalLeaveCount: item.L,
-              noexam: item.E,
-              totalNotMarkedAttendanceCount: item.U,
-              shift: item.shift
+            const schools = await Promise.all(body.Cargo.map(async (item) => {
+              const studyingStudentCount = await Student.countDocuments({ Schoolid: item.schid, status: 'Studying' });
+              
+              return {
+                School_ID: item.schid,
+                school_name: item.schname,
+                totalStudentCount: item.enroll,
+                PresentCount: item.P,
+                AbsentCount: item.A,
+                totalLeaveCount: item.L,
+                noexam: item.E,
+                totalNotMarkedAttendanceCount: item.U,
+                shift: item.shift,
+                studyingStudentCount: studyingStudentCount
+              };
             }));
 
             resolve(schools);
@@ -96,7 +101,7 @@ const getSchoolList = async(selectedDate, zone, password) => {
 
     request.end();
   });
-}
+};
 
 // const getSchoolList = async (selectedDate, zone, password) => {
 //   console.log(selectedDate, zone, password)
