@@ -250,7 +250,7 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
       count: typeOfSchoolCount[typeOfSchool],
     });
   });
-  const statusCounts = await getStudentStatusCountsByZone(zone);
+  const statusCounts = await getStudentStatusCountsByZone(zoneName);
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
