@@ -91,7 +91,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
 
   const totoal = totalGuestTeacher + totalTeachers.value;
-
+console.log(totalGuestTeacher , totalTeachers.value, totoal)
   const teacherStudentRatio = totalStudyingStudent.value / totoal;
   const averageTeacherOfSchool = totoal / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
@@ -114,7 +114,8 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
-    totalTeachers: totalTeachers.value,
+    regularTeachers: totalTeachers.value,
+    guestTeachers: totalGuestTeacher,
     studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
@@ -254,7 +255,8 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
-    totalTeachers: totalTeachers.value,
+    regularTeachers: totalTeachers.value,
+    guestTeachers: totalGuestTeacher,
     studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
@@ -405,7 +407,8 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
-    totalTeachers: totalTeachers.value,
+    regularTeachers: totalTeachers.value,
+    guestTeachers: totalGuestTeacher,
     studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,

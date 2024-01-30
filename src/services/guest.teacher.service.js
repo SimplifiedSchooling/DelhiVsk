@@ -146,7 +146,32 @@ const getTeacherStats = async () => {
       teacherShiftWiseCount,
     });
   }
+//   const totalGuestTeacherCount = await GuestTeacher.countDocuments();
+// console.log('Total Guest Teachers:', totalGuestTeacherCount);
 
+// const shiftWiseSchoolIds = await getSchoolIdByShiftWise();
+// shiftWiseSchoolIds.forEach(shift => {
+//   console.log(`Shift: ${shift._id}, School Count: ${shift.schoolIds.length}`);
+// });
+
+// teacherShiftWiseCounts.forEach(shiftCount => {
+//   console.log(`Shift: ${shiftCount.shift}, Guest Teacher Count: ${shiftCount.teacherShiftWiseCount}`);
+// });
+
+// const duplicateGuestTeachers = await GuestTeacher.aggregate([
+//   { $group: { _id: '$ApplicationId', count: { $sum: 1 } } },
+//   { $match: { count: { $gt: 1 } } },
+// ]);
+
+// console.log('Duplicate Guest Teachers:', duplicateGuestTeachers);
+
+// const totalGuestTeacherCounts = await GuestTeacher.countDocuments();
+// const sumOfShiftCounts = teacherShiftWiseCounts.reduce((sum, shiftCount) => sum + shiftCount.teacherShiftWiseCount, 0);
+
+// console.log('Total Guest Teachers:', totalGuestTeacherCounts);
+// console.log('Sum of Shift Counts:', sumOfShiftCounts);
+
+  // console.log(teacherShiftWiseCounts)
   const zoneNameWiseCountIds = await getSchoolIdByZoneNameWise();
   const teacherZoneWiseCounts = [];
 
@@ -820,6 +845,72 @@ const teacherGuestPostWiseList = async (SchoolID, Post) => {
   const result = GuestTeacher.find({ SchoolID, Post });
   return result;
 };
+
+
+
+// const getSchoolIdByShiftWise = async () => {
+//   const pipeline = [
+//     {
+//       $group: {
+//         _id: '$shift',
+//         schoolIds: { $push: '$Schoolid' },
+//       },
+//     },
+//   ];
+
+//   const schCategorySchoolIds = await School.aggregate(pipeline);
+//   return schCategorySchoolIds;
+// };
+// const data =  async() => {
+//   const shifts = await getSchoolIdByShiftWise();
+//   console.log(shifts.length, shifts);
+// }
+
+// data()
+
+////FOR CHECKING HOW MANY TEACHERS ID DIDNT MATCH WITH OUR SCHOOLS
+
+
+
+// const getSchoolIdByShiftWises = async () => {
+//   const pipeline = [
+//     {
+//       $group: {
+//         _id: '$shift',
+//         schoolIds: { $push: '$Schoolid' },
+//       },
+//     },
+//   ];
+
+//   return School.aggregate(pipeline);
+// };
+
+
+// const getSchoolIdByManagmentWiseS = async () => {
+//   const pipeline = [
+//     {
+//       $group: {
+//         _id: '$SchManagement',
+//         schoolIds: { $push: '$Schoolid' },
+//       },
+//     },
+//   ];
+
+//   const schCategorySchoolIds = await School.aggregate(pipeline);
+//   return schCategorySchoolIds;
+// };
+// const checkGuestTeachersWithoutSchool = async () => {
+//   const shiftWiseSchools = await getSchoolIdByManagmentWiseS();
+// console.log(shiftWiseSchools)
+//   const guestTeachersWithoutSchool = await GuestTeacher.find({
+//     SchoolID: { $nin: shiftWiseSchools.flatMap(shift => shift.schoolIds.map(String)) },
+//   });
+
+//   console.log('Guest Teachers Without School:', guestTeachersWithoutSchool);
+// };
+
+// // Call this function to check guest teachers without a corresponding school in the specified shifts.
+// checkGuestTeachersWithoutSchool();
 
 module.exports = {
   getTeacherStats,
