@@ -78,7 +78,6 @@ const getSchoolList = async (selectedDate, zone, password) => {
               const schid = Number(item.schid);
               const matchingCount = studyingStudentCounts.find(counts => counts._id === schid);
               const studyingStudentCount = matchingCount ? matchingCount.count : 0;
-            
               return {
                 School_ID: schid,
                 school_name: item.schname,

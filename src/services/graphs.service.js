@@ -304,6 +304,7 @@ const getAllSchoolStudentTeacherData = async () => {
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
+    totalTeachers: total,
     regularTeachers: totalTeachers.value,
     guestTeachers: totalGuestTeacher,
     studentStatusCounts: statusCounts,
