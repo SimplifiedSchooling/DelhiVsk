@@ -22,3 +22,4 @@ module.exports.sportsEquipment = require('./sports.equipment.service');
 module.exports.otpService = require('./otp.service');
 module.exports.classStudentsService = require('./class.students.service');
 module.exports.tabularAttendanceService = require('./tabular.attendance.service');
+module.exports.totalTeacherService = require('./total.teacher.service');
