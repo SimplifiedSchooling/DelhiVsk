@@ -20,6 +20,7 @@ const studentGraphAllRoute = require('./student.graph.all.route');
 const guestTeacherRoute = require('./guest.teacher.route');
 const classStudentRoute = require('./class.students.route');
 const tabularAttendanceRoute = require('./tabular.attendance.route');
+const totalTeacherRoute = require('./total.teachers.route');
 
 const router = express.Router();
 
@@ -100,6 +101,10 @@ const defaultRoutes = [
     path: '/tabular-attendnace',
     route: tabularAttendanceRoute,
   },
+  {
+    path: '/total-teacher',
+    route: totalTeacherRoute,
+  }
 ];
 
 const devRoutes = [
