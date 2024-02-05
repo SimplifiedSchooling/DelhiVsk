@@ -18,3 +18,4 @@ module.exports.guestTeacherControler = require('./guest.teacher.controller');
 module.exports.physicalFacilityController = require('./physical.facility.controller');
 module.exports.classStudentController = require('./class.student.controller');
 module.exports.tabularAttendaceController = require('./tabular.attendance.controller');
+module.exports.totalTeachersController = require('./total.teachers.controller');
