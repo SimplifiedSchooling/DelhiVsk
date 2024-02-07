@@ -392,6 +392,35 @@ const getSchoolData = async() =>  {
     return result;
 }
 
+
+/**
+ * Search for students based on SCHOOL_NAME, Name, or S_ID
+ * @param {Object} filters - Filters for the search
+ * @returns {Promise<Array>} - Array of matching students
+ */
+// Function to escape special characters in a string for RegExp
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+const searchSchool = async (searchQuery) => {
+  let query;
+  if (!isNaN(searchQuery)) {
+    query = {
+      Schoolid: searchQuery,
+    };
+  } else {
+    query = {
+      School_Name: new RegExp(`^${escapeRegExp(searchQuery)}`, 'i'),
+    };
+  }
+
+  const schools = await School.find(query).exec();
+  return schools;
+};
+
+
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
@@ -407,4 +436,5 @@ module.exports = {
   getAllSchoolsNames,
   getSchoolDataForTabular,
   getSchoolData,
+  searchSchool,
 };

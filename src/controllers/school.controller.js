@@ -157,6 +157,11 @@ const getSchoolData = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const searchSchool = catchAsync(async (req, res) => {
+  const result = await schoolService.searchSchool(req.body.searchQuery);
+  res.send(result);
+});
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
@@ -172,4 +177,5 @@ module.exports = {
   getAllSchoolsNames,
   getSchoolDataForTabular,
   getSchoolData,
+  searchSchool,
 };
