@@ -78,6 +78,8 @@ const getSchoolList = async (selectedDate, zone, password) => {
               const schid = Number(item.schid);
               const matchingCount = studyingStudentCounts.find(counts => counts._id === schid);
               const studyingStudentCount = matchingCount ? matchingCount.count : 0;
+              const countOfPAL =  item.P + item.A + item.L;
+              const unmarkedStudent = studyingStudentCount - countOfPAL;
               return {
                 School_ID: schid,
                 school_name: item.schname,
@@ -86,7 +88,7 @@ const getSchoolList = async (selectedDate, zone, password) => {
                 AbsentCount: item.A,
                 totalLeaveCount: item.L,
                 noexam: item.E,
-                totalNotMarkedAttendanceCount: item.P + item.A + item.L,
+                totalNotMarkedAttendanceCount: unmarkedStudent,
                 shift: item.shift,
                 studyingStudentCount: studyingStudentCount
               };
