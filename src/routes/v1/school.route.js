@@ -43,6 +43,8 @@ router.get('/get-all-school-name', schoolController.getAllSchoolsNames);
 router.get('/school-data-tabular', schoolController.getSchoolData);
 
 router.post('/tabular-school-data', schoolController.getSchoolDataForTabular);
+
+router.route('/search-school').post(schoolController.searchSchool);
 module.exports = router;
 
 /**
@@ -327,6 +329,29 @@ module.exports = router;
  *         description: Forbidden
  */
 
+
+/**
+ * @swagger
+ * /school/search-school:
+ *   post:
+ *     summary: Get School data by a single property (Schoolid, schol Name ).
+ *     description: Get School data by a single property (Schoolid, schol Name).
+ *     tags: [School]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               searchQuery:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response with an array of matching students
+ *       '500':
+ *         description: Internal Server Error
+ */
 // /**/get/school-by/district/zone/shift
 //  * @swagger
 //  * tags:

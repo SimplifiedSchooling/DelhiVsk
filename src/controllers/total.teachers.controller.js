@@ -21,9 +21,21 @@ const getTeacherStatsByDistrict = catchAsync(async (req, res) => {
     const result = await totalTeacherService.getTeacherStatsBySchool(req.body.schoolId);
     res.status(httpStatus.CREATED).send(result);
   });
+
+  const searchTeachers = catchAsync(async (req, res) => {
+    const result = await totalTeacherService.searchTeachers(req.body.searchQuery);
+    res.status(httpStatus.CREATED).send(result);
+  });
+
+  const getTeachersAndGuestTeachersBySchoolId = catchAsync(async (req, res) => {
+    const result = await totalTeacherService.getTeachersAndGuestTeachersBySchoolId(req.body.schoolId);
+    res.status(httpStatus.CREATED).send(result);
+  });
 module.exports = {
     getTeacherStats,
     getTeacherStatsByDistrict,
     getTeacherStatsByZone,
     getTeacherStatsBySchool,
+    searchTeachers,
+    getTeachersAndGuestTeachersBySchoolId,
 };

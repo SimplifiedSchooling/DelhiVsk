@@ -904,27 +904,175 @@ const getTeacherStatsBySchool = async (schoolId) => {
   return result;
 };
 
-// const schoolId = '1001004';
+
+// Function to get teachers and guest teachers by schoolid
+// const getTeachersAndGuestTeachersBySchoolId = async (schoolId) => {
+//   try {
+//     const result = await Teacher.aggregate([
+//       {
+//         $match: {
+//           schoolid: schoolId,
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: 'guestteachers',
+//           localField: 'schoolid',
+//           foreignField: 'SchoolID',
+//           as: 'guestTeachers',
+//         },
+//       },
+//       {
+//         $project: {
+//           _id: 0, // Exclude _id field
+//           Name: 1,
+//           EmpId: '$empid', // Rename empid to EmpId
+//           JoiningDate: 1,
+//           School: '$schname', // Rename schname to School
+//           Designation: '$postdesc', // Rename postdesc to Designation
+//           Dob: 1,
+//           District: '$districtname', // Rename districtname to District
+//         },
+//       },
+//     ]);
+
+//     return result;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 
-// (async () => {
-//     try {
-//       const teacherCounts = await  getTeacherStatsBySchool(schoolId);
-//     //   const guestTeacherCounts = await getGuestTeacherStats();
-//     //   const combinedCounts = {
-//     //     ...teacherCounts,
-//     //     ...guestTeacherCounts,
-//     //   };
-//       console.log('Total Teacher Counts:', teacherCounts);
-//     } catch (error) {
-//       console.error('Error:', error);
-//     }
-//   })();
 
+// const getTeachersAndGuestTeachersBySchoolId = async (schoolId) => {
+//   try {
+//     const result = await Teacher.aggregate([
+//       {
+//         $match: {
+//           schoolid: schoolId,
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: 'guestteachers',
+//           localField: 'schoolid',
+//           foreignField: 'SchoolID',
+//           as: 'guestTeachers',
+//         },
+//       },
+//       {
+//         $project: {
+//           _id: 0,
+//           Name: 1,
+//           EmpId: { $ifNull: ['$empid', '$ApplicationId'] },
+//           JoiningDate: { $ifNull: ['$JoiningDate', '$JoiningDate'] },
+//           School: { $ifNull: ['$schname', '$SchoolName'] },
+//           Designation: { $ifNull: ['$postdesc', '$Post'] },
+//           Dob: { $ifNull: ['$dob', null] },
+//           District: { $ifNull: ['$districtname', '$Districtname'] },
+//           // UserType: { $literal: 'Regular Teacher' },
+//         },
+//       },
+//       {
+//         $addFields: {
+//           combinedTeachers: { $mergeObjects: [ { teachers: '$$ROOT' }, { guestTeachers: '$guestTeachers' } ] },
+//         },
+//       },
+//       {
+//         $unwind: '$combinedTeachers',
+//       },
+//       {
+//         $replaceRoot: { newRoot: '$combinedTeachers' },
+//       },
+//     ]);
+// console.log(result.length)
+//     return result;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+/**
+ * Search for teachers based on schname, Name, or schoolid
+ * @param {Object} filters - Filters for the search
+ * @returns {Promise<Array>} - Array of matching teachers
+ */
+
+const escapeRegExp = (string) => {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
+const searchTeachers = async (searchQuery) => {
+  const escapedQuery = escapeRegExp(searchQuery);
+
+  const teacherQuery = {
+    $or: [
+      { Name: new RegExp(`^${escapedQuery}`, 'i') },
+      { empid: searchQuery },
+    ],
+  };
+
+  const guestTeacherQuery = {
+    $or: [
+      { Name: new RegExp(`^${escapedQuery}`, 'i') },
+      { ApplicationId: searchQuery },
+    ],
+  };
+
+  const [teachers, guestTeachers] = await Promise.all([
+    Teacher.find(teacherQuery).lean().exec(),
+    GuestTeacher.find(guestTeacherQuery).lean().exec(),
+  ]);
+
+  const combinedResults = [...teachers, ...guestTeachers];
+
+  return combinedResults;
+};
+
+
+const getTeachersAndGuestTeachersBySchoolId = async (schoolId) => {
+  const teachersRegular = await Teacher.aggregate([
+      { $match: { schoolid: schoolId } },
+      {
+          $project: {
+              Name: '$Name',
+              EmpId: '$empid',
+              JoiningDate: '$JoiningDate',
+              School: '$schname',
+              Designation: '$postdesc',
+              SchoolID: '$schoolid',
+              District: '$districtname',
+              UserType: 'Regular Teacher',
+          },
+      },
+  ]);
+
+  const teachersGuest = await GuestTeacher.aggregate([
+      { $match: { SchoolID: schoolId } },
+      {
+          $project: {
+              Name: '$Name',
+              EmpId: '$ApplicationId',
+              JoiningDate: '$JoiningDate',
+              School: '$SchoolName',
+              Designation: '$Post',
+              SchoolID: '$SchoolID', // You can set this to a default value or modify based on your data
+              District: '$Districtname',
+              UserType: 'Guest Teacher',
+          },
+      },
+  ]);
+
+  const result = [...teachersRegular, ...teachersGuest];
+
+  return result;
+};
 
 module.exports = {
      getTeacherStats,
      getTeacherStatsByDistrict,
      getTeacherStatsByZone,
-     getTeacherStatsBySchool
+     getTeacherStatsBySchool,
+     searchTeachers,
+     getTeachersAndGuestTeachersBySchoolId,
 }

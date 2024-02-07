@@ -86,7 +86,7 @@ const getSchoolList = async (selectedDate, zone, password) => {
                 AbsentCount: item.A,
                 totalLeaveCount: item.L,
                 noexam: item.E,
-                totalNotMarkedAttendanceCount: item.U,
+                totalNotMarkedAttendanceCount: item.P + item.A + item.L,
                 shift: item.shift,
                 studyingStudentCount: studyingStudentCount
               };

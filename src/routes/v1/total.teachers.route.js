@@ -7,7 +7,8 @@ router.route('/').get(totalTeachersController.getTeacherStats);
 router.route('/district-wise').post(totalTeachersController.getTeacherStatsByDistrict);
 router.route('/zone-wise').post(totalTeachersController.getTeacherStatsByZone);
 router.route('/school-wise').post(totalTeachersController.getTeacherStatsBySchool);
-// router.route('/search-teachers').post(teacherController.searchTeachers);
+router.route('/school-wise/get-teacher-list').post(totalTeachersController.getTeachersAndGuestTeachersBySchoolId);
+router.route('/search-teachers').post(totalTeachersController.searchTeachers);
 module.exports = router;
 
 /**
@@ -102,32 +103,48 @@ module.exports = router;
  *         description: Forbidden
  */
 
-// /**
-//  * @swagger
-//  * /teacher/get-teachers-by-gender:
-//  *   post:
-//  *     summary: Get all teacher list by school name and teacher gender.
-//  *     description: Get all teacher list by school name and teacher gender.
-//  *     tags: [Teacher]
-//  *     requestBody:
-//  *       required: true
-//  *       content:
-//  *         application/json:
-//  *           schema:
-//  *             type: object
-//  *             properties:
-//  *               gender:
-//  *                 type: string
-//  *               schname:
-//  *                 type: string
-//  *             required:
-//  *               - gender
-//  *               - schname
-//  *     responses:
-//  *       "200":
-//  *         description: OK
-//  *       "401":
-//  *         description: Unauthorized
-//  *       "403":
-//  *         description: Forbidden
-//  */
+/**
+ * @swagger
+ * /total-teacher/search-teachers:
+ *   post:
+ *     summary: Get teachers data by a single property (Name, schname, postdesc, or empid).
+ *     description: Get teachers data by a single property (Name, schname, postdesc, or empid).
+ *     tags: [Total Teacher]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               searchQuery:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response with an array of matching teachers
+ *       '500':
+ *         description: Internal Server Error
+ */
+
+/**
+ * @swagger
+ * /total-teacher/school-wise/get-teacher-list:
+ *   post:
+ *     summary: Get teachers data by a single property (
+ *     description: Get teachers data by a single property
+ *     tags: [Total Teacher]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               schoolId:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response with an array of matching teachers
+ *       '500':
+ *         description: Internal Server Error
+ */
