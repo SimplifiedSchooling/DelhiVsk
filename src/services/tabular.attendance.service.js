@@ -2,15 +2,32 @@ const { Attendance, School, Student } = require('../models');
 const axios = require('axios');
 const https = require('https')
 
-const getAttendanceData = async (Z_name, School_ID, shift,attendance_DATE ,district_name) => {
-const query = {attendance_DATE: new Date(attendance_DATE),SchManagement: 'Government' };
+const getAttendanceData = async (Z_name, School_ID, shift, attendance_DATE, district_name) => {
+  const query = { attendance_DATE: new Date(attendance_DATE), SchManagement: 'Government' };
   if (Z_name) query.Z_name = Z_name;
   if (School_ID) query.School_ID = School_ID;
   if (shift) query.shift = shift;
-  if(district_name) query.district_name = district_name;
-    const result = await Attendance.find(query,{ school_name: 1, School_ID: 1, _id: 0 , attendance_DATE:1, shift:1,district_name:1, Z_name:1, totalStudentCount:1, PresentCount:1, AbsentCount:1, totalNotMarkedAttendanceCount:1, totalLeaveCount:1, Latitude:1, Longitude:1});
-    return result;
+  if (district_name) query.district_name = district_name;
+
+  const result = await Attendance.find(query, { school_name: 1, School_ID: 1, _id: 0, attendance_DATE: 1, shift: 1, district_name: 1, Z_name: 1, totalStudentCount: 1, PresentCount: 1, AbsentCount: 1, totalNotMarkedAttendanceCount: 1, totalLeaveCount: 1, Latitude: 1, Longitude: 1 });
+
+  // Map and transform each object in the result array
+  const transformedResult = result.map(item => ({
+    School_ID: item.School_ID,
+    school_name: item.school_name,
+    totalStudentCount: item.totalStudentCount,
+    PresentCount: item.PresentCount,
+    AbsentCount: item.AbsentCount,
+    totalLeaveCount: item.totalLeaveCount,
+    noexam: item.noexam, // If noexam property exists in the item, map it as well
+    totalNotMarkedAttendanceCount: item.totalNotMarkedAttendanceCount,
+    shift: item.shift,
+    studyingStudentCount: item.studyingStudentCount // If studyingStudentCount property exists in the item, map it as well
+  }));
+
+  return transformedResult;
 };
+
 
 const getAllDistrictsAndZones = async () => {
     const districts = await School.distinct('District_name');

@@ -431,6 +431,12 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
   await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
+
+const tabularSchoolData = async (zoneName) => {
+  const totalSchools = await School.countDocuments({ zoneName });
+  const totalStudent = await Student.countDocuments({ zoneName });
+  const totalTeachers = await Teacher.countDocuments({ zoneName });
+}
 module.exports = {
   getAllSchoolStudentTeacherDataByZoneName,
   getAllSchoolStudentTeacherDataByDistrict,
