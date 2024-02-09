@@ -107,7 +107,7 @@ async function storeSchoolDataInMongoDB() {
 //   }
 // });
 
-const task = cron.schedule('0 0 * * *', async () => {
+const task = cron.schedule('28 11 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await storeSchoolDataInMongoDB();

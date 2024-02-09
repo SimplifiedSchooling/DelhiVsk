@@ -252,7 +252,7 @@ const storeAttendanceDataByDate = async (date) => {
   const password = 'VSK@9180';
   const schools = await School.find().exec();
   for (const school of schools) {
-    const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
+    const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);//school.Schoolid
     if (studentData) {
       // Create a unique identifier based on school and date
       const identifier = `${school.Schoolid}-${date}`;
