@@ -103,7 +103,7 @@ const getSchoolIdByTypeOfSchoolWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$typeOfSchool',
+        _id: '$gender',
         schoolIds: { $push: '$Schoolid' },
       },
     },
@@ -310,7 +310,7 @@ const getSchoolIdByTypeOfSchoolWiseDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool',
+        _id: '$gender',
         schoolIds: { $push: '$Schoolid' },
       },
     },
@@ -502,7 +502,7 @@ const getSchoolIdByTypeOfSchoolWiseZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool',
+        _id: '$gender',
         schoolIds: { $push: '$Schoolid' },
       },
     },
@@ -694,7 +694,7 @@ const getSchoolIdByTypeOfSchoolWiseSchool = async (SchoolId) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool',
+        _id: '$gender',
         schoolIds: { $push: '$Schoolid' },
       },
     },

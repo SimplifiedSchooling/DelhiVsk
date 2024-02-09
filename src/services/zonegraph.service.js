@@ -63,7 +63,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
 
     // Stream Count
-    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    const typeOfSchool = school.gender || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
@@ -204,7 +204,7 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
 
     // Stream Count
-    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    const typeOfSchool = school.gender || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
@@ -342,7 +342,7 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
     // Stream Count
-    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    const typeOfSchool = school.gender || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 

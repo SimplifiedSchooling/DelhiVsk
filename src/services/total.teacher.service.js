@@ -28,6 +28,19 @@ const { Teacher, School, GuestTeacher, Student } = require('../models');
     return schCategorySchoolIds;
   };
   
+  const getSchoolIdByTypeOfSchoolWise = async () => {
+    const pipeline = [
+      {
+        $group: {
+          _id: '$gender',
+          schoolIds: { $push: '$Schoolid' },
+        },
+      },
+    ];
+    const typeOfSchoolWiseSchoolIds = await School.aggregate(pipeline);
+    return typeOfSchoolWiseSchoolIds;
+  };
+  
 
   
   const getSchoolIdBySchCategoryWise = async () => {
@@ -100,6 +113,19 @@ const getTeacherStats = async () => {
       });
     }
 
+    const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWise();
+    const teacherTypeOfSchoolWiseCounts = [];
+  
+    for (const typeOfSchool of typeOfSchoolWiseCountIds) {
+      const teacherCount = await Teacher.countDocuments({ schoolid: { $in: typeOfSchool.schoolIds } });
+      const guestTeacherCount = await GuestTeacher.countDocuments({ SchoolID: { $in: typeOfSchool.schoolIds.map(String) } });
+      const totalTeacherCount = teacherCount + guestTeacherCount;
+      teacherTypeOfSchoolWiseCounts.push({
+        typeOfSchool: typeOfSchool._id,
+        totalTeacherCount,
+      });
+    }
+  
     const pipeline3 = [
       {
         $group: {
@@ -159,6 +185,7 @@ const teacherStudentRatio = totoalStudent / totalTeachers;
       totalRegularTeachers,
       totalPostWiseTeachers: mergedCounts,
       totalTeacherManagmentWiseCounts,
+      teacherTypeOfSchoolWiseCounts,
       totalTeacherCategoryWiseCounts,
       totalTeacherShiftWiseCounts,
     };
@@ -246,7 +273,23 @@ const getSchoolIdBySchCategoryDistrictWise = async (districtName) => {
   const schCategorySchoolIds = await School.aggregate(pipeline);
   return schCategorySchoolIds;
 };
-
+const getSchoolIdByTypeOfSchoolWiseAndDistrict = async (districtName) => {
+  const pipeline = [
+    {
+      $match: {
+        District_name: districtName,
+      },
+    },
+    {
+      $group: {
+        _id: '$gender',
+        schoolIds: { $push: '$Schoolid' },
+      },
+    },
+  ];
+  const schCategorySchoolIds = await School.aggregate(pipeline);
+  return schCategorySchoolIds;
+};
 /**
  * Get teacher statistics for a specific district.
  * @param {string} districtName - Name of the district.
@@ -310,7 +353,18 @@ const getTeacherStatsByDistrict = async (districtName) => {
       totalTeacherCount,
     });
   }
-
+  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWiseAndDistrict(districtName);
+    const teacherTypeOfSchoolWiseCounts = [];
+  
+    for (const typeOfSchool of typeOfSchoolWiseCountIds) {
+      const teacherCount = await Teacher.countDocuments({ schoolid: { $in: typeOfSchool.schoolIds } });
+      const guestTeacherCount = await GuestTeacher.countDocuments({ SchoolID: { $in: typeOfSchool.schoolIds.map(String) } });
+      const totalTeacherCount = teacherCount + guestTeacherCount;
+      teacherTypeOfSchoolWiseCounts.push({
+        typeOfSchool: typeOfSchool._id,
+        totalTeacherCount,
+      });
+    }
   // MongoDB aggregation pipeline to group guest teachers by post description for the district
   const pipeline3 = [
     {
@@ -397,6 +451,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
     totalRegularTeachers,
     totalPostWiseTeachers: mergedCounts,
     totalTeacherManagmentWiseCounts,
+    teacherTypeOfSchoolWiseCounts,
     totalTeacherCategoryWiseCounts,
     totalTeacherShiftWiseCounts,
   };
@@ -509,6 +564,24 @@ const getSchoolIdBySchCategoryZoneWise = async (zoneName) => {
   return schCategorySchoolIds;
 };
 
+const getSchoolIdByTypeOfSchoolWiseAndZone = async (zone) => {
+  const pipeline = [
+    {
+      $match: {
+        Zone_Name: zone,
+      },
+    },
+    {
+      $group: {
+        _id: '$gender',
+        schoolIds: { $push: '$Schoolid' },
+      },
+    },
+  ];
+
+  const schCategorySchoolIds = await School.aggregate(pipeline);
+  return schCategorySchoolIds;
+}
 /**
  * Get teacher statistics for a specific district.
  * @param {string} zoneName - Name of the district.
@@ -572,6 +645,20 @@ const getTeacherStatsByZone = async (zoneName) => {
       totalTeacherCount,
     });
   }
+
+  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWiseAndZone(zoneName);
+    const teacherTypeOfSchoolWiseCounts = [];
+  
+    for (const typeOfSchool of typeOfSchoolWiseCountIds) {
+      const teacherCount = await Teacher.countDocuments({ schoolid: { $in: typeOfSchool.schoolIds } });
+      const guestTeacherCount = await GuestTeacher.countDocuments({ SchoolID: { $in: typeOfSchool.schoolIds.map(String) } });
+      const totalTeacherCount = teacherCount + guestTeacherCount;
+      teacherTypeOfSchoolWiseCounts.push({
+        typeOfSchool: typeOfSchool._id,
+        totalTeacherCount,
+      });
+    }
+
   const cleanedZoneName = zoneName.replace(/[^0-9]/g, '');
   // MongoDB aggregation pipeline to group guest teachers by post description for the district
   const pipeline3 = [
@@ -659,6 +746,7 @@ const getTeacherStatsByZone = async (zoneName) => {
     totalRegularTeachers,
     totalPostWiseTeachers: mergedCounts,
     totalTeacherManagmentWiseCounts,
+    teacherTypeOfSchoolWiseCounts,
     totalTeacherCategoryWiseCounts,
     totalTeacherShiftWiseCounts,
   };
@@ -721,7 +809,24 @@ const getSchoolIdByManagmentSchoolWise = async (schoolId) => {
   const schCategorySchoolIds = await School.aggregate(pipeline);
   return schCategorySchoolIds;
 };
+const getSchoolIdByTypeOfSchoolWiseAndSchoolName = async (schoolId) => {
+  const pipeline = [
+    {
+      $match: {
+        Schoolid: Number(schoolId),
+      },
+    },
+    {
+      $group: {
+        _id: '$gender',
+        schoolIds: { $push: '$Schoolid' },
+      },
+    },
+  ];
 
+  const schCategorySchoolIds = await School.aggregate(pipeline);
+  return schCategorySchoolIds;
+};
 /**
  * Get school IDs grouped by school category for a specific school.
  * @param {string} schoolId - ID of the school.
@@ -811,6 +916,18 @@ const getTeacherStatsBySchool = async (schoolId) => {
       totalTeacherCount,
     });
   }
+  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWiseAndZone(zoneName);
+  const teacherTypeOfSchoolWiseCounts = [];
+
+  for (const typeOfSchool of typeOfSchoolWiseCountIds) {
+    const teacherCount = await Teacher.countDocuments({ schoolid: { $in: typeOfSchool.schoolIds } });
+    const guestTeacherCount = await GuestTeacher.countDocuments({ SchoolID: { $in: typeOfSchool.schoolIds.map(String) } });
+    const totalTeacherCount = teacherCount + guestTeacherCount;
+    teacherTypeOfSchoolWiseCounts.push({
+      typeOfSchool: typeOfSchool._id,
+      totalTeacherCount,
+    });
+  }
   // MongoDB aggregation pipeline to group guest teachers by post description for the school
   const pipeline3 = [
     {
@@ -897,6 +1014,7 @@ const getTeacherStatsBySchool = async (schoolId) => {
       totalRegularTeachers,
       totalPostWiseTeachers: mergedCounts,
       totalTeacherManagmentWiseCounts,
+      teacherTypeOfSchoolWiseCounts,
       totalTeacherCategoryWiseCounts,
       totalTeacherShiftWiseCounts,
   };

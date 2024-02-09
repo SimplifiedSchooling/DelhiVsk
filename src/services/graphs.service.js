@@ -253,7 +253,7 @@ const getAllSchoolStudentTeacherData = async () => {
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
     // Stream Count
-    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    const typeOfSchool = school.gender || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
@@ -490,7 +490,7 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
     streamCount[stream] = (streamCount[stream] || 0) + 1;
 
     // Stream Count
-    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    const typeOfSchool = school.gender || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 

@@ -62,7 +62,7 @@ const getStudentCountsByField = async (schoolIds, field) => {
 
 // Function to get statistics about students
 const getStudentStats = async () => {
-  const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
+  const fields = ['SchCategory', 'gender', 'shift', 'SchManagement'];
   const fieldPromises = fields.map(async (field) => {
     const schoolIds = await getSchoolIdsByField(field);
     const counts = await getStudentCountsByField(schoolIds, field);
@@ -166,7 +166,7 @@ const getGenderCountsStudentsByDistrict = async (district) => {
  * @returns {Promise<StudentStats>}
  */
 const getStudentCountByDistrictName = async (district) => {
-  const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
+  const fields = ['SchCategory', 'gender', 'shift', 'SchManagement'];
   const fieldPromises = fields.map(async (field) => {
     const schoolIds = await getSchoolIdsByField(field);
     const counts = await getStudentCountsByFieldAndDistrict(schoolIds, field, district);
@@ -267,7 +267,7 @@ const getStudentCountByZoneName = async (zone) => {
   if (cachedData) {
     return JSON.parse(cachedData);
   }
-  const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
+  const fields = ['SchCategory', 'gender', 'shift', 'SchManagement'];
   const fieldPromises = fields.map(async (field) => {
     const schoolIds = await getSchoolIdsByField(field);
     const counts = await getStudentCountsByFieldAndZone(schoolIds, field, zone);
@@ -369,7 +369,7 @@ const getStudentCountsByFieldAndSchoolId = async (schoolId, field) => {
 };
 
 const getStudentCountBySchoolName = async (schoolId) => {
-  const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
+  const fields = ['SchCategory', 'gender', 'shift', 'SchManagement'];
   const fieldPromises = fields.map(async (field) => {
     const counts = await getStudentCountsByFieldAndSchoolId(schoolId, field);
     const formattedCounts = counts.map((item) => {
