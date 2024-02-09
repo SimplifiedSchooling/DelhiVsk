@@ -916,7 +916,7 @@ const getTeacherStatsBySchool = async (schoolId) => {
       totalTeacherCount,
     });
   }
-  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWiseAndZone(zoneName);
+  const typeOfSchoolWiseCountIds = await getSchoolIdByTypeOfSchoolWiseAndSchoolName(schoolId);
   const teacherTypeOfSchoolWiseCounts = [];
 
   for (const typeOfSchool of typeOfSchoolWiseCountIds) {
