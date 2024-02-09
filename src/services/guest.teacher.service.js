@@ -603,7 +603,7 @@ const getTeacherStatsZone = async (zone) => {
       $sort: { _id: 1 },
     },
   ];
-  const totoalStudent = await Student.countDocuments({ status: 'Studying', z_name: nameZone }).exec();
+  const totoalStudent = await Student.countDocuments({ status: 'Studying', z_name: zone }).exec();
   const postdescWiseTeacherCounts = await GuestTeacher.aggregate(pipeline3);
   const totalSchool = await School.countDocuments({ Zone_Name: zone }).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: suffix }).exec();

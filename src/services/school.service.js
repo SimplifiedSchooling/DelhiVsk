@@ -97,28 +97,30 @@ async function storeSchoolDataInMongoDB() {
   }
 }
 
-// cron.schedule('0 0 * * *', async () => {
-//   try {
-//     logger.info(`Running the attendance data update job...`);
-//     await storeSchoolDataInMongoDB();
-//     logger.info(`Student data update job completed.`);
-//   } catch (error) {
-//     logger.info('Error running the job:', error);
-//   }
-// });
-
-const task = cron.schedule('28 11 * * *', async () => {
+cron.schedule('0 0 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await storeSchoolDataInMongoDB();
     logger.info(`Student data update job completed.`);
-
-    // Stop the cron job after it has been executed once
-    // task.destroy();
   } catch (error) {
-    logger.error('Error running the job:', error);
+    logger.info('Error running the job:', error);
   }
 });
+
+
+
+// const task = cron.schedule('06 3 * * *', async () => {
+//   try {
+//     logger.info(`Running the attendance data update job...`);
+//     await storeSchoolDataInMongoDB();
+//     logger.info(`Student data update job completed.`);
+
+//     // Stop the cron job after it has been executed once
+//     // task.destroy();
+//   } catch (error) {
+//     logger.error('Error running the job:', error);
+//   }
+// });
 
 const schoolData = async () => {
   const data = await School.find();
