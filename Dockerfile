@@ -1,15 +1,15 @@
 FROM node:alpine
 
-RUN mkdir -p /usr/src/node-app && chown -R node:node /usr/src/node-app
+RUN mkdir -p /usr/src/delhi-vsk && chown -R node:node /usr/src/delhi-vsk
 
-WORKDIR /usr/src/node-app
+WORKDIR /usr/src/delhi-vsk
 
-COPY package.json yarn.lock ./
+COPY package.json ./
 
 USER node
 
-RUN yarn install --pure-lockfile
+RUN npm install --pure-lockfile
 
 COPY --chown=node:node . .
 
-EXPOSE 3000
+EXPOSE 5050

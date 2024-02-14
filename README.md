@@ -438,3 +438,37 @@ Contributions are more than welcome! Please check out the [contributing guide](C
 ## License
 
 [MIT](LICENSE)
+
+
+
+
+
+### Naming conventions:
+## Variables and Function Names:
+   - Use camelCase for naming variables and functions (e.g., `getUserById`, `calculateTotalPrice`).
+
+ ## Constants:
+   - Use all-uppercase letters for constant values, separated by underscores 
+   (e.g., `MAX_RETRY_ATTEMPTS`, `API_BASE_URL`).
+
+ ## Classes:
+   - Use PascalCase for class names (e.g., `UserModel`, `AuthService`).
+
+ ## Routes:
+   - Use descriptive and resource-specific names for route endpoints (e.g., `getUser`, `updateUserProfile`).
+
+ ## Middleware:
+   - Use descriptive names for middleware functions (e.g., `validateRequest`).
+
+ ## Database Schema:
+   - Follow camelCase for field names in MongoDB collections (e.g., `firstName`, `emailAddress`).
+
+ ## Error Handling:
+   - Prefix error variables with "error" or "err" (e.g., `errorFetchingData`, `errUnauthorizedAccess`).
+
+ ## Parameters and Arguments:
+   - Use camelCase for function parameters and arguments (e.g., `userId`, `requestData`).
+
+ ## Callbacks and Promises**:
+   - Use meaningful names for callback functions and promise handlers (e.g., `handleSuccess`, `handleError`).
+
