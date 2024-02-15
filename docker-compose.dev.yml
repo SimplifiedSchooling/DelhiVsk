@@ -3,4 +3,87 @@ version: '3'
 services:
   node-app:
     container_name: node-app-dev
-    command: yarn dev -L
+    command: npm run dev -L
+
+
+# version: '3'
+
+# services:
+#   node-app:
+#     container_name: node-app-dev
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     command: npm run dev -L
+#     environment:
+#       - MONGODB_URL=mongodb://mongodb:27018/delhi-data
+#     ports:
+#       - '5050:5050'
+#     depends_on:
+#       - mongodb
+#     volumes:
+#       - .:/usr/src/delhi-vsk
+#     networks:
+#       - node-network
+
+#   mongodb:
+#     image: mongo:4.2.1-bionic
+#     ports:
+#       - '27018:27018'
+#     volumes:
+#       - dbdata:/data/db
+#     networks:
+#       - node-network
+
+# volumes:
+#   dbdata:
+
+# networks:
+#   node-network:
+#     driver: bridge
+
+
+# version: '3'
+
+# services:
+#   node-app:
+#     container_name: node-app-dev
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     command: npm run dev -L
+#     environment:
+#       - MONGODB_URL=mongodb://mongodb:27017/delhi-data
+#       - REDIS_URL=redis://redis:6379
+#     ports:
+#       - '5050:5050'
+#     depends_on:
+#       - mongodb
+#       - redis
+#     volumes:
+#       - .:/usr/src/delhi-vsk
+#     networks:
+#       - node-network
+
+#   mongodb:
+#     image: mongo:4.2.1-bionic
+#     ports:
+#       - '27017:27017'
+#     volumes:
+#       - dbdata:/data/db
+#     networks:
+#       - node-network
+
+#   redis:
+#     image: redis:latest
+#     ports:
+#       - '6380:63'
+#     networks:
+#       - node-network
+
+# volumes:
+#   dbdata:
+
+# networks:
+#   node-network:
+#     driver: bridge

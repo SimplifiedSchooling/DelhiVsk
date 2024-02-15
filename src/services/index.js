@@ -23,3 +23,6 @@ module.exports.otpService = require('./otp.service');
 module.exports.classStudentsService = require('./class.students.service');
 module.exports.tabularAttendanceService = require('./tabular.attendance.service');
 module.exports.totalTeacherService = require('./total.teacher.service');
+module.exports.galleryService = require('./gallery.service');
+module.exports.studentMarksService = require('./student.marks.service');
+module.exports.missionBuniyadService = require('./mission.buniyad.service');
