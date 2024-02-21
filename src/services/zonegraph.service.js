@@ -1,6 +1,22 @@
 const { School, Teacher, Student, GuestTeacher } = require('../models');
 const redis = require('../utils/redis');
 
+
+const getStudentStatusCountsByDistrict = async (district) => {
+  const pipeline = [
+    {
+      $match: { District: district },
+    },
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+  ];
+
+  return Student.aggregate(pipeline);
+};
 /**
  * Get all school, student, teacher graph data by districtName
  * @param {string} districtName - The district name to filter the data
@@ -47,7 +63,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
 
     // Stream Count
-    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    const typeOfSchool = school.gender || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
@@ -73,7 +89,9 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
     Student.countDocuments({ status: 'Studying', District: districtName }).exec(),
   ]);
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
+
   const totoal = totalGuestTeacher + totalTeachers.value;
+console.log(totalGuestTeacher , totalTeachers.value, totoal)
   const teacherStudentRatio = totalStudyingStudent.value / totoal;
   const averageTeacherOfSchool = totoal / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
@@ -92,11 +110,13 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
       count: typeOfSchoolCount[typeOfSchool],
     });
   });
-
+  const statusCounts = await getStudentStatusCountsByDistrict(districtName);
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
-    totalTeachers: totalTeachers.value,
+    regularTeachers: totalTeachers.value,
+    guestTeachers: totalGuestTeacher,
+    studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
@@ -117,6 +137,24 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   // Cache the result in Redis for future use
   // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
+};
+
+
+
+const getStudentStatusCountsByZone = async (zone) => {
+  const pipeline = [
+    {
+      $match: { z_name: zone.toLowerCase() },
+    },
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+  ];
+
+  return Student.aggregate(pipeline);
 };
 
 /**
@@ -166,7 +204,7 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
 
     // Stream Count
-    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    const typeOfSchool = school.gender || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
@@ -213,11 +251,13 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
       count: typeOfSchoolCount[typeOfSchool],
     });
   });
-
+  const statusCounts = await getStudentStatusCountsByZone(zoneName);
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
-    totalTeachers: totalTeachers.value,
+    regularTeachers: totalTeachers.value,
+    guestTeachers: totalGuestTeacher,
+    studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
@@ -245,6 +285,23 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
  * @param {string} schoolId - The schoolName name to filter the data
  * @returns {Promise<Object>} School, teacher, student graph data
  */
+
+
+const getStudentStatusCountsBySchoolId = async (schoolId) => {
+  const pipeline = [
+    {
+      $match: { Schoolid: Number(schoolId) },
+    },
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+  ];
+
+  return Student.aggregate(pipeline);
+};
 const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
   // Create a cache key based on the district name
   const cacheKey = `schoolId:${schoolId}`;
@@ -285,7 +342,7 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
     // Stream Count
-    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    const typeOfSchool = school.gender || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
@@ -331,18 +388,28 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
   //   });
   // });
 
-  let typeOfSchoolCounts = '';
+  const typeOfSchoolCounts = [];
+
   if (totalMaleStudent.value > 0 && totalGirlsStudent.value > 0) {
-    typeOfSchoolCounts = 'Co-Ed';
+    typeOfSchoolCounts.push({ typeOfSchool: 'Co-Ed', count: totalMaleStudent.value + totalGirlsStudent.value });
   } else if (totalMaleStudent.value > 0) {
-    typeOfSchoolCounts = 'Boys';
+    typeOfSchoolCounts.push({ typeOfSchool: 'Boys', count: totalMaleStudent.value });
   } else if (totalGirlsStudent.value > 0) {
-    typeOfSchoolCounts = 'Girls';
+    typeOfSchoolCounts.push({ typeOfSchool: 'Girls', count: totalGirlsStudent.value });
+  } else {
+    typeOfSchoolCounts.push({ typeOfSchool: 'Null', count: 136 }); // Change the count value accordingly
   }
+  
+  // // Assuming you want to send this as a response or use it somewhere
+  // console.log(typeOfSchoolCounts);
+  const statusCounts = await getStudentStatusCountsBySchoolId(schoolId);
+
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
-    totalTeachers: totalTeachers.value,
+    regularTeachers: totalTeachers.value,
+    guestTeachers: totalGuestTeacher,
+    studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
@@ -364,6 +431,12 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
   await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
+
+const tabularSchoolData = async (zoneName) => {
+  const totalSchools = await School.countDocuments({ zoneName });
+  const totalStudent = await Student.countDocuments({ zoneName });
+  const totalTeachers = await Teacher.countDocuments({ zoneName });
+}
 module.exports = {
   getAllSchoolStudentTeacherDataByZoneName,
   getAllSchoolStudentTeacherDataByDistrict,

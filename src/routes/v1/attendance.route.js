@@ -13,8 +13,11 @@ router.route('/district-wise/date-wise').post(attendanceController.getDistrictwi
 
 router.route('/zone/date-wise').post(attendanceController.getZoneAttendanceCount);
 router.route('/school/date-wise').post(attendanceController.getAttendanceCountsSchoolWise);
-
+// Shift wise //
 router.route('/zone/shift/wise').post(attendanceController.getAttendanceCountsShiftWise);
+router.route('/zone/shift-district-wise').post(attendanceController.getAttendanceCountsShiftDistrictWise);
+router.route('/zone/shift-zone-wise').post(attendanceController.getAttendanceCountsShiftZoneWise);
+
 router.route('/attendance-status-wise').post(attendanceController.attendanceStatus);
 router.route('/attendance-status-district-wise').post(attendanceController.attendanceStatusDistrictWise);
 router.route('/attendance-status-zone-wise').post(attendanceController.attendanceStatusZoneWise);
@@ -617,6 +620,70 @@ module.exports = router;
  *               date:
  *                 type: string
  *             example:
+ *               shift: 'morning'
+ *               date: '2023-12-01'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/zone/shift-district-wise:
+ *   post:
+ *     summary: Get all  Attendance graph  data by shift wise.
+ *     description: Get all  Attendance graph  data by shift .
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               district:
+ *                 type: string
+ *               shift:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               district: 'East'
+ *               shift: 'morning'
+ *               date: '2023-12-01'
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /attendance/zone/shift-zone-wise:
+ *   post:
+ *     summary: Get all  Attendance graph  data by shift wise.
+ *     description: Get all  Attendance graph  data by shift .
+ *     tags: [Attendance]
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               zone:
+ *                 type: string
+ *               shift:
+ *                 type: string
+ *               date:
+ *                 type: string
+ *             example:
+ *               zone: 'Zone-01'
  *               shift: 'morning'
  *               date: '2023-12-01'
  *     responses:

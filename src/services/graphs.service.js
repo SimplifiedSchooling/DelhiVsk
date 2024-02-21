@@ -192,6 +192,19 @@ const getAggregatedSchoolData = async () => {
   return result;
 };
 
+
+const getStudentStatusCountsAggregation = async () => {
+  const pipeline = [
+    {
+      $group: {
+        _id: '$status',
+        count: { $sum: 1 },
+      },
+    },
+  ];
+
+  return Student.aggregate(pipeline);
+};
 /**
  * Get all school, student, teacher graph data
  * @returns {Promise<Object>} School, teacher, student graph data
@@ -240,7 +253,7 @@ const getAllSchoolStudentTeacherData = async () => {
     const shift = school.shift || 'Unknown';
     shiftWiseCount[shift] = (shiftWiseCount[shift] || 0) + 1;
     // Stream Count
-    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    const typeOfSchool = school.gender || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
@@ -267,8 +280,8 @@ const getAllSchoolStudentTeacherData = async () => {
   ]);
 
   const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
-  const total = totalGuestTeacher + totalTeachers.value;
 
+  const total = totalGuestTeacher + totalTeachers.value;
   const teacherStudentRatio = totalStydyingStudent.value / total;
   const averageTeacherOfSchool = total / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
@@ -286,11 +299,15 @@ const getAllSchoolStudentTeacherData = async () => {
       count: typeOfSchoolCount[typeOfSchool],
     });
   });
+  const statusCounts = await getStudentStatusCountsAggregation();
 
   const result = {
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
     totalTeachers: total,
+    regularTeachers: totalTeachers.value,
+    guestTeachers: totalGuestTeacher,
+    studentStatusCounts: statusCounts,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
     totalGirls: totalGirlsStudent.value,
@@ -473,7 +490,7 @@ const getAggregatedSchoolDataByDistrictName = async (districtName) => {
     streamCount[stream] = (streamCount[stream] || 0) + 1;
 
     // Stream Count
-    const typeOfSchool = school.typeOfSchool || 'Unknown';
+    const typeOfSchool = school.gender || 'Unknown';
     typeOfSchoolCount[typeOfSchool] = (typeOfSchoolCount[typeOfSchool] || 0) + 1;
   });
 
@@ -709,6 +726,61 @@ const getDashboardByZone = async (zone) => {
 // getDashboardByZone('Zone-01').then((result) => {
 //   console.log(result)
 // })
+const getDistrictWiseCountsGraphs = async () => {
+    // try {
+        // Check if the data is already cached in Redis
+  const cachedData = await redis.get('getDistrictWiseCountsGraphicalRepresentation');
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+      const schoolResult = await School.aggregate([
+        {
+          $group: {
+            _id: '$District_name',
+            totalSchools: { $sum: 1 },
+          },
+        },
+      ]);
+  
+      const studentResult = await Student.aggregate([
+        {
+          $group: {
+            _id: '$District',
+            totalStudents: { $sum: 1 },
+          },
+        },
+      ]);
+  
+      const teacherResult = await Teacher.aggregate([
+        {
+          $group: {
+            _id: '$districtname',
+            totalTeachers: { $sum: 1 },
+          },
+        },
+      ]);
+  
+      // Combine the results into a single array
+      const combinedResults = schoolResult.map((district) => {
+        const studentDistrict = studentResult.find((s) => s._id === district._id) || {};
+        const teacherDistrict = teacherResult.find((t) => t._id === district._id) || {};
+  
+        return {
+          _id: district._id,
+          totalSchools: district.totalSchools || 0,
+          totalStudents: studentDistrict.totalStudents || 0,
+          totalTeachers: teacherDistrict.totalTeachers || 0,
+        };
+      });
+      await redis.set('getDistrictWiseCountsGraphicalRepresentation', JSON.stringify(combinedResults), 'EX', 24 * 60 * 60);
+      return combinedResults;
+
+  };
+  
+
+
 module.exports = {
   getSchoolStats,
   getAggregatedSchoolData,
@@ -719,4 +791,5 @@ module.exports = {
   getStudentsEnrollmentGraph,
   getSchoolStudentCountByZone,
   getDistrictWiseCounts,
+  getDistrictWiseCountsGraphs,
 };

@@ -49,7 +49,7 @@ const schoolSchema = mongoose.Schema(
     SchCategory: {
       type: String,
     },
-    typeOfSchool: {
+    gender: {
       type: String,
     },
     stream: {

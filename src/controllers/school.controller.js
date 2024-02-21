@@ -104,6 +104,64 @@ const getSchoolStatsBySchoolName = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getSchoolByAll = catchAsync(async (req, res) => {
+  // const { District_name, Zone_Name, shift } = req.body;
+  const query = {};
+
+  // Build the query based on the provided parameters
+  if (req.body.District_name) {
+    query.District_name = req.body.District_name;
+  }
+  if (req.body.Zone_Name) {
+    query.Zone_Name = req.body.Zone_Name;
+  }
+  if (req.body.shift) {
+    query.shift = req.body.shift;
+  }
+  const result = await schoolService.getSchoolByName(query);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+// const fromUserIDGetData = catchAsync(async(req, res) => {
+
+  
+//   if (!result) {
+//     return res.status(httpStatus.NOT_FOUND).json({ error: 'Invalid id' });
+//   }
+  
+//   return res.status(httpStatus.OK).json(result);
+
+// })
+const getAllSchoolsNames = catchAsync(async (req, res) => {
+  const result = await schoolService.getAllSchoolsNames();
+  if(!result){
+    new ApiError(httpStatus.NOT_FOUND, 'Not found School data');
+  }
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getSchoolDataForTabular = catchAsync(async (req, res) => {
+  const {Z_name, School_ID, shift,district_name } = req.body;
+  const result = await schoolService.getSchoolDataForTabular(Z_name, School_ID, shift,district_name );
+  if(!result){
+    new ApiError(httpStatus.NOT_FOUND, 'School data not found');
+  }
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getSchoolData = catchAsync(async (req, res) => {
+  const result = await schoolService.getSchoolData();
+  if(!result){
+    new ApiError(httpStatus.NOT_FOUND, 'School data not found');
+  }
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const searchSchool = catchAsync(async (req, res) => {
+  const result = await schoolService.searchSchool(req.body.searchQuery);
+  res.send(result);
+});
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,
@@ -115,4 +173,9 @@ module.exports = {
   getZoneSchool,
   getSchoolStatsBySchoolName,
   getZoneSchoolOfGoverment,
+  getSchoolByAll,
+  getAllSchoolsNames,
+  getSchoolDataForTabular,
+  getSchoolData,
+  searchSchool,
 };

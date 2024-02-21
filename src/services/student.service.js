@@ -26,7 +26,6 @@ async function processStudentData(studentData) {
 
     // Use findOneAndUpdate to update or create a document based on the filter
     const updatedStudent = await Student.findOneAndUpdate(filter, update, options).exec();
-
     return updatedStudent;
   });
 
@@ -54,6 +53,7 @@ cron.schedule('0 3 * * 0', async () => {
     logger.info('Error running the job:', error);
   }
 });
+
 
 const getStudentCountBySchoolName = async (Schoolid) => {
   const cacheKey = `SCHOOL_NAME:${Schoolid}`;

@@ -37,6 +37,14 @@ router.post('/getZoneSchool', schoolController.getZoneSchool);
 
 router.post('/get-zone-goverment-schools', schoolController.getZoneSchoolOfGoverment);
 
+router.post('/get/school-by/district/zone/shift', schoolController.getSchoolByAll);
+
+router.get('/get-all-school-name', schoolController.getAllSchoolsNames);
+router.get('/school-data-tabular', schoolController.getSchoolData);
+
+router.post('/tabular-school-data', schoolController.getSchoolDataForTabular);
+
+router.route('/search-school').post(schoolController.searchSchool);
 module.exports = router;
 
 /**
@@ -46,6 +54,21 @@ module.exports = router;
  *   description: School management
  */
 
+/**
+ * @swagger
+ * /school/get-all-school-name:
+ *   get:
+ *     summary: Get all schools name and schoolid
+ *     description:  Get all schools name and schoolid
+ *     tags: [School]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
 /**
  * @swagger
  * /school:
@@ -229,7 +252,107 @@ module.exports = router;
  *         description: Forbidden
  */
 
-// /**
+/**
+ * @swagger
+ * /school/get/school-by/district/zone/shift:
+ *   post:
+ *     summary: Get zone School names
+ *     description: Get a list of zone School names.
+ *     tags: [School]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               District_name:
+ *                 type: string
+ *               Zone_Name:
+ *                 type: string
+ *               shift:
+ *                 type: string
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+/**
+ * @swagger
+ * /school/school-data-tabular:
+ *   get:
+ *     summary: Get all schools
+ *     description: Get a list of all schools.
+ *     tags: [School]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /school/tabular-school-data:
+ *   post:
+ *     summary: Get  School
+ *     description: Get a list of School names.
+ *     tags: [School]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Z_name:
+ *                 type: string
+ *               School_ID:
+ *                 type: string
+ *               shift:
+ *                 type: string
+ *               district_name:
+ *                 type: string
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "400":
+ *         description: Bad Request
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+
+/**
+ * @swagger
+ * /school/search-school:
+ *   post:
+ *     summary: Get School data by a single property (Schoolid, schol Name ).
+ *     description: Get School data by a single property (Schoolid, schol Name).
+ *     tags: [School]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               searchQuery:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: Successful response with an array of matching students
+ *       '500':
+ *         description: Internal Server Error
+ */
+// /**/get/school-by/district/zone/shift
 //  * @swagger
 //  * tags:
 //  *   name: School

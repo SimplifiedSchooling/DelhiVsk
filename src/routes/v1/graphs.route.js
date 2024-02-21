@@ -17,6 +17,8 @@ router.route('/school-student-count-by-district').get(graphsController.getSchool
 router.route('/school-student-count/zone').post(graphsController.getSchoolStudentCountByZone);
 router.route('/dashboard/district-wise').post(graphsController.getSchoolStudentCountByDistrict);
 
+
+router.route('/graphical-representation').get(graphsController.getDistrictWiseCountsGraphs);
 module.exports = router;
 
 /**
@@ -180,4 +182,18 @@ module.exports = router;
  *         description: Unauthorized
  *       "403":
  *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /graphs/graphical-representation:
+ *   get:
+ *     summary: Get graphical  representation.
+ *     description: Get total school and student count for each district.
+ *     tags: [Graphs]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *       "500":
+ *         description: Internal Server Error
  */

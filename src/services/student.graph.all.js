@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { School, Student, Teacher } = require('../models');
+const { School, Student, Teacher, GuestTeacher } = require('../models');
 const redis = require('../utils/redis');
 
 // Function to get school IDs by a specific field (e.g., SchCategory, stream, etc.)
@@ -62,7 +62,7 @@ const getStudentCountsByField = async (schoolIds, field) => {
 
 // Function to get statistics about students
 const getStudentStats = async () => {
-  const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
+  const fields = ['SchCategory', 'gender', 'shift', 'SchManagement'];
   const fieldPromises = fields.map(async (field) => {
     const schoolIds = await getSchoolIdsByField(field);
     const counts = await getStudentCountsByField(schoolIds, field);
@@ -79,8 +79,10 @@ const getStudentStats = async () => {
     Student.countDocuments({ status: 'Studying' }).exec(),
     Teacher.countDocuments().exec(),
   ]);
+  const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
 
-  const teacherStudentRatio = studyingStudents.value / totalTeachers.value;
+  const totalTeachersCount =  totalGuestTeacher + totalTeachers.value;
+  const teacherStudentRatio = studyingStudents.value / totalTeachersCount;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
 
   const totalStudents = totalStudent.value;
@@ -164,7 +166,7 @@ const getGenderCountsStudentsByDistrict = async (district) => {
  * @returns {Promise<StudentStats>}
  */
 const getStudentCountByDistrictName = async (district) => {
-  const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
+  const fields = ['SchCategory', 'gender', 'shift', 'SchManagement'];
   const fieldPromises = fields.map(async (field) => {
     const schoolIds = await getSchoolIdsByField(field);
     const counts = await getStudentCountsByFieldAndDistrict(schoolIds, field, district);
@@ -182,7 +184,10 @@ const getStudentCountByDistrictName = async (district) => {
     Teacher.countDocuments({ districtname: district }).exec(),
   ]);
 
-  const teacherStudentRatio = studyingStudents.value / totalTeachers.value;
+  const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: district }).exec();
+  const totoal = totalTeachers.value + totalGuestTeacher;
+
+  const teacherStudentRatio = studyingStudents.value / totoal;
   // const averageTeacherOfSchool = totalTeachers.value / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
 
@@ -262,7 +267,7 @@ const getStudentCountByZoneName = async (zone) => {
   if (cachedData) {
     return JSON.parse(cachedData);
   }
-  const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
+  const fields = ['SchCategory', 'gender', 'shift', 'SchManagement'];
   const fieldPromises = fields.map(async (field) => {
     const schoolIds = await getSchoolIdsByField(field);
     const counts = await getStudentCountsByFieldAndZone(schoolIds, field, zone);
@@ -280,7 +285,10 @@ const getStudentCountByZoneName = async (zone) => {
     Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
   ]);
 
-  const teacherStudentRatio = studyingStudents.value / totalTeachers.value;
+  const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: cleanedZoneName }).exec();
+  const total = totalGuestTeacher + totalTeachers.value;
+
+  const teacherStudentRatio = studyingStudents.value / total;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
 
   const totalStudents = totalStudent.value;
@@ -361,7 +369,7 @@ const getStudentCountsByFieldAndSchoolId = async (schoolId, field) => {
 };
 
 const getStudentCountBySchoolName = async (schoolId) => {
-  const fields = ['SchCategory', 'typeOfSchool', 'shift', 'SchManagement'];
+  const fields = ['SchCategory', 'gender', 'shift', 'SchManagement'];
   const fieldPromises = fields.map(async (field) => {
     const counts = await getStudentCountsByFieldAndSchoolId(schoolId, field);
     const formattedCounts = counts.map((item) => {
@@ -388,7 +396,11 @@ const getStudentCountBySchoolName = async (schoolId) => {
     Teacher.countDocuments({ schoolid: schoolId }).exec(),
   ]);
 
-  const teacherStudentRatio = studyingStudents.value / totalTeachers.value;
+  const totalGuestTeacher = await GuestTeacher.countDocuments({ SchoolID: schoolId }).exec();
+
+  const totoal = totalTeachers.value + totalGuestTeacher;
+
+  const teacherStudentRatio = studyingStudents.value / totoal;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
   const totalStudents = totalStudent.value;
 

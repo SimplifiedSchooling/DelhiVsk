@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cron = require('node-cron');
 const logger = require('../config/logger');
-const { GuestTeacher, School } = require('../models');
+const { GuestTeacher, School, Student } = require('../models');
 
 // Function to fetch data from the API
 const fetchDataFromApi = async () => {
@@ -103,7 +103,7 @@ const getSchoolIdByTypeOfSchoolWise = async () => {
   const pipeline = [
     {
       $group: {
-        _id: '$typeOfSchool',
+        _id: '$gender',
         schoolIds: { $push: '$Schoolid' },
       },
     },
@@ -146,7 +146,32 @@ const getTeacherStats = async () => {
       teacherShiftWiseCount,
     });
   }
+//   const totalGuestTeacherCount = await GuestTeacher.countDocuments();
+// console.log('Total Guest Teachers:', totalGuestTeacherCount);
 
+// const shiftWiseSchoolIds = await getSchoolIdByShiftWise();
+// shiftWiseSchoolIds.forEach(shift => {
+//   console.log(`Shift: ${shift._id}, School Count: ${shift.schoolIds.length}`);
+// });
+
+// teacherShiftWiseCounts.forEach(shiftCount => {
+//   console.log(`Shift: ${shiftCount.shift}, Guest Teacher Count: ${shiftCount.teacherShiftWiseCount}`);
+// });
+
+// const duplicateGuestTeachers = await GuestTeacher.aggregate([
+//   { $group: { _id: '$ApplicationId', count: { $sum: 1 } } },
+//   { $match: { count: { $gt: 1 } } },
+// ]);
+
+// console.log('Duplicate Guest Teachers:', duplicateGuestTeachers);
+
+// const totalGuestTeacherCounts = await GuestTeacher.countDocuments();
+// const sumOfShiftCounts = teacherShiftWiseCounts.reduce((sum, shiftCount) => sum + shiftCount.teacherShiftWiseCount, 0);
+
+// console.log('Total Guest Teachers:', totalGuestTeacherCounts);
+// console.log('Sum of Shift Counts:', sumOfShiftCounts);
+
+  // console.log(teacherShiftWiseCounts)
   const zoneNameWiseCountIds = await getSchoolIdByZoneNameWise();
   const teacherZoneWiseCounts = [];
 
@@ -194,9 +219,12 @@ const getTeacherStats = async () => {
       $sort: { _id: 1 },
     },
   ];
+  const totoalStudent = await Student.countDocuments({ status: 'Studying' }).exec();
   const postdescWiseTeacherCounts = await GuestTeacher.aggregate(pipeline3);
   const totalSchool = await School.countDocuments().exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
+  const averageTeachers = totalGuestTeacher / totalSchool;
+  const studentRatio = totoalStudent / totalGuestTeacher;
 
   const result = {
     totalSchool,
@@ -207,6 +235,8 @@ const getTeacherStats = async () => {
     teacherTypeOfSchoolWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
+    averageTeachers,
+    studentRatio,
   };
   return result;
 };
@@ -280,7 +310,7 @@ const getSchoolIdByTypeOfSchoolWiseDistrict = async (districtName) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool',
+        _id: '$gender',
         schoolIds: { $push: '$Schoolid' },
       },
     },
@@ -381,9 +411,12 @@ const getTeacherStatsDistrict = async (districtName) => {
       $sort: { _id: 1 },
     },
   ];
+  const totoalStudent = await Student.countDocuments({ status: 'Studying', District: districtName }).exec();
   const postdescWiseTeacherCounts = await GuestTeacher.aggregate(pipeline3);
   const totalSchool = await School.countDocuments({ District_name: districtName }).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
+  const averageTeachers = totalGuestTeacher / totalSchool;
+  const studentRatio = totoalStudent / totalGuestTeacher;
 
   const result = {
     totalSchool,
@@ -394,6 +427,8 @@ const getTeacherStatsDistrict = async (districtName) => {
     teacherTypeOfSchoolWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
+    averageTeachers,
+    studentRatio,
   };
   return result;
 };
@@ -467,7 +502,7 @@ const getSchoolIdByTypeOfSchoolWiseZone = async (zone) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool',
+        _id: '$gender',
         schoolIds: { $push: '$Schoolid' },
       },
     },
@@ -568,9 +603,12 @@ const getTeacherStatsZone = async (zone) => {
       $sort: { _id: 1 },
     },
   ];
+  const totoalStudent = await Student.countDocuments({ status: 'Studying', z_name: zone }).exec();
   const postdescWiseTeacherCounts = await GuestTeacher.aggregate(pipeline3);
   const totalSchool = await School.countDocuments({ Zone_Name: zone }).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: suffix }).exec();
+  const averageTeachers = totalGuestTeacher / totalSchool;
+  const studentRatio = totoalStudent / totalGuestTeacher;
 
   const result = {
     totalSchool,
@@ -581,6 +619,8 @@ const getTeacherStatsZone = async (zone) => {
     teacherTypeOfSchoolWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
+    averageTeachers,
+    studentRatio,
   };
   return result;
 };
@@ -654,7 +694,7 @@ const getSchoolIdByTypeOfSchoolWiseSchool = async (SchoolId) => {
     },
     {
       $group: {
-        _id: '$typeOfSchool',
+        _id: '$gender',
         schoolIds: { $push: '$Schoolid' },
       },
     },
@@ -755,9 +795,13 @@ const getTeacherStatsSchool = async (SchoolId) => {
       $sort: { _id: 1 },
     },
   ];
+
+  const totoalStudent = await Student.countDocuments({ status: 'Studying', Schoolid: Number(SchoolId) }).exec();
   const postdescWiseTeacherCounts = await GuestTeacher.aggregate(pipeline3);
   const totalSchool = await School.countDocuments({ Schoolid: Number(SchoolId) }).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments({ SchoolID: SchoolId }).exec();
+  const averageTeachers = totalGuestTeacher / totalSchool;
+  const studentRatio = totoalStudent / totalGuestTeacher;
 
   const result = {
     totalSchool,
@@ -768,6 +812,8 @@ const getTeacherStatsSchool = async (SchoolId) => {
     teacherTypeOfSchoolWiseCounts,
     postdescWiseTeacherCounts,
     teacherManagmentWiseCounts,
+    averageTeachers,
+    studentRatio,
   };
   return result;
 };
@@ -799,6 +845,72 @@ const teacherGuestPostWiseList = async (SchoolID, Post) => {
   const result = GuestTeacher.find({ SchoolID, Post });
   return result;
 };
+
+
+
+// const getSchoolIdByShiftWise = async () => {
+//   const pipeline = [
+//     {
+//       $group: {
+//         _id: '$shift',
+//         schoolIds: { $push: '$Schoolid' },
+//       },
+//     },
+//   ];
+
+//   const schCategorySchoolIds = await School.aggregate(pipeline);
+//   return schCategorySchoolIds;
+// };
+// const data =  async() => {
+//   const shifts = await getSchoolIdByShiftWise();
+//   console.log(shifts.length, shifts);
+// }
+
+// data()
+
+////FOR CHECKING HOW MANY TEACHERS ID DIDNT MATCH WITH OUR SCHOOLS
+
+
+
+// const getSchoolIdByShiftWises = async () => {
+//   const pipeline = [
+//     {
+//       $group: {
+//         _id: '$shift',
+//         schoolIds: { $push: '$Schoolid' },
+//       },
+//     },
+//   ];
+
+//   return School.aggregate(pipeline);
+// };
+
+
+// const getSchoolIdByManagmentWiseS = async () => {
+//   const pipeline = [
+//     {
+//       $group: {
+//         _id: '$SchManagement',
+//         schoolIds: { $push: '$Schoolid' },
+//       },
+//     },
+//   ];
+
+//   const schCategorySchoolIds = await School.aggregate(pipeline);
+//   return schCategorySchoolIds;
+// };
+// const checkGuestTeachersWithoutSchool = async () => {
+//   const shiftWiseSchools = await getSchoolIdByManagmentWiseS();
+// console.log(shiftWiseSchools)
+//   const guestTeachersWithoutSchool = await GuestTeacher.find({
+//     SchoolID: { $nin: shiftWiseSchools.flatMap(shift => shift.schoolIds.map(String)) },
+//   });
+
+//   console.log('Guest Teachers Without School:', guestTeachersWithoutSchool);
+// };
+
+// // Call this function to check guest teachers without a corresponding school in the specified shifts.
+// checkGuestTeachersWithoutSchool();
 
 module.exports = {
   getTeacherStats,

@@ -22,7 +22,7 @@ async function fetchStudentDataForSchool(schoolId, password, date) {
     }
     return [response.data.Cargo];
   } catch (error) {
-    console.log(error);
+    throw new Error([]);
     return null;
   }
 }
@@ -45,13 +45,13 @@ const storeAttendanceDataInMongoDB = async () => {
       const identifier = `${school.Schoolid}-${date}`;
       const existingAttendance = await Attendance.findOne({ School_ID: school.Schoolid, attendance_DATE: parsedDate });
 
-      const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid) }).exec();
-      const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid) }).exec();
-      const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid) }).exec();
+      const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
+      const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
+      const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
 
       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
       const countByGenderAndAttendance = (gender, attendanceType) =>
-        studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
+        studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType && student.status === 'Studying').length;
 
       // const countByClass = (className, attendanceType) =>
       //   studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
@@ -173,6 +173,8 @@ const storeAttendanceDataInMongoDB = async () => {
             School_ID: school.Schoolid,
             school_name: school.School_Name,
             shift: school.shift,
+            Latitude: school.Latitude,
+            Longitude: school.Longitude,
             attendance_DATE: parsedDate,
             SchManagement: school.SchManagement,
             totalStudentCount,
@@ -210,6 +212,8 @@ const storeAttendanceDataInMongoDB = async () => {
           School_ID: school.Schoolid,
           school_name: school.School_Name,
           shift: school.shift,
+          Latitude: school.Latitude,
+          Longitude: school.Longitude,
           SchManagement: school.SchManagement,
           attendance_DATE: parsedDate,
           totalStudentCount,
@@ -248,21 +252,21 @@ const storeAttendanceDataByDate = async (date) => {
   const password = 'VSK@9180';
   const schools = await School.find().exec();
   for (const school of schools) {
-    const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);
+    const studentData = await fetchStudentDataForSchool(school.Schoolid, password, date);//school.Schoolid
     if (studentData) {
       // Create a unique identifier based on school and date
       const identifier = `${school.Schoolid}-${date}`;
       // Check if an entry with the same identifier exists
       const existingAttendance = await Attendance.findOne({ identifier });
 
-      const maleStudents = await Student.countDocuments({ Gender: 'M', status:'Studying', Schoolid: Number(school.Schoolid) }).exec();
-      const femaleStudents = await Student.countDocuments({ Gender: 'F', status:'Studying', Schoolid: Number(school.Schoolid) }).exec();
-      const otherStudents = await Student.countDocuments({ Gender: 'T', status:'Studying', Schoolid: Number(school.Schoolid) }).exec();
+      const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid) }).exec();
+      const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid) }).exec();
+      const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid) }).exec();
 
       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
 
       const countByGenderAndAttendance = (gender, attendanceType) =>
-        studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType).length;
+        studentData.filter((student) => student.Gender === gender && student.attendance === attendanceType && student.status === 'Studying').length;
 
       // const countByClass = (className, attendanceType) =>
       //   studentData.filter((student) => student.CLASS === className && student.attendance === attendanceType).length;
@@ -350,6 +354,8 @@ const storeAttendanceDataByDate = async (date) => {
             School_ID: school.Schoolid,
             school_name: school.School_Name,
             shift: school.shift,
+            Latitude: school.Latitude,
+            Longitude: school.Longitude,
             SchManagement: school.SchManagement,
             attendance_DATE: parsedDate,
             totalStudentCount,
@@ -386,6 +392,8 @@ const storeAttendanceDataByDate = async (date) => {
           School_ID: school.Schoolid,
           school_name: school.School_Name,
           shift: school.shift,
+          Latitude: school.Latitude,
+          Longitude: school.Longitude,
           SchManagement: school.SchManagement,
           attendance_DATE: parsedDate,
           totalStudentCount,
@@ -419,13 +427,25 @@ const storeAttendanceDataByDate = async (date) => {
 };
 
 // Schedule the job to run every day at 9 PM
-cron.schedule('0 21 * * *', async () => {
+// cron.schedule('0 21 * * *', async () => {
+//   try {
+//     logger.info(`Running the attendance data update job...`);
+//     await storeAttendanceDataInMongoDB();
+//     logger.info(`Attendance data update job completed.`);
+//   } catch (error) {
+//     logger.info('Error running the job:', error);
+//   }
+// });
+
+
+// Schedule the job to run at 9 am, 12 pm, 3 pm, 8 pm, and 11 pm
+cron.schedule('0 9,12,15,19,23 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await storeAttendanceDataInMongoDB();
     logger.info(`Attendance data update job completed.`);
   } catch (error) {
-    logger.info('Error running the job:', error);
+    logger.error('Error running the job:', error);
   }
 });
 
@@ -480,7 +500,7 @@ const getAttendanceCounts = async (date) => {
   const countofSchool = await School.countDocuments({ SchManagement: 'Government' }).exec();
   const schools = await School.find({ SchManagement: 'Government' }, 'Schoolid');
   const schoolIds = schools.map((school) => school.Schoolid);
-  const totalStudentCount = await Student.countDocuments({ Schoolid: { $in: schoolIds }, status: 'Studying' });
+  const totalStudentCount = await Student.countDocuments({ Schoolid: { $in: schoolIds }, status: 'Studying' }); //status: 'Studying'
 
   // const totalStudentCount = await Student.countDocuments({ status: 'Studying', SchManagement: 'Government'}).exec();
 
@@ -545,8 +565,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
     },
   ]);
 
-  const countofSchoool = await School.countDocuments({ District_name: districtName }).exec();
-
+  const countofSchool = await School.countDocuments({ District_name: districtName }).exec();
   const schools = await School.find({ SchManagement: 'Government' }, 'Schoolid');
   const schoolIds = schools.map((school) => school.Schoolid);
   const totalStudentCount = await Student.countDocuments({
@@ -557,7 +576,7 @@ const getAttendanceCountsDistrictWise = async (body) => {
   // const totalStudentCount = await Student.countDocuments({ District: districtName, status: 'Studying' }).exec();
   return {
     statusCounts,
-    countofSchoool,
+    countofSchool,
     totalStudentCount,
     Counts,
   };
@@ -616,7 +635,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
     },
   ]);
 
-  const countofSchoool = await School.countDocuments({ Zone_Name: Z_name, SchManagement: 'Government' }).exec();
+  const countofSchool = await School.countDocuments({ Zone_Name: Z_name, SchManagement: 'Government' }).exec();
 
   const schools = await School.find({ SchManagement: 'Government' }, 'Schoolid');
   const schoolIds = schools.map((school) => school.Schoolid);
@@ -629,7 +648,7 @@ const getAttendanceCountsZoneWise = async (date, Z_name) => {
   //  const totalStudentCount = await Student.countDocuments({ z_name: Z_name.toLowerCase(), status: 'Studying' }).exec();
   return {
     statusCounts,
-    countofSchoool,
+    countofSchool,
     totalStudentCount,
     Counts,
   };
@@ -688,13 +707,15 @@ const getAttendanceCountsSchoolWise = async (date, School_ID) => {
     },
   ]);
   const Schoolid = Number(School_ID);
-  const countofSchoool = await School.countDocuments(Number(School_ID)).exec();
-  const totalStudentCount = await Student.countDocuments({ Schoolid, status: 'Studying' }).exec();
+  const countofSchool = await School.countDocuments(Number(School_ID)).exec();
+  const shiftOfSchool = await School.find({Schoolid: Number(School_ID) }, { shift:1, _id: 0 });
+  const totalStudentCount = await Student.countDocuments({ Schoolid, status: 'Studying' }).exec(); //status: 'Studying'
   return {
     statusCounts,
-    countofSchoool,
+    countofSchool,
     totalStudentCount,
     Counts,
+    shift: shiftOfSchool[0].shift,
   };
 };
 
@@ -749,7 +770,7 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
       },
     },
   ]);
-  const countofSchoool = await School.countDocuments({ shift, SchManagement: 'Government' }).exec();
+  const countofSchool = await School.countDocuments({ shift, SchManagement: 'Government' }).exec();
   const schools = await School.find({ shift, SchManagement: 'Government' });
 
   // Extract school IDs from the result
@@ -774,7 +795,173 @@ const getAttendanceCountsShiftWise = async (date, shift) => {
   // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
   return {
     statusCounts,
-    countofSchoool,
+    countofSchool,
+    totalStudentCount: result[0].studentCount,
+    Counts,
+  };
+};
+
+/**
+ * Get attendance counts for a specific date and shift district
+ * @param {string} date - The date for which attendance is requested
+ * @param {string} shift - The shift for which attendance is requested
+ * @param {string} district - The shift for which attendance is requested
+ * @returns {Promise<Object>} - Object containing attendance counts for the shift
+ */
+
+const getAttendanceCountsShiftDistrictWise = async (date, shift, district) => {
+  const dateMatch = {
+    $match: {
+      attendance_DATE: new Date(date),
+      district_name: district,
+      shift,
+      SchManagement: 'Government',
+    },
+  };
+  const Counts = await Attendance.aggregate([
+    dateMatch,
+    {
+      $group: {
+        _id: null,
+        PresentCount: { $sum: '$PresentCount' },
+        AbsentCount: { $sum: '$AbsentCount' },
+        totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
+        totalLeaveCount: { $sum: '$totalLeaveCount' },
+        malePresentCount: { $sum: '$malePresentCount' },
+        feMalePresentCount: { $sum: '$feMalePresentCount' },
+        otherPresentCount: { $sum: '$otherPresentCount' },
+        maleAbsentCount: { $sum: '$maleAbsentCount' },
+        feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
+        othersAbsentCount: { $sum: '$othersAbsentCount' },
+        maleLeaveCount: { $sum: '$maleLeaveCount' },
+        femaleLeaveCount: { $sum: '$femaleLeaveCount' },
+        otherLeaveCount: { $sum: '$otherLeaveCount' },
+        maleAttendanceNotMarked: { $sum: '$maleAttendanceNotMarked' },
+        femaleAttendanceNotMarked: { $sum: '$femaleAttendanceNotMarked' },
+        otherAttendanceNotMarked: { $sum: '$otherAttendanceNotMarked' },
+        attendanceNotFoundCountSchoolCount: {
+          $sum: { $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, 1, 0] },
+        },
+      },
+    },
+  ]);
+  const statusCounts = await Attendance.aggregate([
+    dateMatch,
+    {
+      $group: {
+        _id: '$attendanceStatus',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  const countofSchool = await School.countDocuments({ shift, SchManagement: 'Government', District_name: district }).exec();
+  const schools = await School.find({ shift, SchManagement: 'Government', District_name: district });
+  // Extract school IDs from the result
+  const schoolIds = schools.map((school) => school.Schoolid);
+
+  // Use aggregation to get shift-wise student count
+  const result = await Student.aggregate([
+    {
+      $match: {
+        Schoolid: { $in: schoolIds },
+        status: 'Studying', // Add this condition to filter by status
+      },
+    },
+    {
+      $group: {
+        _id: '$shift',
+        studentCount: { $sum: 1 },
+      },
+    },
+  ]);
+  // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
+  return {
+    statusCounts,
+    countofSchool,
+    totalStudentCount: result[0].studentCount,
+    Counts,
+  };
+};
+
+/**
+ * Get attendance counts for a specific date and shift zone
+ * @param {string} date - The date for which attendance is requested
+ * @param {string} shift - The shift for which attendance is requested
+ * @param {string} zone - The shift for which attendance is requested
+ * @returns {Promise<Object>} - Object containing attendance counts for the shift
+ */
+
+const getAttendanceCountsShiftZoneWise = async (date, shift, zone) => {
+  const dateMatch = {
+    $match: {
+      attendance_DATE: new Date(date),
+      Z_name: zone,
+      shift,
+      SchManagement: 'Government',
+    },
+  };
+  const Counts = await Attendance.aggregate([
+    dateMatch,
+    {
+      $group: {
+        _id: null,
+        PresentCount: { $sum: '$PresentCount' },
+        AbsentCount: { $sum: '$AbsentCount' },
+        totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
+        totalLeaveCount: { $sum: '$totalLeaveCount' },
+        malePresentCount: { $sum: '$malePresentCount' },
+        feMalePresentCount: { $sum: '$feMalePresentCount' },
+        otherPresentCount: { $sum: '$otherPresentCount' },
+        maleAbsentCount: { $sum: '$maleAbsentCount' },
+        feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
+        othersAbsentCount: { $sum: '$othersAbsentCount' },
+        maleLeaveCount: { $sum: '$maleLeaveCount' },
+        femaleLeaveCount: { $sum: '$femaleLeaveCount' },
+        otherLeaveCount: { $sum: '$otherLeaveCount' },
+        maleAttendanceNotMarked: { $sum: '$maleAttendanceNotMarked' },
+        femaleAttendanceNotMarked: { $sum: '$femaleAttendanceNotMarked' },
+        otherAttendanceNotMarked: { $sum: '$otherAttendanceNotMarked' },
+        attendanceNotFoundCountSchoolCount: {
+          $sum: { $cond: [{ $eq: ['$attendanceStatus', 'data not found'] }, 1, 0] },
+        },
+      },
+    },
+  ]);
+  const statusCounts = await Attendance.aggregate([
+    dateMatch,
+    {
+      $group: {
+        _id: '$attendanceStatus',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+  const countofSchool = await School.countDocuments({ shift, SchManagement: 'Government', Zone_Name: zone }).exec();
+  const schools = await School.find({ shift, SchManagement: 'Government', Zone_Name: zone });
+
+  // Extract school IDs from the result
+  const schoolIds = schools.map((school) => school.Schoolid);
+
+  // Use aggregation to get shift-wise student count
+  const result = await Student.aggregate([
+    {
+      $match: {
+        Schoolid: { $in: schoolIds },
+        status: 'Studying', // Add this condition to filter by status
+      },
+    },
+    {
+      $group: {
+        _id: '$shift',
+        studentCount: { $sum: 1 },
+      },
+    },
+  ]);
+
+  // const totalStudentCount = await Student.countDocuments({z_name: Z_name}).exec();
+  return {
+    statusCounts,
+    countofSchool,
     totalStudentCount: result[0].studentCount,
     Counts,
   };
@@ -1061,8 +1248,11 @@ const getAttendancePercentageGenderAndRangeAndShiftWise = async (
       $gte: new Date(startDate),
       $lt: new Date(new Date(endDate).getTime() + 24 * 60 * 60 * 1000), // Add one day to include the end date
     },
-    shift,
+  
   };
+if(shift){
+  matchStage.shift = shift;
+}
 
   if (schoolId) {
     matchStage.School_ID = schoolId;
@@ -1644,10 +1834,12 @@ async function fetchUdisePhysicalFacilitiesData() {
     }
     return [response.data.Cargo];
   } catch (error) {
-    console.log(error);
+    throw new Error([]);
     return null;
   }
 }
+
+/// /////////////
 
 /// /////////////
 
@@ -1682,4 +1874,7 @@ module.exports = {
   getAttendanceCountForAddedSchools,
   getAidedSchoolList,
   fetchUdisePhysicalFacilitiesData,
+
+  getAttendanceCountsShiftDistrictWise,
+  getAttendanceCountsShiftZoneWise,
 };

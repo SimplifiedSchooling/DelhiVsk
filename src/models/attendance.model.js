@@ -12,6 +12,15 @@ const attendanceSchema = mongoose.Schema(
     district_name: {
       type: String,
     },
+    Latitude: {
+      type: String,
+    },
+    Longitude: {
+      type: String,
+    },
+    status: {
+      type: String,
+    },
     Z_name: {
       type: String,
     },

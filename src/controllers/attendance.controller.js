@@ -212,6 +212,19 @@ const getAidedSchoolList = catchAsync(async (req, res) => {
   }
   res.status(httpStatus.OK).json({ lists });
 });
+
+const getAttendanceCountsShiftDistrictWise = catchAsync(async (req, res) => {
+  const { date, shift, district } = req.body;
+  const result = await attendanceService.getAttendanceCountsShiftDistrictWise(date, shift, district);
+  res.status(httpStatus.CREATED).send(result);
+});
+
+const getAttendanceCountsShiftZoneWise = catchAsync(async (req, res) => {
+  const { date, shift, zone } = req.body;
+  const result = await attendanceService.getAttendanceCountsShiftZoneWise(date, shift, zone);
+  res.status(httpStatus.CREATED).send(result);
+});
+
 module.exports = {
   getAttedanceData,
   getAttendanceCounts,
@@ -241,4 +254,7 @@ module.exports = {
   //----------------------------------------------------------------
   getAttendanceCountForAidedSchools,
   getAidedSchoolList,
+
+  getAttendanceCountsShiftDistrictWise,
+  getAttendanceCountsShiftZoneWise,
 };

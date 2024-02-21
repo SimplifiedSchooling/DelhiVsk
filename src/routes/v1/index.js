@@ -18,6 +18,12 @@ const allDashboard3 = require('./alldashboard3.route');
 const udiseSchoolRoute = require('./udise.school.route');
 const studentGraphAllRoute = require('./student.graph.all.route');
 const guestTeacherRoute = require('./guest.teacher.route');
+const classStudentRoute = require('./class.students.route');
+const tabularAttendanceRoute = require('./tabular.attendance.route');
+const totalTeacherRoute = require('./total.teachers.route');
+const studentMarksRoute = require('./student.marks.route');
+const missionBuniyadRoute = require('./mission.buniyad.route');
+const studentOrientationRoute = require('./student.orientation.route');
 
 const router = express.Router();
 
@@ -90,6 +96,31 @@ const defaultRoutes = [
     path: '/guest-teacher',
     route: guestTeacherRoute,
   },
+  {
+    path: '/class-student',
+    route: classStudentRoute,
+  },
+  {
+    path: '/tabular-attendnace',
+    route: tabularAttendanceRoute,
+  },
+  {
+    path: '/total-teacher',
+    route: totalTeacherRoute,
+  },
+  {
+    path: '/student-marks',
+    route: studentMarksRoute,
+  },
+  {
+    path: '/mission-buniyad',
+    route: missionBuniyadRoute,
+  },
+  {
+    path: '/student-orientation',
+    route: studentOrientationRoute,
+  }
+  
 ];
 
 const devRoutes = [
