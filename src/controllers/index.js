@@ -21,3 +21,4 @@ module.exports.tabularAttendaceController = require('./tabular.attendance.contro
 module.exports.totalTeachersController = require('./total.teachers.controller');
 module.exports.studentMarksController = require('./student.marks.controller');
 module.exports.missionBuniyadController = require('./mission.buniyad.controller');
+module.exports.studentOrientationController = require('./student.orientation.controller');

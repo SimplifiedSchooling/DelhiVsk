@@ -259,9 +259,9 @@ const storeAttendanceDataByDate = async (date) => {
       // Check if an entry with the same identifier exists
       const existingAttendance = await Attendance.findOne({ identifier });
 
-      const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
-      const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
-      const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid), status: 'Studying' }).exec();
+      const maleStudents = await Student.countDocuments({ Gender: 'M', Schoolid: Number(school.Schoolid) }).exec();
+      const femaleStudents = await Student.countDocuments({ Gender: 'F', Schoolid: Number(school.Schoolid) }).exec();
+      const otherStudents = await Student.countDocuments({ Gender: 'T', Schoolid: Number(school.Schoolid) }).exec();
 
       const totalStudentCount = maleStudents + femaleStudents + otherStudents;
 

@@ -23,6 +23,7 @@ const tabularAttendanceRoute = require('./tabular.attendance.route');
 const totalTeacherRoute = require('./total.teachers.route');
 const studentMarksRoute = require('./student.marks.route');
 const missionBuniyadRoute = require('./mission.buniyad.route');
+const studentOrientationRoute = require('./student.orientation.route');
 
 const router = express.Router();
 
@@ -114,7 +115,12 @@ const defaultRoutes = [
   {
     path: '/mission-buniyad',
     route: missionBuniyadRoute,
+  },
+  {
+    path: '/student-orientation',
+    route: studentOrientationRoute,
   }
+  
 ];
 
 const devRoutes = [

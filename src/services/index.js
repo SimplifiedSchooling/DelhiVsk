@@ -26,3 +26,4 @@ module.exports.totalTeacherService = require('./total.teacher.service');
 module.exports.galleryService = require('./gallery.service');
 module.exports.studentMarksService = require('./student.marks.service');
 module.exports.missionBuniyadService = require('./mission.buniyad.service');
+module.exports.studentOrientationService = require('./student.orientation.service');
