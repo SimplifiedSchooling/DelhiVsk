@@ -1,12 +1,12 @@
 const axios = require('axios');
-const { SupplyMaterial } = require('../models');
+const { Textbook } = require('../models');
 
 async function fetchDataFromExternalAPI() {
   const data = [];
   try {
     // Make a request to the external API
     const response = await axios.get(
-      'https://www.edudel.nic.in/mis/EduWebService_Other/DISE_New.asmx/SN47_J_Whether_play_material_games_and_sports_equipment',
+      'https://www.edudel.nic.in/mis/EduWebService_Other/DISE_New.asmx/SN47_A_Whether_complete_set_of_free_text_books',
       {
         params: {
           password: 'Dise123',
@@ -23,13 +23,13 @@ async function fetchDataFromExternalAPI() {
 async function saveFreeUniform(data) {
   try {
     // Ensure that the unique index on SchoolID is created before attempting to save data
-    await SupplyMaterial.collection.createIndex({ SchoolID: 1 }, { unique: true });
+    await Textbook.collection.createIndex({ SchoolID: 1 }, { unique: true });
 
     // Iterate over the fetched data and create documents in the MongoDB database
     for (const item of data) {
       try {
         // Attempt to insert the document
-        await SupplyMaterial.create(item);
+        await Textbook.create(item);
       } catch (insertError) {
         // Handle the duplicate key error if SchoolID is not unique
         if (insertError.code === 11000 && insertError.keyPattern && insertError.keyPattern.SchoolID === 1) {
@@ -56,11 +56,11 @@ async function saveFreeUniform(data) {
  * @returns {Promise<QueryResult>}
  */
 const queryData = async (filter, options) => {
-  const data = await SupplyMaterial.paginate(filter, options);
+  const data = await Textbook.paginate(filter, options);
   return data;
 };
 const getStudentOrientationData = async (filter) => {
-  const data = await SupplyMaterial.find(filter);
+  const data = await Textbook.find(filter);
   return data;
 };
 
