@@ -20,7 +20,7 @@ const SportsEquipmentSchema = new mongoose.Schema({
   },
   Sch_Type: {
     type: String,
-    enum: ['Government', 'Aided'], // Add other possible values if needed
+    // enum: ['Government', 'Aided'], // Add other possible values if needed
   },
   LOWCLASS: {
     type: Number,

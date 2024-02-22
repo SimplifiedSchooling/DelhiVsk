@@ -22,3 +22,6 @@ module.exports.totalTeachersController = require('./total.teachers.controller');
 module.exports.studentMarksController = require('./student.marks.controller');
 module.exports.missionBuniyadController = require('./mission.buniyad.controller');
 module.exports.studentOrientationController = require('./student.orientation.controller');
+module.exports.studentTrainingController = require('./student.training.controller');
+module.exports.freeUniformController = require('./free.uniform.controller');
+module.exports.sportsEquipmentController = require('./sports.equipment.controller');
