@@ -27,3 +27,5 @@ module.exports.galleryService = require('./gallery.service');
 module.exports.studentMarksService = require('./student.marks.service');
 module.exports.missionBuniyadService = require('./mission.buniyad.service');
 module.exports.studentOrientationService = require('./student.orientation.service');
+module.exports.studentTrainingService = require('./student.traninig.service');
+module.exports.freeUniformService = require('./free.uniform.service');
