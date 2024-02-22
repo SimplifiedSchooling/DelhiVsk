@@ -29,3 +29,4 @@ module.exports.missionBuniyadService = require('./mission.buniyad.service');
 module.exports.studentOrientationService = require('./student.orientation.service');
 module.exports.studentTrainingService = require('./student.traninig.service');
 module.exports.freeUniformService = require('./free.uniform.service');
+module.exports.supplyMaterialService = require('./supplementary.material.service');

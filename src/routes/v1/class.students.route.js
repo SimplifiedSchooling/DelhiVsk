@@ -18,7 +18,6 @@ module.exports = router;
  *   description: School management
  */
 
-
 /**
  * @swagger
  * /class-student:
@@ -86,7 +85,6 @@ module.exports = router;
  *       "403":
  *         description: Forbidden
  */
-
 
 /**
  * @swagger

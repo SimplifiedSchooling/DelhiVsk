@@ -1,20 +1,20 @@
 const express = require('express');
-const { sportsEquipmentController } = require('../../controllers');
+const { supplyMaterialController } = require('../../controllers');
 
 const router = express.Router();
 
-router.route('/fetch-and-save').get(sportsEquipmentController.fetchAndSaveStudentOrientationData);
-router.get('/path-to-get-all-data', sportsEquipmentController.getAllData);
-router.get('/get-sports-games-equipment', sportsEquipmentController.getStudentOrientation);
+router.route('/fetch-and-save').get(supplyMaterialController.fetchAndSaveStudentOrientationData);
+router.get('/path-to-get-all-data', supplyMaterialController.getAllData);
+router.get('/get-supply-material', supplyMaterialController.getStudentOrientation);
 
 module.exports = router;
 
 /**
  * @swagger
- * /equipment/fetch-and-save:
+ * /supply-material/fetch-and-save:
  *   get:
  *     summary: Fetch data from an external API and save it to the database
- *     tags: [Sports And Games Equipment]
+ *     tags: [Supply Material]
  *     responses:
  *       200:
  *         description: Data fetched and saved successfully
@@ -24,11 +24,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /equipment/path-to-get-all-data:
+ * /supply-material/path-to-get-all-data:
  *   get:
  *     summary: Get all data
  *     tags:
- *       - Sports And Games Equipment
+ *       - Supply Material
  *     description: |
  *       Retrieve all data from the database based on provided filters and options.
  *     parameters:
@@ -78,11 +78,11 @@ module.exports = router;
  */
 /**
  * @swagger
- * /equipment/get-sports-games-equipment:
+ * /supply-material/get-supply-material:
  *   get:
- *     summary: Get sports and games equipment data based on parameters
+ *     summary: Get supply-material data based on parameters
  *     tags:
- *       - Sports And Games Equipment
+ *       - Supply Material
  *     parameters:
  *       - in: query
  *         name: district

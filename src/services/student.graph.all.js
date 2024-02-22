@@ -81,7 +81,7 @@ const getStudentStats = async () => {
   ]);
   const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
 
-  const totalTeachersCount =  totalGuestTeacher + totalTeachers.value;
+  const totalTeachersCount = totalGuestTeacher + totalTeachers.value;
   const teacherStudentRatio = studyingStudents.value / totalTeachersCount;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
 

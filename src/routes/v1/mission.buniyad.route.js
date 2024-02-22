@@ -10,7 +10,7 @@ router
   .route('/:schoolid')
   .get(validate(studentMarksValidation.getMissionBuniyad), missionBuniyadController.getMissionBuniyad);
 
-  module.exports = router;
+module.exports = router;
 
 /**
  * @swagger
@@ -19,9 +19,7 @@ router
  *   description: School management
  */
 
-
-
-  /**
+/**
  * @swagger
  * /mission-buniyad/{schoolid}:
  *   get:

@@ -2,15 +2,18 @@ const axios = require('axios');
 const { StudentTraining } = require('../models');
 
 async function fetchDataFromExternalAPI() {
-  let data =[];
+  const data = [];
   try {
     // Make a request to the external API
-    const response = await axios.get('https://www.edudel.nic.in/mis/EduWebService_Other/DISE_New.asmx/SN48_G_Number_of_students_received_training', {
-      params: {
-        password: 'Dise123',
-        // Add other necessary parameters if required
-      },
-    });
+    const response = await axios.get(
+      'https://www.edudel.nic.in/mis/EduWebService_Other/DISE_New.asmx/SN48_G_Number_of_students_received_training',
+      {
+        params: {
+          password: 'Dise123',
+          // Add other necessary parameters if required
+        },
+      }
+    );
     data.push(response.data);
     return data;
   } catch (error) {
@@ -21,7 +24,7 @@ async function fetchDataFromExternalAPI() {
 async function saveStudentOrientationData(data) {
   try {
     // Iterate over the fetched data and create documents in the MongoDB database if they don't exist
-    for (let item of data[0].Cargo) {
+    for (const item of data[0].Cargo) {
       // console.log(item,"item")
       // Check if document with the same SchoolID already exists
       const existingDocument = await StudentTraining.findOne({ SchoolID: item.SchoolID });
@@ -53,4 +56,4 @@ const getStudentOrientationData = async (filter) => {
   return data;
 };
 
-module.exports = { fetchDataFromExternalAPI, saveStudentOrientationData, queryData, getStudentOrientationData};
+module.exports = { fetchDataFromExternalAPI, saveStudentOrientationData, queryData, getStudentOrientationData };

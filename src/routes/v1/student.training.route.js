@@ -9,9 +9,6 @@ router.get('/get-student-training', studentTrainingController.getStudentOrientat
 
 module.exports = router;
 
-
-
-
 /**
  * @swagger
  * /student-training/fetch-and-save:

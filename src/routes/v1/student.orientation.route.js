@@ -9,9 +9,6 @@ router.get('/get-student-orientation', studentOrientationController.getStudentOr
 
 module.exports = router;
 
-
-
-
 /**
  * @swagger
  * /student-orientation/fetch-and-save:

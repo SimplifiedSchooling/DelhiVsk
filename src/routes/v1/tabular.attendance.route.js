@@ -69,77 +69,75 @@ module.exports = router;
  *         description: Forbidden
  */
 
-
 /**
  * @swagger
  * /tabular-attendnace/get-studnet-health:
-*   get:
-*     summary: Get students
-*     tags: [Tabular-Attendnace]
-*     parameters:
-*       - in: query
-*         name: Schoolid
-*         schema:
-*           type: string
-*         description: Schoolid
-*       - in: query
-*         name: Name
-*         schema:
-*           type: string
-*       - in: query
-*         name: S_ID
-*         schema:
-*           type: string
-*         description: S_ID name
-*       - in: query
-*         name: sortBy
-*         schema:
-*           type: string
-*         description: Sort by query in the form of field:desc/asc (ex. order:asc)
-*       - in: query
-*         name: limit
-*         schema:
-*           type: integer
-*           minimum: 1
-*         default: 10
-*         description: Maximum number of classes
-*       - in: query
-*         name: page
-*         schema:
-*           type: integer
-*           minimum: 1
-*           default: 1
-*         description: Page number
-*     responses:
-*       "200":
-*         description: OK
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                 results:
-*                   type: array
-*                   items:
-*                     $ref: '#/components/schemas/ClassInput'
-*                 page:
-*                   type: integer
-*                   example: 1
-*                 limit:
-*                   type: integer
-*                   example: 10
-*                 totalPages:
-*                   type: integer
-*                   example: 1
-*                 totalResults:
-*                   type: integer
-*                   example: 1
-*       "401":
-*         $ref: '#/components/responses/Unauthorized'
-*       "403":
-*         $ref: '#/components/responses/Forbidden'
-*/
-
+ *   get:
+ *     summary: Get students
+ *     tags: [Tabular-Attendnace]
+ *     parameters:
+ *       - in: query
+ *         name: Schoolid
+ *         schema:
+ *           type: string
+ *         description: Schoolid
+ *       - in: query
+ *         name: Name
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: S_ID
+ *         schema:
+ *           type: string
+ *         description: S_ID name
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *         description: Sort by query in the form of field:desc/asc (ex. order:asc)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         default: 10
+ *         description: Maximum number of classes
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         description: Page number
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/ClassInput'
+ *                 page:
+ *                   type: integer
+ *                   example: 1
+ *                 limit:
+ *                   type: integer
+ *                   example: 10
+ *                 totalPages:
+ *                   type: integer
+ *                   example: 1
+ *                 totalResults:
+ *                   type: integer
+ *                   example: 1
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
+ */
 
 /**
  * @swagger

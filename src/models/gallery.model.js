@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const gallerySchema = mongoose.Schema(
   {
     visitor: [
-        {
+      {
         name: {
-        type:String,
-        }
-    }
+          type: String,
+        },
+      },
     ],
     date: {
       type: Date,

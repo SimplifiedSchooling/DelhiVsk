@@ -74,7 +74,6 @@ const getClasswiseCountsDistrict = async (District) => {
   });
 };
 
-
 const getClasswiseCountsZone = async (zone) => {
   const classwiseCounts = await Student.aggregate([
     {
@@ -153,12 +152,9 @@ const getClasswiseCountsSchool = async (Schoolid) => {
   });
 };
 
-
 module.exports = {
   getClasswiseCounts,
   getClasswiseCountsDistrict,
   getClasswiseCountsZone,
   getClasswiseCountsSchool,
 };
-
-

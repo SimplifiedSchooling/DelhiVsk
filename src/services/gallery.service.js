@@ -34,8 +34,6 @@ const getGalleryById = async (id) => {
   return Gallery.findById(id);
 };
 
-
-
 module.exports = {
   createGallery,
   queryGallery,

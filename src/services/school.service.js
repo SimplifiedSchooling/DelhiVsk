@@ -107,8 +107,6 @@ cron.schedule('0 0 * * *', async () => {
   }
 });
 
-
-
 // const task = cron.schedule('06 3 * * *', async () => {
 //   try {
 //     logger.info(`Running the attendance data update job...`);
@@ -212,8 +210,7 @@ const getSchoolByName = async (query) => {
   return result;
 };
 
-
-const fromUserIDGetData = async(id) => {
+const fromUserIDGetData = async (id) => {
   let result;
   // Check if id is a valid D_ID
   const districtDetails = await School.findOne({ D_ID: id }, 'District_name');
@@ -230,13 +227,13 @@ const fromUserIDGetData = async(id) => {
   // Check if id is a valid Schoolid
   const schoolDetails = await School.findOne({ Schoolid: id }, 'Schoolid School_Name');
   if (schoolDetails) {
-    result =  schoolDetails.Schoolid + '-' + schoolDetails.School_Name;
+    result = `${schoolDetails.Schoolid}-${schoolDetails.School_Name}`;
   }
   return result;
 };
 
 const getAllSchoolsNames = async () => {
-    return await School.find({}, { School_Name: 1, Schoolid: 1, _id: 0 });
+  return await School.find({}, { School_Name: 1, Schoolid: 1, _id: 0 });
 };
 
 // const getSchoolDataForTabular = async (Z_name, School_ID, shift ,district_name) => {
@@ -249,102 +246,98 @@ const getAllSchoolsNames = async () => {
 //       return result;
 //   };
 
+// async function getSchoolDataForTabular(zoneName) {
+//   console.log(zoneName)
+//   try {
+//     const result = await School.aggregate([
+//       {
+//         $match: { Zone_Name: zoneName }, // Filter by the provided zone name
+//       },
+//       {
+//         $lookup: {
+//           from: 'teachers',
+//           localField: 'Schoolid',
+//           foreignField: 'schoolid',
+//           as: 'teachers',
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: 'students',
+//           localField: 'Schoolid',
+//           foreignField: 'Schoolid',
+//           as: 'students',
+//         },
+//       },
+//       {
+//         $group: {
+//           _id: '$zonename',
+//           schools: {
+//             $push: {
+//               schoolId: '$Schoolid',
+//               schoolName: '$School_Name',
+//               teacherCount: { $size: '$teachers' },
+//               studentCount: { $size: '$students' },
+//             },
+//           },
+//           totalTeachers: { $sum: { $size: '$teachers' } },
+//           totalStudents: { $sum: { $size: '$students' } },
+//         },
+//       },
+//     ]);
 
-  
-  // async function getSchoolDataForTabular(zoneName) {
-  //   console.log(zoneName)
-  //   try {
-  //     const result = await School.aggregate([
-  //       {
-  //         $match: { Zone_Name: zoneName }, // Filter by the provided zone name
-  //       },
-  //       {
-  //         $lookup: {
-  //           from: 'teachers',
-  //           localField: 'Schoolid',
-  //           foreignField: 'schoolid',
-  //           as: 'teachers',
-  //         },
-  //       },
-  //       {
-  //         $lookup: {
-  //           from: 'students',
-  //           localField: 'Schoolid',
-  //           foreignField: 'Schoolid',
-  //           as: 'students',
-  //         },
-  //       },
-  //       {
-  //         $group: {
-  //           _id: '$zonename',
-  //           schools: {
-  //             $push: {
-  //               schoolId: '$Schoolid',
-  //               schoolName: '$School_Name',
-  //               teacherCount: { $size: '$teachers' },
-  //               studentCount: { $size: '$students' },
-  //             },
-  //           },
-  //           totalTeachers: { $sum: { $size: '$teachers' } },
-  //           totalStudents: { $sum: { $size: '$students' } },
-  //         },
-  //       },
-  //     ]);
-  
-  //     console.log(result);
-  //     return result;
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  // }
-  
-  // Example usage with a specific zone name
-  // getZoneWiseSchoolDetails('Zone-01');
-  
-  
+//     console.log(result);
+//     return result;
+//   } catch (error) {
+//     console.error('Error:', error);
+//   }
+// }
+
+// Example usage with a specific zone name
+// getZoneWiseSchoolDetails('Zone-01');
+
 // const getSchoolDataForTabular = async(zoneName) =>  {
 //       // Fetch schools in the specified zone
 const getSchoolDataForTabular = async (zoneName) => {
+  // Fetch schools in the specified zone
+  const schoolsInZone = await School.find({ Zone_Name: zoneName });
 
-    // Fetch schools in the specified zone
-    const schoolsInZone = await School.find({ Zone_Name: zoneName });
+  // Extract school IDs
+  const schoolIds = schoolsInZone.map((school) => school.Schoolid);
 
-    // Extract school IDs
-    const schoolIds = schoolsInZone.map(school => school.Schoolid);
+  // Fetch teachers and students based on school IDs
+  const teachersInZone = await Teacher.find({ schoolid: { $in: schoolIds.map(String) } });
 
-    // Fetch teachers and students based on school IDs 
-    const teachersInZone = await Teacher.find({ schoolid: { $in: schoolIds.map(String) } });
+  const studentsInZone = await Student.find({ Schoolid: { $in: schoolIds } });
 
-    const studentsInZone = await Student.find({ Schoolid: { $in: schoolIds } });
+  // Calculate total teacher and student counts
+  const totalTeachers = teachersInZone.length;
+  const totalStudents = studentsInZone.length;
 
-    // Calculate total teacher and student counts
-    const totalTeachers = teachersInZone.length;
-    const totalStudents = studentsInZone.length;
-
-    // Prepare school-wise data
-    const schoolData = schoolsInZone.map(school => {
-      const teacherCount = teachersInZone.filter(teacher => teacher.schoolid === school.Schoolid.toString()).length;
-      const studentCount = studentsInZone.filter(student => student.Schoolid === school.Schoolid).length;
-
-      return {
-        schoolId: school.Schoolid,
-        schoolName: school.School_Name,
-        District_name: school.District_name,
-        Zone_Name: school.Zone_Name,
-        shift: school.shift,
-        SchManagement: school.SchManagement,
-        SchCategory: school.SchCategory,
-        teacherCount,
-        studentCount,
-      };
-    });
+  // Prepare school-wise data
+  const schoolData = schoolsInZone.map((school) => {
+    const teacherCount = teachersInZone.filter((teacher) => teacher.schoolid === school.Schoolid.toString()).length;
+    const studentCount = studentsInZone.filter((student) => student.Schoolid === school.Schoolid).length;
 
     return {
-      _id: zoneName,
-      schools: schoolData,
-      totalTeachers,
-      totalStudents,
+      schoolId: school.Schoolid,
+      schoolName: school.School_Name,
+      District_name: school.District_name,
+      Zone_Name: school.Zone_Name,
+      shift: school.shift,
+      SchManagement: school.SchManagement,
+      SchCategory: school.SchCategory,
+      teacherCount,
+      studentCount,
     };
+  });
+
+  return {
+    _id: zoneName,
+    schools: schoolData,
+    totalTeachers,
+    totalStudents,
+  };
 };
 
 // Example usage without zoneName (fetch all data)
@@ -354,46 +347,44 @@ const getSchoolDataForTabular = async (zoneName) => {
 // const result = await getSchoolDataForTabular('YourZoneName');
 
 //   }
-  
-  // Example usage with a specific zone name
 
+// Example usage with a specific zone name
 
-const getSchoolData = async() =>  {
-    const result = await School.aggregate([
-      {
-        $lookup: {
-          from: 'teachers',
-          localField: 'Schoolid',
-          foreignField: 'schoolid',
-          as: 'teachers',
-        },
+const getSchoolData = async () => {
+  const result = await School.aggregate([
+    {
+      $lookup: {
+        from: 'teachers',
+        localField: 'Schoolid',
+        foreignField: 'schoolid',
+        as: 'teachers',
       },
-      {
-        $lookup: {
-          from: 'students',
-          localField: 'Schoolid',
-          foreignField: 'Schoolid',
-          as: 'students',
-        },
+    },
+    {
+      $lookup: {
+        from: 'students',
+        localField: 'Schoolid',
+        foreignField: 'Schoolid',
+        as: 'students',
       },
-      {
-        $project: {
-          _id: 0,
-          schoolId: '$Schoolid',
-          schoolName: '$School_Name',
-          District_name: 1,
-          Zone_Name: 1,
-          shift: 1,
-          SchManagement: 1,
-          SchCategory: 1,
-          teacherCount: { $size: '$teachers' },
-          studentCount: { $size: '$students' },
-        },
+    },
+    {
+      $project: {
+        _id: 0,
+        schoolId: '$Schoolid',
+        schoolName: '$School_Name',
+        District_name: 1,
+        Zone_Name: 1,
+        shift: 1,
+        SchManagement: 1,
+        SchCategory: 1,
+        teacherCount: { $size: '$teachers' },
+        studentCount: { $size: '$students' },
       },
-    ]);
-    return result;
-}
-
+    },
+  ]);
+  return result;
+};
 
 /**
  * Search for students based on SCHOOL_NAME, Name, or S_ID
@@ -420,8 +411,6 @@ const searchSchool = async (searchQuery) => {
   const schools = await School.find(query).exec();
   return schools;
 };
-
-
 
 module.exports = {
   storeSchoolDataInMongoDB,

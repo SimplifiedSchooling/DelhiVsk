@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-const freeUniformSchema = new mongoose.Schema({
+const suppMatSchema = new mongoose.Schema({
   district: { type: String, required: true },
   zone: { type: Number, required: true },
   SchoolID: { type: Number, required: true },
@@ -11,17 +11,20 @@ const freeUniformSchema = new mongoose.Schema({
   LOWCLASS: { type: Number, required: true },
   HIGHCLASS: { type: Number, required: true },
   item_id: { type: Number, required: true },
-  uniform_Prepri: { type: String, default: '' },
-  uniform_Pri: { type: String, default: '' },
-  uniform_Upperpri: { type: String, default: '' },
-  uniform_Sec: { type: String, default: '' },
-  uniform_HSec: { type: String, default: '' },
+  SuppMat_Prepri: { type: String, default: '' },
+  SuppMat_Pri: { type: String, default: '' },
+  SuppMat_Upperpri: { type: String, default: '' },
+  SuppMat_Sec: { type: String, default: '' },
+  SuppMat_HSec: { type: String, default: '' },
 });
 
 // add plugin that converts mongoose to json
-freeUniformSchema.plugin(toJSON);
-freeUniformSchema.plugin(paginate);
+suppMatSchema.plugin(toJSON);
+suppMatSchema.plugin(paginate);
+/**
+ * @typedef SupplyMaterial
+ */
 
-const FreeUniform = mongoose.model('FreeUniform', freeUniformSchema);
+const SupplyMaterial = mongoose.model('SupplyMaterial', suppMatSchema);
 
-module.exports = FreeUniform;
+module.exports = SupplyMaterial;

@@ -33,3 +33,4 @@ module.exports.SchoolUndertakes = require('./school.actively.undertakes.model');
 module.exports.SchoolTeacherCreated = require('./school.teacher.add.model');
 module.exports.AcademicCriterionModel = require('./academic.criterion.model');
 module.exports.FreeUniform = require('./free.uniform.model');
+module.exports.SupplyMaterial = require('./supplementary.material.model');

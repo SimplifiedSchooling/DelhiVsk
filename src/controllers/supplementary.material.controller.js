@@ -1,14 +1,12 @@
 const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
-const { sportsEquipment } = require('../services');
+const { supplyMaterialService } = require('../services');
 
 const fetchAndSaveStudentOrientationData = catchAsync(async (req, res) => {
-  // Fetch data from the external API
-  // Fetch data from the external API
-  const data = await sportsEquipment.fetchDataFromExternalAPI();
+  const data = await supplyMaterialService.fetchDataFromExternalAPI();
   // Save data to the MongoDB database
-  await sportsEquipment.saveFreeUniform(data);
+  await supplyMaterialService.saveFreeUniform(data);
 
   res.status(httpStatus.OK).json({ message: 'Data fetched and saved successfully' });
   // Save data to the MongoDB database
@@ -19,13 +17,13 @@ const fetchAndSaveStudentOrientationData = catchAsync(async (req, res) => {
 const getAllData = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['SchName']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await sportsEquipment.queryData(filter, options);
+  const result = await supplyMaterialService.queryData(filter, options);
   res.status(httpStatus.OK).json(result);
 });
 
 const getStudentOrientation = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['district', 'zone', 'SchoolID']); // You can add more parameters here
-  const result = await sportsEquipment.getStudentOrientationData(filter);
+  const result = await supplyMaterialService.getStudentOrientationData(filter);
   res.status(httpStatus.OK).json(result);
 });
 
