@@ -30,3 +30,4 @@ module.exports.studentOrientationService = require('./student.orientation.servic
 module.exports.studentTrainingService = require('./student.traninig.service');
 module.exports.freeUniformService = require('./free.uniform.service');
 module.exports.supplyMaterialService = require('./supplementary.material.service');
+module.exports.freeTextBookService = require('./free.textbook.service');
