@@ -56,24 +56,23 @@ const sendOTP = catchAsync(async (req, res) => {
   const mobNo = '9420642800';
   const otpValue = otpService.generateOTP();
   const result = await otpService.smsAlert.sendAdminLoginOTPMsg(otpValue, mobNo);
-  const user = await schoolService.fromUserIDGetData(userId)
+  const user = await schoolService.fromUserIDGetData(userId);
   if (!result) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Error sending OTP');
   }
 
-  res.status(httpStatus.OK).send({mobNo, user});
+  res.status(httpStatus.OK).send({ mobNo, user });
 });
 
 const verifyOtp = catchAsync(async (req, res) => {
   try {
     const { mobNo, otp } = req.query;
     await otpService.verifyOtp(mobNo, otp);
-    res.send({message:'OTP Verified successfully'});
+    res.send({ message: 'OTP Verified successfully' });
   } catch (error) {
     res.status(httpStatus.UNAUTHORIZED).send(`Error: ${error.message}`);
   }
 });
-
 
 module.exports = {
   sendOTP,

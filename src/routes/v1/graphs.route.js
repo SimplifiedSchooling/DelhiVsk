@@ -17,7 +17,6 @@ router.route('/school-student-count-by-district').get(graphsController.getSchool
 router.route('/school-student-count/zone').post(graphsController.getSchoolStudentCountByZone);
 router.route('/dashboard/district-wise').post(graphsController.getSchoolStudentCountByDistrict);
 
-
 router.route('/graphical-representation').get(graphsController.getDistrictWiseCountsGraphs);
 module.exports = router;
 

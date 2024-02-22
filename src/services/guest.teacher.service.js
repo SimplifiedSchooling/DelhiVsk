@@ -146,30 +146,30 @@ const getTeacherStats = async () => {
       teacherShiftWiseCount,
     });
   }
-//   const totalGuestTeacherCount = await GuestTeacher.countDocuments();
-// console.log('Total Guest Teachers:', totalGuestTeacherCount);
+  //   const totalGuestTeacherCount = await GuestTeacher.countDocuments();
+  // console.log('Total Guest Teachers:', totalGuestTeacherCount);
 
-// const shiftWiseSchoolIds = await getSchoolIdByShiftWise();
-// shiftWiseSchoolIds.forEach(shift => {
-//   console.log(`Shift: ${shift._id}, School Count: ${shift.schoolIds.length}`);
-// });
+  // const shiftWiseSchoolIds = await getSchoolIdByShiftWise();
+  // shiftWiseSchoolIds.forEach(shift => {
+  //   console.log(`Shift: ${shift._id}, School Count: ${shift.schoolIds.length}`);
+  // });
 
-// teacherShiftWiseCounts.forEach(shiftCount => {
-//   console.log(`Shift: ${shiftCount.shift}, Guest Teacher Count: ${shiftCount.teacherShiftWiseCount}`);
-// });
+  // teacherShiftWiseCounts.forEach(shiftCount => {
+  //   console.log(`Shift: ${shiftCount.shift}, Guest Teacher Count: ${shiftCount.teacherShiftWiseCount}`);
+  // });
 
-// const duplicateGuestTeachers = await GuestTeacher.aggregate([
-//   { $group: { _id: '$ApplicationId', count: { $sum: 1 } } },
-//   { $match: { count: { $gt: 1 } } },
-// ]);
+  // const duplicateGuestTeachers = await GuestTeacher.aggregate([
+  //   { $group: { _id: '$ApplicationId', count: { $sum: 1 } } },
+  //   { $match: { count: { $gt: 1 } } },
+  // ]);
 
-// console.log('Duplicate Guest Teachers:', duplicateGuestTeachers);
+  // console.log('Duplicate Guest Teachers:', duplicateGuestTeachers);
 
-// const totalGuestTeacherCounts = await GuestTeacher.countDocuments();
-// const sumOfShiftCounts = teacherShiftWiseCounts.reduce((sum, shiftCount) => sum + shiftCount.teacherShiftWiseCount, 0);
+  // const totalGuestTeacherCounts = await GuestTeacher.countDocuments();
+  // const sumOfShiftCounts = teacherShiftWiseCounts.reduce((sum, shiftCount) => sum + shiftCount.teacherShiftWiseCount, 0);
 
-// console.log('Total Guest Teachers:', totalGuestTeacherCounts);
-// console.log('Sum of Shift Counts:', sumOfShiftCounts);
+  // console.log('Total Guest Teachers:', totalGuestTeacherCounts);
+  // console.log('Sum of Shift Counts:', sumOfShiftCounts);
 
   // console.log(teacherShiftWiseCounts)
   const zoneNameWiseCountIds = await getSchoolIdByZoneNameWise();
@@ -846,8 +846,6 @@ const teacherGuestPostWiseList = async (SchoolID, Post) => {
   return result;
 };
 
-
-
 // const getSchoolIdByShiftWise = async () => {
 //   const pipeline = [
 //     {
@@ -868,9 +866,7 @@ const teacherGuestPostWiseList = async (SchoolID, Post) => {
 
 // data()
 
-////FOR CHECKING HOW MANY TEACHERS ID DIDNT MATCH WITH OUR SCHOOLS
-
-
+/// /FOR CHECKING HOW MANY TEACHERS ID DIDNT MATCH WITH OUR SCHOOLS
 
 // const getSchoolIdByShiftWises = async () => {
 //   const pipeline = [
@@ -884,7 +880,6 @@ const teacherGuestPostWiseList = async (SchoolID, Post) => {
 
 //   return School.aggregate(pipeline);
 // };
-
 
 // const getSchoolIdByManagmentWiseS = async () => {
 //   const pipeline = [

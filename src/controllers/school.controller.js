@@ -124,26 +124,25 @@ const getSchoolByAll = catchAsync(async (req, res) => {
 
 // const fromUserIDGetData = catchAsync(async(req, res) => {
 
-  
 //   if (!result) {
 //     return res.status(httpStatus.NOT_FOUND).json({ error: 'Invalid id' });
 //   }
-  
+
 //   return res.status(httpStatus.OK).json(result);
 
 // })
 const getAllSchoolsNames = catchAsync(async (req, res) => {
   const result = await schoolService.getAllSchoolsNames();
-  if(!result){
+  if (!result) {
     new ApiError(httpStatus.NOT_FOUND, 'Not found School data');
   }
   res.status(httpStatus.CREATED).send(result);
 });
 
 const getSchoolDataForTabular = catchAsync(async (req, res) => {
-  const {Z_name, School_ID, shift,district_name } = req.body;
-  const result = await schoolService.getSchoolDataForTabular(Z_name, School_ID, shift,district_name );
-  if(!result){
+  const { Z_name, School_ID, shift, district_name } = req.body;
+  const result = await schoolService.getSchoolDataForTabular(Z_name, School_ID, shift, district_name);
+  if (!result) {
     new ApiError(httpStatus.NOT_FOUND, 'School data not found');
   }
   res.status(httpStatus.CREATED).send(result);
@@ -151,7 +150,7 @@ const getSchoolDataForTabular = catchAsync(async (req, res) => {
 
 const getSchoolData = catchAsync(async (req, res) => {
   const result = await schoolService.getSchoolData();
-  if(!result){
+  if (!result) {
     new ApiError(httpStatus.NOT_FOUND, 'School data not found');
   }
   res.status(httpStatus.CREATED).send(result);

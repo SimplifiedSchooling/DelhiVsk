@@ -2,15 +2,18 @@ const axios = require('axios');
 const { FreeUniform } = require('../models');
 
 async function fetchDataFromExternalAPI() {
-  let data =[];
+  const data = [];
   try {
     // Make a request to the external API
-    const response = await axios.get('https://www.edudel.nic.in/mis/EduWebService_Other/DISE_New.asmx/SN47_K_Whether_the_school_has_provided_free_uniform', {
-      params: {
-        password: 'Dise123',
-        // Add other necessary parameters if required
-      },
-    });
+    const response = await axios.get(
+      'https://www.edudel.nic.in/mis/EduWebService_Other/DISE_New.asmx/SN47_K_Whether_the_school_has_provided_free_uniform',
+      {
+        params: {
+          password: 'Dise123',
+          // Add other necessary parameters if required
+        },
+      }
+    );
     data.push(response.data);
     return data[0].Cargo;
   } catch (error) {
@@ -23,7 +26,7 @@ async function saveFreeUniform(data) {
     await FreeUniform.collection.createIndex({ SchoolID: 1 }, { unique: true });
 
     // Iterate over the fetched data and create documents in the MongoDB database
-    for (let item of data) {
+    for (const item of data) {
       try {
         // Attempt to insert the document
         await FreeUniform.create(item);
@@ -62,4 +65,4 @@ const getStudentOrientationData = async (filter) => {
   return data;
 };
 
-module.exports = { fetchDataFromExternalAPI, saveFreeUniform, queryData, getStudentOrientationData};
+module.exports = { fetchDataFromExternalAPI, saveFreeUniform, queryData, getStudentOrientationData };

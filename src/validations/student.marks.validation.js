@@ -7,12 +7,12 @@ const getStudentMarks = {
 };
 
 const getMissionBuniyad = {
-    params: Joi.object().keys({
-      schoolid: Joi.string().required(),
-    }),
-  };
+  params: Joi.object().keys({
+    schoolid: Joi.string().required(),
+  }),
+};
 
 module.exports = {
-    getStudentMarks,
-    getMissionBuniyad,
+  getStudentMarks,
+  getMissionBuniyad,
 };

@@ -1,7 +1,6 @@
 const { School, Teacher, Student, GuestTeacher } = require('../models');
 const redis = require('../utils/redis');
 
-
 const getStudentStatusCountsByDistrict = async (district) => {
   const pipeline = [
     {
@@ -91,7 +90,7 @@ const getAllSchoolStudentTeacherDataByDistrict = async (districtName) => {
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
 
   const totoal = totalGuestTeacher + totalTeachers.value;
-console.log(totalGuestTeacher , totalTeachers.value, totoal)
+  console.log(totalGuestTeacher, totalTeachers.value, totoal);
   const teacherStudentRatio = totalStudyingStudent.value / totoal;
   const averageTeacherOfSchool = totoal / totalSchools.value;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
@@ -138,8 +137,6 @@ console.log(totalGuestTeacher , totalTeachers.value, totoal)
   // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
-
-
 
 const getStudentStatusCountsByZone = async (zone) => {
   const pipeline = [
@@ -286,7 +283,6 @@ const getAllSchoolStudentTeacherDataByZoneName = async (zoneName) => {
  * @returns {Promise<Object>} School, teacher, student graph data
  */
 
-
 const getStudentStatusCountsBySchoolId = async (schoolId) => {
   const pipeline = [
     {
@@ -399,7 +395,7 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
   } else {
     typeOfSchoolCounts.push({ typeOfSchool: 'Null', count: 136 }); // Change the count value accordingly
   }
-  
+
   // // Assuming you want to send this as a response or use it somewhere
   // console.log(typeOfSchoolCounts);
   const statusCounts = await getStudentStatusCountsBySchoolId(schoolId);
@@ -436,7 +432,7 @@ const tabularSchoolData = async (zoneName) => {
   const totalSchools = await School.countDocuments({ zoneName });
   const totalStudent = await Student.countDocuments({ zoneName });
   const totalTeachers = await Teacher.countDocuments({ zoneName });
-}
+};
 module.exports = {
   getAllSchoolStudentTeacherDataByZoneName,
   getAllSchoolStudentTeacherDataByDistrict,

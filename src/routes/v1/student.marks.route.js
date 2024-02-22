@@ -6,11 +6,9 @@ const { studentMarksController } = require('../../controllers');
 
 const router = express.Router();
 
-router
-  .route('/:studentId')
-  .get(validate(studentMarksValidation.getStudentMarks), studentMarksController.getStudentMarks);
+router.route('/:studentId').get(validate(studentMarksValidation.getStudentMarks), studentMarksController.getStudentMarks);
 
-  module.exports = router;
+module.exports = router;
 
 /**
  * @swagger
@@ -19,9 +17,7 @@ router
  *   description: Student management
  */
 
-
-
-  /**
+/**
  * @swagger
  * /student-marks/{studentId}:
  *   get:

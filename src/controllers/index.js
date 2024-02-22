@@ -25,3 +25,4 @@ module.exports.studentOrientationController = require('./student.orientation.con
 module.exports.studentTrainingController = require('./student.training.controller');
 module.exports.freeUniformController = require('./free.uniform.controller');
 module.exports.sportsEquipmentController = require('./sports.equipment.controller');
+module.exports.supplyMaterialController = require('./supplementary.material.controller');

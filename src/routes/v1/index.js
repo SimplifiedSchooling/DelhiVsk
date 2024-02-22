@@ -25,8 +25,10 @@ const studentMarksRoute = require('./student.marks.route');
 const missionBuniyadRoute = require('./mission.buniyad.route');
 const studentOrientationRoute = require('./student.orientation.route');
 const studentTrainingRoute = require('./student.training.route');
-const freeUniformRoute = require('./free.uniform.route')
- const sportsEquipmentRoute = require('./sports.equipment.route')
+const freeUniformRoute = require('./free.uniform.route');
+const sportsEquipmentRoute = require('./sports.equipment.route');
+const supplyMaterialRoute = require('./supplementary.material.route');
+
 const router = express.Router();
 
 const defaultRoutes = [
@@ -134,8 +136,10 @@ const defaultRoutes = [
     path: '/equipment',
     route: sportsEquipmentRoute,
   },
-  
-  
+  {
+    path: '/supply-material',
+    route: supplyMaterialRoute,
+  },
 ];
 
 const devRoutes = [

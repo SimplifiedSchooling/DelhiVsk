@@ -195,7 +195,7 @@ const getTeacherStats = async () => {
   const experianceOfTeachers = await getTeacherExperienceCountByRange();
   const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
-// console.log(totalTeach)
+  // console.log(totalTeach)
   const result = {
     teacherStudentRatio,
     averageTeachers,

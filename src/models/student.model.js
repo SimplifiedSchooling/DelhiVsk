@@ -48,7 +48,7 @@ const studentSchema = mongoose.Schema(
     Religion: {
       type: String,
     },
-    Category:{
+    Category: {
       type: String,
     },
     Height: {

@@ -54,7 +54,6 @@ cron.schedule('0 3 * * 0', async () => {
   }
 });
 
-
 const getStudentCountBySchoolName = async (Schoolid) => {
   const cacheKey = `SCHOOL_NAME:${Schoolid}`;
   const cachedData = await redis.get(cacheKey);
