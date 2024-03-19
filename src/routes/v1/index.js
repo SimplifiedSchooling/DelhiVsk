@@ -23,6 +23,12 @@ const tabularAttendanceRoute = require('./tabular.attendance.route');
 const totalTeacherRoute = require('./total.teachers.route');
 const studentMarksRoute = require('./student.marks.route');
 const missionBuniyadRoute = require('./mission.buniyad.route');
+const studentOrientationRoute = require('./student.orientation.route');
+const studentTrainingRoute = require('./student.training.route');
+const freeUniformRoute = require('./free.uniform.route');
+const sportsEquipmentRoute = require('./sports.equipment.route');
+const supplyMaterialRoute = require('./supplementary.material.route');
+const FreeTextBookRoute = require('./free.textbook.route');
 
 const router = express.Router();
 
@@ -114,7 +120,32 @@ const defaultRoutes = [
   {
     path: '/mission-buniyad',
     route: missionBuniyadRoute,
-  }
+  },
+  {
+    path: '/student-orientation',
+    route: studentOrientationRoute,
+  },
+  {
+    path: '/student-training',
+    route: studentTrainingRoute,
+  },
+  {
+    path: '/free-uniform',
+    route: freeUniformRoute,
+  },
+  {
+    path: '/equipment',
+    route: sportsEquipmentRoute,
+  },
+  {
+    path: '/supply-material',
+    route: supplyMaterialRoute,
+  },
+  {
+    path: '/free-textbook',
+    route: FreeTextBookRoute,
+  },
+  
 ];
 
 const devRoutes = [

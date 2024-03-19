@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const {classStudentsService} = require('../services');
+const { classStudentsService } = require('../services');
 
 const getClasswiseCounts = catchAsync(async (req, res) => {
   const classwiseCounts = await classStudentsService.getClasswiseCounts();
@@ -27,4 +27,3 @@ module.exports = {
   getClasswiseCountsZone,
   getClasswiseCountsSchool,
 };
-
