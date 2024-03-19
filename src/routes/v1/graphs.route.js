@@ -1,12 +1,13 @@
 const express = require('express');
 const { graphsController } = require('../../controllers');
+const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 
 router.route('/student-enrollment').get(graphsController.getStudentsEnrollmentGraph);
 router.route('/').get(graphsController.getSchoolStats);
 
-router.route('/school-teacher-student-graph').get(graphsController.getAllSchoolStudentTeacherData);
+router.route('/school-teacher-student-graph').get(auth('district'),graphsController.getAllSchoolStudentTeacherData);
 router.route('/school-graph').get(graphsController.getAggregatedSchoolDataController);
 router.route('/school-graph-district').post(graphsController.getAggregatedSchoolDataByDistrictNameController);
 router
@@ -80,6 +81,8 @@ module.exports = router;
  *     summary: Get all school, teacher, student graph data
  *     description: Get all school, teacher, student graph data
  *     tags: [Graphs]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       "200":
  *         description: OK
