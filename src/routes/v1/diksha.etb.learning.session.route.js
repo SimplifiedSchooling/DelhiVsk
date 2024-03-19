@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const auth = require('../../middlewares/auth');
 const { learningSessionController } = require('../../controllers');
 
 const router = express.Router();
@@ -31,11 +32,11 @@ router
 
 router.route('/').get(learningSessionController.getAllLearningSessions);
 
-router.route('/playspercapita').get(learningSessionController.getAllPlaysPerCapita);
-router.route('/consumptionbycourse').get(learningSessionController.getAllConsumptionByCourse);
-router.route('/consumptionbydistrict').get(learningSessionController.getAllConsumptionByDistrict);
-router.route('/data/counts').post(learningSessionController.getCountsByProgram);
-router.route('/counts-learningsession').post(learningSessionController.getCounts);
+router.route('/playspercapita').get(auth('district'), learningSessionController.getAllPlaysPerCapita);
+router.route('/consumptionbycourse').get(auth('district'), learningSessionController.getAllConsumptionByCourse);
+router.route('/consumptionbydistrict').get(auth('district'), learningSessionController.getAllConsumptionByDistrict);
+router.route('/data/counts').post(auth('district'), learningSessionController.getCountsByProgram);
+router.route('/counts-learningsession').post(auth('district'), learningSessionController.getCounts);
 module.exports = router;
 /**
  * @swagger
