@@ -7,7 +7,7 @@ const router = express.Router();
 router.route('/student-enrollment').get(graphsController.getStudentsEnrollmentGraph);
 router.route('/').get(graphsController.getSchoolStats);
 
-router.route('/school-teacher-student-graph').get(auth('district', 'admin', 'zone'),graphsController.getAllSchoolStudentTeacherData);
+router.route('/school-teacher-student-graph').get(graphsController.getAllSchoolStudentTeacherData);
 router.route('/school-graph').get(graphsController.getAggregatedSchoolDataController);
 router.route('/school-graph-district').post(graphsController.getAggregatedSchoolDataByDistrictNameController);
 router
