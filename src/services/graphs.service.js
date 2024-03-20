@@ -631,10 +631,18 @@ const getSchoolStudentCountByZone = async (district) => {
 };
 
 const getDistrictWiseCounts = async (District_name) => {
+  const schoolData = await School.find({ District_name });
+  const schoolManagementWise = {};
+  schoolData.forEach((school) => {
+    // School Management Wise
+    const schManagement = school.SchManagement || 'Unknown';
+    schoolManagementWise[schManagement] = (schoolManagementWise[schManagement] || 0) + 1;
+  });
+  schoolManagementWise
   const [
-    totalSchools,
-    totalAided,
-    totalGovernment,
+    // totalSchools,
+    // totalAided,
+    // totalGovernment,
     totalTeachers,
     totalFemaleTeachers,
     totalMaleTeachers,
@@ -644,9 +652,9 @@ const getDistrictWiseCounts = async (District_name) => {
     totalStudent,
     totalStydyingStudent,
   ] = await Promise.allSettled([
-    School.countDocuments({ District_name }).exec(),
-    School.countDocuments({ District_name, SchManagement: 'Aided' }).exec(),
-    School.countDocuments({ District_name, SchManagement: 'Government' }).exec(),
+    // School.countDocuments({ District_name }).exec(),
+    // School.countDocuments({ District_name, SchManagement: 'Aided' }).exec(),
+    // School.countDocuments({ District_name, SchManagement: 'Government' }).exec(),
     Teacher.countDocuments({ districtname: District_name }).exec(),
     Teacher.countDocuments({ gender: 'Female', districtname: District_name }).exec(),
     Teacher.countDocuments({ gender: 'Male', districtname: District_name }).exec(),
@@ -657,14 +665,15 @@ const getDistrictWiseCounts = async (District_name) => {
     Student.countDocuments({ status: 'Studying', District: District_name }).exec(),
   ]);
   return {
-    totalSchools: totalSchools.value,
-    totalAided: totalAided.value,
-    totalGovernment: totalGovernment.value ,
+    // totalSchools: totalSchools.value,
+    // totalAided: totalAided.value,
+    // totalGovernment: totalGovernment.value ,
+    schoolManagementWise,
     totalTeachers: totalTeachers.value,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,
-    totalMaleStudent: totalMaleStudent.value,
-    totalGirlsStudent: totalGirlsStudent.value,
+    totalBoys: totalMaleStudent.value,
+    totalGirls: totalGirlsStudent.value,
     Other: Other.value,
     totalStudent: totalStudent.value,
     totalStydyingStudent: totalStydyingStudent.value,
