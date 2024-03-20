@@ -640,7 +640,7 @@ const getDistrictWiseCounts = async (District_name) => {
   });
   schoolManagementWise
   const [
-    // totalSchools,
+    totalSchools,
     // totalAided,
     // totalGovernment,
     totalTeachers,
@@ -652,7 +652,7 @@ const getDistrictWiseCounts = async (District_name) => {
     totalStudent,
     totalStydyingStudent,
   ] = await Promise.allSettled([
-    // School.countDocuments({ District_name }).exec(),
+    School.countDocuments({ District_name }).exec(),
     // School.countDocuments({ District_name, SchManagement: 'Aided' }).exec(),
     // School.countDocuments({ District_name, SchManagement: 'Government' }).exec(),
     Teacher.countDocuments({ districtname: District_name }).exec(),
@@ -665,7 +665,7 @@ const getDistrictWiseCounts = async (District_name) => {
     Student.countDocuments({ status: 'Studying', District: District_name }).exec(),
   ]);
   return {
-    // totalSchools: totalSchools.value,
+    totalSchools: totalSchools.value,
     // totalAided: totalAided.value,
     // totalGovernment: totalGovernment.value ,
     schoolManagementWise,
