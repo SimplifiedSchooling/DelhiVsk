@@ -633,6 +633,8 @@ const getSchoolStudentCountByZone = async (district) => {
 const getDistrictWiseCounts = async (District_name) => {
   const [
     totalSchools,
+    totalAided,
+    totalGovernment,
     totalTeachers,
     totalFemaleTeachers,
     totalMaleTeachers,
@@ -643,6 +645,8 @@ const getDistrictWiseCounts = async (District_name) => {
     totalStydyingStudent,
   ] = await Promise.allSettled([
     School.countDocuments({ District_name }).exec(),
+    School.countDocuments({ District_name, SchManagement: 'Aided' }).exec(),
+    School.countDocuments({ District_name, SchManagement: 'Government' }).exec(),
     Teacher.countDocuments({ districtname: District_name }).exec(),
     Teacher.countDocuments({ gender: 'Female', districtname: District_name }).exec(),
     Teacher.countDocuments({ gender: 'Male', districtname: District_name }).exec(),
@@ -654,6 +658,8 @@ const getDistrictWiseCounts = async (District_name) => {
   ]);
   return {
     totalSchools: totalSchools.value,
+    totalAided: totalAided.value,
+    totalGovernment: totalGovernment.value ,
     totalTeachers: totalTeachers.value,
     totalFemaleTeachers: totalFemaleTeachers.value,
     totalMaleTeachers: totalMaleTeachers.value,

@@ -57,6 +57,8 @@ const sentOtp = {
 
 const verifyOtp = {
   query: Joi.object().keys({
+    assignedTO: Joi.string(),
+    role: Joi.string(), 
     mobNo: Joi.string().required(),
     otp: Joi.number().required(),
   }),
