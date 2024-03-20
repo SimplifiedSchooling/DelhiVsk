@@ -675,7 +675,7 @@ const getDistrictWiseCounts = async (District_name) => {
     totalBoys: totalMaleStudent.value,
     totalGirls: totalGirlsStudent.value,
     Other: Other.value,
-    totalStudent: totalStudent.value,
+    totalStudents: totalStudent.value,
     totalStydyingStudent: totalStydyingStudent.value,
   };
 };
