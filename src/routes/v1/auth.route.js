@@ -338,6 +338,18 @@ module.exports = router;
  *         schema:
  *           type: number
  *         description:  otp
+ *       - in: query
+ *         name: assignedTO
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description:  otp
+ *       - in: query
+ *         name: role
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description:  otp
  *     responses:
  *       "204":
  *         description: No content
