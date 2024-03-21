@@ -213,16 +213,23 @@ const getSchoolByName = async (query) => {
 const fromUserIDGetData = async (id) => {
   let result;
   // Check if id is a valid D_ID
-  const districtDetails = await School.findOne({ D_ID: id }, 'District_name');
-  if (districtDetails) {
-    result = districtDetails.District_name;
+  if(id.length === 2) {
+    const districtDetails = await School.findOne({ D_ID: id }, 'District_name');
+    if (districtDetails) {
+      result = districtDetails.District_name;
+    }
   }
-
+if(id.length === 4) {
+    const zoneDetails = await School.findOne({ Z_ID: id }, 'Zone_Name');
+    if (zoneDetails) {
+      result = zoneDetails.Zone_Name;
+    }
+}
   // Check if id is a valid Z_ID
-  const zoneDetails = await School.findOne({ Z_ID: id }, 'Zone_Name');
-  if (zoneDetails) {
-    result = zoneDetails.Zone_Name;
-  }
+  // const zoneDetails = await School.findOne({ Z_ID: id }, 'Zone_Name');
+  // if (zoneDetails) {
+  //   result = zoneDetails.Zone_Name;
+  // }
 
   // Check if id is a valid Schoolid
   // const schoolDetails = await School.findOne({ Schoolid: id }, 'Schoolid School_Name');

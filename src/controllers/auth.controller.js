@@ -57,12 +57,13 @@ const sendOTP = catchAsync(async (req, res) => {
   const otpValue = otpService.generateOTP();
   const result = await otpService.smsAlert.sendAdminLoginOTPMsg(otpValue, mobNo);
   const user = await schoolService.fromUserIDGetData(userId);
-  if (!result) {
+  if (!result || user === undefined) {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Error sending OTP');
   }
 
   res.status(httpStatus.OK).send({ mobNo, user });
 });
+
 
 const verifyOtp = catchAsync(async (req, res) => {
   try {
