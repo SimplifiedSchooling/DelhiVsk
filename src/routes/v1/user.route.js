@@ -49,10 +49,8 @@ module.exports = router;
  *             properties:
  *               name:
  *                 type: string
- *               email:
+ *               userName:
  *                 type: string
- *                 format: email
- *                 description: must be unique
  *               password:
  *                 type: string
  *                 format: password
@@ -60,12 +58,14 @@ module.exports = router;
  *                 description: At least one number and one letter
  *               role:
  *                  type: string
- *                  enum: [user, admin]
+ *               assignedTO:
+ *                  type: string
  *             example:
  *               name: fake name
- *               email: fake@example.com
+ *               userName: fake@example.com
  *               password: password1
  *               role: user
+ *               assignedTO: Zone-01
  *     responses:
  *       "201":
  *         description: Created
