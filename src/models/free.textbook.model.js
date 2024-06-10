@@ -11,11 +11,11 @@ const textbookSchema = new mongoose.Schema({
   LOWCLASS: { type: Number, required: true },
   HIGHCLASS: { type: Number, required: true },
   item_id: { type: Number, required: true },
-  cpp_tot: { type: String, default: ''  }, // assuming this field can be empty
-  Txtbook_pri: { type: String, default: ''  },
-  Txtbook_Upperpri: { type: String, default: ''  },
-  Txtbook_Sec: { type: String, default: ''  },
-  Txtbook_HSec: { type: String, default: ''  },
+  cpp_tot: { type: String, default: '' }, // assuming this field can be empty
+  Txtbook_pri: { type: String, default: '' },
+  Txtbook_Upperpri: { type: String, default: '' },
+  Txtbook_Sec: { type: String, default: '' },
+  Txtbook_HSec: { type: String, default: '' },
 });
 
 // add plugin that converts mongoose to json

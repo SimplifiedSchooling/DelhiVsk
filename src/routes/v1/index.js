@@ -29,6 +29,7 @@ const freeUniformRoute = require('./free.uniform.route');
 const sportsEquipmentRoute = require('./sports.equipment.route');
 const supplyMaterialRoute = require('./supplementary.material.route');
 const FreeTextBookRoute = require('./free.textbook.route');
+const imageGalleriesRoute = require('./image.gallery.route');
 
 const router = express.Router();
 
@@ -145,7 +146,10 @@ const defaultRoutes = [
     path: '/free-textbook',
     route: FreeTextBookRoute,
   },
-  
+  {
+    path: '/image-galleries',
+    route: imageGalleriesRoute,
+  }
 ];
 
 const devRoutes = [

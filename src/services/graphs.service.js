@@ -638,7 +638,7 @@ const getDistrictWiseCounts = async (District_name) => {
     const schManagement = school.SchManagement || 'Unknown';
     schoolManagementWise[schManagement] = (schoolManagementWise[schManagement] || 0) + 1;
   });
-  schoolManagementWise
+  schoolManagementWise;
   const [
     totalSchools,
     // totalAided,

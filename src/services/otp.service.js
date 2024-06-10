@@ -45,7 +45,7 @@ class SMSAlert {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         });
-
+console.log(response.data)
         return response.data;
     }
 
@@ -127,6 +127,22 @@ const verifyOtp = async (mobNumber, otp) => {
 
 
 const smsAlert = new SMSAlert();
+
+// const mobileNumber = 9823525745; // Example number in E.164 format
+
+// const accountSid = 'ACbc61e30385a4880cfc7134138e4c42ab';
+// const authToken = 'cd7d2e1701bdc24843506d43f09db6c0';
+// const client = require('twilio')(accountSid, authToken);
+
+// client.verify.v2.services("VAb1a48f24ed5355d2f314bc25e7ec03f2")
+//       .verifications
+//       .create({to: '+919823525745', channel: 'sms'})
+//       .then(verification => console.log(verification.sid));
+
+// smsAlert.sendOTPMsg(mobileNumber, 'Your OTP is 123456')
+//   .then(response => console.log('OTP sent successfully:', response))
+//   .catch(error => console.error('Error sending OTP:', error.message));
+
 module.exports = {
     smsAlert,
     createOtp,
