@@ -236,18 +236,6 @@ const getTeacherStats = async () => {
   return result;
 };
 
-
-
-// (async () => {
-//   try {
-//     const schManagementType = 'Government'; // Replace with the desired SchManagement type
-//     const result = await getTeacherStats();
-//     // console.log(result);
- 
-//   } catch (error) {
-//     console.error('Error fetching data by SchManagement:', error);
-//   }
-// })();
 /**
  * Get school IDs grouped by shift for a specific district.
  * @param {string} districtName - Name of the district.
