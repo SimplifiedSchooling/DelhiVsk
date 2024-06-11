@@ -121,7 +121,37 @@ const getTeacherStats = async () => {
     });
   }
 
-  const pipeline3 = [
+  const categoryMapping = {
+    'PRINCIPAL': ['PRINCIPAL'],
+    'VICE PRINCIPAL': ['VICE PRINCIPAL'],
+    'EVGC': ['EVGC'],
+    'PGT – Lecturer all except lecturer, computer science and PGT special education teacher': [
+      'LECTURER BIOLOGY', 'LECTURER CHEMISTRY', 'LECTURER COMMERCE', 'LECTURER ECONOMICS', 
+      'LECTURER ENGG. DRAWING', 'LECTURER ENGLISH', 'LECTURER FINEART(PAINTING)', 'LECTURER GEOGRAPHY', 
+      'LECTURER HINDI', 'LECTURER HISTORY', 'LECTURER HOME SCIENCE', 'LECTURER MATH', 
+      'LECTURER MUSIC', 'LECTURER PHYSICAL EDUCATION', 'LECTURER PHYSICS', 'LECTURER POLITICAL SCIENCE', 
+      'LECTURER PUNJABI', 'LECTURER SANSKRIT', 'LECTURER SOCIOLOGY', 'LECTURER URDU', 
+      'LECTURER AGRICULTURE', 'LECTURER PSYCHOLOGY', 'PGT (Hindi, Sanskrit, Home Science, PET, DRG for GLNSSSD, Delhi Gate)', 
+      'PGT for GSSSBB, Kingsway Camp'
+    ],
+    'TGT/TGT(MIL)': [
+      'TGT ENGLISH', 'TGT MATH', 'TGT SOCIAL SCIENCE', 'TGT NATURAL SCIENCE', 
+      'TGT HINDI', 'TGT SANSKRIT', 'TGT URDU', 'TGT PUNJABI', 'TGT BENGALI'
+    ],
+    'TGT(Miscellaneous Category)': [
+      'PET', 'DRAWING TEACHER', 'MUSIC TEACHER', 'DOMESTIC SCIENCE TEACHER'
+    ],
+    'PGT(Special Education)': ['PGT SPECIAL EDUCATION TEACHER'],
+    'TGT(Special Education)': ['TGT SPECIAL EDUCATION TEACHER'],
+    'PGT (Computer Science)': ['LECTURER COMPUTER SCIENCE'],
+    'TGT (Computer Science)': ['TGT COMPUTER SCIENCE'],
+    'Assistant Teacher': [
+      'ASSISTANT TEACHER (PRIMARY)', 'ASSISTANT TEACHER (NURSERY)', 'Asst. Teacher for Deaf'
+    ],
+    'Librarian/Lab Assistant': ['LIBRARIAN', 'LAB ASSISTANT']
+  };
+  
+  const pipeline = [
     {
       $group: {
         _id: '$postdesc',
@@ -132,8 +162,8 @@ const getTeacherStats = async () => {
       $sort: { _id: 1 },
     },
   ];
-
-  const pipeline = [
+  
+  const pipeline2 = [
     {
       $group: {
         _id: '$Post',
@@ -144,22 +174,43 @@ const getTeacherStats = async () => {
       $sort: { _id: 1 },
     },
   ];
-  const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline);
-  const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
-
-  const combinedCounts = [...postdescWiseGuestTeacherCounts, ...postdescWiseTeacherCounts];
-
+  const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline);
+  const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline2);
+  const aggregateCounts = (data, mapping) => {
+    const result = {};
+  
+    data.forEach(({ _id, teacherCount }) => {
+      for (const [category, posts] of Object.entries(mapping)) {
+        if (posts.includes(_id)) {
+          if (!result[category]) {
+            result[category] = 0;
+          }
+          result[category] += teacherCount;
+          break;
+        }
+      }
+    });
+  
+    return Object.entries(result).map(([category, count]) => ({
+      _id: category,
+      teacherCount: count,
+    }));
+  };
+  
+  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping);
+  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping);
+  
+  const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
+  
   const uniquePosts = [...new Set(combinedCounts.map((count) => count._id))];
-
-  // Create a new array with combined counts for common posts
+  
   const mergedCounts = uniquePosts.map((post) => {
     const totalCount = combinedCounts
       .filter((count) => count._id === post)
       .reduce((acc, count) => acc + count.teacherCount, 0);
-
+  
     return { _id: post, teacherCount: totalCount };
   });
-
   const totoalStudent = await Student.countDocuments({ status: 'Studying' }).exec();
   const totalSchool = await School.countDocuments().exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
@@ -185,6 +236,18 @@ const getTeacherStats = async () => {
   return result;
 };
 
+
+
+// (async () => {
+//   try {
+//     const schManagementType = 'Government'; // Replace with the desired SchManagement type
+//     const result = await getTeacherStats();
+//     // console.log(result);
+ 
+//   } catch (error) {
+//     console.error('Error fetching data by SchManagement:', error);
+//   }
+// })();
 /**
  * Get school IDs grouped by shift for a specific district.
  * @param {string} districtName - Name of the district.

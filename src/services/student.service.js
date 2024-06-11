@@ -54,6 +54,19 @@ cron.schedule('0 3 * * 0', async () => {
   }
 });
 
+const task = cron.schedule('07 14 * * *', async () => {
+  try {
+    logger.info(`Running the attendance data update job...`);
+    await storeStudentDataInMongoDB();
+    logger.info(`Student data update job completed.`);
+
+    // Stop the cron job after it has been executed once
+    // task.destroy();
+  } catch (error) {
+    logger.error('Error running the job:', error);
+  }
+});
+
 const getStudentCountBySchoolName = async (Schoolid) => {
   const cacheKey = `SCHOOL_NAME:${Schoolid}`;
   const cachedData = await redis.get(cacheKey);
