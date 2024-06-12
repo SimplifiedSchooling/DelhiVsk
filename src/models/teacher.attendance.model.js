@@ -39,46 +39,31 @@ const TeacherAttendaceSchema = mongoose.Schema(
     SchManagement: {
       type: String,
     },
-    TotalGovtSchools: {
+    Present: {
       type: Number,
     },
-    TotalEmployees: {
+    TotAbsent: {
       type: Number,
     },
-    AllPresent: {
+    HalfCL: {
       type: Number,
     },
-    AllAbsent: {
+    CL: {
       type: Number,
     },
-    AllHCL: {
+    EL: {
       type: Number,
     },
-    AllCL: {
+    OtherLeave: {
       type: Number,
     },
-    AllEL: {
+    OD: {
       type: Number,
     },
-    AllOL: {
+    Suspended: {
       type: Number,
     },
-    AllOD: {
-      type: Number,
-    },
-    AllSuspended: {
-      type: Number,
-    },
-    AllVacation: {
-      type: Number,
-    },
-    TotalEmployeesMarkedAtt: {
-      type: Number,
-    },
-    SchoolsMarkedAttn: {
-      type: Number,
-    },
-    SchoolsNotMarkedAttn: {
+    vacation: {
       type: Number,
     },
   },

@@ -28,3 +28,4 @@ module.exports.sportsEquipmentController = require('./sports.equipment.controlle
 module.exports.supplyMaterialController = require('./supplementary.material.controller');
 module.exports.freeTextBookController = require('./free.textbook.controller');
 module.exports.imageGalleryController = require('./image.gallery.controller');
+module.exports.teacherAttendanceController = require('./teacher.attendance.controller');
