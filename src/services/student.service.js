@@ -1,6 +1,6 @@
 const axios = require('axios');
 const cron = require('node-cron');
-const { School, Student, StudentMob } = require('../models');
+const { School, Student } = require('../models');
 const logger = require('../config/logger');
 const redis = require('../utils/redis');
 
@@ -43,6 +43,7 @@ async function storeStudentDataInMongoDB() {
     }
   }
 }
+
 // Schedule the job to run every Sunday at 3 AM
 cron.schedule('0 3 * * 0', async () => {
   try {
@@ -54,18 +55,18 @@ cron.schedule('0 3 * * 0', async () => {
   }
 });
 
-const task = cron.schedule('07 14 * * *', async () => {
-  try {
-    logger.info(`Running the attendance data update job...`);
-    await storeStudentDataInMongoDB();
-    logger.info(`Student data update job completed.`);
+// const task = cron.schedule('13 14 * * *', async () => {
+//   try {
+//     logger.info(`Running the attendance data update job...`);
+//     await storeStudentDataInMongoDB();
+//     logger.info(`Student data update job completed.`);
 
-    // Stop the cron job after it has been executed once
-    // task.destroy();
-  } catch (error) {
-    logger.error('Error running the job:', error);
-  }
-});
+//     // Stop the cron job after it has been executed once
+//     // task.destroy();
+//   } catch (error) {
+//     logger.error('Error running the job:', error);
+//   }
+// });
 
 const getStudentCountBySchoolName = async (Schoolid) => {
   const cacheKey = `SCHOOL_NAME:${Schoolid}`;

@@ -15,7 +15,7 @@ router
 router.route('/school-student-teacher-graph-district').post(zonegraph.getAllSchoolStudentTeacherDataByDistrict);
 router.route('/school-student-teacher-graph-schoolid').post(zonegraph.getAllSchoolStudentTeacherDataBySchoolName);
 
-router.route('/stats-by-school-managment').post(zonegraph.getBySchManagement);
+router.route('/stats-by-school-managment').get(zonegraph.getBySchManagement);
 module.exports = router;
 
 /**
