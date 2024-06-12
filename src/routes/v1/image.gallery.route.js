@@ -9,7 +9,11 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(upload.fields([{ name: 'images', maxCount: 10 }]),validate(imageGalleryValidation.createGallery), imageGalleryController.createGallery)
+  .post(
+    upload.fields([{ name: 'images', maxCount: 10 }]),
+    validate(imageGalleryValidation.createGallery),
+    imageGalleryController.createGallery
+  )
   .get(validate(imageGalleryValidation.getgalleries), imageGalleryController.getgallerys);
 
 router

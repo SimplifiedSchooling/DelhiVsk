@@ -122,35 +122,55 @@ const getTeacherStats = async () => {
   }
 
   const categoryMapping = {
-    'PRINCIPAL': ['PRINCIPAL'],
+    PRINCIPAL: ['PRINCIPAL'],
     'VICE PRINCIPAL': ['VICE PRINCIPAL'],
-    'EVGC': ['EVGC'],
+    EVGC: ['EVGC'],
     'PGT – Lecturer all except lecturer, computer science and PGT special education teacher': [
-      'LECTURER BIOLOGY', 'LECTURER CHEMISTRY', 'LECTURER COMMERCE', 'LECTURER ECONOMICS', 
-      'LECTURER ENGG. DRAWING', 'LECTURER ENGLISH', 'LECTURER FINEART(PAINTING)', 'LECTURER GEOGRAPHY', 
-      'LECTURER HINDI', 'LECTURER HISTORY', 'LECTURER HOME SCIENCE', 'LECTURER MATH', 
-      'LECTURER MUSIC', 'LECTURER PHYSICAL EDUCATION', 'LECTURER PHYSICS', 'LECTURER POLITICAL SCIENCE', 
-      'LECTURER PUNJABI', 'LECTURER SANSKRIT', 'LECTURER SOCIOLOGY', 'LECTURER URDU', 
-      'LECTURER AGRICULTURE', 'LECTURER PSYCHOLOGY', 'PGT (Hindi, Sanskrit, Home Science, PET, DRG for GLNSSSD, Delhi Gate)', 
-      'PGT for GSSSBB, Kingsway Camp'
+      'LECTURER BIOLOGY',
+      'LECTURER CHEMISTRY',
+      'LECTURER COMMERCE',
+      'LECTURER ECONOMICS',
+      'LECTURER ENGG. DRAWING',
+      'LECTURER ENGLISH',
+      'LECTURER FINEART(PAINTING)',
+      'LECTURER GEOGRAPHY',
+      'LECTURER HINDI',
+      'LECTURER HISTORY',
+      'LECTURER HOME SCIENCE',
+      'LECTURER MATH',
+      'LECTURER MUSIC',
+      'LECTURER PHYSICAL EDUCATION',
+      'LECTURER PHYSICS',
+      'LECTURER POLITICAL SCIENCE',
+      'LECTURER PUNJABI',
+      'LECTURER SANSKRIT',
+      'LECTURER SOCIOLOGY',
+      'LECTURER URDU',
+      'LECTURER AGRICULTURE',
+      'LECTURER PSYCHOLOGY',
+      'PGT (Hindi, Sanskrit, Home Science, PET, DRG for GLNSSSD, Delhi Gate)',
+      'PGT for GSSSBB, Kingsway Camp',
     ],
     'TGT/TGT(MIL)': [
-      'TGT ENGLISH', 'TGT MATH', 'TGT SOCIAL SCIENCE', 'TGT NATURAL SCIENCE', 
-      'TGT HINDI', 'TGT SANSKRIT', 'TGT URDU', 'TGT PUNJABI', 'TGT BENGALI'
+      'TGT ENGLISH',
+      'TGT MATH',
+      'TGT SOCIAL SCIENCE',
+      'TGT NATURAL SCIENCE',
+      'TGT HINDI',
+      'TGT SANSKRIT',
+      'TGT URDU',
+      'TGT PUNJABI',
+      'TGT BENGALI',
     ],
-    'TGT(Miscellaneous Category)': [
-      'PET', 'DRAWING TEACHER', 'MUSIC TEACHER', 'DOMESTIC SCIENCE TEACHER'
-    ],
+    'TGT(Miscellaneous Category)': ['PET', 'DRAWING TEACHER', 'MUSIC TEACHER', 'DOMESTIC SCIENCE TEACHER'],
     'PGT(Special Education)': ['PGT SPECIAL EDUCATION TEACHER'],
     'TGT(Special Education)': ['TGT SPECIAL EDUCATION TEACHER'],
     'PGT (Computer Science)': ['LECTURER COMPUTER SCIENCE'],
     'TGT (Computer Science)': ['TGT COMPUTER SCIENCE'],
-    'Assistant Teacher': [
-      'ASSISTANT TEACHER (PRIMARY)', 'ASSISTANT TEACHER (NURSERY)', 'Asst. Teacher for Deaf'
-    ],
-    'Librarian/Lab Assistant': ['LIBRARIAN', 'LAB ASSISTANT']
+    'Assistant Teacher': ['ASSISTANT TEACHER (PRIMARY)', 'ASSISTANT TEACHER (NURSERY)', 'Asst. Teacher for Deaf'],
+    'Librarian/Lab Assistant': ['LIBRARIAN', 'LAB ASSISTANT'],
   };
-  
+
   const pipeline = [
     {
       $group: {
@@ -162,7 +182,7 @@ const getTeacherStats = async () => {
       $sort: { _id: 1 },
     },
   ];
-  
+
   const pipeline2 = [
     {
       $group: {
@@ -178,7 +198,7 @@ const getTeacherStats = async () => {
   const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline2);
   const aggregateCounts = (data, mapping) => {
     const result = {};
-  
+
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -190,25 +210,25 @@ const getTeacherStats = async () => {
         }
       }
     });
-  
+
     return Object.entries(result).map(([category, count]) => ({
       _id: category,
       teacherCount: count,
     }));
   };
-  
+
   const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping);
   const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping);
-  
+
   const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
-  
+
   const uniquePosts = [...new Set(combinedCounts.map((count) => count._id))];
-  
+
   const mergedCounts = uniquePosts.map((post) => {
     const totalCount = combinedCounts
       .filter((count) => count._id === post)
       .reduce((acc, count) => acc + count.teacherCount, 0);
-  
+
     return { _id: post, teacherCount: totalCount };
   });
   const totoalStudent = await Student.countDocuments({ status: 'Studying' }).exec();

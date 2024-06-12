@@ -18,7 +18,7 @@ const imageGallerySchema = mongoose.Schema(
       {
         type: String,
         required: true,
-      }
+      },
     ],
   },
   {

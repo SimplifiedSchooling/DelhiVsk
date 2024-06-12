@@ -36,3 +36,4 @@ module.exports.FreeUniform = require('./free.uniform.model');
 module.exports.SupplyMaterial = require('./supplementary.material.model');
 module.exports.Textbook = require('./free.textbook.model');
 module.exports.ImageGallery = require('./images.gallary.model');
+module.exports.TeacherAttendace = require('./teacher.attendance.model');
