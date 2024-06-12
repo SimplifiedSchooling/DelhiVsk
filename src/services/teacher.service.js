@@ -53,6 +53,16 @@ cron.schedule('0 1 * * *', async () => {
   }
 });
 
+// cron.schedule('06 11 * * *', async () => {
+//   try {
+//     logger.info(`Running the Teacher data update job...`);
+//     await storeTeacherDataInMongoDB();
+//     logger.info(`Student data update job completed.`);
+//   } catch (error) {
+//     logger.info('Error running the job:', error);
+//   }
+// });
+
 async function fetchTeacherUpdate(empid, password) {
   try {
     const response = await axios.get('https://www.edudel.nic.in/mis/eduwebservice/webappsmob.asmx/EmployeePersonnelDetail', {

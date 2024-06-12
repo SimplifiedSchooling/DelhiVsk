@@ -27,3 +27,4 @@ module.exports.freeUniformController = require('./free.uniform.controller');
 module.exports.sportsEquipmentController = require('./sports.equipment.controller');
 module.exports.supplyMaterialController = require('./supplementary.material.controller');
 module.exports.freeTextBookController = require('./free.textbook.controller');
+module.exports.imageGalleryController = require('./image.gallery.controller');

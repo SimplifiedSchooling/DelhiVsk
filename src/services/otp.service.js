@@ -45,7 +45,7 @@ class SMSAlert {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         });
-
+console.log(response.data)
         return response.data;
     }
 

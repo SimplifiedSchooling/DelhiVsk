@@ -7,5 +7,5 @@ const searchGuestTeachers = {
 };
 
 module.exports = {
-    searchGuestTeachers,
+  searchGuestTeachers,
 };

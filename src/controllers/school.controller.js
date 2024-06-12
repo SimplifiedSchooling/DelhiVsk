@@ -161,6 +161,7 @@ const searchSchool = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+
 module.exports = {
   storeSchoolDataInMongoDB,
   schoolData,

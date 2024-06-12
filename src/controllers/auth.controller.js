@@ -53,7 +53,7 @@ const sendOTP = catchAsync(async (req, res) => {
   if (!userId) {
     return res.status(httpStatus.BAD_REQUEST).json({ error: 'Missing parameter' });
   }
-  const mobNo = otpService.getMobileNumberByUserId(userId); //'9420642800'; // 
+  const mobNo = otpService.getMobileNumberByUserId(userId); // '9420642800'; //
   const otpValue = otpService.generateOTP();
   const result = await otpService.smsAlert.sendAdminLoginOTPMsg(otpValue, mobNo);
   const user = await schoolService.fromUserIDGetData(userId);
@@ -64,17 +64,16 @@ const sendOTP = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ mobNo, user });
 });
 
-
 const verifyOtp = catchAsync(async (req, res) => {
   try {
-    const { mobNo, otp , assignedTO, role } = req.query;
+    const { mobNo, otp, assignedTO, role } = req.query;
     await otpService.verifyOtp(mobNo, otp);
     const user = {
-      id:mobNo,
+      id: mobNo,
       otp,
       assignedTO,
       role,
-    }
+    };
     const tokens = await tokenService.generateAuthTokens(user);
     res.send({ user, tokens });
   } catch (error) {
