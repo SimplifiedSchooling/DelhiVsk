@@ -33,13 +33,13 @@ const updateGallery = {
   }),
   body: Joi.object()
     .keys({
-        date: Joi.date(),
-        visitor: Joi.array().items(
-          Joi.object({
-            name: Joi.string(),
-          })
-        ),
-        images: Joi.array().items(Joi.string()),
+      date: Joi.date(),
+      visitor: Joi.array().items(
+        Joi.object({
+          name: Joi.string(),
+        })
+      ),
+      images: Joi.array().items(Joi.string()),
     })
     .min(1),
 };
@@ -51,7 +51,7 @@ const deleteGallery = {
 };
 
 module.exports = {
-    createGallery,
+  createGallery,
   getgalleries,
   getGallery,
   updateGallery,

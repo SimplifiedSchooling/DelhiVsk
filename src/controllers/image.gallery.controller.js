@@ -35,9 +35,9 @@ const deleteGallery = catchAsync(async (req, res) => {
 });
 
 module.exports = {
-    createGallery,
-    getgallerys,
-    getGallery,
-    updateGallery,
-    deleteGallery,
+  createGallery,
+  getgallerys,
+  getGallery,
+  updateGallery,
+  deleteGallery,
 };

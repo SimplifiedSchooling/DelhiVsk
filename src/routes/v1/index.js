@@ -149,7 +149,7 @@ const defaultRoutes = [
   {
     path: '/image-galleries',
     route: imageGalleriesRoute,
-  }
+  },
 ];
 
 const devRoutes = [

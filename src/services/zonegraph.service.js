@@ -441,7 +441,7 @@ const getAllSchoolStudentTeacherDataBySchoolName = async (schoolId) => {
 const getStudentStatusCountsBySchoolManag = async (schoolIds) => {
   const pipeline = [
     {
-      $match: {Schoolid: { $in: schoolIds.map(id => parseInt(id)) }},
+      $match: { Schoolid: { $in: schoolIds.map((id) => parseInt(id)) } },
     },
     {
       $group: {
@@ -509,13 +509,13 @@ const getBySchManagement = async (SchManagement) => {
     totalStudent,
     totalStudyingStudent,
   ] = await Promise.allSettled([
-    School.countDocuments({ Schoolid: { $in: schoolIds.map(id => parseInt(id)) } }).exec(),
+    School.countDocuments({ Schoolid: { $in: schoolIds.map((id) => parseInt(id)) } }).exec(),
     Teacher.countDocuments({ schoolid: { $in: schoolIds } }).exec(),
     Teacher.countDocuments({ gender: 'Female', schoolid: { $in: schoolIds } }).exec(),
     Teacher.countDocuments({ gender: 'Male', schoolid: { $in: schoolIds } }).exec(),
-    Student.countDocuments({ Gender: 'M', Schoolid: { $in: schoolIds } }).exec(), //.map(id => parseInt(id))
-    Student.countDocuments({ Gender: 'F', Schoolid: { $in: schoolIds} }).exec(), // .map(id => parseInt(id)) 
-    Student.countDocuments({ Gender: 'T', Schoolid: { $in: schoolIds } }).exec(), // .map(id => parseInt(id)) 
+    Student.countDocuments({ Gender: 'M', Schoolid: { $in: schoolIds } }).exec(), // .map(id => parseInt(id))
+    Student.countDocuments({ Gender: 'F', Schoolid: { $in: schoolIds } }).exec(), // .map(id => parseInt(id))
+    Student.countDocuments({ Gender: 'T', Schoolid: { $in: schoolIds } }).exec(), // .map(id => parseInt(id))
     Student.countDocuments({ Schoolid: { $in: schoolIds } }).exec(),
     Student.countDocuments({ status: 'Studying', Schoolid: { $in: schoolIds } }).exec(),
   ]);
@@ -593,7 +593,6 @@ const getBySchManagement = async (SchManagement) => {
   // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
-
 
 // (async () => {
 //   try {

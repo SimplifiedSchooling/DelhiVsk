@@ -19,7 +19,6 @@ const getAllSchoolStudentTeacherDataBySchoolName = catchAsync(async (req, res) =
   res.status(httpStatus.CREATED).send(result);
 });
 
-
 const getBySchManagement = catchAsync(async (req, res) => {
   const { SchManagement } = req.query;
   const result = await zonegraph.getBySchManagement(SchManagement);
