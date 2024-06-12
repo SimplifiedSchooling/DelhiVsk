@@ -3,6 +3,15 @@ const { toJSON, paginate } = require('./plugins');
 
 const TeacherAttendaceSchema = mongoose.Schema(
   {
+    month: {
+      type: String,
+    },
+    day: {
+      type: String,
+    },
+    year: {
+      type: String,
+    },
     district_name: {
       type: String,
     },
