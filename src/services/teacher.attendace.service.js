@@ -76,6 +76,11 @@ const { School, TeacherAttendace } = require('../models');
 //   }
 // });
 ////////////////////////////////////////////
+/**
+ * Get teacher counselate attendance 
+ * @param {Object} d_1
+ * @returns {Promise<TeacherAttendace>}
+ */
 async function fetchTeacherData(password, day) {
   const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_11&Shift=0&password=VSK@9180`;
   
@@ -154,6 +159,13 @@ cron.schedule('2 0 * * *', async () => {
 //   }
 // });
 // storeTeacherDataConsolatedInMongoDB()
+
+/**
+ * Get teacher attendance top 5 district bottom 5 district
+ * @param {Object} d_1
+ * @returns {Promise<TeacherAttendace>}
+ */
+
 const topBottomAttendanceCount = async (query) => {
   // Perform aggregation to get the top 5 districts by attendance
   const topDistricts = await TeacherAttendace.aggregate([
@@ -187,6 +199,11 @@ const topBottomAttendanceCount = async (query) => {
   };
 };
 
+/**
+ * Get teacher attendance counts for statistic graph
+ * @param {Object} d_1
+ * @returns {Promise<TeacherAttendace>}
+ */
 const getAttendanceData = async (day, month, year) => {
   try {
     // Build the query object
@@ -227,16 +244,26 @@ const getAttendanceData = async (day, month, year) => {
   }
 };
 
-// // Example usage of the getAttendanceData function
-// getAttendanceData('12', '06', '2024')
+// Example usage of the getAttendanceData function
+// getAttendanceData('d_11', '06', '2024')
 //   .then((result) => {
 //     console.log('Attendance Data:', result);
 //   })
-//   .catch((error) => {
+//   .catch((error) => {  
 //     console.error('Error:', error);
 //   });
 
   // getAttendanceData('d_12', '06', '2024');
+
+  /**
+ * Get teacher attendance treand graph
+ * @param {Object} d_1
+ * @param {Object} startDay
+ * @param {Object} endDay
+ * @param {Object} month
+ * @param {Object} year
+ * @returns {Promise<TeacherAttendace>}
+ */
 
   const treandGraph = async (startDay, endDay, month, year) => {
 
@@ -275,10 +302,234 @@ const getAttendanceData = async (day, month, year) => {
 return attendanceTrend
   }
 
+
+  /**
+ * Get teacher attendance top 5 district bottom 5 district
+ * @param {Object} query
+ * @returns {Promise<TeacherAttendace>}
+ */
+
+const topBottomAttendanceCountByDistrict = async (query) => {
+  // Perform aggregation to get the top 5 districts by attendance
+  const topDistricts = await TeacherAttendace.aggregate([
+    { $match: query },
+    {
+      $group: {
+        _id: "$Z_name",
+        totalPresent: { $sum: "$Present" }
+      }
+    },
+    { $sort: { totalPresent: -1 } },
+    { $limit: 5 }
+  ]);
+
+  // Perform aggregation to get the bottom 5 districts by attendance
+  const bottomDistricts = await TeacherAttendace.aggregate([
+    { $match: query },
+    {
+      $group: {
+        _id: "$Z_name",
+        totalPresent: { $sum: "$Present" }
+      }
+    },
+    { $sort: { totalPresent: 1 } },
+    { $limit: 5 }
+  ]);
+  return {
+    topDistricts,
+    bottomDistricts,
+  };
+};
+
+/**
+ * Get teacher attendance counts for statistic graph
+ * @param {Object} d_1
+ * @returns {Promise<TeacherAttendace>}
+ */
+const getAttendanceDataByDistrict = async (day, month, year, district, shift) => {
+  try {
+    // Build the query object
+    const query = {};
+    if (day) query.day = day;
+    if (month) query.month = month;
+    if (year) query.year = year;
+    if(district) query.district_name = district;
+    if(shift) query.shift = shift;
+
+    const topBottom = await topBottomAttendanceCountByDistrict(query);
+
+    // Perform aggregation for the attendance summary
+    const attendanceSummary = await TeacherAttendace.aggregate([
+      { $match: query },
+      {
+        $group: {
+          _id: {
+            day: "$day",
+            month: "$month",
+            year: "$year"
+          },
+          totalPresent: { $sum: "$Present" },
+          totalTotAbsent: { $sum: "$TotAbsent" },
+          totalHalfCL: { $sum: "$HalfCL" },
+          totalCL: { $sum: "$CL" },
+          totalEL: { $sum: "$EL" },
+          totalOtherLeave: { $sum: "$OtherLeave" },
+          totalOD: { $sum: "$OD" },
+          totalSuspended: { $sum: "$Suspended" },
+          totalVacation: { $sum: "$vacation" }
+        }
+      }
+    ]);
+
+    return { attendanceSummary, topBottom };
+  } catch (error) {
+    console.error('Error fetching attendance data:', error);
+    throw new Error('Internal Server Error');
+  }
+};
+
+  /**
+ * Get teacher attendance top 5 district bottom 5 district
+ * @param {Object} query
+ * @returns {Promise<TeacherAttendace>}
+ */
+
+  const topBottomAttendanceCountByZone = async (query) => {
+    // Perform aggregation to get the top 5 districts by attendance
+    const topDistricts = await TeacherAttendace.aggregate([
+      { $match: query },
+      {
+        $group: {
+          _id: "$schoolID",
+          totalPresent: { $sum: "$Present" }
+        }
+      },
+      { $sort: { totalPresent: -1 } },
+      { $limit: 5 }
+    ]);
+  
+    // Perform aggregation to get the bottom 5 districts by attendance
+    const bottomDistricts = await TeacherAttendace.aggregate([
+      { $match: query },
+      {
+        $group: {
+          _id: "$schoolID",
+          totalPresent: { $sum: "$Present" }
+        }
+      },
+      { $sort: { totalPresent: 1 } },
+      { $limit: 5 }
+    ]);
+    return {
+      topDistricts,
+      bottomDistricts,
+    };
+  };
+  
+  /**
+   * Get teacher attendance counts for statistic graph
+   * @param {Object} day
+   * @param {Object} month
+   * @param {Object} year
+   * @param {Object} zone
+   * @returns {Promise<TeacherAttendace>}
+   */
+  const getAttendanceDataByZone = async (day, month, year, zone, shift) => {
+    try {
+      // Build the query object
+      const query = {};
+      if (day) query.day = day;
+      if (month) query.month = month;
+      if (year) query.year = year;
+      if(zone) query.Z_name = zone;
+      if(shift) query.shift = shift;
+  
+      const topBottom = await topBottomAttendanceCountByZone(query);
+  
+      // Perform aggregation for the attendance summary
+      const attendanceSummary = await TeacherAttendace.aggregate([
+        { $match: query },
+        {
+          $group: {
+            _id: {
+              day: "$day",
+              month: "$month",
+              year: "$year"
+            },
+            totalPresent: { $sum: "$Present" },
+            totalTotAbsent: { $sum: "$TotAbsent" },
+            totalHalfCL: { $sum: "$HalfCL" },
+            totalCL: { $sum: "$CL" },
+            totalEL: { $sum: "$EL" },
+            totalOtherLeave: { $sum: "$OtherLeave" },
+            totalOD: { $sum: "$OD" },
+            totalSuspended: { $sum: "$Suspended" },
+            totalVacation: { $sum: "$vacation" }
+          }
+        }
+      ]);
+  
+      return { attendanceSummary, topBottom };
+    } catch (error) {
+      console.error('Error fetching attendance data:', error);
+      throw new Error('Internal Server Error');
+    }
+  };
+
+  
+  /**
+   * Get teacher attendance counts for statistic graph
+   * @param {Object} day
+   * @param {Object} month
+   * @param {Object} year
+   * @param {Object} zone
+   * @returns {Promise<TeacherAttendace>}
+   */
+  const getAttendanceDataByschoolID = async (day, month, year, schoolID) => {
+    try {
+      // Build the query object
+      const query = {};
+      if (day) query.day = day;
+      if (month) query.month = month;
+      if (year) query.year = year;
+      if(schoolID) query.schoolID = schoolID;
+  
+      // const topBottom = await topBottomAttendanceCountByDistrict(query);
+  
+      // Perform aggregation for the attendance summary
+      const attendanceSummary = await TeacherAttendace.aggregate([
+        { $match: query },
+        {
+          $group: {
+            _id: {
+              day: "$day",
+              month: "$month",
+              year: "$year"
+            },
+            totalPresent: { $sum: "$Present" },
+            totalTotAbsent: { $sum: "$TotAbsent" },
+            totalHalfCL: { $sum: "$HalfCL" },
+            totalCL: { $sum: "$CL" },
+            totalEL: { $sum: "$EL" },
+            totalOtherLeave: { $sum: "$OtherLeave" },
+            totalOD: { $sum: "$OD" },
+            totalSuspended: { $sum: "$Suspended" },
+            totalVacation: { $sum: "$vacation" }
+          }
+        }
+      ]);
+  
+      return { attendanceSummary };
+    } catch (error) {
+      console.error('Error fetching attendance data:', error);
+      throw new Error('Internal Server Error');
+    }
+  };
+
 //   (async () => {
 //   try {
 //     const schManagementType = 'Government'; // Replace with the desired SchManagement type
-//     const result = await getAttendanceData('d_11', '06', '2024') //;(schManagementType);
+//     const result = await getAttendanceDataByschoolID('d_11', '06', '2024', '1001001') //;(schManagementType);
 //     console.log(result);
 //   } catch (error) {
 //     console.error('Error fetching data by SchManagement:', error);
@@ -287,6 +538,8 @@ return attendanceTrend
 
 
 module.exports = {
-    // storeTeacherDataConsolatedInMongoDB,
     getAttendanceData,
+    getAttendanceDataByDistrict,
+    getAttendanceDataByZone,
+    getAttendanceDataByschoolID,
 };
