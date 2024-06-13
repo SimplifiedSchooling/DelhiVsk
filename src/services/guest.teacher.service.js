@@ -54,6 +54,56 @@ cron.schedule('0 0 * * *', async () => {
   }
 });
 
+
+const categoryMapping = {
+  PRINCIPAL: ['PRINCIPAL'],
+  'VICE PRINCIPAL': ['VICE PRINCIPAL'],
+  EVGC: ['EVGC'],
+  'PGT – Lecturer all except lecturer, computer science and PGT special education teacher': [
+    'LECTURER BIOLOGY',
+    'LECTURER CHEMISTRY',
+    'LECTURER COMMERCE',
+    'LECTURER ECONOMICS',
+    'LECTURER ENGG. DRAWING',
+    'LECTURER ENGLISH',
+    'LECTURER FINEART(PAINTING)',
+    'LECTURER GEOGRAPHY',
+    'LECTURER HINDI',
+    'LECTURER HISTORY',
+    'LECTURER HOME SCIENCE',
+    'LECTURER MATH',
+    'LECTURER MUSIC',
+    'LECTURER PHYSICAL EDUCATION',
+    'LECTURER PHYSICS',
+    'LECTURER POLITICAL SCIENCE',
+    'LECTURER PUNJABI',
+    'LECTURER SANSKRIT',
+    'LECTURER SOCIOLOGY',
+    'LECTURER URDU',
+    'LECTURER AGRICULTURE',
+    'LECTURER PSYCHOLOGY',
+    'PGT (Hindi, Sanskrit, Home Science, PET, DRG for GLNSSSD, Delhi Gate)',
+    'PGT for GSSSBB, Kingsway Camp',
+  ],
+  'TGT/TGT(MIL)': [
+    'TGT ENGLISH',
+    'TGT MATH',
+    'TGT SOCIAL SCIENCE',
+    'TGT NATURAL SCIENCE',
+    'TGT HINDI',
+    'TGT SANSKRIT',
+    'TGT URDU',
+    'TGT PUNJABI',
+    'TGT BENGALI',
+  ],
+  'TGT(Miscellaneous Category)': ['PET', 'DRAWING TEACHER', 'MUSIC TEACHER', 'DOMESTIC SCIENCE TEACHER'],
+  'PGT(Special Education)': ['PGT SPECIAL EDUCATION TEACHER'],
+  'TGT(Special Education)': ['TGT SPECIAL EDUCATION TEACHER'],
+  'PGT (Computer Science)': ['LECTURER COMPUTER SCIENCE'],
+  'TGT (Computer Science)': ['TGT COMPUTER SCIENCE'],
+  'Assistant Teacher': ['ASSISTANT TEACHER (PRIMARY)', 'ASSISTANT TEACHER (NURSERY)', 'Asst. Teacher for Deaf'],
+  'Librarian/Lab Assistant': ['LIBRARIAN', 'LAB ASSISTANT'],
+};
 /**
  * Get guest teacher graph  by School Statistic
  * @returns {Promise<Object>} School statistics
