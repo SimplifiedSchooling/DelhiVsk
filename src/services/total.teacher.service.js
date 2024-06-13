@@ -1,5 +1,55 @@
 const { Teacher, School, GuestTeacher, Student } = require('../models');
 
+
+const categoryMapping = {
+  PRINCIPAL: ['PRINCIPAL'],
+  'VICE PRINCIPAL': ['VICE PRINCIPAL'],
+  EVGC: ['EVGC'],
+  'PGT – Lecturer all except lecturer, computer science and PGT special education teacher': [
+    'LECTURER BIOLOGY',
+    'LECTURER CHEMISTRY',
+    'LECTURER COMMERCE',
+    'LECTURER ECONOMICS',
+    'LECTURER ENGG. DRAWING',
+    'LECTURER ENGLISH',
+    'LECTURER FINEART(PAINTING)',
+    'LECTURER GEOGRAPHY',
+    'LECTURER HINDI',
+    'LECTURER HISTORY',
+    'LECTURER HOME SCIENCE',
+    'LECTURER MATH',
+    'LECTURER MUSIC',
+    'LECTURER PHYSICAL EDUCATION',
+    'LECTURER PHYSICS',
+    'LECTURER POLITICAL SCIENCE',
+    'LECTURER PUNJABI',
+    'LECTURER SANSKRIT',
+    'LECTURER SOCIOLOGY',
+    'LECTURER URDU',
+    'LECTURER AGRICULTURE',
+    'LECTURER PSYCHOLOGY',
+    'PGT (Hindi, Sanskrit, Home Science, PET, DRG for GLNSSSD, Delhi Gate)',
+    'PGT for GSSSBB, Kingsway Camp',
+  ],
+  'TGT/TGT(MIL)': [
+    'TGT ENGLISH',
+    'TGT MATH',
+    'TGT SOCIAL SCIENCE',
+    'TGT NATURAL SCIENCE',
+    'TGT HINDI',
+    'TGT SANSKRIT',
+    'TGT URDU',
+    'TGT PUNJABI',
+    'TGT BENGALI',
+  ],
+  'TGT(Miscellaneous Category)': ['PET', 'DRAWING TEACHER', 'MUSIC TEACHER', 'DOMESTIC SCIENCE TEACHER'],
+  'PGT(Special Education)': ['PGT SPECIAL EDUCATION TEACHER'],
+  'TGT(Special Education)': ['TGT SPECIAL EDUCATION TEACHER'],
+  'PGT (Computer Science)': ['LECTURER COMPUTER SCIENCE'],
+  'TGT (Computer Science)': ['TGT COMPUTER SCIENCE'],
+  'Assistant Teacher': ['ASSISTANT TEACHER (PRIMARY)', 'ASSISTANT TEACHER (NURSERY)', 'Asst. Teacher for Deaf'],
+  'Librarian/Lab Assistant': ['LIBRARIAN', 'LAB ASSISTANT'],
+};
 const getSchoolIdByShiftWise = async () => {
   const pipeline = [
     {
@@ -121,55 +171,7 @@ const getTeacherStats = async () => {
     });
   }
 
-  const categoryMapping = {
-    PRINCIPAL: ['PRINCIPAL'],
-    'VICE PRINCIPAL': ['VICE PRINCIPAL'],
-    EVGC: ['EVGC'],
-    'PGT – Lecturer all except lecturer, computer science and PGT special education teacher': [
-      'LECTURER BIOLOGY',
-      'LECTURER CHEMISTRY',
-      'LECTURER COMMERCE',
-      'LECTURER ECONOMICS',
-      'LECTURER ENGG. DRAWING',
-      'LECTURER ENGLISH',
-      'LECTURER FINEART(PAINTING)',
-      'LECTURER GEOGRAPHY',
-      'LECTURER HINDI',
-      'LECTURER HISTORY',
-      'LECTURER HOME SCIENCE',
-      'LECTURER MATH',
-      'LECTURER MUSIC',
-      'LECTURER PHYSICAL EDUCATION',
-      'LECTURER PHYSICS',
-      'LECTURER POLITICAL SCIENCE',
-      'LECTURER PUNJABI',
-      'LECTURER SANSKRIT',
-      'LECTURER SOCIOLOGY',
-      'LECTURER URDU',
-      'LECTURER AGRICULTURE',
-      'LECTURER PSYCHOLOGY',
-      'PGT (Hindi, Sanskrit, Home Science, PET, DRG for GLNSSSD, Delhi Gate)',
-      'PGT for GSSSBB, Kingsway Camp',
-    ],
-    'TGT/TGT(MIL)': [
-      'TGT ENGLISH',
-      'TGT MATH',
-      'TGT SOCIAL SCIENCE',
-      'TGT NATURAL SCIENCE',
-      'TGT HINDI',
-      'TGT SANSKRIT',
-      'TGT URDU',
-      'TGT PUNJABI',
-      'TGT BENGALI',
-    ],
-    'TGT(Miscellaneous Category)': ['PET', 'DRAWING TEACHER', 'MUSIC TEACHER', 'DOMESTIC SCIENCE TEACHER'],
-    'PGT(Special Education)': ['PGT SPECIAL EDUCATION TEACHER'],
-    'TGT(Special Education)': ['TGT SPECIAL EDUCATION TEACHER'],
-    'PGT (Computer Science)': ['LECTURER COMPUTER SCIENCE'],
-    'TGT (Computer Science)': ['TGT COMPUTER SCIENCE'],
-    'Assistant Teacher': ['ASSISTANT TEACHER (PRIMARY)', 'ASSISTANT TEACHER (NURSERY)', 'Asst. Teacher for Deaf'],
-    'Librarian/Lab Assistant': ['LIBRARIAN', 'LAB ASSISTANT'],
-  };
+
 
   const pipeline = [
     {
@@ -255,6 +257,9 @@ const getTeacherStats = async () => {
 
   return result;
 };
+ 
+
+
 
 /**
  * Get school IDs grouped by shift for a specific district.
@@ -465,13 +470,34 @@ const getTeacherStatsByDistrict = async (districtName) => {
   const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
 
-  // Combine the post-wise counts for guest and regular teachers
-  const combinedCounts = [...postdescWiseGuestTeacherCounts, ...postdescWiseTeacherCounts];
+  const aggregateCounts = (data, mapping) => {
+    const result = {};
 
-  // Get unique posts from the combined counts
+    data.forEach(({ _id, teacherCount }) => {
+      for (const [category, posts] of Object.entries(mapping)) {
+        if (posts.includes(_id)) {
+          if (!result[category]) {
+            result[category] = 0;
+          }
+          result[category] += teacherCount;
+          break;
+        }
+      }
+    });
+
+    return Object.entries(result).map(([category, count]) => ({
+      _id: category,
+      teacherCount: count,
+    }));
+  };
+
+  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping);
+  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping);
+
+  const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
+
   const uniquePosts = [...new Set(combinedCounts.map((count) => count._id))];
 
-  // Create a new array with combined counts for common posts
   const mergedCounts = uniquePosts.map((post) => {
     const totalCount = combinedCounts
       .filter((count) => count._id === post)
@@ -479,7 +505,6 @@ const getTeacherStatsByDistrict = async (districtName) => {
 
     return { _id: post, teacherCount: totalCount };
   });
-
   // Get total number of students studying in the district
   const totalStudent = await Student.countDocuments({ status: 'Studying', District: districtName }).exec();
 
@@ -518,6 +543,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
 
   return result;
 };
+
 
 /**
  * Get school IDs grouped by shift for a specific district.
@@ -733,13 +759,34 @@ const getTeacherStatsByZone = async (zoneName) => {
   const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
 
-  // Combine the post-wise counts for guest and regular teachers
-  const combinedCounts = [...postdescWiseGuestTeacherCounts, ...postdescWiseTeacherCounts];
+  const aggregateCounts = (data, mapping) => {
+    const result = {};
 
-  // Get unique posts from the combined counts
+    data.forEach(({ _id, teacherCount }) => {
+      for (const [category, posts] of Object.entries(mapping)) {
+        if (posts.includes(_id)) {
+          if (!result[category]) {
+            result[category] = 0;
+          }
+          result[category] += teacherCount;
+          break;
+        }
+      }
+    });
+
+    return Object.entries(result).map(([category, count]) => ({
+      _id: category,
+      teacherCount: count,
+    }));
+  };
+
+  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping);
+  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping);
+
+  const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
+
   const uniquePosts = [...new Set(combinedCounts.map((count) => count._id))];
 
-  // Create a new array with combined counts for common posts
   const mergedCounts = uniquePosts.map((post) => {
     const totalCount = combinedCounts
       .filter((count) => count._id === post)
@@ -997,13 +1044,34 @@ const getTeacherStatsBySchool = async (schoolId) => {
   const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
 
-  // Combine the post-wise counts for guest and regular teachers
-  const combinedCounts = [...postdescWiseGuestTeacherCounts, ...postdescWiseTeacherCounts];
+  const aggregateCounts = (data, mapping) => {
+    const result = {};
 
-  // Get unique posts from the combined counts
+    data.forEach(({ _id, teacherCount }) => {
+      for (const [category, posts] of Object.entries(mapping)) {
+        if (posts.includes(_id)) {
+          if (!result[category]) {
+            result[category] = 0;
+          }
+          result[category] += teacherCount;
+          break;
+        }
+      }
+    });
+
+    return Object.entries(result).map(([category, count]) => ({
+      _id: category,
+      teacherCount: count,
+    }));
+  };
+
+  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping);
+  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping);
+
+  const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
+
   const uniquePosts = [...new Set(combinedCounts.map((count) => count._id))];
 
-  // Create a new array with combined counts for common posts
   const mergedCounts = uniquePosts.map((post) => {
     const totalCount = combinedCounts
       .filter((count) => count._id === post)
@@ -1011,7 +1079,6 @@ const getTeacherStatsBySchool = async (schoolId) => {
 
     return { _id: post, teacherCount: totalCount };
   });
-
   // Get total number of students studying in the school
   const totalStudent = await Student.countDocuments({ status: 'Studying', Schoolid: Number(schoolId) }).exec();
 
@@ -1051,90 +1118,15 @@ const getTeacherStatsBySchool = async (schoolId) => {
   return result;
 };
 
-// Function to get teachers and guest teachers by schoolid
-// const getTeachersAndGuestTeachersBySchoolId = async (schoolId) => {
+// (async () => {
 //   try {
-//     const result = await Teacher.aggregate([
-//       {
-//         $match: {
-//           schoolid: schoolId,
-//         },
-//       },
-//       {
-//         $lookup: {
-//           from: 'guestteachers',
-//           localField: 'schoolid',
-//           foreignField: 'SchoolID',
-//           as: 'guestTeachers',
-//         },
-//       },
-//       {
-//         $project: {
-//           _id: 0, // Exclude _id field
-//           Name: 1,
-//           EmpId: '$empid', // Rename empid to EmpId
-//           JoiningDate: 1,
-//           School: '$schname', // Rename schname to School
-//           Designation: '$postdesc', // Rename postdesc to Designation
-//           Dob: 1,
-//           District: '$districtname', // Rename districtname to District
-//         },
-//       },
-//     ]);
-
-//     return result;
+//     const schManagementType = '1001026'; // Replace with the desired SchManagement type
+//     const result = await getTeacherStatsBySchool(schManagementType);
+//     console.log(result);
 //   } catch (error) {
-//     throw error;
+//     console.error('Error fetching data by SchManagement:', error);
 //   }
-// };
-
-// const getTeachersAndGuestTeachersBySchoolId = async (schoolId) => {
-//   try {
-//     const result = await Teacher.aggregate([
-//       {
-//         $match: {
-//           schoolid: schoolId,
-//         },
-//       },
-//       {
-//         $lookup: {
-//           from: 'guestteachers',
-//           localField: 'schoolid',
-//           foreignField: 'SchoolID',
-//           as: 'guestTeachers',
-//         },
-//       },
-//       {
-//         $project: {
-//           _id: 0,
-//           Name: 1,
-//           EmpId: { $ifNull: ['$empid', '$ApplicationId'] },
-//           JoiningDate: { $ifNull: ['$JoiningDate', '$JoiningDate'] },
-//           School: { $ifNull: ['$schname', '$SchoolName'] },
-//           Designation: { $ifNull: ['$postdesc', '$Post'] },
-//           Dob: { $ifNull: ['$dob', null] },
-//           District: { $ifNull: ['$districtname', '$Districtname'] },
-//           // UserType: { $literal: 'Regular Teacher' },
-//         },
-//       },
-//       {
-//         $addFields: {
-//           combinedTeachers: { $mergeObjects: [ { teachers: '$$ROOT' }, { guestTeachers: '$guestTeachers' } ] },
-//         },
-//       },
-//       {
-//         $unwind: '$combinedTeachers',
-//       },
-//       {
-//         $replaceRoot: { newRoot: '$combinedTeachers' },
-//       },
-//     ]);
-// console.log(result.length)
-//     return result;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+// })();
 
 /**
  * Search for teachers based on schname, Name, or schoolid
