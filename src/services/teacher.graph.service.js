@@ -1,6 +1,57 @@
 const { School, Teacher, Student, GuestTeacher } = require('../models');
 const redis = require('../utils/redis');
 
+
+
+const categoryMapping = {
+  PRINCIPAL: ['PRINCIPAL'],
+  'VICE PRINCIPAL': ['VICE PRINCIPAL'],
+  EVGC: ['EVGC'],
+  'PGT – Lecturer all except lecturer, computer science and PGT special education teacher': [
+    'LECTURER BIOLOGY',
+    'LECTURER CHEMISTRY',
+    'LECTURER COMMERCE',
+    'LECTURER ECONOMICS',
+    'LECTURER ENGG. DRAWING',
+    'LECTURER ENGLISH',
+    'LECTURER FINEART(PAINTING)',
+    'LECTURER GEOGRAPHY',
+    'LECTURER HINDI',
+    'LECTURER HISTORY',
+    'LECTURER HOME SCIENCE',
+    'LECTURER MATH',
+    'LECTURER MUSIC',
+    'LECTURER PHYSICAL EDUCATION',
+    'LECTURER PHYSICS',
+    'LECTURER POLITICAL SCIENCE',
+    'LECTURER PUNJABI',
+    'LECTURER SANSKRIT',
+    'LECTURER SOCIOLOGY',
+    'LECTURER URDU',
+    'LECTURER AGRICULTURE',
+    'LECTURER PSYCHOLOGY',
+    'PGT (Hindi, Sanskrit, Home Science, PET, DRG for GLNSSSD, Delhi Gate)',
+    'PGT for GSSSBB, Kingsway Camp',
+  ],
+  'TGT/TGT(MIL)': [
+    'TGT ENGLISH',
+    'TGT MATH',
+    'TGT SOCIAL SCIENCE',
+    'TGT NATURAL SCIENCE',
+    'TGT HINDI',
+    'TGT SANSKRIT',
+    'TGT URDU',
+    'TGT PUNJABI',
+    'TGT BENGALI',
+  ],
+  'TGT(Miscellaneous Category)': ['PET', 'DRAWING TEACHER', 'MUSIC TEACHER', 'DOMESTIC SCIENCE TEACHER'],
+  'PGT(Special Education)': ['PGT SPECIAL EDUCATION TEACHER'],
+  'TGT(Special Education)': ['TGT SPECIAL EDUCATION TEACHER'],
+  'PGT (Computer Science)': ['LECTURER COMPUTER SCIENCE'],
+  'TGT (Computer Science)': ['TGT COMPUTER SCIENCE'],
+  'Assistant Teacher': ['ASSISTANT TEACHER (PRIMARY)', 'ASSISTANT TEACHER (NURSERY)', 'Asst. Teacher for Deaf'],
+  'Librarian/Lab Assistant': ['LIBRARIAN', 'LAB ASSISTANT'],
+};
 ///  Get all teacher statistics ////
 // Function to calculate teacher experience based on JoiningDate and get counts by experience range
 const getTeacherExperienceCountByRange = async () => {
@@ -191,7 +242,29 @@ const getTeacherStats = async () => {
 
   // const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
   // const totalTeach = totalGuestTeacher + totalTeachers.value;
-  const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
+  const postdescWiseTeacherCountsTofilter = await Teacher.aggregate(pipeline3);
+  const aggregateCounts = (data, mapping) => {
+    const result = {};
+
+    data.forEach(({ _id, teacherCount }) => {
+      for (const [category, posts] of Object.entries(mapping)) {
+        if (posts.includes(_id)) {
+          if (!result[category]) {
+            result[category] = 0;
+          }
+          result[category] += teacherCount;
+          break;
+        }
+      }
+    });
+
+    return Object.entries(result).map(([category, count]) => ({
+      _id: category,
+      teacherCount: count,
+    }));
+  };
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+
   const experianceOfTeachers = await getTeacherExperienceCountByRange();
   const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
@@ -214,6 +287,8 @@ const getTeacherStats = async () => {
   // await redis.set('getTeacherStatsTeacherGraphical', JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
+
+
 
 /**
  * Get teacher graph  by school managments
@@ -452,7 +527,29 @@ const getTeacherStatsByDistrict = async (districtName) => {
   // const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
   // const totoal = totalTeachers.value + totalGuestTeacher;
 
-  const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
+  const postdescWiseTeacherCountsTofilter = await Teacher.aggregate(pipeline3);
+  const aggregateCounts = (data, mapping) => {
+    const result = {};
+
+    data.forEach(({ _id, teacherCount }) => {
+      for (const [category, posts] of Object.entries(mapping)) {
+        if (posts.includes(_id)) {
+          if (!result[category]) {
+            result[category] = 0;
+          }
+          result[category] += teacherCount;
+          break;
+        }
+      }
+    });
+
+    return Object.entries(result).map(([category, count]) => ({
+      _id: category,
+      teacherCount: count,
+    }));
+  };
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+
   const experianceOfTeachers = await getTeacherExperienceCountByRangeDistrictWise(districtName);
   const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
@@ -475,6 +572,8 @@ const getTeacherStatsByDistrict = async (districtName) => {
   // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
+
+
 
 /// ////////////////////////////Get all teacher statistics by Zone ///////////////////////////////////////////
 
@@ -703,7 +802,29 @@ const getTeacherCountByZone = async (zone) => {
   // const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: cleanedZoneName }).exec();
   // const total = totalGuestTeacher + totalTeachers.value;
 
-  const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
+  const postdescWiseTeacherCountsTofilter = await Teacher.aggregate(pipeline3);
+  const aggregateCounts = (data, mapping) => {
+    const result = {};
+
+    data.forEach(({ _id, teacherCount }) => {
+      for (const [category, posts] of Object.entries(mapping)) {
+        if (posts.includes(_id)) {
+          if (!result[category]) {
+            result[category] = 0;
+          }
+          result[category] += teacherCount;
+          break;
+        }
+      }
+    });
+
+    return Object.entries(result).map(([category, count]) => ({
+      _id: category,
+      teacherCount: count,
+    }));
+  };
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+
   const experianceOfTeachers = await getTeacherExperienceCountByRangeZoneWise(cleanedZoneName);
   const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStydyingStudent.value / totalTeachers.value;
@@ -920,7 +1041,29 @@ const getTeacherCountBySchoolName = async (schoolId) => {
   // const totalGuestTeacher = await GuestTeacher.countDocuments({ SchoolID: schoolId }).exec();
 
   // const totoal = totalTeachers.value + totalGuestTeacher;
-  const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
+  const postdescWiseTeacherCountsTofilter = await Teacher.aggregate(pipeline3);
+  const aggregateCounts = (data, mapping) => {
+    const result = {};
+
+    data.forEach(({ _id, teacherCount }) => {
+      for (const [category, posts] of Object.entries(mapping)) {
+        if (posts.includes(_id)) {
+          if (!result[category]) {
+            result[category] = 0;
+          }
+          result[category] += teacherCount;
+          break;
+        }
+      }
+    });
+
+    return Object.entries(result).map(([category, count]) => ({
+      _id: category,
+      teacherCount: count,
+    }));
+  };
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+
   const experianceOfTeachers = await getTeacherExperienceCountByRangeSchool(schoolId);
   const averageTeachers = totalTeachers.value / totalSchools.value;
   const teacherStudentRatio = totalStudyingStudent.value / totalTeachers.value;
