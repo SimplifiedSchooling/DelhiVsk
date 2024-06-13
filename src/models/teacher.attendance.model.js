@@ -66,6 +66,12 @@ const TeacherAttendaceSchema = mongoose.Schema(
     vacation: {
       type: Number,
     },
+    TotalEmployees: {
+      type: Number,
+    },
+    TotalEmployeesMarkedAtt: {
+      type: String,
+    },
   },
   {
     timestamps: true,
