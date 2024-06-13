@@ -82,7 +82,7 @@ const { School, TeacherAttendace } = require('../models');
  * @returns {Promise<TeacherAttendace>}
  */
 async function fetchTeacherData(password, day) {
-  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_11&Shift=0&password=VSK@9180`;
+  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_${day}&Shift=0&password=VSK@9180`;
   
   try {
     const response = await axios.get(apiUrl);
