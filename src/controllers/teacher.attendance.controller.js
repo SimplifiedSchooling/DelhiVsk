@@ -3,8 +3,8 @@ const catchAsync = require('../utils/catchAsync');
 const { teacherAttendanceService } = require('../services');
 
 const getAttendanceData = catchAsync(async (req, res) => {
-  const { day, month, year} = req.query
-  const result = await teacherAttendanceService.getAttendanceData(day, month, year);
+  const { day, month, year, shift} = req.query
+  const result = await teacherAttendanceService.getAttendanceData(day, month, year, shift);
   res.status(httpStatus.CREATED).send(result);
 });
 
