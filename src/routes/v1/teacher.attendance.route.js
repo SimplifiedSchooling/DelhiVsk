@@ -10,4 +10,6 @@ router.route('/get-by-district').post(teacherAttendanceController.getAttendanceD
 router.route('/get-by-zone').get(teacherAttendanceController.getAttendanceDataByZone);
 router.route('/get-by-schoolid').get(teacherAttendanceController.getAttendanceDataByschoolID);
 
+router.route('/tendgraph').get(teacherAttendanceController.treandGraph);
+
 module.exports = router;

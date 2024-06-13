@@ -24,6 +24,12 @@ const getAttendanceDataByDistrict = catchAsync(async (req, res) => {
     const { day, month, year, schoolID} = req.query
     const result = await teacherAttendanceService.getAttendanceDataByschoolID(day, month, year, schoolID);
     res.status(httpStatus.CREATED).send(result);
+  }); 
+  
+  const treandGraph = catchAsync(async (req, res) => {
+    const {startDay, endDay, month, year} = req.query
+    const result = await teacherAttendanceService.treandGraph(startDay, endDay, month, year);
+    res.status(httpStatus.CREATED).send(result);
   });
 
 module.exports = {
@@ -31,4 +37,5 @@ module.exports = {
     getAttendanceDataByDistrict,
     getAttendanceDataByZone,
     getAttendanceDataByschoolID,
+    treandGraph,
 };

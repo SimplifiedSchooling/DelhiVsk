@@ -655,4 +655,5 @@ module.exports = {
     getAttendanceDataByDistrict,
     getAttendanceDataByZone,
     getAttendanceDataByschoolID,
+    treandGraph,
 };
