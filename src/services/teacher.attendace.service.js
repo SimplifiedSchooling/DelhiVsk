@@ -639,7 +639,7 @@ const totalSchool = await School.countDocuments(query1)
       let query1 = {}
       if(schoolID) query.Schoolid = Number(schoolID);
 const totalSchool = await School.countDocuments(query1)
-      return { attendanceSummary };
+      return { attendanceSummary, totalSchool };
     } catch (error) {
       console.error('Error fetching attendance data:', error);
       throw new Error('Internal Server Error');
