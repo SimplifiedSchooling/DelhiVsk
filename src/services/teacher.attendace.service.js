@@ -342,8 +342,10 @@ const getAttendanceData = async (day, month, year, shift) => {
     ]);
     let query1 = {}
     if(shift) query1.shift = shift;
+    query1.SchManagement = 'Government'
 const totalSchool = await School.countDocuments(query1)
-    return { attendanceSummary,totalSchool, topBottom };
+// const totalTeacher = await Teacher.
+    return { attendanceSummary,totalSchool,  topBottom };
   } catch (error) {
     console.error('Error fetching attendance data:', error);
     throw new Error('Internal Server Error');
@@ -490,6 +492,7 @@ const getAttendanceDataByDistrict = async (day, month, year, district, shift) =>
     ]);
     let query1 = {}
     if(district) query1.District_name = district;
+      query1.SchManagement = 'Government'
     if(shift) query1.shift = shift;
 const totalSchool = await School.countDocuments(query1)
     return { attendanceSummary, totalSchool, topBottom };
@@ -583,6 +586,7 @@ const totalSchool = await School.countDocuments(query1)
       ]);
       let query1 = {}
       if(zone) query.Zone_Name = zone;
+        query1.SchManagement = 'Government'
     if(shift) query1.shift = shift;
 const totalSchool = await School.countDocuments(query1)
       return { attendanceSummary, totalSchool, topBottom };

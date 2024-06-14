@@ -299,8 +299,9 @@ const getAllSchoolStudentTeacherData = async () => {
     });
   });
   const statusCounts = await getStudentStatusCountsAggregation();
-
+// const presentStudents = await 
   const result = {
+    
     totalSchools: totalSchools.value,
     totalStudents: totalStudent.value,
     totalTeachers: total,
