@@ -130,6 +130,7 @@ async function processTeacherData(teacherData, school, additionalData, day, mont
       OD: teacher.OD || 0,
       Suspended: teacher.Suspended || 0,
       vacation: teacher.vacation || 0,
+      totalSchool: additionalData.TotalGovtSchools || 0,
       TotalEmployees: additionalData.TotalEmployees || 0,
       TotalEmployeesMarkedAtt: additionalData.TotalEmployeesMarkedAtt || 0,
     }));
@@ -326,6 +327,7 @@ const getAttendanceData = async (day, month, year, shift) => {
             month: "$month",
             year: "$year"
           },
+          totalSchool: {$sum: "$totalSchool"},
           TotalEmployees: {$sum: "$TotalEmployees"},
           TotalEmployeesMarkedAtt: {$sum: "$TotalEmployeesMarkedAtt"},
           totalPresent: { $sum: "$Present" },
@@ -342,8 +344,10 @@ const getAttendanceData = async (day, month, year, shift) => {
     ]);
     let query1 = {}
     if(shift) query1.shift = shift;
+    query1.SchManagement = 'Government'
 const totalSchool = await School.countDocuments(query1)
-    return { attendanceSummary,totalSchool, topBottom };
+// const totalTeacher = await Teacher.
+    return { attendanceSummary,totalSchool,  topBottom };
   } catch (error) {
     console.error('Error fetching attendance data:', error);
     throw new Error('Internal Server Error');
@@ -390,6 +394,7 @@ const totalSchool = await School.countDocuments(query1)
             month: "$month",
             year: "$year"
           },
+          
           totalPresent: { $sum: "$Present" },
           totalTotAbsent: { $sum: "$TotAbsent" },
           totalHalfCL: { $sum: "$HalfCL" },
@@ -474,6 +479,7 @@ const getAttendanceDataByDistrict = async (day, month, year, district, shift) =>
             month: "$month",
             year: "$year"
           },
+          totalSchool: {$sum: "$totalSchool"},
           TotalEmployees: {$sum: "$TotalEmployees"},
           TotalEmployeesMarkedAtt: {$sum: "$TotalEmployeesMarkedAtt"},
           totalPresent: { $sum: "$Present" },
@@ -490,6 +496,7 @@ const getAttendanceDataByDistrict = async (day, month, year, district, shift) =>
     ]);
     let query1 = {}
     if(district) query1.District_name = district;
+      query1.SchManagement = 'Government'
     if(shift) query1.shift = shift;
 const totalSchool = await School.countDocuments(query1)
     return { attendanceSummary, totalSchool, topBottom };
@@ -567,6 +574,7 @@ const totalSchool = await School.countDocuments(query1)
               month: "$month",
               year: "$year"
             },
+            totalSchool: {$sum: "$totalSchool"},
             TotalEmployees: {$sum: "$TotalEmployees"},
             TotalEmployeesMarkedAtt: {$sum: "$TotalEmployeesMarkedAtt"},
             totalPresent: { $sum: "$Present" },
@@ -583,6 +591,7 @@ const totalSchool = await School.countDocuments(query1)
       ]);
       let query1 = {}
       if(zone) query.Zone_Name = zone;
+        query1.SchManagement = 'Government'
     if(shift) query1.shift = shift;
 const totalSchool = await School.countDocuments(query1)
       return { attendanceSummary, totalSchool, topBottom };
@@ -622,6 +631,7 @@ const totalSchool = await School.countDocuments(query1)
               month: "$month",
               year: "$year"
             },
+            totalSchool: {$sum: "$totalSchool"},
             TotalEmployees: {$sum: "$TotalEmployees"},
             TotalEmployeesMarkedAtt: {$sum: "$TotalEmployeesMarkedAtt"},
             totalPresent: { $sum: "$Present" },
@@ -639,7 +649,7 @@ const totalSchool = await School.countDocuments(query1)
       let query1 = {}
       if(schoolID) query.Schoolid = Number(schoolID);
 const totalSchool = await School.countDocuments(query1)
-      return { attendanceSummary };
+      return { attendanceSummary, totalSchool };
     } catch (error) {
       console.error('Error fetching attendance data:', error);
       throw new Error('Internal Server Error');
