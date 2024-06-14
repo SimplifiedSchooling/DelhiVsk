@@ -340,8 +340,10 @@ const getAttendanceData = async (day, month, year, shift) => {
         }
       }
     ]);
-
-    return { attendanceSummary, topBottom };
+    let query1 = {}
+    if(shift) query1.shift = shift;
+const totalSchool = await School.countDocuments(query1)
+    return { attendanceSummary,totalSchool, topBottom };
   } catch (error) {
     console.error('Error fetching attendance data:', error);
     throw new Error('Internal Server Error');
@@ -486,8 +488,11 @@ const getAttendanceDataByDistrict = async (day, month, year, district, shift) =>
         }
       }
     ]);
-
-    return { attendanceSummary, topBottom };
+    let query1 = {}
+    if(district) query1.District_name = district;
+    if(shift) query1.shift = shift;
+const totalSchool = await School.countDocuments(query1)
+    return { attendanceSummary, totalSchool, topBottom };
   } catch (error) {
     console.error('Error fetching attendance data:', error);
     throw new Error('Internal Server Error');
@@ -576,8 +581,11 @@ const getAttendanceDataByDistrict = async (day, month, year, district, shift) =>
           }
         }
       ]);
-  
-      return { attendanceSummary, topBottom };
+      let query1 = {}
+      if(zone) query.Zone_Name = zone;
+    if(shift) query1.shift = shift;
+const totalSchool = await School.countDocuments(query1)
+      return { attendanceSummary, totalSchool, topBottom };
     } catch (error) {
       console.error('Error fetching attendance data:', error);
       throw new Error('Internal Server Error');
@@ -628,7 +636,9 @@ const getAttendanceDataByDistrict = async (day, month, year, district, shift) =>
           }
         }
       ]);
-  
+      let query1 = {}
+      if(schoolID) query.Schoolid = Number(schoolID);
+const totalSchool = await School.countDocuments(query1)
       return { attendanceSummary };
     } catch (error) {
       console.error('Error fetching attendance data:', error);
