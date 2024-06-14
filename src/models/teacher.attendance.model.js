@@ -72,6 +72,9 @@ const TeacherAttendaceSchema = mongoose.Schema(
     TotalEmployeesMarkedAtt: {
       type: String,
     },
+    totalSchool: {
+      type: Number
+    }
   },
   {
     timestamps: true,

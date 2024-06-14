@@ -130,6 +130,7 @@ async function processTeacherData(teacherData, school, additionalData, day, mont
       OD: teacher.OD || 0,
       Suspended: teacher.Suspended || 0,
       vacation: teacher.vacation || 0,
+      totalSchool: additionalData.TotalGovtSchools || 0,
       TotalEmployees: additionalData.TotalEmployees || 0,
       TotalEmployeesMarkedAtt: additionalData.TotalEmployeesMarkedAtt || 0,
     }));
@@ -326,6 +327,7 @@ const getAttendanceData = async (day, month, year, shift) => {
             month: "$month",
             year: "$year"
           },
+          totalSchool: {$sum: "$totalSchool"},
           TotalEmployees: {$sum: "$TotalEmployees"},
           TotalEmployeesMarkedAtt: {$sum: "$TotalEmployeesMarkedAtt"},
           totalPresent: { $sum: "$Present" },
@@ -392,6 +394,7 @@ const totalSchool = await School.countDocuments(query1)
             month: "$month",
             year: "$year"
           },
+          
           totalPresent: { $sum: "$Present" },
           totalTotAbsent: { $sum: "$TotAbsent" },
           totalHalfCL: { $sum: "$HalfCL" },
@@ -476,6 +479,7 @@ const getAttendanceDataByDistrict = async (day, month, year, district, shift) =>
             month: "$month",
             year: "$year"
           },
+          totalSchool: {$sum: "$totalSchool"},
           TotalEmployees: {$sum: "$TotalEmployees"},
           TotalEmployeesMarkedAtt: {$sum: "$TotalEmployeesMarkedAtt"},
           totalPresent: { $sum: "$Present" },
@@ -570,6 +574,7 @@ const totalSchool = await School.countDocuments(query1)
               month: "$month",
               year: "$year"
             },
+            totalSchool: {$sum: "$totalSchool"},
             TotalEmployees: {$sum: "$TotalEmployees"},
             TotalEmployeesMarkedAtt: {$sum: "$TotalEmployeesMarkedAtt"},
             totalPresent: { $sum: "$Present" },
@@ -626,6 +631,7 @@ const totalSchool = await School.countDocuments(query1)
               month: "$month",
               year: "$year"
             },
+            totalSchool: {$sum: "$totalSchool"},
             TotalEmployees: {$sum: "$TotalEmployees"},
             TotalEmployeesMarkedAtt: {$sum: "$TotalEmployeesMarkedAtt"},
             totalPresent: { $sum: "$Present" },
