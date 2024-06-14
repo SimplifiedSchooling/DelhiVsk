@@ -107,36 +107,49 @@ async function fetchTeacherDataFromNewApi(schoolId, password, day) {
 }
 
 async function processTeacherData(teacherData, school, additionalData, day, month, year) {
-  const data = teacherData
+  const operations = teacherData
     .filter(teacher => teacher.schid === school.Schoolid)
     .map(teacher => ({
-      day: `d_${day}`,
-      month,
-      year,
-      district_name: school.District_name,
-      Latitude: school.Latitude,
-      Longitude: school.Longitude,
-      Z_name: school.Zone_Name,
-      schoolID: school.Schoolid,
-      school_name: school.School_Name,
-      shift: school.shift,
-      SchManagement: school.SchManagement,
-      Present: teacher.Present || 0,
-      TotAbsent: teacher.TotAbsent || 0,
-      HalfCL: teacher.HalfCL || 0,
-      CL: teacher.CL || 0,
-      EL: teacher.EL || 0,
-      OtherLeave: teacher.OtherLeave || 0,
-      OD: teacher.OD || 0,
-      Suspended: teacher.Suspended || 0,
-      vacation: teacher.vacation || 0,
-      totalSchool: additionalData.TotalGovtSchools || 0,
-      TotalEmployees: additionalData.TotalEmployees || 0,
-      TotalEmployeesMarkedAtt: additionalData.TotalEmployeesMarkedAtt || 0,
+      updateOne: {
+        filter: {
+          day: `d_${day}`,
+          month,
+          year,
+          schoolID: school.Schoolid,
+        },
+        update: {
+          $set: {
+            day: `d_${day}`,
+            month,
+            year,
+            district_name: school.District_name,
+            Latitude: school.Latitude,
+            Longitude: school.Longitude,
+            Z_name: school.Zone_Name,
+            schoolID: school.Schoolid,
+            school_name: school.School_Name,
+            shift: school.shift,
+            SchManagement: school.SchManagement,
+            Present: teacher.Present || 0,
+            TotAbsent: teacher.TotAbsent || 0,
+            HalfCL: teacher.HalfCL || 0,
+            CL: teacher.CL || 0,
+            EL: teacher.EL || 0,
+            OtherLeave: teacher.OtherLeave || 0,
+            OD: teacher.OD || 0,
+            Suspended: teacher.Suspended || 0,
+            vacation: teacher.vacation || 0,
+            totalSchool: additionalData.TotalGovtSchools || 0,
+            TotalEmployees: additionalData.TotalEmployees || 0,
+            TotalEmployeesMarkedAtt: additionalData.TotalEmployeesMarkedAtt || 0,
+          },
+        },
+        upsert: true,
+      },
     }));
 
-  if (data.length > 0) {
-    await TeacherAttendace.insertMany(data);
+  if (operations.length > 0) {
+    await TeacherAttendace.bulkWrite(operations);
   }
 }
 
@@ -174,31 +187,34 @@ async function storeTeacherDataInMongoDB() {
   console.log('Data stored successfully');
 }
 
+// async function fetchTeacherDataFromOldApi(password, day) {
+//   const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_${day}&Shift=0&password=${password}`;
 
-// // Example usage
-// storeTeacherDataInMongoDB()
-//   .then(() => {
-//     console.log('Data stored successfully');
-//   })
-//   .catch((error) => {
-//     console.error('Error storing data:', error);
-//   });
-// async function fetchTeacherData(password, day) {
-//   const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_${day}&Shift=0&password=VSK@9180`;
-  
 //   try {
 //     const response = await axios.get(apiUrl);
 //     return response.data;
 //   } catch (error) {
-//     logger.error(`Error fetching data:`, error);
+//     logger.error(`Error fetching data from old API:`, error);
 //     return null;
 //   }
 // }
 
-// async function processTeacherDataCounsolated(teacherData, day, month, year) {
-//   for (const teacher of teacherData) {
-// const school = await School.findOne({Schoolid: teacher.schid })
-//     const data = {
+// async function fetchTeacherDataFromNewApi(schoolId, password, day) {
+//   const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_AttnDetails?day=d_${day}&schid=${schoolId}&caseNo=2&Password=${password}`;
+
+//   try {
+//     const response = await axios.get(apiUrl);
+//     return response.data;
+//   } catch (error) {
+//     logger.error(`Error fetching data for school ${schoolId} from new API:`, error);
+//     return null;
+//   }
+// }
+
+// async function processTeacherData(teacherData, school, additionalData, day, month, year) {
+//   const data = teacherData
+//     .filter(teacher => teacher.schid === school.Schoolid)
+//     .map(teacher => ({
 //       day: `d_${day}`,
 //       month,
 //       year,
@@ -219,27 +235,51 @@ async function storeTeacherDataInMongoDB() {
 //       OD: teacher.OD || 0,
 //       Suspended: teacher.Suspended || 0,
 //       vacation: teacher.vacation || 0,
-//     };
+//       totalSchool: additionalData.TotalGovtSchools || 0,
+//       TotalEmployees: additionalData.TotalEmployees || 0,
+//       TotalEmployeesMarkedAtt: additionalData.TotalEmployeesMarkedAtt || 0,
+//     }));
 
-//     await TeacherAttendace.create(data);
+//   if (data.length > 0) {
+//     await TeacherAttendace.insertMany(data);
 //   }
 // }
 
-// async function storeTeacherDataConsolatedInMongoDB() {
+// async function storeTeacherDataInMongoDB() {
+//   console.log('Starting data fetch and store process');
 //   const today = new Date();
 //   const dd = String(today.getDate()).padStart(2, '0');
 //   const mm = String(today.getMonth() + 1).padStart(2, '0');
 //   const year = String(today.getFullYear());
-//   const schools = await School.find().exec();
 //   const password = 'VSK@9180';
-  
-// //   for (const school of schools) {
-//     const teacherData = await fetchTeacherData(password, dd);
-//     if (teacherData && teacherData.Cargo) {
-//       await processTeacherDataCounsolated(teacherData.Cargo, dd, mm, year);
+
+//   const oldApiData = await fetchTeacherDataFromOldApi(password, dd);
+//   if (!oldApiData || !oldApiData.Cargo) {
+//     logger.error('No data returned from old API');
+//     return;
+//   }
+
+//   const schools = await School.find().exec();
+
+//   const newApiDataPromises = schools.map(school => fetchTeacherDataFromNewApi(school.Schoolid, password, dd));
+//   const newApiDataResults = await Promise.all(newApiDataPromises);
+
+//   const processTeacherDataPromises = schools.map((school, index) => {
+//     const newApiData = newApiDataResults[index];
+//     if (newApiData && newApiData.Cargo && newApiData.Cargo.length > 0) {
+//       const additionalData = newApiData.Cargo[0];
+//       return processTeacherData(oldApiData.Cargo, school, additionalData, dd, mm, year);
+//     } else {
+//       logger.error(`No data returned for school ${school.Schoolid} from new API`);
+//       return Promise.resolve();
 //     }
-// //   }
+//   });
+
+//   await Promise.all(processTeacherDataPromises);
+//   console.log('Data stored successfully');
 // }
+
+
 
 cron.schedule('2 11 * * *', async () => {
   try {
