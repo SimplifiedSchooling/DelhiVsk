@@ -32,10 +32,16 @@ const getAttendanceDataByDistrict = catchAsync(async (req, res) => {
     res.status(httpStatus.CREATED).send(result);
   });
 
+  const getAttendanceDashbord = catchAsync(async (req, res) => {
+    const result = await teacherAttendanceService.getAttendanceDashbord();
+    res.status(httpStatus.CREATED).send(result);
+  });
+
 module.exports = {
     getAttendanceData,
     getAttendanceDataByDistrict,
     getAttendanceDataByZone,
     getAttendanceDataByschoolID,
     treandGraph,
+    getAttendanceDashbord,
 };

@@ -12,4 +12,6 @@ router.route('/get-by-schoolid').get(teacherAttendanceController.getAttendanceDa
 
 router.route('/tendgraph').get(teacherAttendanceController.treandGraph);
 
+router.route('/dashboard-attendance').get(teacherAttendanceController.getAttendanceDashbord);
+
 module.exports = router;

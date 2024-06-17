@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cron = require('node-cron');
 const logger = require('../config/logger');
-const { School, TeacherAttendace, Teacher } = require('../models');
+const { School, TeacherAttendace, Teacher, Attendance } = require('../models');
 
 // async function fetchTeacherDataForSchool(schoolId, password, dd) {
 //   const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_AttnDetails?day=d_${dd}&schid=${schoolId}&caseNo=2&Password=${password}`;
@@ -186,7 +186,7 @@ async function storeTeacherDataInMongoDB() {
   await Promise.all(processTeacherDataPromises);
   console.log('Data stored successfully');
 }
-storeTeacherDataInMongoDB()
+// storeTeacherDataInMongoDB()
 // async function fetchTeacherDataFromOldApi(password, day) {
 //   const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_${day}&Shift=0&password=${password}`;
 
@@ -405,13 +405,13 @@ const getAttendanceData = async (day, month, year, shift) => {
 };
 
 // Example usage of the getAttendanceData function
-getAttendanceData('d_13', '06', '2024')
-  .then((result) => {
-    console.log('Attendance Data:', result);
-  })
-  .catch((error) => {  
-    console.error('Error:', error);
-  });
+// getAttendanceData('d_13', '06', '2024')
+//   .then((result) => {
+//     console.log('Attendance Data:', result);
+//   })
+//   .catch((error) => {  
+//     console.error('Error:', error);
+//   });
 
   // getAttendanceData('d_12', '06', '2024');
 
@@ -719,11 +719,116 @@ const totalSchool = await School.countDocuments(query1)
 //   }
 // })();
 
+/**
+ * Get teacher attendance counts for statistic graph
+ * @param {Object} d_1
+ * @returns {Promise<TeacherAttendace>}
+ */
+const getAttendanceDashbord = async () => {
+  try {
+    // Calculate the previous day's date
+    const today = new Date();
+    const previousDay = new Date(today);
+    previousDay.setDate(today.getDate() - 1);
 
+    const day = previousDay.getDate();
+    const month = previousDay.getMonth() + 1; // Months are zero-based in JS
+    const year = previousDay.getFullYear();
+
+    // Build the query object
+    const query = { day, month, year };
+    
+    // Fetch total count of teachers from external API
+    const totalApi = await fetchTeacherTotalCount(day);
+    
+    // Fetch top and bottom attendance counts
+    const topBottom = await topBottomAttendanceCount(query);
+
+    // Perform aggregation for the attendance summary
+    const attendanceSummary = await TeacherAttendace.aggregate([
+      { $match: query },
+      {
+        $group: {
+          _id: {
+            day: "$day",
+            month: "$month",
+            year: "$year"
+          },
+          TotalEmployees: { $sum: "$TotalEmployees" },
+          TotalEmployeesMarkedAtt: { $sum: "$TotalEmployeesMarkedAtt" },
+          totalPresent: { $sum: "$Present" },
+          totalTotAbsent: { $sum: "$TotAbsent" },
+          totalHalfCL: { $sum: "$HalfCL" },
+          totalCL: { $sum: "$CL" },
+          totalEL: { $sum: "$EL" },
+          totalOtherLeave: { $sum: "$OtherLeave" },
+          totalOD: { $sum: "$OD" },
+          totalSuspended: { $sum: "$Suspended" },
+          totalVacation: { $sum: "$vacation" }
+        }
+      }
+    ]);
+
+    // Match criteria for second aggregation
+    const match = {
+      attendance_DATE: previousDay,
+      SchManagement: 'Government',
+    };
+
+    // Perform aggregation for detailed attendance counts
+    const Counts = await Attendance.aggregate([
+      { $match: match },
+      {
+        $group: {
+          _id: null,
+          PresentCount: { $sum: '$PresentCount' },
+          AbsentCount: { $sum: '$AbsentCount' },
+          totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
+          totalLeaveCount: { $sum: '$totalLeaveCount' },
+          malePresentCount: { $sum: '$malePresentCount' },
+          feMalePresentCount: { $sum: '$feMalePresentCount' },
+          otherPresentCount: { $sum: '$otherPresentCount' },
+          maleAbsentCount: { $sum: '$maleAbsentCount' },
+          feMaleAbsentCount: { $sum: '$feMaleAbsentCount' },
+          othersAbsentCount: { $sum: '$othersAbsentCount' },
+          maleLeaveCount: { $sum: '$maleLeaveCount' },
+          femaleLeaveCount: { $sum: '$femaleLeaveCount' },
+          otherLeaveCount: { $sum: '$otherLeaveCount' },
+          maleAttendanceNotMarked: { $sum: '$maleAttendanceNotMarked' },
+          femaleAttendanceNotMarked: { $sum: '$femaleAttendanceNotMarked' },
+          otherAttendanceNotMarked: { $sum: '$otherAttendanceNotMarked' },
+        },
+      },
+    ]);
+
+    // Update TotalEmployees if data from external API is available
+    if (totalApi && totalApi.Cargo && totalApi.Cargo.length > 0) {
+      attendanceSummary.forEach(summary => {
+        summary.TotalEmployees = totalApi.Cargo[0].TotalEmployees;
+      });
+    }
+
+    return { attendanceSummary, Counts };
+  } catch (error) {
+    console.error('Error fetching attendance data:', error);
+    throw new Error('Internal Server Error');
+  }
+};
+
+
+  (async () => {
+  try {
+    const result = await getAttendanceDashbord('d_13', '06', '2024') //;(schManagementType);
+    console.log(result);
+  } catch (error) {
+    console.error('Error fetching data by SchManagement:', error);
+  }
+})();
 module.exports = {
     getAttendanceData,
     getAttendanceDataByDistrict,
     getAttendanceDataByZone,
     getAttendanceDataByschoolID,
     treandGraph,
+    getAttendanceDashbord,
 };
