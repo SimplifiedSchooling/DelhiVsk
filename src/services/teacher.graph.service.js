@@ -274,12 +274,10 @@ const getTeacherStats = async () => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResultArray = Object.entries(result)
-      .map(([key, value]) => ({
-        _id: key,
-        teacherCount: value,
-      }))
-      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+    const sortedResultArray = order.map((category) => ({
+      _id: category,
+      teacherCount: result[category] || 0, // Ensure 0 count for categories not present in the result
+    }));
   
     return sortedResultArray;
   };
@@ -571,12 +569,10 @@ const getTeacherStatsByDistrict = async (districtName) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResultArray = Object.entries(result)
-      .map(([key, value]) => ({
-        _id: key,
-        teacherCount: value,
-      }))
-      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+    const sortedResultArray = order.map((category) => ({
+      _id: category,
+      teacherCount: result[category] || 0, // Ensure 0 count for categories not present in the result
+    }));
   
     return sortedResultArray;
   };
@@ -851,12 +847,10 @@ const getTeacherCountByZone = async (zone) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResultArray = Object.entries(result)
-      .map(([key, value]) => ({
-        _id: key,
-        teacherCount: value,
-      }))
-      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+    const sortedResultArray = order.map((category) => ({
+      _id: category,
+      teacherCount: result[category] || 0, // Ensure 0 count for categories not present in the result
+    }));
   
     return sortedResultArray;
   };
@@ -1095,12 +1089,10 @@ const getTeacherCountBySchoolName = async (schoolId) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResultArray = Object.entries(result)
-      .map(([key, value]) => ({
-        _id: key,
-        teacherCount: value,
-      }))
-      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+    const sortedResultArray = order.map((category) => ({
+      _id: category,
+      teacherCount: result[category] || 0, // Ensure 0 count for categories not present in the result
+    }));
   
     return sortedResultArray;
   };
@@ -1127,6 +1119,16 @@ const getTeacherCountBySchoolName = async (schoolId) => {
   // await redis.set(cacheKey, JSON.stringify(result), 'EX', 24 * 60 * 60);
   return result;
 };
+
+
+//   (async () => {
+//   try {
+//     const result = await getTeacherCountBySchoolName('1001004') //;(schManagementType);
+//     console.log(result);
+//   } catch (error) {
+//     console.error('Error fetching data by SchManagement:', error);
+//   }
+// })();
 
 /// /////////////////////////////////////////////////////////////////////////
 const getTeacherCountByPostdescAndSchoolName = async (postdesc, schname) => {
