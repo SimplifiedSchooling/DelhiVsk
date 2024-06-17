@@ -302,14 +302,14 @@ const getTeacherStats = async () => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResult = {};
-    order.forEach(category => {
-      if (result[category] !== undefined) {
-        sortedResult[category] = result[category];
-      }
-    });
+    const sortedResultArray = Object.entries(result)
+      .map(([key, value]) => ({
+        _id: key,
+        teacherCount: value,
+      }))
+      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
   
-    return sortedResult;
+    return sortedResultArray;
   };
   const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
@@ -521,14 +521,14 @@ const getTeacherStatsDistrict = async (districtName) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResult = {};
-    order.forEach(category => {
-      if (result[category] !== undefined) {
-        sortedResult[category] = result[category];
-      }
-    });
+    const sortedResultArray = Object.entries(result)
+      .map(([key, value]) => ({
+        _id: key,
+        teacherCount: value,
+      }))
+      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
   
-    return sortedResult;
+    return sortedResultArray;
   };
   const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
@@ -740,14 +740,14 @@ const getTeacherStatsZone = async (zone) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResult = {};
-    order.forEach(category => {
-      if (result[category] !== undefined) {
-        sortedResult[category] = result[category];
-      }
-    });
+    const sortedResultArray = Object.entries(result)
+      .map(([key, value]) => ({
+        _id: key,
+        teacherCount: value,
+      }))
+      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
   
-    return sortedResult;
+    return sortedResultArray;
   };
   const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
@@ -960,14 +960,14 @@ const getTeacherStatsSchool = async (SchoolId) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResult = {};
-    order.forEach(category => {
-      if (result[category] !== undefined) {
-        sortedResult[category] = result[category];
-      }
-    });
+    const sortedResultArray = Object.entries(result)
+      .map(([key, value]) => ({
+        _id: key,
+        teacherCount: value,
+      }))
+      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
   
-    return sortedResult;
+    return sortedResultArray;
   };
   const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
