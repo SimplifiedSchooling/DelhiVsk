@@ -735,6 +735,7 @@ const getAttendanceDashbord = async () => {
     const month = previousDay.getMonth() + 1; // Months are zero-based in JS
     const year = previousDay.getFullYear();
 
+   const  dayA = `d_${day}`
     // Build the query object
     const query = { day, month, year };
     
@@ -750,7 +751,7 @@ const getAttendanceDashbord = async () => {
       {
         $group: {
           _id: {
-            day: "$day",
+            day: "$dayA",
             month: "$month",
             year: "$year"
           },
