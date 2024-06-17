@@ -229,30 +229,32 @@ const getTeacherStats = async () => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResult = {};
-    order.forEach(category => {
-      if (result[category] !== undefined) {
-        sortedResult[category] = result[category];
-      }
-    });
+    const sortedResultArray = Object.entries(result)
+      .map(([key, value]) => ({
+        _id: key,
+        teacherCount: value,
+      }))
+      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
   
-    return sortedResult;
+    return sortedResultArray;
   };
+  
 
   const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping, order);
   const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping, order);
-
+  
   const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
-
+  
   const uniquePosts = [...new Set(combinedCounts.map((count) => count._id))];
-
+  
   const mergedCounts = uniquePosts.map((post) => {
     const totalCount = combinedCounts
       .filter((count) => count._id === post)
       .reduce((acc, count) => acc + count.teacherCount, 0);
-
+  
     return { _id: post, teacherCount: totalCount };
-  });
+  }).sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+  
   const totoalStudent = await Student.countDocuments({ status: 'Studying' }).exec();
   const totalSchool = await School.countDocuments().exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
@@ -279,7 +281,14 @@ const getTeacherStats = async () => {
 };
  
 
-
+//   (async () => {
+//   try {
+//     const result = await getTeacherStats('d_13', '06', '2024') //;(schManagementType);
+//     console.log(result);
+//   } catch (error) {
+//     console.error('Error fetching data by SchManagement:', error);
+//   }
+// })();
 
 /**
  * Get school IDs grouped by shift for a specific district.
@@ -506,30 +515,32 @@ const getTeacherStatsByDistrict = async (districtName) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResult = {};
-    order.forEach(category => {
-      if (result[category] !== undefined) {
-        sortedResult[category] = result[category];
-      }
-    });
+    const sortedResultArray = Object.entries(result)
+      .map(([key, value]) => ({
+        _id: key,
+        teacherCount: value,
+      }))
+      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
   
-    return sortedResult;
+    return sortedResultArray;
   };
+  
 
   const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping, order);
   const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping, order);
-
+  
   const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
-
+  
   const uniquePosts = [...new Set(combinedCounts.map((count) => count._id))];
-
+  
   const mergedCounts = uniquePosts.map((post) => {
     const totalCount = combinedCounts
       .filter((count) => count._id === post)
       .reduce((acc, count) => acc + count.teacherCount, 0);
-
+  
     return { _id: post, teacherCount: totalCount };
-  });
+  }).sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+  
   // Get total number of students studying in the district
   const totalStudent = await Student.countDocuments({ status: 'Studying', District: districtName }).exec();
 
@@ -783,7 +794,6 @@ const getTeacherStatsByZone = async (zoneName) => {
   // Execute the aggregation pipelines to get post-wise teacher counts for the district
   const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
-
   const aggregateCounts = (data, mapping, order) => {
     const result = {};
   
@@ -800,31 +810,32 @@ const getTeacherStatsByZone = async (zoneName) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResult = {};
-    order.forEach(category => {
-      if (result[category] !== undefined) {
-        sortedResult[category] = result[category];
-      }
-    });
+    const sortedResultArray = Object.entries(result)
+      .map(([key, value]) => ({
+        _id: key,
+        teacherCount: value,
+      }))
+      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
   
-    return sortedResult;
+    return sortedResultArray;
   };
+  
 
   const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping, order);
   const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping, order);
-
+  
   const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
-
+  
   const uniquePosts = [...new Set(combinedCounts.map((count) => count._id))];
-
+  
   const mergedCounts = uniquePosts.map((post) => {
     const totalCount = combinedCounts
       .filter((count) => count._id === post)
       .reduce((acc, count) => acc + count.teacherCount, 0);
-
+  
     return { _id: post, teacherCount: totalCount };
-  });
-
+  }).sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+  
   // Get total number of students studying in the district
   const totalStudent = await Student.countDocuments({ status: 'Studying', z_name: zoneName.toLowerCase() }).exec();
 
@@ -1073,7 +1084,6 @@ const getTeacherStatsBySchool = async (schoolId) => {
   // Execute the aggregation pipelines to get post-wise teacher counts for the school
   const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
-
   const aggregateCounts = (data, mapping, order) => {
     const result = {};
   
@@ -1090,30 +1100,32 @@ const getTeacherStatsBySchool = async (schoolId) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResult = {};
-    order.forEach(category => {
-      if (result[category] !== undefined) {
-        sortedResult[category] = result[category];
-      }
-    });
+    const sortedResultArray = Object.entries(result)
+      .map(([key, value]) => ({
+        _id: key,
+        teacherCount: value,
+      }))
+      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
   
-    return sortedResult;
+    return sortedResultArray;
   };
+  
 
   const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping, order);
   const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping, order);
-
+  
   const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
-
+  
   const uniquePosts = [...new Set(combinedCounts.map((count) => count._id))];
-
+  
   const mergedCounts = uniquePosts.map((post) => {
     const totalCount = combinedCounts
       .filter((count) => count._id === post)
       .reduce((acc, count) => acc + count.teacherCount, 0);
-
+  
     return { _id: post, teacherCount: totalCount };
-  });
+  }).sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+  
   // Get total number of students studying in the school
   const totalStudent = await Student.countDocuments({ status: 'Studying', Schoolid: Number(schoolId) }).exec();
 
