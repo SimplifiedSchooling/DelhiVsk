@@ -302,12 +302,10 @@ const getTeacherStats = async () => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResultArray = Object.entries(result)
-      .map(([key, value]) => ({
-        _id: key,
-        teacherCount: value,
-      }))
-      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+    const sortedResultArray = order.map((category) => ({
+      _id: category,
+      teacherCount: result[category] || 0, // Ensure 0 count for categories not present in the result
+    }));
   
     return sortedResultArray;
   };
@@ -521,12 +519,10 @@ const getTeacherStatsDistrict = async (districtName) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResultArray = Object.entries(result)
-      .map(([key, value]) => ({
-        _id: key,
-        teacherCount: value,
-      }))
-      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+    const sortedResultArray = order.map((category) => ({
+      _id: category,
+      teacherCount: result[category] || 0, // Ensure 0 count for categories not present in the result
+    }));
   
     return sortedResultArray;
   };
@@ -740,12 +736,10 @@ const getTeacherStatsZone = async (zone) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResultArray = Object.entries(result)
-      .map(([key, value]) => ({
-        _id: key,
-        teacherCount: value,
-      }))
-      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+    const sortedResultArray = order.map((category) => ({
+      _id: category,
+      teacherCount: result[category] || 0, // Ensure 0 count for categories not present in the result
+    }));
   
     return sortedResultArray;
   };
@@ -960,12 +954,10 @@ const getTeacherStatsSchool = async (SchoolId) => {
     });
   
     // Create a sorted result based on the provided order
-    const sortedResultArray = Object.entries(result)
-      .map(([key, value]) => ({
-        _id: key,
-        teacherCount: value,
-      }))
-      .sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
+    const sortedResultArray = order.map((category) => ({
+      _id: category,
+      teacherCount: result[category] || 0, // Ensure 0 count for categories not present in the result
+    }));
   
     return sortedResultArray;
   };
