@@ -123,6 +123,7 @@ cron.schedule('2 11 * * *', async () => {
     logger.info('Error running the job:', error);
   }
 });
+storeTeacherDataInMongoDB()
 /**
  * Get teacher attendance top 5 district bottom 5 district
  * @param {Object} d_1
