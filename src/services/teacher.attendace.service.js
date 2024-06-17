@@ -10,7 +10,7 @@ const { School, TeacherAttendace, Teacher, Attendance } = require('../models');
  */
 
 async function fetchTeacherDataFromOldApi(password, day) {
-  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_16&Shift=0&password=${password}`;
+  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_${day}&Shift=0&password=${password}`;
 
   try {
     const response = await axios.get(apiUrl);
@@ -22,7 +22,7 @@ async function fetchTeacherDataFromOldApi(password, day) {
 }
 
 async function fetchTeacherDataFromNewApi(schoolId, password, day) {
-  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_AttnDetails?day=d_16&schid=${schoolId}&caseNo=2&Password=${password}`;
+  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_AttnDetails?day=d_${day}&schid=${schoolId}&caseNo=2&Password=${password}`;
 
   try {
     const response = await axios.get(apiUrl);
@@ -39,14 +39,14 @@ async function processTeacherData(teacherData, school, additionalData, day, mont
     .map(teacher => ({
       updateOne: {
         filter: {
-          day: `d_16`,
+          day: `d_${day}`,
           month,
           year,
           schoolID: school.Schoolid,
         },
         update: {
           $set: {
-            day: `d_16`,
+            day: `d_${day}`,
             month,
             year,
             district_name: school.District_name,
