@@ -104,6 +104,21 @@ const categoryMapping = {
   'Assistant Teacher': ['ASSISTANT TEACHER (PRIMARY)', 'ASSISTANT TEACHER (NURSERY)', 'Asst. Teacher for Deaf'],
   'Librarian/Lab Assistant': ['LIBRARIAN', 'LAB ASSISTANT'],
 };
+
+const order = [
+  'PRINCIPAL',
+  'VICE PRINCIPAL',
+  'EVGC',
+  'PGT – Lecturer all except lecturer, computer science and PGT special education teacher',
+  'TGT/TGT(MIL)',
+  'TGT(Miscellaneous Category)',
+  'PGT(Special Education)',
+  'TGT(Special Education)',
+  'PGT (Computer Science)',
+  'TGT (Computer Science)',
+  'Assistant Teacher',
+  'Librarian/Lab Assistant'
+];
 /**
  * Get guest teacher graph  by School Statistic
  * @returns {Promise<Object>} School statistics
@@ -271,9 +286,9 @@ const getTeacherStats = async () => {
   ];
   const totoalStudent = await Student.countDocuments({ status: 'Studying' }).exec();
   const postdescWiseTeacherCountsTofilter = await GuestTeacher.aggregate(pipeline3);
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -285,13 +300,18 @@ const getTeacherStats = async () => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
-  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
   const totalSchool = await School.countDocuments().exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
@@ -485,9 +505,9 @@ const getTeacherStatsDistrict = async (districtName) => {
   ];
   const totoalStudent = await Student.countDocuments({ status: 'Studying', District: districtName }).exec();
   const postdescWiseTeacherCountsTofilter = await GuestTeacher.aggregate(pipeline3);
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -499,13 +519,18 @@ const getTeacherStatsDistrict = async (districtName) => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
-  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
   const totalSchool = await School.countDocuments({ District_name: districtName }).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
@@ -699,9 +724,9 @@ const getTeacherStatsZone = async (zone) => {
   ];
   const totoalStudent = await Student.countDocuments({ status: 'Studying', z_name: zone }).exec();
   const postdescWiseTeacherCountsTofilter = await GuestTeacher.aggregate(pipeline3);
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -713,13 +738,18 @@ const getTeacherStatsZone = async (zone) => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
-  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
   const totalSchool = await School.countDocuments({ Zone_Name: zone }).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: suffix }).exec();
@@ -914,9 +944,9 @@ const getTeacherStatsSchool = async (SchoolId) => {
 
   const totoalStudent = await Student.countDocuments({ status: 'Studying', Schoolid: Number(SchoolId) }).exec();
   const postdescWiseTeacherCountsTofilter = await GuestTeacher.aggregate(pipeline3);
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -928,13 +958,18 @@ const getTeacherStatsSchool = async (SchoolId) => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
-  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
   const totalSchool = await School.countDocuments({ Schoolid: Number(SchoolId) }).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments({ SchoolID: SchoolId }).exec();

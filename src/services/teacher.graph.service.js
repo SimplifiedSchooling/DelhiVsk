@@ -52,6 +52,21 @@ const categoryMapping = {
   'Assistant Teacher': ['ASSISTANT TEACHER (PRIMARY)', 'ASSISTANT TEACHER (NURSERY)', 'Asst. Teacher for Deaf'],
   'Librarian/Lab Assistant': ['LIBRARIAN', 'LAB ASSISTANT'],
 };
+
+const order = [
+  'PRINCIPAL',
+  'VICE PRINCIPAL',
+  'EVGC',
+  'PGT – Lecturer all except lecturer, computer science and PGT special education teacher',
+  'TGT/TGT(MIL)',
+  'TGT(Miscellaneous Category)',
+  'PGT(Special Education)',
+  'TGT(Special Education)',
+  'PGT (Computer Science)',
+  'TGT (Computer Science)',
+  'Assistant Teacher',
+  'Librarian/Lab Assistant'
+];
 ///  Get all teacher statistics ////
 // Function to calculate teacher experience based on JoiningDate and get counts by experience range
 const getTeacherExperienceCountByRange = async () => {
@@ -243,9 +258,9 @@ const getTeacherStats = async () => {
   // const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
   // const totalTeach = totalGuestTeacher + totalTeachers.value;
   const postdescWiseTeacherCountsTofilter = await Teacher.aggregate(pipeline3);
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -257,13 +272,18 @@ const getTeacherStats = async () => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
-  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
   const experianceOfTeachers = await getTeacherExperienceCountByRange();
   const averageTeachers = totalTeachers.value / totalSchools.value;
@@ -528,9 +548,9 @@ const getTeacherStatsByDistrict = async (districtName) => {
   // const totoal = totalTeachers.value + totalGuestTeacher;
 
   const postdescWiseTeacherCountsTofilter = await Teacher.aggregate(pipeline3);
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -542,13 +562,18 @@ const getTeacherStatsByDistrict = async (districtName) => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
-  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
   const experianceOfTeachers = await getTeacherExperienceCountByRangeDistrictWise(districtName);
   const averageTeachers = totalTeachers.value / totalSchools.value;
@@ -803,9 +828,9 @@ const getTeacherCountByZone = async (zone) => {
   // const total = totalGuestTeacher + totalTeachers.value;
 
   const postdescWiseTeacherCountsTofilter = await Teacher.aggregate(pipeline3);
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -817,13 +842,18 @@ const getTeacherCountByZone = async (zone) => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
-  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
   const experianceOfTeachers = await getTeacherExperienceCountByRangeZoneWise(cleanedZoneName);
   const averageTeachers = totalTeachers.value / totalSchools.value;
@@ -1042,9 +1072,9 @@ const getTeacherCountBySchoolName = async (schoolId) => {
 
   // const totoal = totalTeachers.value + totalGuestTeacher;
   const postdescWiseTeacherCountsTofilter = await Teacher.aggregate(pipeline3);
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -1056,13 +1086,18 @@ const getTeacherCountBySchoolName = async (schoolId) => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
-  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping)
+  const postdescWiseTeacherCounts = aggregateCounts(postdescWiseTeacherCountsTofilter, categoryMapping, order)
 
   const experianceOfTeachers = await getTeacherExperienceCountByRangeSchool(schoolId);
   const averageTeachers = totalTeachers.value / totalSchools.value;

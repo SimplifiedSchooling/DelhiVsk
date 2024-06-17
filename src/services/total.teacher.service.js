@@ -50,6 +50,21 @@ const categoryMapping = {
   'Assistant Teacher': ['ASSISTANT TEACHER (PRIMARY)', 'ASSISTANT TEACHER (NURSERY)', 'Asst. Teacher for Deaf'],
   'Librarian/Lab Assistant': ['LIBRARIAN', 'LAB ASSISTANT'],
 };
+
+const order = [
+  'PRINCIPAL',
+  'VICE PRINCIPAL',
+  'EVGC',
+  'PGT – Lecturer all except lecturer, computer science and PGT special education teacher',
+  'TGT/TGT(MIL)',
+  'TGT(Miscellaneous Category)',
+  'PGT(Special Education)',
+  'TGT(Special Education)',
+  'PGT (Computer Science)',
+  'TGT (Computer Science)',
+  'Assistant Teacher',
+  'Librarian/Lab Assistant'
+];
 const getSchoolIdByShiftWise = async () => {
   const pipeline = [
     {
@@ -198,9 +213,9 @@ const getTeacherStats = async () => {
   ];
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline);
   const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline2);
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -212,15 +227,20 @@ const getTeacherStats = async () => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
 
-  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping);
-  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping);
+  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping, order);
+  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping, order);
 
   const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
 
@@ -470,9 +490,9 @@ const getTeacherStatsByDistrict = async (districtName) => {
   const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
 
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -484,15 +504,20 @@ const getTeacherStatsByDistrict = async (districtName) => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
 
-  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping);
-  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping);
+  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping, order);
+  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping, order);
 
   const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
 
@@ -759,9 +784,9 @@ const getTeacherStatsByZone = async (zoneName) => {
   const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
 
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -773,15 +798,20 @@ const getTeacherStatsByZone = async (zoneName) => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
 
-  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping);
-  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping);
+  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping, order);
+  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping, order);
 
   const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
 
@@ -1044,9 +1074,9 @@ const getTeacherStatsBySchool = async (schoolId) => {
   const postdescWiseGuestTeacherCounts = await GuestTeacher.aggregate(pipeline);
   const postdescWiseTeacherCounts = await Teacher.aggregate(pipeline3);
 
-  const aggregateCounts = (data, mapping) => {
+  const aggregateCounts = (data, mapping, order) => {
     const result = {};
-
+  
     data.forEach(({ _id, teacherCount }) => {
       for (const [category, posts] of Object.entries(mapping)) {
         if (posts.includes(_id)) {
@@ -1058,15 +1088,20 @@ const getTeacherStatsBySchool = async (schoolId) => {
         }
       }
     });
-
-    return Object.entries(result).map(([category, count]) => ({
-      _id: category,
-      teacherCount: count,
-    }));
+  
+    // Create a sorted result based on the provided order
+    const sortedResult = {};
+    order.forEach(category => {
+      if (result[category] !== undefined) {
+        sortedResult[category] = result[category];
+      }
+    });
+  
+    return sortedResult;
   };
 
-  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping);
-  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping);
+  const totalPostWiseTeachers = aggregateCounts(postdescWiseTeacherCounts, categoryMapping, order);
+  const totalPostWiseGuestTeachers = aggregateCounts(postdescWiseGuestTeacherCounts, categoryMapping, order);
 
   const combinedCounts = [...totalPostWiseGuestTeachers, ...totalPostWiseTeachers];
 

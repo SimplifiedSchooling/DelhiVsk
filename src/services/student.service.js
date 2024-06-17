@@ -54,7 +54,7 @@ cron.schedule('0 3 * * 0', async () => {
     logger.info('Error running the job:', error);
   }
 });
-
+storeStudentDataInMongoDB();
 // const task = cron.schedule('13 14 * * *', async () => {
 //   try {
 //     logger.info(`Running the attendance data update job...`);
