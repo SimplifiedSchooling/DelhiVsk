@@ -123,7 +123,7 @@ cron.schedule('2 11 * * *', async () => {
     logger.info('Error running the job:', error);
   }
 });
-storeTeacherDataInMongoDB()
+ storeTeacherDataInMongoDB()
 /**
  * Get teacher attendance top 5 district bottom 5 district
  * @param {Object} d_1
@@ -529,27 +529,22 @@ const getAttendanceDashbord = async () => {
     const previousDay = new Date(today);
     previousDay.setDate(today.getDate() - 1);
 
-    const day = previousDay.getDate();
-    const month = previousDay.getMonth() + 1; // Months are zero-based in JS
-    const year = previousDay.getFullYear();
-
-   const  dayA = `d_${day}`
+    const dayA = previousDay.getDate().toString();
+    const monthA = previousDay.getMonth() + 1; // Months are zero-based in JS
+    const year = previousDay.getFullYear().toString();
+const month = `0${monthA.toString()}`;
+   const  day = `d_${dayA}`
     // Build the query object
     const query = { day, month, year };
-    
     // Fetch total count of teachers from external API
     const totalApi = await fetchTeacherTotalCount(day);
-    
-    // Fetch top and bottom attendance counts
-    const topBottom = await topBottomAttendanceCount(query);
-
-    // Perform aggregation for the attendance summary
+  
     const attendanceSummary = await TeacherAttendace.aggregate([
       { $match: query },
       {
         $group: {
           _id: {
-            day: "$dayA",
+            day: "$day",
             month: "$month",
             year: "$year"
           },
@@ -569,11 +564,11 @@ const getAttendanceDashbord = async () => {
     ]);
 
     // Match criteria for second aggregation
+    const previous = `${year}-${month}-${dayA}`
     const match = {
-      attendance_DATE: previousDay,
+      attendance_DATE: new Date(previous),
       SchManagement: 'Government',
     };
-
     // Perform aggregation for detailed attendance counts
     const Counts = await Attendance.aggregate([
       { $match: match },
