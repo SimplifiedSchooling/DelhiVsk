@@ -281,14 +281,6 @@ const getTeacherStats = async () => {
 };
  
 
-//   (async () => {
-//   try {
-//     const result = await getTeacherStats('d_13', '06', '2024') //;(schManagementType);
-//     console.log(result);
-//   } catch (error) {
-//     console.error('Error fetching data by SchManagement:', error);
-//   }
-// })();
 
 /**
  * Get school IDs grouped by shift for a specific district.
@@ -1243,6 +1235,17 @@ const getTeachersAndGuestTeachersBySchoolId = async (schoolId) => {
 
   return result;
 };
+
+
+// (async () => {
+//   try {
+//     const result = await checkMismatch() //;(schManagementType);
+//     console.log(result);
+//   } catch (error) {
+//     console.error('Error fetching data by SchManagement:', error);
+//   }
+// })();
+
 
 module.exports = {
   getTeacherStats,

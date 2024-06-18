@@ -574,7 +574,7 @@ const month = `0${monthA.toString()}`;
       { $match: match },
       {
         $group: {
-          _id: null,
+          _id: {attendance_DATE:  "$attendance_DATE",},
           PresentCount: { $sum: '$PresentCount' },
           AbsentCount: { $sum: '$AbsentCount' },
           totalNotMarkedAttendanceCount: { $sum: '$totalNotMarkedAttendanceCount' },
