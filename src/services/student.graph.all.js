@@ -6,6 +6,9 @@ const redis = require('../utils/redis');
 const getSchoolIdsByField = async (field) => {
   const pipeline = [
     {
+      $match: { SchManagement: "Government" }
+    },
+    {
       $group: {
         _id: `$${field}`,
         Schoolid: { $addToSet: '$Schoolid' },
@@ -16,8 +19,11 @@ const getSchoolIdsByField = async (field) => {
   return School.aggregate(pipeline);
 };
 
-const getStudentStatusCountsAggregation = async () => {
+const getStudentStatusCountsAggregation = async (schoolIds) => {
   const pipeline = [
+    {
+      $match:  { Schoolid: { $in: schoolIds }  }
+    },
     {
       $group: {
         _id: '$status',
@@ -29,9 +35,11 @@ const getStudentStatusCountsAggregation = async () => {
   return Student.aggregate(pipeline);
 };
 
-// Function to get gender counts of students by district
-const getGenderCountsStudents = async () => {
+const getGenderCountsStudents = async (schoolIds) => {
   const pipeline = [
+    {
+      $match: { Schoolid: { $in: schoolIds }  }
+    },
     {
       $group: {
         _id: '$Gender',
@@ -43,7 +51,6 @@ const getGenderCountsStudents = async () => {
   return Student.aggregate(pipeline);
 };
 
-// Function to get student counts by a specific field (e.g., SchCategory, stream, etc.)
 const getStudentCountsByField = async (schoolIds, field) => {
   const counts = await Promise.all(
     schoolIds.map(async (item) => {
@@ -55,12 +62,6 @@ const getStudentCountsByField = async (schoolIds, field) => {
   return counts;
 };
 
-/**
- * Get student count statistics
- * @returns {Promise<StudentStats>}
- */
-
-// Function to get statistics about students
 const getStudentStats = async () => {
   const fields = ['SchCategory', 'gender', 'shift', 'SchManagement'];
   const fieldPromises = fields.map(async (field) => {
@@ -68,23 +69,25 @@ const getStudentStats = async () => {
     const counts = await getStudentCountsByField(schoolIds, field);
     return { [field]: counts };
   });
-  const statusCounts = await getStudentStatusCountsAggregation();
-  const genderCountsStudents = await getGenderCountsStudents();
+  const schools = await School.find({ SchManagement: "Government" });
+  const schoolIds = schools.map((school) => school.Schoolid);
+  const statusCounts = await getStudentStatusCountsAggregation(schoolIds);
+  const genderCountsStudents = await getGenderCountsStudents(schoolIds);
   const fieldResults = await Promise.all(fieldPromises);
 
-  // Fetch other statistics
+
+
   const [totalSchools, totalStudent, studyingStudents, totalTeachers] = await Promise.allSettled([
-    School.countDocuments().exec(),
-    Student.countDocuments().exec(),
-    Student.countDocuments({ status: 'Studying' }).exec(),
+    School.countDocuments({ SchManagement: "Government" }).exec(),
+    Student.countDocuments({ Schoolid: { $in: schoolIds } }).exec(),
+    Student.countDocuments({ Schoolid: { $in: schoolIds }, status: 'Studying' }).exec(),
     Teacher.countDocuments().exec(),
   ]);
-  const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
 
+  const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
   const totalTeachersCount = totalGuestTeacher + totalTeachers.value;
   const teacherStudentRatio = studyingStudents.value / totalTeachersCount;
   const averageStudentOfSchool = totalStudent.value / totalSchools.value;
-
   const totalStudents = totalStudent.value;
 
   return {
@@ -109,6 +112,7 @@ const getStudentCount = async () => {
 
   return studentStats;
 };
+
 /// //////////////////////////District//////////////////
 
 // Function to get student counts by a specific field and district
@@ -127,10 +131,10 @@ const getStudentCountsByFieldAndDistrict = async (schoolIds, field, district) =>
 };
 
 // Function to get student status counts by district
-const getStudentStatusCountsByDistrict = async (district) => {
+const getStudentStatusCountsByDistrict = async (district, schoolIds) => {
   const pipeline = [
     {
-      $match: { District: district },
+      $match: { District: district, Schoolid: { $in: schoolIds } },
     },
     {
       $group: {
@@ -144,10 +148,10 @@ const getStudentStatusCountsByDistrict = async (district) => {
 };
 
 // Function to get gender counts of students by district
-const getGenderCountsStudentsByDistrict = async (district) => {
+const getGenderCountsStudentsByDistrict = async (district, schoolIds) => {
   const pipeline = [
     {
-      $match: { District: district },
+      $match: { District: district, Schoolid: { $in: schoolIds } },
     },
     {
       $group: {
@@ -172,15 +176,17 @@ const getStudentCountByDistrictName = async (district) => {
     const counts = await getStudentCountsByFieldAndDistrict(schoolIds, field, district);
     return { [field]: counts };
   });
-  const statusCounts = await getStudentStatusCountsByDistrict(district);
-  const genderCountsStudents = await getGenderCountsStudentsByDistrict(district);
+  const schools = await School.find({District_name:district, SchManagement: "Government" });
+  const schoolIds = schools.map((school) => school.Schoolid);
+  const statusCounts = await getStudentStatusCountsByDistrict(district, schoolIds);
+  const genderCountsStudents = await getGenderCountsStudentsByDistrict(district, schoolIds);
   const fieldResults = await Promise.all(fieldPromises);
 
   // Fetch other statistics
   const [totalSchools, totalStudent, studyingStudents, totalTeachers] = await Promise.allSettled([
-    School.countDocuments({ District_name: district }).exec(),
-    Student.countDocuments({ District: district }).exec(),
-    Student.countDocuments({ District: district, status: 'Studying' }).exec(),
+    School.countDocuments({ SchManagement: "Government", District_name: district }).exec(),
+    Student.countDocuments({Schoolid: { $in: schoolIds }, District: district }).exec(),
+    Student.countDocuments({ Schoolid: { $in: schoolIds }, District: district, status: 'Studying' }).exec(),
     Teacher.countDocuments({ districtname: district }).exec(),
   ]);
 
@@ -220,10 +226,10 @@ const getStudentCountsByFieldAndZone = async (schoolIds, field, zone) => {
 };
 
 // Function to get student status counts by district
-const getStudentStatusCountsByZone = async (zone) => {
+const getStudentStatusCountsByZone = async (zone, schoolIds) => {
   const pipeline = [
     {
-      $match: { z_name: zone.toLowerCase() },
+      $match: { z_name: zone.toLowerCase(), Schoolid: { $in: schoolIds }},
     },
     {
       $group: {
@@ -237,10 +243,10 @@ const getStudentStatusCountsByZone = async (zone) => {
 };
 
 // Function to get gender counts of students by district
-const getGenderCountsStudentsByZone = async (zone) => {
+const getGenderCountsStudentsByZone = async (zone, schoolIds) => {
   const pipeline = [
     {
-      $match: { z_name: zone.toLowerCase() },
+      $match: { z_name: zone.toLowerCase(), Schoolid: { $in: schoolIds } },
     },
     {
       $group: {
@@ -273,15 +279,18 @@ const getStudentCountByZoneName = async (zone) => {
     const counts = await getStudentCountsByFieldAndZone(schoolIds, field, zone);
     return { [field]: counts };
   });
-  const statusCounts = await getStudentStatusCountsByZone(zone);
-  const genderCountsStudents = await getGenderCountsStudentsByZone(zone);
+
+  const schools = await School.find({Zone_Name: zone, SchManagement: "Government" });
+  const schoolIds = schools.map((school) => school.Schoolid);
+  const statusCounts = await getStudentStatusCountsByZone(zone, schoolIds);
+  const genderCountsStudents = await getGenderCountsStudentsByZone(zone, schoolIds);
   const fieldResults = await Promise.all(fieldPromises);
 
   // Fetch other statistics
   const [totalSchools, totalStudent, studyingStudents, totalTeachers] = await Promise.allSettled([
-    School.countDocuments({ Zone_Name: zone }).exec(),
-    Student.countDocuments({ z_name: zone.toLowerCase() }).exec(),
-    Student.countDocuments({ z_name: zone.toLowerCase(), status: 'Studying' }).exec(),
+    School.countDocuments({ Zone_Name: zone, SchManagement: "Government" }).exec(),
+    Student.countDocuments({ Schoolid: { $in: schoolIds }, z_name: zone.toLowerCase() }).exec(),
+    Student.countDocuments({ Schoolid: { $in: schoolIds }, z_name: zone.toLowerCase(), status: 'Studying' }).exec(),
     Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
   ]);
 

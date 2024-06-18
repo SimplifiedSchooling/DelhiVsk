@@ -248,7 +248,7 @@ const getTeacherStats = async () => {
 
   const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalStydyingStudent] =
     await Promise.allSettled([
-      School.countDocuments({}).exec(),
+      School.countDocuments({SchManagement: "Government"}).exec(),
       Teacher.countDocuments({}).exec(),
       Teacher.countDocuments({ gender: 'Female' }).exec(),
       Teacher.countDocuments({ gender: 'Male' }).exec(),
@@ -542,7 +542,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
   ];
   const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalStudyingStudent] =
     await Promise.allSettled([
-      School.countDocuments({ District_name: districtName }).exec(),
+      School.countDocuments({ District_name: districtName, SchManagement: "Government" }).exec(),
       Teacher.countDocuments({ districtname: districtName }).exec(),
       Teacher.countDocuments({ gender: 'Female', districtname: districtName }).exec(),
       Teacher.countDocuments({ gender: 'Male', districtname: districtName }).exec(),
@@ -820,7 +820,7 @@ const getTeacherCountByZone = async (zone) => {
 
   const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalStydyingStudent] =
     await Promise.allSettled([
-      School.countDocuments({ Zone_Name: zone }).exec(),
+      School.countDocuments({ Zone_Name: zone, SchManagement: "Government" }).exec(),
       Teacher.countDocuments({ zonename: cleanedZoneName }).exec(),
       Teacher.countDocuments({ gender: 'Female', zonename: cleanedZoneName }).exec(),
       Teacher.countDocuments({ gender: 'Male', zonename: cleanedZoneName }).exec(),
@@ -1062,7 +1062,7 @@ const getTeacherCountBySchoolName = async (schoolId) => {
   ];
   const [totalSchools, totalTeachers, totalFemaleTeachers, totalMaleTeachers, totalStudyingStudent] =
     await Promise.allSettled([
-      School.countDocuments({ Schoolid: Number(schoolId) }).exec(),
+      School.countDocuments({ Schoolid: Number(schoolId), SchManagement: "Government" }).exec(),
       Teacher.countDocuments({ schoolid: schoolId }).exec(),
       Teacher.countDocuments({ gender: 'Female', schoolid: schoolId }).exec(),
       Teacher.countDocuments({ gender: 'Male', schoolid: schoolId }).exec(),

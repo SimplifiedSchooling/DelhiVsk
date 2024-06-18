@@ -15,18 +15,22 @@ async function fetchTeacherDataForSchool(schoolId, password) {
   }
 }
 
-async function processTeacherData(teacherData) {
-  for (const teacher of teacherData) {
-    // Assuming 'empid' is a unique identifier for teachers in your data
-    const filter = { empid: teacher.empid };
+async function processTeacherData(teacherData, schoolId) {
+  const empidsFromApi = teacherData.map(teacher => teacher.empid);
 
-    // Set the 'upsert' option to true to create a new document if no match is found
+  for (const teacher of teacherData) {
+    const filter = { empid: teacher.empid };
     const update = teacher;
     const options = { upsert: true, new: true };
 
-    // Use findOneAndUpdate to either update the existing document or insert a new one
     await Teacher.findOneAndUpdate(filter, update, options);
   }
+
+  // After updating/inserting teachers, remove those not in the API response
+  await Teacher.deleteMany({
+    schoolid: schoolId,
+    empid: { $nin: empidsFromApi }
+  });
 }
 
 async function storeTeacherDataInMongoDB() {
@@ -37,17 +41,19 @@ async function storeTeacherDataInMongoDB() {
     const teacherData = await fetchTeacherDataForSchool(school.Schoolid, password);
 
     if (teacherData && teacherData.Cargo) {
-      await processTeacherData(teacherData.Cargo);
+      await processTeacherData(teacherData.Cargo, school.Schoolid);
     }
   }
 }
 
-// Schedule the job to run every day at 11 PM  0 23 * * *
+storeTeacherDataInMongoDB();
+
+// Schedule the job to run every day at 1 AM
 cron.schedule('0 1 * * *', async () => {
   try {
     logger.info(`Running the attendance data update job...`);
     await storeTeacherDataInMongoDB();
-    logger.info(`Student data update job completed.`);
+    logger.info(`Teacher data update job completed.`);
   } catch (error) {
     logger.info('Error running the job:', error);
   }
