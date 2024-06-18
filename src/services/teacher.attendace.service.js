@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cron = require('node-cron');
 const logger = require('../config/logger');
-const { School, TeacherAttendace, Teacher, Attendance } = require('../models');
+const { School, TeacherAttendace, Teacher, Attendance, Student } = require('../models');
 
 /**
  * Get teacher counselate attendance 
