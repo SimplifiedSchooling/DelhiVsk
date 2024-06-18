@@ -256,7 +256,7 @@ const getTeacherStats = async () => {
   }).sort((a, b) => order.indexOf(a._id) - order.indexOf(b._id));
   
   const totoalStudent = await Student.countDocuments({ status: 'Studying' }).exec();
-  const totalSchool = await School.countDocuments().exec();
+  const totalSchool = await School.countDocuments({SchManagement: "Government"}).exec();
   const totalGuestTeacher = await GuestTeacher.countDocuments().exec();
   const totalRegularTeachers = await Teacher.countDocuments().exec();
   const totalTeachers = totalGuestTeacher + totalRegularTeachers;
@@ -537,7 +537,7 @@ const getTeacherStatsByDistrict = async (districtName) => {
   const totalStudent = await Student.countDocuments({ status: 'Studying', District: districtName }).exec();
 
   // Get the total number of schools in the district
-  const totalSchool = await School.countDocuments({ District_name: districtName }).exec();
+  const totalSchool = await School.countDocuments({SchManagement: "Government", District_name: districtName }).exec();
 
   // Get the total number of guest teachers in the district
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Districtname: districtName }).exec();
@@ -832,7 +832,7 @@ const getTeacherStatsByZone = async (zoneName) => {
   const totalStudent = await Student.countDocuments({ status: 'Studying', z_name: zoneName.toLowerCase() }).exec();
 
   // Get the total number of schools in the district
-  const totalSchool = await School.countDocuments({ Zone_Name: zoneName }).exec();
+  const totalSchool = await School.countDocuments({SchManagement: "Government", Zone_Name: zoneName }).exec();
 
   // Get the total number of guest teachers in the district
   const totalGuestTeacher = await GuestTeacher.countDocuments({ Zonename: cleanedZoneName }).exec();

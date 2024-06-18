@@ -16,20 +16,22 @@ async function fetchStudentDataForSchool(schoolId, password) {
   }
 }
 
-async function processStudentData(studentData) {
-  const promises = studentData.map(async (student) => {
+async function processStudentData(studentData, schoolId) {
+  const sIdsFromApi = studentData.map(student => student.S_ID);
+
+  for (const student of studentData) {
     const filter = { S_ID: student.S_ID };
     const update = student;
+    const options = { upsert: true, new: true };
 
-    // Use { new: true, upsert: true } to return the modified document and create it if it doesn't exist
-    const options = { new: true, upsert: true };
+    await Student.findOneAndUpdate(filter, update, options);
+  }
 
-    // Use findOneAndUpdate to update or create a document based on the filter
-    const updatedStudent = await Student.findOneAndUpdate(filter, update, options).exec();
-    return updatedStudent;
+  // After updating/inserting students, remove those not in the API response
+  await Student.deleteMany({
+    Schoolid: schoolId,
+    S_ID: { $nin: sIdsFromApi }
   });
-
-  return Promise.all(promises);
 }
 
 async function storeStudentDataInMongoDB() {
@@ -38,8 +40,9 @@ async function storeStudentDataInMongoDB() {
 
   for (const school of schools) {
     const studentData = await fetchStudentDataForSchool(school.Schoolid, password);
+
     if (studentData && studentData.Cargo) {
-      await processStudentData(studentData.Cargo);
+      await processStudentData(studentData.Cargo, school.Schoolid);
     }
   }
 }
@@ -47,7 +50,7 @@ async function storeStudentDataInMongoDB() {
 // Schedule the job to run every Sunday at 3 AM
 cron.schedule('0 3 * * 0', async () => {
   try {
-    logger.info(`Running the attendance data update job...`);
+    logger.info(`Running the student data update job...`);
     await storeStudentDataInMongoDB();
     logger.info(`Student data update job completed.`);
   } catch (error) {
