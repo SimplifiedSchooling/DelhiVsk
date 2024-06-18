@@ -10,7 +10,7 @@ const { School, TeacherAttendace, Teacher, Attendance } = require('../models');
  */
 
 async function fetchTeacherDataFromOldApi(password, day) {
-  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_${day}&Shift=0&password=${password}`;
+  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_18&Shift=0&password=${password}`;
 
   try {
     const response = await axios.get(apiUrl);
@@ -22,7 +22,7 @@ async function fetchTeacherDataFromOldApi(password, day) {
 }
 
 async function fetchTeacherDataFromNewApi(schoolId, password, day) {
-  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_AttnDetails?day=d_${day}&schid=${schoolId}&caseNo=2&Password=${password}`;
+  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_AttnDetails?day=d_18&schid=${schoolId}&caseNo=2&Password=${password}`;
 
   try {
     const response = await axios.get(apiUrl);
@@ -39,14 +39,14 @@ async function processTeacherData(teacherData, school, additionalData, day, mont
     .map(teacher => ({
       updateOne: {
         filter: {
-          day: `d_${day}`,
+          day: `d_18`,
           month,
           year,
           schoolID: school.Schoolid,
         },
         update: {
           $set: {
-            day: `d_${day}`,
+            day: `d_18`,
             month,
             year,
             district_name: school.District_name,
@@ -123,7 +123,7 @@ cron.schedule('2 11 * * *', async () => {
     logger.info('Error running the job:', error);
   }
 });
-//  storeTeacherDataInMongoDB()
+ storeTeacherDataInMongoDB()
 /**
  * Get teacher attendance top 5 district bottom 5 district
  * @param {Object} d_1
@@ -263,7 +263,7 @@ const getAttendanceData = async (day, month, year, shift) => {
           totalEL: { $sum: "$EL" },
           totalOtherLeave: { $sum: "$OtherLeave" },
           totalOD: { $sum: "$OD" },
-          totalSuspended: { $sum: "$Suspended" },
+          totalSuspended: {     SchManagement: 'Government',$sum: "$Suspended" },
           totalVacation: { $sum: "$vacation" }
         }
       },
@@ -601,8 +601,11 @@ const month = `0${monthA.toString()}`;
         summary.TotalEmployees = totalApi.Cargo[0].TotalEmployees;
       });
     }
+    const schools = await School.find({ SchManagement: 'Government' }, 'Schoolid');
+    const schoolIds = schools.map((school) => school.Schoolid);
+    const totalStudentCount = await Student.countDocuments({ Schoolid: { $in: schoolIds }, status: 'Studying' });
 
-    return { attendanceSummary, Counts };
+    return { attendanceSummary, Counts , totalStudentCount};
   } catch (error) {
     console.error('Error fetching attendance data:', error);
     throw new Error('Internal Server Error');
