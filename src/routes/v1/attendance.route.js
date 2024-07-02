@@ -95,7 +95,7 @@ router.post(
   attendanceController.getSchoolsDataNotFoundCount
 );
 
-router.post(
+router.get(
   '/student-data-trends-count',
   // validate(attendanceValidation.getTopPerformingDistricts),
   attendanceController.getMonthlyPresentStudentTrend
