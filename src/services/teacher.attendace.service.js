@@ -91,15 +91,22 @@ async function processTeacherData(teacherData, school, additionalData, day, mont
 //   // You can add the rest of your logic here
 // }
 // storeTeache();
+// If the day is between 1 and 9, remove the leading zero
+
 
 async function storeTeacherDataInMongoDB() {
   console.log('Starting data fetch and store process');
   const today = new Date();
-  const dd = String(today.getDate()).padStart(2, '0');
+  let dd = today.getDate()
   const mm = String(today.getMonth() + 1).padStart(2, '0');
   const year = String(today.getFullYear());
   const password = 'VSK@9180';
 
+  if (dd >= 1 && dd <= 9) {
+    dd = String(dd);
+  } else {
+    dd = String(dd).padStart(2, '0');
+  }
   const oldApiData = await fetchTeacherDataFromOldApi(password, dd);
   if (!oldApiData || !oldApiData.Cargo) {
     logger.error('No data returned from old API');
@@ -136,7 +143,8 @@ cron.schedule('2 11 * * *', async () => {
   }
 });
  storeTeacherDataInMongoDB()
-/**
+// console.log('Data stored successfully', data);
+ /**
  * Get teacher attendance top 5 district bottom 5 district
  * @param {Object} d_1
  * @returns {Promise<TeacherAttendace>}
