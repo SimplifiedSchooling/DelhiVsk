@@ -10,7 +10,7 @@ const { School, TeacherAttendace, Teacher, Attendance, Student } = require('../m
  */
 
 async function fetchTeacherDataFromOldApi(password, day) {
-  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_18&Shift=0&password=${password}`;
+  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_${day}&Shift=0&password=${password}`;
 
   try {
     const response = await axios.get(apiUrl);
@@ -22,7 +22,7 @@ async function fetchTeacherDataFromOldApi(password, day) {
 }
 
 async function fetchTeacherDataFromNewApi(schoolId, password, day) {
-  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_AttnDetails?day=d_18&schid=${schoolId}&caseNo=2&Password=${password}`;
+  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_AttnDetails?day=d_${day}&schid=${schoolId}&caseNo=2&Password=${password}`;
 
   try {
     const response = await axios.get(apiUrl);
@@ -39,14 +39,14 @@ async function processTeacherData(teacherData, school, additionalData, day, mont
     .map(teacher => ({
       updateOne: {
         filter: {
-          day: `d_18`,
+          day: `d_${day}`,
           month,
           year,
           schoolID: school.Schoolid,
         },
         update: {
           $set: {
-            day: `d_18`,
+            day: `d_${day}`,
             month,
             year,
             district_name: school.District_name,
@@ -79,6 +79,18 @@ async function processTeacherData(teacherData, school, additionalData, day, mont
     await TeacherAttendace.bulkWrite(operations);
   }
 }
+// async function storeTeache() {
+//   console.log('Starting data fetch and store process');
+//   const today = new Date();
+//   // Get day and month without leading zeros
+//   const dd = String(today.getDate());
+//   const mm = String(today.getMonth() + 1);
+//   const year = String(today.getFullYear());
+//   const password = 'VSK@9180';
+//   console.log(`Day: ${dd}, Month: ${mm}, Year: ${year}`);
+//   // You can add the rest of your logic here
+// }
+// storeTeache();
 
 async function storeTeacherDataInMongoDB() {
   console.log('Starting data fetch and store process');

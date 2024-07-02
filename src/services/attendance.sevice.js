@@ -1854,7 +1854,49 @@ async function fetchUdisePhysicalFacilitiesData() {
 }
 
 /// /////////////
+async function getMonthlyPresentStudentTrend() {
+  const result = await Attendance.aggregate([
+    {
+      // Group by year and month and sum the PresentCount for each group
+      $group: {
+        _id: {
+          year: { $year: '$attendance_DATE' },
+          month: { $month: '$attendance_DATE' },
+        },
+        totalPresentCount: { $sum: '$PresentCount' },
+      },
+    },
+    {
+      // Sort by year and month
+      $sort: {
+        '_id.year': 1,
+        '_id.month': 1,
+      },
+    },
+    {
+      // Format the data for the response
+      $project: {
+        _id: 0,
+        year: '$_id.year',
+        month: '$_id.month',
+        totalPresentCount: 1,
+        
+      },
+    },
+  ]);
 
+  return result;
+}
+
+
+//   (async () => {
+//   try {
+//     const result = await getMonthlyPresentStudentTrend() //;(schManagementType);
+//     console.log(result);
+//   } catch (error) {
+//     console.error('Error fetching data by SchManagement:', error);
+//   }
+// })();
 /// /////////////
 
 module.exports = {
@@ -1891,4 +1933,6 @@ module.exports = {
 
   getAttendanceCountsShiftDistrictWise,
   getAttendanceCountsShiftZoneWise,
+  getMonthlyPresentStudentTrend,
+
 };

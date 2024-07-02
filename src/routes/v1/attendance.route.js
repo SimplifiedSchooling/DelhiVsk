@@ -95,6 +95,11 @@ router.post(
   attendanceController.getSchoolsDataNotFoundCount
 );
 
+router.post(
+  '/student-data-trends-count',
+  // validate(attendanceValidation.getTopPerformingDistricts),
+  attendanceController.getMonthlyPresentStudentTrend
+);
 module.exports = router;
 
 /**

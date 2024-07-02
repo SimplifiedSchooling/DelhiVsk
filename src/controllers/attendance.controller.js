@@ -225,6 +225,11 @@ const getAttendanceCountsShiftZoneWise = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send(result);
 });
 
+const getMonthlyPresentStudentTrend = catchAsync(async (req, res) => {
+  const result = await attendanceService.getMonthlyPresentStudentTrend();
+  res.status(httpStatus.CREATED).send(result);
+});
+
 module.exports = {
   getAttedanceData,
   getAttendanceCounts,
@@ -257,4 +262,5 @@ module.exports = {
 
   getAttendanceCountsShiftDistrictWise,
   getAttendanceCountsShiftZoneWise,
+  getMonthlyPresentStudentTrend,
 };
