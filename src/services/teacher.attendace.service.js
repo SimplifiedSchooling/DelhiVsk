@@ -2,15 +2,14 @@ const axios = require('axios');
 const cron = require('node-cron');
 const logger = require('../config/logger');
 const { School, TeacherAttendace, Teacher, Attendance, Student } = require('../models');
-
 /**
  * Get teacher counselate attendance 
  * @param {Object} d_1
  * @returns {Promise<TeacherAttendace>}
  */
 
-async function fetchTeacherDataFromOldApi(password, day) {
-  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_&Shift=0&password=${password}`;
+const fetchTeacherDataFromOldApi =  async (password, day) => {
+  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_${day}&Shift=0&password=${password}`;
 
   try {
     const response = await axios.get(apiUrl);
@@ -21,7 +20,7 @@ async function fetchTeacherDataFromOldApi(password, day) {
   }
 }
 
-async function fetchTeacherDataFromNewApi(schoolId, password, day) {
+const fetchTeacherDataFromNewApi = async (schoolId, password, day) => {
   const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_AttnDetails?day=d_${day}&schid=${schoolId}&caseNo=2&Password=${password}`;
 
   try {
@@ -33,7 +32,7 @@ async function fetchTeacherDataFromNewApi(schoolId, password, day) {
   }
 }
 
-async function processTeacherData(teacherData, school, additionalData, day, month, year) {
+const processTeacherData = async(teacherData, school, additionalData, day, month, year) => {
   const operations = teacherData
     .filter(teacher => teacher.schid === school.Schoolid)
     .map(teacher => ({
@@ -79,38 +78,26 @@ async function processTeacherData(teacherData, school, additionalData, day, mont
     await TeacherAttendace.bulkWrite(operations);
   }
 }
-// async function storeTeache() {
-//   console.log('Starting data fetch and store process');
-//   const today = new Date();
-//   // Get day and month without leading zeros
-//   const dd = String(today.getDate());
-//   const mm = String(today.getMonth() + 1);
-//   const year = String(today.getFullYear());
-//   const password = 'VSK@9180';
-//   console.log(`Day: ${dd}, Month: ${mm}, Year: ${year}`);
-//   // You can add the rest of your logic here
-// }
-// storeTeache();
-// If the day is between 1 and 9, remove the leading zero
 
-
-async function storeTeacherDataInMongoDB() {
+const storeTeacherDataInMongoDB = async() => {
   console.log('Starting data fetch and store process');
   const today = new Date();
-  let dd = today.getDate()
+  let dd = today.getDate();
   const mm = String(today.getMonth() + 1).padStart(2, '0');
   const year = String(today.getFullYear());
   const password = 'VSK@9180';
 
+  // If the day is between 1 and 9, remove the leading zero
   if (dd >= 1 && dd <= 9) {
     dd = String(dd);
   } else {
     dd = String(dd).padStart(2, '0');
   }
+
   const oldApiData = await fetchTeacherDataFromOldApi(password, dd);
   if (!oldApiData || !oldApiData.Cargo) {
     logger.error('No data returned from old API');
-    return;n
+    return;
   }
 
   const schools = await School.find().exec();
@@ -129,9 +116,10 @@ async function storeTeacherDataInMongoDB() {
     }
   });
 
-  await Promise.all(processTeacherDataPromises);
+  const data = await Promise.all(processTeacherDataPromises);
   console.log('Data stored successfully');
 }
+
 
 cron.schedule('2 11 * * *', async () => {
   try {
@@ -143,6 +131,127 @@ cron.schedule('2 11 * * *', async () => {
   }
 });
  storeTeacherDataInMongoDB()
+// const fetchTeacherDataFromOldApi = async(password, day) => {
+//   console.log(day)
+//   const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_${day}&Shift=0&password=${password}`;
+
+//   try {
+//     const response = await axios.get(apiUrl);
+//     return response.data;
+//   } catch (error) {
+//     logger.error(`Error fetching data from old API:`, error);
+//     return null;
+//   }
+// }
+
+// const fetchTeacherDataFromNewApi = async(schoolId, password, day) =>  {
+//   const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_AttnDetails?day=d_${day}&schid=${schoolId}&caseNo=2&Password=${password}`;
+
+//   try {
+//     const response = await axios.get(apiUrl);
+//     return response.data;
+//   } catch (error) {
+//     logger.error(`Error fetching data for school ${schoolId} from new API:`, error);
+//     return null;
+//   }
+// }
+
+// const processTeacherData = async(teacherData, school, additionalData, day, month, year) =>  {
+//   console.log(teacherData);
+//   const operations = teacherData
+//     .filter(teacher => teacher.schid === school.Schoolid)
+//     .map(teacher => ({
+//       updateOne: {
+//         filter: {
+//           day: `d_${day}`,
+//           month,
+//           year,
+//           schoolID: school.Schoolid,
+//         },
+//         update: {
+//           $set: {
+//             day: `d_${day}`,
+//             month,
+//             year,
+//             district_name: school.District_name,
+//             Latitude: school.Latitude,
+//             Longitude: school.Longitude,
+//             Z_name: school.Zone_Name,
+//             schoolID: school.Schoolid,
+//             school_name: school.School_Name,
+//             shift: school.shift,
+//             SchManagement: school.SchManagement,
+//             Present: teacher.Present || 0,
+//             TotAbsent: teacher.TotAbsent || 0,
+//             HalfCL: teacher.HalfCL || 0,
+//             CL: teacher.CL || 0,
+//             EL: teacher.EL || 0,
+//             OtherLeave: teacher.OtherLeave || 0,
+//             OD: teacher.OD || 0,
+//             Suspended: teacher.Suspended || 0,
+//             vacation: teacher.vacation || 0,
+//             totalSchool: additionalData.TotalGovtSchools || 0,
+//             TotalEmployees: additionalData.TotalEmployees || 0,
+//             TotalEmployeesMarkedAtt: additionalData.TotalEmployeesMarkedAtt || 0,
+//           },
+//         },
+//         upsert: true,
+//       },
+//     }));
+
+//   if (operations.length > 0) {
+//     await TeacherAttendace.bulkWrite(operations);
+//   }
+// }
+
+// const storeTeacherDataInMongoDB = async() =>  {
+//   console.log('Starting data fetch and store process');
+//   const today = new Date();
+//   let dd = today.getDate()
+//   const mm = String(today.getMonth() + 1).padStart(2, '0');
+//   const year = String(today.getFullYear());
+//   const password = 'VSK@9180';
+
+//   if (dd >= 1 && dd <= 9) {
+//     dd = String(dd);
+//   } else {
+//     dd = String(dd).padStart(2, '0');
+//   }
+//   const oldApiData = await fetchTeacherDataFromOldApi(password, dd);
+//   if (!oldApiData || !oldApiData.Cargo) {
+//     logger.error('No data returned from old API');
+//     return;n
+//   }
+
+//   const schools = await School.find().exec();
+
+//   const newApiDataPromises = schools.map(school => fetchTeacherDataFromNewApi(school.Schoolid, password, dd));
+//   const newApiDataResults = await Promise.all(newApiDataPromises);
+
+//   const processTeacherDataPromises = schools.map((school, index) => {
+//     const newApiData = newApiDataResults[index];
+//     if (newApiData && newApiData.Cargo && newApiData.Cargo.length > 0) {
+//       const additionalData = newApiData.Cargo[0];
+//       return processTeacherData(oldApiData.Cargo, school, additionalData, dd, mm, year);
+//     } else {
+//       logger.error(`No data returned for school ${school.Schoolid} from new API`);
+//       return Promise.resolve();
+//     }
+//   });
+
+//   await Promise.all(processTeacherDataPromises);
+// }
+
+// cron.schedule('2 11 * * *', async () => {
+//   try {
+//     logger.info(`Running the attendance data update job...`);
+//     await storeTeacherDataInMongoDB();
+//     logger.info(`Student data update job completed.`);
+//   } catch (error) {
+//     logger.info('Error running the job:', error);
+//   }
+// });
+//  storeTeacherDataInMongoDB()
 // console.log('Data stored successfully', data);
  /**
  * Get teacher attendance top 5 district bottom 5 district

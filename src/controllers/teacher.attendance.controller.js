@@ -27,8 +27,7 @@ const getAttendanceDataByDistrict = catchAsync(async (req, res) => {
   }); 
   
   const treandGraph = catchAsync(async (req, res) => {
-    const {startDay, endDay, month, year} = req.query
-    const result = await teacherAttendanceService.treandGraph(startDay, endDay, month, year);
+    const result = await teacherAttendanceService.treandGraph();
     res.status(httpStatus.CREATED).send(result);
   });
 
