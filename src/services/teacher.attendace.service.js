@@ -10,7 +10,7 @@ const { School, TeacherAttendace, Teacher, Attendance, Student } = require('../m
  */
 
 async function fetchTeacherDataFromOldApi(password, day) {
-  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_${day}&Shift=0&password=${password}`;
+  const apiUrl = `https://www.edudel.nic.in//mis/EduWebService_Other/vidyasamikshakendra.asmx/emp_ConsolidatedAttnDetails?schid=0&caseNo=1&day=d_&Shift=0&password=${password}`;
 
   try {
     const response = await axios.get(apiUrl);
@@ -256,43 +256,43 @@ const getAttendanceData = async (day, month, year, shift) => {
  * @returns {Promise<TeacherAttendace>}
  */
 
-  const treandGraph = async (startDay, endDay, month, year) => {
+//   const treandGraph = async (startDay, endDay, month, year) => {
 
-    // Build the query object
-    const query = {
-      day: { $gte: startDay, $lte: endDay },
-      month,
-      year,
-    };
+//     // Build the query object
+//     const query = {
+//       day: { $gte: startDay, $lte: endDay },
+//       month,
+//       year,
+//     };
 
-    // Perform aggregation
-    const attendanceTrend = await TeacherAttendace.aggregate([
-      { $match: query },
-      {
-        $group: {
-          _id: {
-            day: "$day",
-            month: "$month",
-            year: "$year"
-          },
+//     // Perform aggregation
+//     const attendanceTrend = await TeacherAttendace.aggregate([
+//       { $match: query },
+//       {
+//         $group: {
+//           _id: {
+//             day: "$day",
+//             month: "$month",
+//             year: "$year"
+//           },
           
-          totalPresent: { $sum: "$Present" },
-          totalTotAbsent: { $sum: "$TotAbsent" },
-          totalHalfCL: { $sum: "$HalfCL" },
-          totalCL: { $sum: "$CL" },
-          totalEL: { $sum: "$EL" },
-          totalOtherLeave: { $sum: "$OtherLeave" },
-          totalOD: { $sum: "$OD" },
-          totalSuspended: {     SchManagement: 'Government',$sum: "$Suspended" },
-          totalVacation: { $sum: "$vacation" }
-        }
-      },
-      {
-        $sort: { "_id.day": 1 } // Sort by day in ascending order
-      }
-    ]);
-return attendanceTrend
-  }
+//           totalPresent: { $sum: "$Present" },
+//           totalTotAbsent: { $sum: "$TotAbsent" },
+//           totalHalfCL: { $sum: "$HalfCL" },
+//           totalCL: { $sum: "$CL" },
+//           totalEL: { $sum: "$EL" },
+//           totalOtherLeave: { $sum: "$OtherLeave" },
+//           totalOD: { $sum: "$OD" },
+//           totalSuspended: {     SchManagement: 'Government',$sum: "$Suspended" },
+//           totalVacation: { $sum: "$vacation" }
+//         }
+//       },
+//       {
+//         $sort: { "_id.day": 1 } // Sort by day in ascending order
+//       }
+//     ]);
+// return attendanceTrend
+//   }
 
 
   /**
@@ -633,9 +633,51 @@ const month = `0${monthA.toString()}`;
 };
 
 
+const treandGraph = async() => { 
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth() + 1;
+
+  const result = await TeacherAttendace.aggregate([
+    {
+      // Match documents for the current month and year
+      $match: {
+        year: String(currentYear),
+        month: String(currentMonth).padStart(2, '0'),
+      },
+    },
+    {
+      // Group by day and sum the Present count for each group
+      $group: {
+        _id: {
+          day: '$day',
+        },
+        totalPresent: { $sum: '$Present' },
+      },
+    },
+    {
+      // Sort by day
+      $sort: {
+        '_id.day': 1,
+      },
+    },
+    {
+      // Format the data for the response
+      $project: {
+        _id: 0,
+        day: '$_id.day',
+        totalPresent: 1,
+      },
+    },
+  ]);
+
+  return result;
+}
+
+
 //   (async () => {
 //   try {
-//     const result = await getAttendanceDashbord('d_13', '06', '2024') //;(schManagementType);
+//     const result = await treandGraph('d_13', '06', '2024') //;(schManagementType);
 //     console.log(result);
 //   } catch (error) {
 //     console.error('Error fetching data by SchManagement:', error);
